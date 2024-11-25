@@ -1,0 +1,47 @@
+:root {
+    --primary-color: #1DB954;
+    --primary-color-hover: #189943;
+    --secondary-color: #262626;
+    --error-color: #ff0000;
+    --background-color: #121212;
+    --text-color: #ffffff;
+    --placeholder-color: #b3b3b3;
+}
+
+html {
+    font-size: 13px;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    height: 100vh;
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-color);
+}
+
+.container {
+    margin: 30px 10px 0;
+    text-align: center;
+}
+
+.main-title {
+    margin: 0 0 25px;
+    text-align: center;
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+
+/* In dev mode only */
+.construction {
+    background-color: var(--error-color) !important;
+}
+
+/* media queries */
+@media (max-width: 600px) {
+    
+}

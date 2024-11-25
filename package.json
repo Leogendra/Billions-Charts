@@ -1,0 +1,23 @@
+{
+  "name": "billions_charts",
+  "version": "1.0.0",
+  "description": "Website to see charts about the Billions Club's Playlist on Spotify",
+  "main": "index.js",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon app.js"
+  },
+  "keywords": [],
+  "author": "Gatien HADDAD",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^1.7.7",
+    "body-parser": "^1.20.3",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.0",
+    "jimp": "^1.6.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.7"
+  }
+}

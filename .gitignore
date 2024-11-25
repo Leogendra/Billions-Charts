@@ -1,0 +1,9 @@
+# Modules
+node_modules/
+
+# Environment
+.env
+.vscode/
+
+# Misc
+**/random_playlist_icon.png
