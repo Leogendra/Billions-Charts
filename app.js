@@ -1,4 +1,6 @@
-const { get_token } = require("./backend/spotify");
+const { fetch_playlist, get_playcount } = require("./backend/fetcher");
+const { clean_playlist } = require("./backend/cleaner");
+const { generate_report } = require("./backend/report");
 const bodyParser = require("body-parser");
 const express = require("express");
 const path = require("path");
@@ -6,6 +8,7 @@ require("dotenv").config();
 
 const VERBOSE = true;
 const PORT = process.env.PORT || 3500;
+const PLAYLIST_URL = process.env.PLAYLIST_URL;
 
 const app = express();
 app.use(bodyParser.json());
@@ -15,9 +18,14 @@ app.use(express.static(path.join(__dirname, "./public")));
 
 
 app.post("/dev", async (_, res) => {
+    
+    const tracksFile = "data/tracks.json";
+    const outputFile = "data/report.json";
+
     try {
-        const token = await get_token();
+        const token = true
         if (token) {
+            await generate_report(tracksFile, outputFile);
             res.json({ message: "Token Got" });
         }
         else {
