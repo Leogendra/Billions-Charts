@@ -95,29 +95,42 @@ async function get_playcount(tracksFile) {
     const playlist = JSON.parse(fs.readFileSync(tracksFile, 'utf-8'));
     const tracks = playlist.items;
 
-    let nbRetries = 0;
-    let nbErrors = 0;
+    let nbRetries = 5;
+    let nbErrors = tracks.filter(track => !track.playcount).length;
 
-    while (nbErrors && nbRetries < 5) {
+    if (nbErrors == 0) {
+        console.log(`Playcounts already fetched.`);
+        return;
+    }
+
+    while (nbErrors && nbRetries) {
         for (let i = 0; i < tracks.length; i++) {
             const track = tracks[i];
+
+            if (track.playcount) {
+                continue;
+            }
+
+            console.log(`Fetching playcount for "${track.name}" (${i+1}/${tracks.length})`);
+
             try {
-                const playCount = await get_track_playcount(track.track.id);
-                track.playCount = playCount;
-                console.log(`Track ${i+1} / ${tracks.length} playcount: ${playCount}`);
+                const playcount = await get_track_playcount(track.id);
+                const playcountInt = parseInt(playCount.replace(/[\s,]/g, '')); 
+                tracks[i].playcount = playcountInt
+                console.log(`   playcount: ${playcountInt}`);
             } 
             catch (error) {
-                console.error("Error while fetching playcount for title:", track.track.name);
+                console.error("Error while fetching playcount for title:", track.name);
             }
         }
-        nbRetries++;
-        nbErrors = tracks.filter(track => !track.playCount).length;
+        nbRetries--;
+        nbErrors = tracks.filter(track => !track.playcount).length;
 
         console.log(`Retrying ${nbErrors} tracks...`);
     }
 
+    fs.writeFileSync(tracksFile, JSON.stringify(playlist, null, 4), 'utf-8');
     if (nbErrors === 0) {
-        fs.writeFileSync(tracksFile, JSON.stringify(playlist, null, 4), 'utf-8');
         console.log(`Playcounts saved in ${tracksFile}`);
     } 
     else {

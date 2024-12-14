@@ -43,6 +43,7 @@ app.post("/retrieve-tracks", async (req, res) => {
     const { password } = req.body;
 
     // date with format YYYY-MM-DD
+    const tracksRaw = "data/tracks_raw.json";
     const tracksFile = `data/tracks_${new Date().toISOString().split("T")[0]}.json`;
     console.log("Tracks file:", tracksFile);
 
@@ -50,7 +51,7 @@ app.post("/retrieve-tracks", async (req, res) => {
         // Fetch tracks
         try {
             console.log("Fetching tracks...");
-            await fetch_playlist(PLAYLIST_ID, tracksFile);
+            await fetch_playlist(PLAYLIST_ID, tracksRaw);
         }
         catch (error) {
             console.error("Error while retrieving tracks:", error);
@@ -60,7 +61,7 @@ app.post("/retrieve-tracks", async (req, res) => {
         // Then get playcounts
         try {
             console.log("Getting playcounts...");
-            await get_playcount(tracksFile);
+            await get_playcount(tracksRaw);
         }
         catch (error) {
             console.error("Error while retrieving playcounts:", error);
@@ -70,7 +71,7 @@ app.post("/retrieve-tracks", async (req, res) => {
         // Then clean playlist
         try {
             console.log("Cleaning playlist...");
-            await clean_playlist(tracksFile);
+            await clean_playlist(tracksRaw, tracksFile);
         }
         catch (error) {
             console.error("Error while cleaning playlist:", error);

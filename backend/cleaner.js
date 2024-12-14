@@ -3,8 +3,8 @@ const fs = require('fs');
 
 
 
-async function clean_playlist(playlistFile, outputFile) {
-    let playlist = JSON.parse(fs.readFileSync(playlistFile, 'utf-8'));
+async function clean_playlist(tracksRaw, cleanedTracks) {
+    let playlist = JSON.parse(fs.readFileSync(tracksRaw, 'utf-8'));
     
     const tracks = playlist.items;
     const cleaned = tracks
@@ -31,8 +31,13 @@ async function clean_playlist(playlistFile, outputFile) {
                     });
 
     playlist.items = cleaned;
-    fs.writeFileSync(outputFile, JSON.stringify(playlist, null, 4), 'utf-8');
-    console.log(`Playlist cleaned and saved in ${outputFile}`);
+    if (playlist.total == cleaned.length) {
+        console.log("Playlist fully cleaned.");
+        fs.unlinkSync(tracksRaw);
+    }
+    playlist.total = cleaned.length;
+    fs.writeFileSync(cleanedTracks, JSON.stringify(playlist, null, 4), 'utf-8');
+    console.log(`Playlist cleaned and saved in ${cleanedTracks}`);
 }
 
 
