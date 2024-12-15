@@ -4,19 +4,53 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/x-icon" href="assets/favicon.ico">
+    <link rel="icon" type="image/x-icon" href="assets/favicon.png">
     <link rel="stylesheet" href="styles/styles.css">
+    <link rel="stylesheet" href="styles/graphs.css">
     <title>Billions Charts</title>
 </head>
 
 <body>
-    <div class="container">
-        <h1 class="main-title">Billions Charts</h1>
-        <button onclick="call_backend()">Click me to dev/</button>
-        <div class="result"></div>
+    <div class="title">
+        <h1>Billions Charts</h1>
     </div>
 
+    <div class="main-container">
+        <div class="intro">
+            <p>Welcome to Billions Charts, your source to explore the hits of the <a href='https://open.spotify.com/playlist/37i9dQZF1DX7iB3RCnBnN4'>Billions Club</a>: the songs that have surpassed one billion streams on Spotify. Discover statistics, trends, and much more.</p>
+        </div>
+
+        <div class="charts">
+            <h2>Podium</h2>
+            
+            <div class="counter-container">
+                <h2>Total Tracks</h2>
+                <div id="total-tracks" class="counter">0</div>
+            </div>
+            <div class="counter-container">
+                <h2>Total Artists</h2>
+                <div id="total-artists" class="counter">0</div>
+            </div>
+            <div class="counter-container">
+                <h2>Total Streams</h2>
+                <div id="total-streams" class="counter">0</div>
+            </div>
+
+        </div>
+    </div>
+
+    
+    <footer>
+        <div class="github">
+            <a href="https://github.com/Leogendra" target="_blank">
+                <img src="assets/github.png" alt="github">
+            </a>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="scripts/script.js"></script>
+    <script src="scripts/graphs.js"></script>
 </body>
 
 
