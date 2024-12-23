@@ -44,7 +44,7 @@ async function fetch_playlist(playlistId, outputFile) {
             const data = response.data;
             if (data.success) {
                 defaultJson.items.push(...data.data.items);
-                defaultJson.generatedTimeStamp = data.data.generatedTimeStamp;
+                defaultJson.generatedTimeStamp = data.generatedTimeStamp;
                 isNext = data.data.next;
                 offset += 100;
                 console.log(`Fetched ${offset} / ${response.data.data.total} tracks...`);
