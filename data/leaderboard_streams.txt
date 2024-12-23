@@ -1,0 +1,541 @@
+1. The Weeknd: 40.40B tracks 
+2. Justin Bieber: 28.17B tracks 
+3. Drake: 28.17B tracks 
+4. Ariana Grande: 26.07B tracks 
+5. Bruno Mars: 25.92B tracks 
+6. Bad Bunny: 25.76B tracks 
+7. Ed Sheeran: 24.81B tracks 
+8. Rihanna: 23.17B tracks 
+9. Post Malone: 23.17B tracks 
+10. Coldplay: 21.25B tracks 
+11. Taylor Swift: 21.08B tracks 
+12. Billie Eilish: 20.75B tracks 
+13. Dua Lipa: 20.40B tracks 
+14. Eminem: 19.79B tracks 
+15. Imagine Dragons: 19.48B tracks 
+16. XXXTENTACION: 18.63B tracks 
+17. Maroon 5: 16.97B tracks 
+18. Calvin Harris: 15.95B tracks 
+19. Khalid: 14.03B tracks 
+20. Adele: 13.25B tracks 
+21. Olivia Rodrigo: 12.91B tracks 
+22. Sam Smith: 12.77B tracks 
+23. Harry Styles: 12.37B tracks 
+24. Shawn Mendes: 12.03B tracks 
+25. Queen: 11.07B tracks 
+26. Sia: 10.94B tracks 
+27. Kanye West: 10.57B tracks 
+28. Travis Scott: 10.57B tracks 
+29. Selena Gomez: 10.54B tracks 
+30. Lady Gaga: 10.44B tracks 
+31. The Chainsmokers: 10.32B tracks 
+32. Arctic Monkeys: 10.05B tracks 
+33. SZA: 9.92B tracks 
+34. Daddy Yankee: 9.32B tracks 
+35. Halsey: 9.30B tracks 
+36. Avicii: 9.22B tracks 
+37. J Balvin: 8.88B tracks 
+38. Kendrick Lamar: 8.70B tracks 
+39. Doja Cat: 8.67B tracks 
+40. Katy Perry: 8.57B tracks 
+41. Juice WRLD: 8.50B tracks 
+42. Miley Cyrus: 8.22B tracks 
+43. Marshmello: 7.92B tracks 
+44. 21 Savage: 7.86B tracks 
+45. Wiz Khalifa: 7.83B tracks 
+46. Lil Nas X: 7.82B tracks 
+47. Red Hot Chili Peppers: 7.79B tracks 
+48. KAROL G: 7.49B tracks 
+49. DJ Snake: 7.31B tracks 
+50. Lewis Capaldi: 7.01B tracks 
+51. Nicki Minaj: 6.91B tracks 
+52. JAY-Z: 6.88B tracks 
+53. Daft Punk: 6.66B tracks 
+54. AC/DC: 6.55B tracks 
+55. Ty Dolla $ign: 6.43B tracks 
+56. Cardi B: 6.41B tracks 
+57. Twenty One Pilots: 6.28B tracks 
+58. Bebe Rexha: 6.28B tracks 
+59. The Neighbourhood: 6.20B tracks 
+60. J. Cole: 6.20B tracks 
+61. One Direction: 6.08B tracks 
+62. Charlie Puth: 6.00B tracks 
+63. Swae Lee: 5.96B tracks 
+64. BTS: 5.87B tracks 
+65. David Guetta: 5.77B tracks 
+66. Clean Bandit: 5.72B tracks 
+67. Quavo: 5.66B tracks 
+68. Guns N' Roses: 5.56B tracks 
+69. Lana Del Rey: 5.47B tracks 
+70. Linkin Park: 5.46B tracks 
+71. Major Lazer: 5.24B tracks 
+72. Fleetwood Mac: 5.22B tracks 
+73. Ozuna: 5.17B tracks 
+74. Macklemore: 5.17B tracks 
+75. Shakira: 5.15B tracks 
+76. Camila Cabello: 5.07B tracks 
+77. Frank Ocean: 5.07B tracks 
+78. DaBaby: 5.06B tracks 
+79. ZAYN: 5.04B tracks 
+80. Kygo: 4.73B tracks 
+81. Anne-Marie: 4.72B tracks 
+82. Elton John: 4.67B tracks 
+83. OneRepublic: 4.57B tracks 
+84. Pitbull: 4.51B tracks 
+85. Lil Uzi Vert: 4.48B tracks 
+86. Offset: 4.25B tracks 
+87. Snoop Dogg: 4.20B tracks 
+88. Zara Larsson: 4.17B tracks 
+89. Alessia Cara: 4.15B tracks 
+90. Zedd: 4.06B tracks 
+91. Bastille: 3.99B tracks 
+92. Ryan Lewis: 3.99B tracks 
+93. Macklemore & Ryan Lewis: 3.99B tracks 
+94. Hozier: 3.97B tracks 
+95. Lil Baby: 3.93B tracks 
+96. Sabrina Carpenter: 3.90B tracks 
+97. MØ: 3.86B tracks 
+98. Calum Scott: 3.84B tracks 
+99. Pharrell Williams: 3.83B tracks 
+100. Bryson Tiller: 3.80B tracks 
+101. Roddy Ricch: 3.75B tracks 
+102. John Legend: 3.71B tracks 
+103. Nirvana: 3.67B tracks 
+104. Peso Pluma: 3.64B tracks 
+105. Luis Fonsi: 3.60B tracks 
+106. JHAYCO: 3.56B tracks 
+107. Robin Schulz: 3.53B tracks 
+108. Pop Smoke: 3.51B tracks 
+109. Young Thug: 3.50B tracks 
+110. Wizkid: 3.45B tracks 
+111. Kyla: 3.45B tracks 
+112. Jason Derulo: 3.40B tracks 
+113. Creedence Clearwater Revival: 3.39B tracks 
+114. The Kid LAROI: 3.38B tracks 
+115. Kali Uchis: 3.32B tracks 
+116. Daniel Caesar: 3.29B tracks 
+117. Michael Jackson: 3.25B tracks 
+118. Feid: 3.24B tracks 
+119. Glass Animals: 3.22B tracks 
+120. Tones And I: 3.18B tracks 
+121. Metro Boomin: 3.18B tracks 
+122. Mark Ronson: 3.18B tracks 
+123. Tate McRae: 3.16B tracks 
+124. Chencho Corleone: 3.15B tracks 
+125. Jung Kook: 3.15B tracks 
+126. Tyler, The Creator: 3.12B tracks 
+127. James Arthur: 3.10B tracks 
+128. Beyoncé: 3.05B tracks 
+129. Kesha: 3.03B tracks 
+130. Future: 3.03B tracks 
+131. Bon Jovi: 3.02B tracks 
+132. TOTO: 3.00B tracks 
+133. Gunna: 2.99B tracks 
+134. Giveon: 2.98B tracks 
+135. Justin Timberlake: 2.97B tracks 
+136. Måneskin: 2.96B tracks 
+137. Ellie Goulding: 2.91B tracks 
+138. Sean Paul: 2.90B tracks 
+139. Martin Garrix: 2.87B tracks 
+140. Vance Joy: 2.87B tracks 
+141. Ne-Yo: 2.86B tracks 
+142. Bizarrap: 2.84B tracks 
+143. Metallica: 2.83B tracks 
+144. Ava Max: 2.82B tracks 
+145. The Lumineers: 2.80B tracks 
+146. Steve Lacy: 2.80B tracks 
+147. Joji: 2.80B tracks 
+148. Grey: 2.79B tracks 
+149. Tom Odell: 2.79B tracks 
+150. Farruko: 2.78B tracks 
+151. Christina Aguilera: 2.75B tracks 
+152. Wham!: 2.75B tracks 
+153. 50 Cent: 2.73B tracks 
+154. Outkast: 2.70B tracks 
+155. Black Eyed Peas: 2.69B tracks 
+156. Rauw Alejandro: 2.68B tracks 
+157. Lil Peep: 2.67B tracks 
+158. Dr. Dre: 2.66B tracks 
+159. Ray Dalton: 2.65B tracks 
+160. Bradley Cooper: 2.62B tracks 
+161. d4vd: 2.62B tracks 
+162. Lord Huron: 2.61B tracks 
+163. Jess Glynne: 2.61B tracks 
+164. System Of A Down: 2.61B tracks 
+165. Lost Frequencies: 2.60B tracks 
+166. Ludacris: 2.60B tracks 
+167. Logic: 2.56B tracks 
+168. Florida Georgia Line: 2.56B tracks 
+169. Chris Brown: 2.54B tracks 
+170. DJ Khaled: 2.53B tracks 
+171. Adam Levine: 2.51B tracks 
+172. Jimin: 2.49B tracks 
+173. Maluma: 2.48B tracks 
+174. Lil Wayne: 2.48B tracks 
+175. Julia Michaels: 2.48B tracks 
+176. Don Toliver: 2.44B tracks 
+177. G-Eazy: 2.42B tracks 
+178. Passenger: 2.42B tracks 
+179. The Killers: 2.42B tracks 
+180. The Notorious B.I.G.: 2.41B tracks 
+181. Timbaland: 2.38B tracks 
+182. Alicia Keys: 2.36B tracks 
+183. Whitney Houston: 2.36B tracks 
+184. Aerosmith: 2.35B tracks 
+185. Hailee Steinfeld: 2.35B tracks 
+186. The Police: 2.33B tracks 
+187. Stephen Sanchez: 2.33B tracks 
+188. Myke Towers: 2.33B tracks 
+189. French Montana: 2.32B tracks 
+190. Flo Rida: 2.31B tracks 
+191. Jonas Blue: 2.30B tracks 
+192. George Ezra: 2.30B tracks 
+193. Nicky Jam: 2.28B tracks 
+194. Demi Lovato: 2.27B tracks 
+195. Green Day: 2.27B tracks 
+196. MNEK: 2.26B tracks 
+197. PNAU: 2.22B tracks 
+198. Kodak Black: 2.21B tracks 
+199. Journey: 2.20B tracks 
+200. Swedish House Mafia: 2.20B tracks 
+201. Oasis: 2.19B tracks 
+202. ROSALÍA: 2.17B tracks 
+203. a-ha: 2.16B tracks 
+204. Bob Marley & The Wailers: 2.16B tracks 
+205. Gesaffelstein: 2.14B tracks 
+206. The Offspring: 2.11B tracks 
+207. Nate Dogg: 2.11B tracks 
+208. Gucci Mane: 2.10B tracks 
+209. Jack Harlow: 2.10B tracks 
+210. Latto: 2.10B tracks 
+211. Playboi Carti: 2.09B tracks 
+212. Alan Walker: 2.08B tracks 
+213. Mike Posner: 2.07B tracks 
+214. Seeb: 2.07B tracks 
+215. Lukas Graham: 2.06B tracks 
+216. The Goo Goo Dolls: 2.05B tracks 
+217. Daya: 2.01B tracks 
+218. SAINt JHN: 2.01B tracks 
+219. Imanbek: 2.01B tracks 
+220. Foster The People: 2.01B tracks 
+221. Manuel Turizo: 2.01B tracks 
+222. Jason Mraz: 2.01B tracks 
+223. Mariah Carey: 2.00B tracks 
+224. 24kGoldn: 1.99B tracks 
+225. iann dior: 1.99B tracks 
+226. Gotye: 1.93B tracks 
+227. Kimbra: 1.93B tracks 
+228. Radiohead: 1.92B tracks 
+229. Coolio: 1.92B tracks 
+230. L.V.: 1.92B tracks 
+231. Danny Ocean: 1.91B tracks 
+232. WALK THE MOON: 1.91B tracks 
+233. Lauv: 1.89B tracks 
+234. 5 Seconds of Summer: 1.89B tracks 
+235. Tears For Fears: 1.88B tracks 
+236. Alec Benjamin: 1.88B tracks 
+237. Wyclef Jean: 1.87B tracks 
+238. Conan Gray: 1.87B tracks 
+239. Dean Lewis: 1.86B tracks 
+240. benny blanco: 1.84B tracks 
+241. Earth, Wind & Fire: 1.83B tracks 
+242. Don Omar: 1.83B tracks 
+243. Lucenzo: 1.83B tracks 
+244. Tame Impala: 1.82B tracks 
+245. The White Stripes: 1.82B tracks 
+246. Quevedo: 1.82B tracks 
+247. OMI: 1.82B tracks 
+248. Trippie Redd: 1.81B tracks 
+249. Christina Perri: 1.81B tracks 
+250. Ruth B.: 1.80B tracks 
+251. Keane: 1.79B tracks 
+252. David Bowie: 1.76B tracks 
+253. Powfu: 1.75B tracks 
+254. beabadoobee: 1.75B tracks 
+255. Eagles: 1.75B tracks 
+256. DNCE: 1.73B tracks 
+257. The Walters: 1.72B tracks 
+258. Childish Gambino: 1.72B tracks 
+259. Train: 1.71B tracks 
+260. Trevor Daniel: 1.70B tracks 
+261. Panic! At The Disco: 1.70B tracks 
+262. Kim Petras: 1.69B tracks 
+263. Jay Rock: 1.67B tracks 
+264. MAGIC!: 1.66B tracks 
+265. JID: 1.66B tracks 
+266. Arcane: 1.66B tracks 
+267. League of Legends: 1.66B tracks 
+268. Benson Boone: 1.65B tracks 
+269. Kings of Leon: 1.64B tracks 
+270. Backstreet Boys: 1.62B tracks 
+271. The Script: 1.62B tracks 
+272. will.i.am: 1.62B tracks 
+273. Cigarettes After Sex: 1.60B tracks 
+274. Milky Chance: 1.59B tracks 
+275. H.E.R.: 1.59B tracks 
+276. Miguel: 1.59B tracks 
+277. Gorillaz: 1.59B tracks 
+278. Juicy J: 1.59B tracks 
+279. Maren Morris: 1.57B tracks 
+280. Billy Ray Cyrus: 1.57B tracks 
+281. Carly Rae Jepsen: 1.56B tracks 
+282. Bomba Estéreo: 1.55B tracks 
+283. Eurythmics: 1.55B tracks 
+284. Annie Lennox: 1.55B tracks 
+285. Dave Stewart: 1.55B tracks 
+286. Willy William: 1.55B tracks 
+287. Dynoro: 1.55B tracks 
+288. Gigi D'Agostino: 1.55B tracks 
+289. Rema: 1.55B tracks 
+290. NF: 1.54B tracks 
+291. Lil Tecca: 1.54B tracks 
+292. Tainy: 1.54B tracks 
+293. Arizona Zervas: 1.52B tracks 
+294. Marvin Gaye: 1.52B tracks 
+295. Tammi Terrell: 1.52B tracks 
+296. R.E.M.: 1.51B tracks 
+297. USHER: 1.51B tracks 
+298. Lil Jon: 1.51B tracks 
+299. P!nk: 1.50B tracks 
+300. Nate Ruess: 1.50B tracks 
+301. ABBA: 1.50B tracks 
+302. Fifth Harmony: 1.49B tracks 
+303. The Beatles: 1.48B tracks 
+304. Jonas Brothers: 1.48B tracks 
+305. Zacari: 1.47B tracks 
+306. Britney Spears: 1.47B tracks 
+307. MKTO: 1.47B tracks 
+308. Regard: 1.46B tracks 
+309. Mikky Ekko: 1.46B tracks 
+310. gnash: 1.45B tracks 
+311. Olivia O'Brien: 1.45B tracks 
+312. JENNIE: 1.45B tracks 
+313. Lily-Rose Depp: 1.45B tracks 
+314. Capital Cities: 1.45B tracks 
+315. Gym Class Heroes: 1.44B tracks 
+316. Normani: 1.43B tracks 
+317. Snow Patrol: 1.43B tracks 
+318. Axwell /\ Ingrosso: 1.43B tracks 
+319. Survivor: 1.43B tracks 
+320. Jessie J: 1.43B tracks 
+321. Snow: 1.43B tracks 
+322. Anderson .Paak: 1.42B tracks 
+323. Silk Sonic: 1.42B tracks 
+324. Tyga: 1.42B tracks 
+325. Portugal. The Man: 1.41B tracks 
+326. AFROJACK: 1.40B tracks 
+327. Nayer: 1.40B tracks 
+328. Internet Money: 1.40B tracks 
+329. NAV: 1.40B tracks 
+330. Lynyrd Skynyrd: 1.40B tracks 
+331. Megan Thee Stallion: 1.39B tracks 
+332. A$AP Rocky: 1.38B tracks 
+333. Skepta: 1.38B tracks 
+334. Nyla: 1.37B tracks 
+335. Fuse ODG: 1.37B tracks 
+336. Mitski: 1.37B tracks 
+337. Teddy Swims: 1.36B tracks 
+338. Lil Mosey: 1.36B tracks 
+339. Nelly Furtado: 1.35B tracks 
+340. The Rolling Stones: 1.35B tracks 
+341. The Cranberries: 1.35B tracks 
+342. David Kushner: 1.35B tracks 
+343. Wanz: 1.34B tracks 
+344. Bryan Adams: 1.33B tracks 
+345. Eslabon Armado: 1.33B tracks 
+346. FloyyMenor: 1.33B tracks 
+347. Cris Mj: 1.33B tracks 
+348. Dire Straits: 1.32B tracks 
+349. Foo Fighters: 1.32B tracks 
+350. Cyndi Lauper: 1.32B tracks 
+351. blackbear: 1.31B tracks 
+352. Kate Bush: 1.31B tracks 
+353. Noah Kahan: 1.31B tracks 
+354. Evanescence: 1.31B tracks 
+355. The Fray: 1.31B tracks 
+356. Francesco Yates: 1.31B tracks 
+357. Masked Wolf: 1.30B tracks 
+358. Chance the Rapper: 1.30B tracks 
+359. Lorde: 1.30B tracks 
+360. Duncan Laurence: 1.29B tracks 
+361. Disciples: 1.28B tracks 
+362. Surf Curse: 1.28B tracks 
+363. Fall Out Boy: 1.28B tracks 
+364. Loud Luxury: 1.27B tracks 
+365. Brando: 1.27B tracks 
+366. LISA: 1.26B tracks 
+367. JVKE: 1.26B tracks 
+368. Joel Corry: 1.26B tracks 
+369. KALEO: 1.26B tracks 
+370. Jamie Foxx: 1.26B tracks 
+371. Tiësto: 1.25B tracks 
+372. Fetty Wap: 1.25B tracks 
+373. James Bay: 1.25B tracks 
+374. Beach House: 1.25B tracks 
+375. Ice Cube: 1.25B tracks 
+376. Papa Roach: 1.25B tracks 
+377. Meek Mill: 1.25B tracks 
+378. blink-182: 1.25B tracks 
+379. fun.: 1.25B tracks 
+380. Janelle Monáe: 1.25B tracks 
+381. Van Morrison: 1.24B tracks 
+382. Nickelback: 1.24B tracks 
+383. girl in red: 1.23B tracks 
+384. Dwele: 1.23B tracks 
+385. Anuel AA: 1.23B tracks 
+386. Ben E. King: 1.23B tracks 
+387. Natasha Bedingfield: 1.23B tracks 
+388. TLC: 1.23B tracks 
+389. Elley Duhé: 1.23B tracks 
+390. Dido: 1.22B tracks 
+391. Jay Wheeler: 1.22B tracks 
+392. DJ Nelson: 1.22B tracks 
+393. JP Saxe: 1.22B tracks 
+394. Black Sabbath: 1.22B tracks 
+395. Nio Garcia: 1.22B tracks 
+396. Casper Magico: 1.22B tracks 
+397. Darell: 1.22B tracks 
+398. Kodaline: 1.21B tracks 
+399. Colby O'Donis: 1.21B tracks 
+400. Desiigner: 1.21B tracks 
+401. Djo: 1.21B tracks 
+402. Dakota: 1.20B tracks 
+403. Kungs: 1.20B tracks 
+404. Cookin' On 3 Burners: 1.20B tracks 
+405. Paul McCartney: 1.20B tracks 
+406. Spice Girls: 1.20B tracks 
+407. Pedro Capó: 1.19B tracks 
+408. M83: 1.19B tracks 
+409. John Martin: 1.19B tracks 
+410. Amy Winehouse: 1.19B tracks 
+411. X Ambassadors: 1.18B tracks 
+412. Ali Gatie: 1.18B tracks 
+413. Smash Mouth: 1.18B tracks 
+414. Gnarls Barkley: 1.18B tracks 
+415. The Clash: 1.18B tracks 
+416. T-Pain: 1.18B tracks 
+417. Yng Lvcas: 1.18B tracks 
+418. Rudimental: 1.18B tracks 
+419. Dan Caplen: 1.18B tracks 
+420. Grupo Frontera: 1.18B tracks 
+421. GAYLE: 1.18B tracks 
+422. Big Sean: 1.17B tracks 
+423. Funk Wav: 1.17B tracks 
+424. Nile Rodgers: 1.17B tracks 
+425. Conrad Sewell: 1.17B tracks 
+426. George Michael: 1.17B tracks 
+427. Plan B: 1.17B tracks 
+428. Taio Cruz: 1.17B tracks 
+429. Lilly Wood and The Prick: 1.17B tracks 
+430. Rosa Linn: 1.17B tracks 
+431. WILLOW: 1.17B tracks 
+432. Topic: 1.16B tracks 
+433. A7S: 1.16B tracks 
+434. Em Beihold: 1.16B tracks 
+435. BØRNS: 1.16B tracks 
+436. The Verve: 1.16B tracks 
+437. Plain White T's: 1.15B tracks 
+438. Meghan Trainor: 1.15B tracks 
+439. Jawsh 685: 1.15B tracks 
+440. Hotel Ugly: 1.15B tracks 
+441. TV Girl: 1.15B tracks 
+442. Daryl Hall & John Oates: 1.14B tracks 
+443. Brenda Lee: 1.14B tracks 
+444. Jack Ü: 1.14B tracks 
+445. Skrillex: 1.14B tracks 
+446. Diplo: 1.14B tracks 
+447. Florence + The Machine: 1.14B tracks 
+448. Noah Cyrus: 1.14B tracks 
+449. Jaymes Young: 1.14B tracks 
+450. U2: 1.14B tracks 
+451. Sandro Cavazza: 1.13B tracks 
+452. Zach Bryan: 1.13B tracks 
+453. Of Monsters and Men: 1.13B tracks 
+454. Disclosure: 1.13B tracks 
+455. Morgan Wallen: 1.13B tracks 
+456. Hoobastank: 1.13B tracks 
+457. Alesso: 1.13B tracks 
+458. WATT: 1.13B tracks 
+459. Bee Gees: 1.12B tracks 
+460. KISS: 1.12B tracks 
+461. Migos: 1.12B tracks 
+462. Bipolar Sunshine: 1.12B tracks 
+463. YNW Melly: 1.11B tracks 
+464. Sheck Wes: 1.11B tracks 
+465. Dan + Shay: 1.11B tracks 
+466. A Great Big World: 1.11B tracks 
+467. JP Cooper: 1.10B tracks 
+468. Shaggy: 1.10B tracks 
+469. Rik Rok: 1.10B tracks 
+470. Mario: 1.10B tracks 
+471. The Outfield: 1.09B tracks 
+472. Chris Stapleton: 1.09B tracks 
+473. Dominic Fike: 1.09B tracks 
+474. Michael Bublé: 1.09B tracks 
+475. ROZES: 1.09B tracks 
+476. BLACKPINK: 1.09B tracks 
+477. Artemas: 1.09B tracks 
+478. Bobby Helms: 1.08B tracks 
+479. Bill Withers: 1.08B tracks 
+480. American Authors: 1.08B tracks 
+481. Bazzi: 1.08B tracks 
+482. Jessie Reyez: 1.07B tracks 
+483. Oh Wonder: 1.07B tracks 
+484. R. City: 1.07B tracks 
+485. Kina: 1.07B tracks 
+486. Snøw: 1.07B tracks 
+487. Majid Jordan: 1.07B tracks 
+488. Nicky Youre: 1.06B tracks 
+489. dazy: 1.06B tracks 
+490. Cage The Elephant: 1.06B tracks 
+491. The Temptations: 1.06B tracks 
+492. Iyaz: 1.06B tracks 
+493. Jimmy Eat World: 1.06B tracks 
+494. Billy Joel: 1.06B tracks 
+495. Mr. Probz: 1.06B tracks 
+496. The Animals: 1.05B tracks 
+497. Mabel: 1.05B tracks 
+498. Olivia: 1.05B tracks 
+499. Led Zeppelin: 1.05B tracks 
+500. Dina Rae: 1.05B tracks 
+501. Empire Of The Sun: 1.05B tracks 
+502. My Chemical Romance: 1.04B tracks 
+503. Liam Payne: 1.04B tracks 
+504. Chappell Roan: 1.04B tracks 
+505. Mustard: 1.04B tracks 
+506. Kid Cudi: 1.04B tracks 
+507. Young Miko: 1.04B tracks 
+508. Parson James: 1.04B tracks 
+509. Riton: 1.04B tracks 
+510. Nightcrawlers: 1.04B tracks 
+511. Mufasa & Hypeman: 1.04B tracks 
+512. Mufasa: 1.04B tracks 
+513. Dopamine: 1.04B tracks 
+514. Dennis Lloyd: 1.04B tracks 
+515. Niall Horan: 1.04B tracks 
+516. John Newman: 1.04B tracks 
+517. Becky G: 1.04B tracks 
+518. Nico & Vinz: 1.04B tracks 
+519. Electric Light Orchestra: 1.03B tracks 
+520. MEDUZA: 1.03B tracks 
+521. Goodboys: 1.03B tracks 
+522. Beach Weather: 1.03B tracks 
+523. 3 Doors Down: 1.03B tracks 
+524. Keri Hilson: 1.02B tracks 
+525. D.O.E.: 1.02B tracks 
+526. 4 Non Blondes: 1.02B tracks 
+527. Akon: 1.02B tracks 
+528. Lizzo: 1.02B tracks 
+529. Rae Sremmurd: 1.02B tracks 
+530. Rick Ross: 1.01B tracks 
+531. Lunay: 1.01B tracks 
+532. Dhruv: 1.01B tracks 
+533. Elvis Presley: 1.01B tracks 
+534. Patrick Watson: 1.01B tracks 
+535. Tove Lo: 1.01B tracks 
+536. Lil Durk: 1.01B tracks 
+537. Madonna: 1.00B tracks 
+538. BlocBoy JB: 1.00B tracks 
+539. Bing Crosby: 0.53B tracks 
+540. Ken Darby Singers: 0.53B tracks 
+541. John Scott Trotter & His Orchestra: 0.53B tracks 

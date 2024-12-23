@@ -1,0 +1,822 @@
+1. 4.61B - Blinding Lights, by The Weeknd
+2. 4.14B - Shape of You, by Ed Sheeran
+3. 3.71B - Someone You Loved, by Lewis Capaldi
+4. 3.67B - As It Was, by Harry Styles
+5. 3.63B - Sunflower, by Post Malone, Swae Lee
+6. 3.63B - Starboy, by The Weeknd, Daft Punk
+7. 3.45B - One Dance, by Drake, Wizkid, Kyla
+8. 3.42B - Sweater Weather, by The Neighbourhood
+9. 3.38B - STAY, by The Kid LAROI, Justin Bieber
+10. 3.25B - Believer, by Imagine Dragons
+11. 3.22B - Heat Waves, by Glass Animals
+12. 3.21B - Perfect, by Ed Sheeran
+13. 3.18B - Dance Monkey, by Tones And I
+14. 3.10B - lovely, by Billie Eilish, Khalid
+15. 3.10B - Say You Won't Let Go, by James Arthur
+16. 3.08B - rockstar, by Post Malone, 21 Savage
+17. 3.07B - Closer, by The Chainsmokers, Halsey
+18. 2.91B - Something Just Like This, by The Chainsmokers, Coldplay
+19. 2.90B - Watermelon Sugar, by Harry Styles
+20. 2.89B - Señorita, by Shawn Mendes, Camila Cabello
+21. 2.87B - Riptide, by Vance Joy
+22. 2.81B - Take Me to Church, by Hozier
+23. 2.79B - Don't Start Now, by Dua Lipa
+24. 2.79B - Another Love, by Tom Odell
+25. 2.73B - Counting Stars, by OneRepublic
+26. 2.73B - Photograph, by Ed Sheeran
+27. 2.72B - Lucid Dreams, by Juice WRLD
+28. 2.69B - Yellow, by Coldplay
+29. 2.68B - I Wanna Be Yours, by Arctic Monkeys
+30. 2.67B - Circles, by Post Malone
+31. 2.66B - God's Plan, by Drake
+32. 2.65B - Bohemian Rhapsody, by Queen
+33. 2.65B - Can't Hold Us, by Macklemore, Ryan Lewis, Macklemore & Ryan Lewis, Ray Dalton
+34. 2.65B - Cruel Summer, by Taylor Swift
+35. 2.65B - goosebumps, by Travis Scott
+36. 2.64B - Thinking out Loud, by Ed Sheeran
+37. 2.63B - bad guy, by Billie Eilish
+38. 2.62B - Shallow, by Lady Gaga, Bradley Cooper
+39. 2.61B - The Night We Met, by Lord Huron
+40. 2.61B - Love Yourself, by Justin Bieber
+41. 2.58B - Thunder, by Imagine Dragons
+42. 2.56B - All of Me, by John Legend
+43. 2.56B - Die For You, by The Weeknd
+44. 2.53B - Wake Me Up, by Avicii
+45. 2.51B - Demons, by Imagine Dragons
+46. 2.50B - The Hills, by The Weeknd
+47. 2.49B - Stressed Out, by Twenty One Pilots
+48. 2.46B - Viva La Vida, by Coldplay
+49. 2.43B - No Role Modelz, by J. Cole
+50. 2.42B - Without Me, by Eminem
+51. 2.42B - Just the Way You Are, by Bruno Mars
+52. 2.42B - HUMBLE., by Kendrick Lamar
+53. 2.42B - Let Her Go, by Passenger
+54. 2.42B - Mr. Brightside, by The Killers
+55. 2.41B - 7 rings, by Ariana Grande
+56. 2.41B - When I Was Your Man, by Bruno Mars
+57. 2.40B - Lose Yourself, by Eminem
+58. 2.39B - Do I Wanna Know?, by Arctic Monkeys
+59. 2.37B - That's What I Like, by Bruno Mars
+60. 2.35B - In the End, by Linkin Park
+61. 2.35B - Locked out of Heaven, by Bruno Mars
+62. 2.35B - drivers license, by Olivia Rodrigo
+63. 2.35B - Treat You Better, by Shawn Mendes
+64. 2.34B - One Kiss, by Calvin Harris, Dua Lipa
+65. 2.33B - Flowers, by Miley Cyrus
+66. 2.33B - Every Breath You Take, by The Police
+67. 2.33B - Let Me Love You, by DJ Snake, Justin Bieber
+68. 2.32B - Unforgettable, by French Montana, Swae Lee
+69. 2.32B - good 4 u, by Olivia Rodrigo
+70. 2.31B - SAD!, by XXXTENTACION
+71. 2.30B - Jocelyn Flores, by XXXTENTACION
+72. 2.29B - Happier, by Marshmello, Bastille
+73. 2.27B - Sorry, by Justin Bieber
+74. 2.26B - XO Tour Llif3, by Lil Uzi Vert
+75. 2.26B - SICKO MODE, by Travis Scott
+76. 2.24B - There's Nothing Holdin' Me Back, by Shawn Mendes
+77. 2.24B - Kill Bill, by SZA
+78. 2.24B - Lean On, by Major Lazer, DJ Snake, MØ
+79. 2.22B - Smells Like Teen Spirit, by Nirvana
+80. 2.22B - New Rules, by Dua Lipa
+81. 2.22B - Cold Heart, by Elton John, Dua Lipa, PNAU
+82. 2.21B - Levitating, by Dua Lipa, DaBaby
+83. 2.20B - Too Good At Goodbyes, by Sam Smith
+84. 2.20B - Don't Stop Believin', by Journey
+85. 2.20B - Stay With Me, by Sam Smith
+86. 2.19B - Save Your Tears, by The Weeknd
+87. 2.19B - Wonderwall, by Oasis
+88. 2.18B - Havana, by Camila Cabello, Young Thug
+89. 2.17B - Don't Stop Me Now, by Queen
+90. 2.16B - Take on Me, by a-ha
+91. 2.15B - Memories, by Maroon 5
+92. 2.15B - Without Me, by Halsey
+93. 2.15B - Uptown Funk, by Mark Ronson, Bruno Mars
+94. 2.14B - Someone Like You, by Adele
+95. 2.12B - The Scientist, by Coldplay
+96. 2.11B - Till I Collapse, by Eminem, Nate Dogg
+97. 2.10B - INDUSTRY BABY, by Lil Nas X, Jack Harlow
+98. 2.10B - DÁKITI, by Bad Bunny, JHAYCO
+99. 2.10B - Seven, by Jung Kook, Latto
+100. 2.08B - Congratulations, by Post Malone, Quavo
+101. 2.08B - Faded, by Alan Walker
+102. 2.08B - Sweet Child O' Mine, by Guns N' Roses
+103. 2.07B - Before You Go, by Lewis Capaldi
+104. 2.07B - I Took A Pill In Ibiza, by Mike Posner, Seeb
+105. 2.06B - 7 Years, by Lukas Graham
+106. 2.06B - The Box, by Roddy Ricch
+107. 2.06B - Stitches, by Shawn Mendes
+108. 2.05B - Iris, by The Goo Goo Dolls
+109. 2.05B - We Don't Talk Anymore, by Charlie Puth, Selena Gomez
+110. 2.04B - I'm Not The Only One, by Sam Smith
+111. 2.04B - Another One Bites The Dust, by Queen
+112. 2.04B - Payphone, by Maroon 5, Wiz Khalifa
+113. 2.03B - Better Now, by Post Malone
+114. 2.03B - See You Again, by Tyler, The Creator, Kali Uchis
+115. 2.03B - See You Again, by Wiz Khalifa, Charlie Puth
+116. 2.02B - when the party's over, by Billie Eilish
+117. 2.02B - Moonlight, by XXXTENTACION
+118. 2.01B - Numb, by Linkin Park
+119. 2.01B - Don't Let Me Down, by The Chainsmokers, Daya
+120. 2.01B - Roses, by SAINt JHN, Imanbek
+121. 2.01B - The Real Slim Shady, by Eminem
+122. 2.01B - Pumped Up Kicks, by Foster The People
+123. 2.01B - La Bachata, by Manuel Turizo
+124. 2.01B - I'm Yours, by Jason Mraz
+125. 2.00B - MONTERO, by Lil Nas X
+126. 2.00B - All I Want for Christmas Is You, by Mariah Carey
+127. 1.99B - Rolling in the Deep, by Adele
+128. 1.99B - Mood, by 24kGoldn, iann dior
+129. 1.98B - Radioactive, by Imagine Dragons
+130. 1.98B - Kiss Me More, by Doja Cat, SZA
+131. 1.98B - Billie Jean, by Michael Jackson
+132. 1.98B - Dynamite, by BTS
+133. 1.97B - Africa, by TOTO
+134. 1.97B - Blank Space, by Taylor Swift
+135. 1.96B - thank u, next, by Ariana Grande
+136. 1.96B - Easy On Me, by Adele
+137. 1.96B - Me Porto Bonito, by Bad Bunny, Chencho Corleone
+138. 1.96B - Sugar, by Maroon 5
+139. 1.96B - Call Out My Name, by The Weeknd
+140. 1.95B - The Nights, by Avicii
+141. 1.95B - 505, by Arctic Monkeys
+142. 1.93B - Somebody That I Used To Know, by Gotye, Kimbra
+143. 1.93B - Mockingbird, by Eminem
+144. 1.92B - Attention, by Charlie Puth
+145. 1.92B - I'm Good, by David Guetta, Bebe Rexha
+146. 1.92B - Creep, by Radiohead
+147. 1.92B - Heathens, by Twenty One Pilots
+148. 1.92B - Gangsta's Paradise, by Coolio, L.V.
+149. 1.91B - I Don't Care, by Ed Sheeran, Justin Bieber
+150. 1.91B - Me Rehúso, by Danny Ocean
+151. 1.91B - Night Changes, by One Direction
+152. 1.91B - Shut Up and Dance, by WALK THE MOON
+153. 1.90B - This Is What You Came For, by Calvin Harris, Rihanna
+154. 1.90B - Why'd You Only Call Me When You're High?, by Arctic Monkeys
+155. 1.89B - Maps, by Maroon 5
+156. 1.89B - I Like Me Better, by Lauv
+157. 1.89B - Youngblood, by 5 Seconds of Summer
+158. 1.89B - Dreams, by Fleetwood Mac
+159. 1.89B - LA CANCIÓN, by J Balvin, Bad Bunny
+160. 1.89B - All The Stars, by Kendrick Lamar, SZA
+161. 1.88B - We Found Love, by Rihanna, Calvin Harris
+162. 1.88B - Everybody Wants To Rule The World, by Tears For Fears
+163. 1.88B - Let Me Down Slowly, by Alec Benjamin
+164. 1.88B - Chandelier, by Sia
+165. 1.87B - Hips Don't Lie, by Shakira, Wyclef Jean
+166. 1.87B - Ride, by Twenty One Pilots
+167. 1.87B - Heather, by Conan Gray
+168. 1.86B - Be Alright, by Dean Lewis
+169. 1.86B - Cheap Thrills, by Sia
+170. 1.86B - Can't Feel My Face, by The Weeknd
+171. 1.86B - HIGHEST IN THE ROOM, by Travis Scott
+172. 1.86B - I Feel It Coming, by The Weeknd, Daft Punk
+173. 1.85B - Bad Habits, by Ed Sheeran
+174. 1.84B - Eastside, by benny blanco, Halsey, Khalid
+175. 1.84B - Despacito, by Luis Fonsi, Daddy Yankee
+176. 1.84B - Dusk Till Dawn, by ZAYN, Sia
+177. 1.84B - I Ain't Worried, by OneRepublic
+178. 1.83B - Have You Ever Seen The Rain, by Creedence Clearwater Revival
+179. 1.83B - September, by Earth, Wind & Fire
+180. 1.83B - CAN'T STOP THE FEELING!, by Justin Timberlake
+181. 1.83B - Danza Kuduro, by Don Omar, Lucenzo
+182. 1.82B - The Less I Know The Better, by Tame Impala
+183. 1.82B - Set Fire to the Rain, by Adele
+184. 1.82B - Seven Nation Army, by The White Stripes
+185. 1.82B - Quevedo: Bzrp Music Sessions, Vol. 52, by Bizarrap, Quevedo
+186. 1.82B - Cheerleader, by OMI
+187. 1.81B - Fuck Love, by XXXTENTACION, Trippie Redd
+188. 1.81B - a thousand years, by Christina Perri
+189. 1.80B - Dandelions, by Ruth B.
+190. 1.80B - Ghost, by Justin Bieber
+191. 1.80B - Highway to Hell, by AC/DC
+192. 1.79B - Somewhere Only We Know, by Keane
+193. 1.79B - Adore You, by Harry Styles
+194. 1.79B - Earned It, by The Weeknd
+195. 1.78B - Titanium, by David Guetta, Sia
+196. 1.78B - All Girls Are The Same, by Juice WRLD
+197. 1.78B - deja vu, by Olivia Rodrigo
+198. 1.78B - Sweet but Psycho, by Ava Max
+199. 1.78B - Livin' On A Prayer, by Bon Jovi
+200. 1.78B - I Don’t Wanna Live Forever, by ZAYN, Taylor Swift
+201. 1.77B - Beggin', by Måneskin
+202. 1.77B - Woman, by Doja Cat
+203. 1.76B - Wow., by Post Malone
+204. 1.76B - Despacito, by Luis Fonsi, Daddy Yankee, Justin Bieber
+205. 1.76B - Under Pressure, by Queen, David Bowie
+206. 1.75B - death bed, by Powfu, beabadoobee
+207. 1.75B - traitor, by Olivia Rodrigo
+208. 1.75B - Hotel California, by Eagles
+209. 1.75B - everything i wanted, by Billie Eilish
+210. 1.75B - Party In The U.S.A., by Miley Cyrus
+211. 1.74B - Mask Off, by Future
+212. 1.74B - Passionfruit, by Drake
+213. 1.74B - A Sky Full of Stars, by Coldplay
+214. 1.73B - Anti, by Taylor Swift
+215. 1.73B - Cake By The Ocean, by DNCE
+216. 1.73B - Back In Black, by AC/DC
+217. 1.72B - Silence, by Marshmello, Khalid
+218. 1.72B - I Love You So, by The Walters
+219. 1.72B - Everybody Dies In Their Nightmares, by XXXTENTACION
+220. 1.72B - Redbone, by Childish Gambino
+221. 1.72B - Shivers, by Ed Sheeran
+222. 1.71B - Save Your Tears, by The Weeknd, Ariana Grande
+223. 1.71B - Umbrella, by Rihanna, JAY-Z
+224. 1.71B - What Do You Mean?, by Justin Bieber
+225. 1.71B - Love The Way You Lie, by Eminem, Rihanna
+226. 1.71B - Hey, Soul Sister, by Train
+227. 1.71B - Pompeii, by Bastille
+228. 1.70B - Falling, by Trevor Daniel
+229. 1.70B - Peaches, by Justin Bieber, Daniel Caesar, Giveon
+230. 1.70B - Girls Like You, by Maroon 5, Cardi B
+231. 1.70B - Ric Flair Drip, by Offset, Metro Boomin
+232. 1.70B - High Hopes, by Panic! At The Disco
+233. 1.69B - Espresso, by Sabrina Carpenter
+234. 1.69B - Last Christmas, by Wham!
+235. 1.69B - Summertime Sadness, by Lana Del Rey
+236. 1.69B - I Fall Apart, by Post Malone
+237. 1.69B - Unholy, by Sam Smith, Kim Petras
+238. 1.68B - I Like It, by Cardi B, Bad Bunny, J Balvin
+239. 1.68B - Thunderstruck, by AC/DC
+240. 1.68B - ROCKSTAR, by DaBaby, Roddy Ricch
+241. 1.68B - In Da Club, by 50 Cent
+242. 1.67B - Summer, by Calvin Harris
+243. 1.67B - Halo, by Beyoncé
+244. 1.67B - Money Trees, by Kendrick Lamar, Jay Rock
+245. 1.66B - Rude, by MAGIC!
+246. 1.66B - IDGAF, by Dua Lipa
+247. 1.66B - Enemy, by Imagine Dragons, JID, Arcane, League of Legends
+248. 1.66B - Sign of the Times, by Harry Styles
+249. 1.65B - Timber, by Pitbull, Kesha
+250. 1.65B - BIRDS OF A FEATHER, by Billie Eilish
+251. 1.65B - Beautiful Things, by Benson Boone
+252. 1.65B - Love On The Brain, by Rihanna
+253. 1.64B - Young Dumb & Broke, by Khalid
+254. 1.64B - Moves Like Jagger, by Maroon 5, Christina Aguilera
+255. 1.64B - Daddy Issues, by The Neighbourhood
+256. 1.64B - Sex on Fire, by Kings of Leon
+257. 1.63B - Taki Taki, by DJ Snake, Selena Gomez, Ozuna, Cardi B
+258. 1.63B - Hello, by Adele
+259. 1.63B - Cold Water, by Major Lazer, Justin Bieber, MØ
+260. 1.62B - I Want It That Way, by Backstreet Boys
+261. 1.62B - Tití Me Preguntó, by Bad Bunny
+262. 1.62B - Hall of Fame, by The Script, will.i.am
+263. 1.62B - Lover, by Taylor Swift
+264. 1.62B - One Last Time, by Ariana Grande
+265. 1.62B - Fix You, by Coldplay
+266. 1.62B - Rockabye, by Clean Bandit, Sean Paul, Anne-Marie
+267. 1.61B - ocean eyes, by Billie Eilish
+268. 1.61B - Needed Me, by Rihanna
+269. 1.61B - 2002, by Anne-Marie
+270. 1.60B - Apocalypse, by Cigarettes After Sex
+271. 1.60B - Hope, by XXXTENTACION
+272. 1.60B - Pink + White, by Frank Ocean
+273. 1.60B - Godzilla, by Eminem, Juice WRLD
+274. 1.60B - Love Me Like You Do, by Ellie Goulding
+275. 1.59B - Stolen Dance, by Milky Chance
+276. 1.59B - you broke me first, by Tate McRae
+277. 1.59B - Revenge, by XXXTENTACION
+278. 1.59B - Best Part, by Daniel Caesar, H.E.R.
+279. 1.59B - BUTTERFLY EFFECT, by Travis Scott
+280. 1.59B - Pepas, by Farruko
+281. 1.59B - Drip Too Hard, by Lil Baby, Gunna
+282. 1.59B - I Gotta Feeling, by Black Eyed Peas
+283. 1.59B - Sure Thing, by Miguel
+284. 1.59B - Feel Good Inc., by Gorillaz
+285. 1.59B - Dark Horse, by Katy Perry, Juicy J
+286. 1.58B - Symphony, by Clean Bandit, Zara Larsson
+287. 1.58B - Lush Life, by Zara Larsson
+288. 1.57B - She Will Be Loved, by Maroon 5
+289. 1.57B - The Middle, by Zedd, Maren Morris, Grey
+290. 1.57B - Old Town Road, by Lil Nas X, Billy Ray Cyrus
+291. 1.56B - greedy, by Tate McRae
+292. 1.56B - Psycho, by Post Malone, Ty Dolla $ign
+293. 1.56B - Hymn for the Weekend, by Coldplay
+294. 1.56B - Fortunate Son, by Creedence Clearwater Revival
+295. 1.56B - Tusa, by KAROL G, Nicki Minaj
+296. 1.56B - Call Me Maybe, by Carly Rae Jepsen
+297. 1.56B - Californication, by Red Hot Chili Peppers
+298. 1.56B - Talking to the Moon, by Bruno Mars
+299. 1.56B - Diamonds, by Rihanna
+300. 1.55B - Ojitos Lindos, by Bad Bunny, Bomba Estéreo
+301. 1.55B - 24K Magic, by Bruno Mars
+302. 1.55B - Enter Sandman, by Metallica
+303. 1.55B - Still D.R.E., by Dr. Dre, Snoop Dogg
+304. 1.55B - Sweet Dreams, by Eurythmics, Annie Lennox, Dave Stewart
+305. 1.55B - Mi Gente, by J Balvin, Willy William
+306. 1.55B - In My Mind, by Dynoro, Gigi D'Agostino
+307. 1.55B - Calm Down, by Rema, Selena Gomez
+308. 1.55B - Ni**as In Paris, by JAY-Z, Kanye West
+309. 1.54B - Dark Red, by Steve Lacy
+310. 1.54B - Let You Down, by NF
+311. 1.54B - Ransom, by Lil Tecca
+312. 1.54B - Young, Wild & Free, by Snoop Dogg, Wiz Khalifa, Bruno Mars
+313. 1.54B - Callaita, by Bad Bunny, Tainy
+314. 1.53B - In the Name of Love, by Martin Garrix, Bebe Rexha
+315. 1.53B - Look At Me!, by XXXTENTACION
+316. 1.53B - Shake It Off, by Taylor Swift
+317. 1.53B - Under the Bridge, by Red Hot Chili Peppers
+318. 1.53B - Chop Suey!, by System Of A Down
+319. 1.53B - positions, by Ariana Grande
+320. 1.52B - Heartless, by Kanye West
+321. 1.52B - ROXANNE, by Arizona Zervas
+322. 1.52B - Ain't No Mountain High Enough, by Marvin Gaye, Tammi Terrell
+323. 1.52B - Side To Side, by Ariana Grande, Nicki Minaj
+324. 1.51B - Losing My Religion, by R.E.M.
+325. 1.51B - Yeah!, by USHER, Lil Jon, Ludacris
+326. 1.51B - It Ain’t Me, by Kygo, Selena Gomez
+327. 1.50B - cardigan, by Taylor Swift
+328. 1.50B - Scars To Your Beautiful, by Alessia Cara
+329. 1.50B - Animals, by Maroon 5
+330. 1.50B - Just Give Me a Reason, by P!nk, Nate Ruess
+331. 1.50B - Dancing Queen, by ABBA
+332. 1.50B - Stronger, by Kanye West
+333. 1.50B - Hey Ya!, by Outkast
+334. 1.49B - Waiting For Love, by Avicii
+335. 1.49B - Todo De Ti, by Rauw Alejandro
+336. 1.49B - Story of My Life, by One Direction
+337. 1.49B - Into You, by Ariana Grande
+338. 1.49B - FRIENDS, by Marshmello, Anne-Marie
+339. 1.49B - Work from Home, by Fifth Harmony, Ty Dolla $ign
+340. 1.48B - Unstoppable, by Sia
+341. 1.48B - Here Comes The Sun, by The Beatles
+342. 1.48B - Creepin', by Metro Boomin, The Weeknd, 21 Savage
+343. 1.48B - Poker Face, by Lady Gaga
+344. 1.48B - Happy, by Pharrell Williams
+345. 1.48B - Sucker, by Jonas Brothers
+346. 1.48B - Grenade, by Bruno Mars
+347. 1.47B - Work, by Rihanna, Drake
+348. 1.47B - LOVE. FEAT. ZACARI., by Kendrick Lamar, Zacari
+349. 1.47B - Young And Beautiful, by Lana Del Rey
+350. 1.47B - Toxic, by Britney Spears
+351. 1.47B - Classic, by MKTO
+352. 1.46B - Don't, by Bryson Tiller
+353. 1.46B - Better, by Khalid
+354. 1.46B - No Me Conoce, by JHAYCO, J Balvin, Bad Bunny
+355. 1.46B - Yonaguni, by Bad Bunny
+356. 1.46B - Ride It, by Regard
+357. 1.46B - What Makes You Beautiful, by One Direction
+358. 1.46B - Stay, by Rihanna, Mikky Ekko
+359. 1.46B - Time of Our Lives, by Pitbull, Ne-Yo
+360. 1.46B - Happier Than Ever, by Billie Eilish
+361. 1.45B - i hate u, i love u, by gnash, Olivia O'Brien
+362. 1.45B - One Of The Girls, by The Weeknd, JENNIE, Lily-Rose Depp
+363. 1.45B - Under The Influence, by Chris Brown
+364. 1.45B - Safe And Sound, by Capital Cities
+365. 1.45B - Come As You Are, by Nirvana
+366. 1.44B - Beautiful People, by Ed Sheeran, Khalid
+367. 1.44B - Stereo Hearts, by Gym Class Heroes, Adam Levine
+368. 1.44B - Mercy, by Shawn Mendes
+369. 1.44B - Location, by Khalid
+370. 1.43B - Always Remember Us This Way, by Lady Gaga
+371. 1.43B - Dancing With A Stranger, by Sam Smith, Normani
+372. 1.43B - Chasing Cars, by Snow Patrol
+373. 1.43B - Rather Be, by Clean Bandit, Jess Glynne
+374. 1.43B - Paradise, by Coldplay
+375. 1.43B - Meant to Be, by Bebe Rexha, Florida Georgia Line
+376. 1.43B - More Than You Know, by Axwell /\ Ingrosso
+377. 1.43B - Eye of the Tiger, by Survivor
+378. 1.43B - Bang Bang, by Jessie J, Ariana Grande, Nicki Minaj
+379. 1.43B - Con Calma, by Daddy Yankee, Snow
+380. 1.43B - We Will Rock You, by Queen
+381. 1.42B - Leave The Door Open, by Bruno Mars, Anderson .Paak, Silk Sonic
+382. 1.42B - In My Feelings, by Drake
+383. 1.42B - Taste, by Tyga, Offset
+384. 1.42B - Where Are You Now, by Lost Frequencies, Calum Scott
+385. 1.42B - Bones, by Imagine Dragons
+386. 1.42B - PILLOWTALK, by ZAYN
+387. 1.42B - changes, by XXXTENTACION
+388. 1.42B - Glimpse of Us, by Joji
+389. 1.41B - Castle on the Hill, by Ed Sheeran
+390. 1.41B - Feel It Still, by Portugal. The Man
+391. 1.41B - Wolves, by Selena Gomez, Marshmello
+392. 1.40B - Hawái, by Maluma
+393. 1.40B - Ho Hey, by The Lumineers
+394. 1.40B - Efecto, by Bad Bunny
+395. 1.40B - Give Me Everything, by Pitbull, AFROJACK, Ne-Yo, Nayer
+396. 1.40B - Ophelia, by The Lumineers
+397. 1.40B - Lemonade, by Internet Money, Gunna, Don Toliver, NAV
+398. 1.40B - Sweet Home Alabama, by Lynyrd Skynyrd
+399. 1.40B - Me, Myself & I, by G-Eazy, Bebe Rexha
+400. 1.39B - Hotline Bling, by Drake
+401. 1.39B - When We Were Young, by Adele
+402. 1.39B - WAP, by Cardi B, Megan Thee Stallion
+403. 1.38B - Robbery, by Juice WRLD
+404. 1.38B - Whatever It Takes, by Imagine Dragons
+405. 1.38B - Crazy In Love, by Beyoncé, JAY-Z
+406. 1.38B - no tears left to cry, by Ariana Grande
+407. 1.38B - SLOW DANCING IN THE DARK, by Joji
+408. 1.38B - TiK ToK, by Kesha
+409. 1.38B - Romantic Homicide, by d4vd
+410. 1.38B - Praise The Lord, by A$AP Rocky, Skepta
+411. 1.38B - Bad Romance, by Lady Gaga
+412. 1.37B - Galway Girl, by Ed Sheeran
+413. 1.37B - MIA, by Bad Bunny, Drake
+414. 1.37B - Light It Up, by Major Lazer, Nyla, Fuse ODG
+415. 1.37B - 1, by Logic, Alessia Cara, Khalid
+416. 1.37B - My Universe, by Coldplay, BTS
+417. 1.37B - Happier, by Ed Sheeran
+418. 1.37B - My Love Mine All Mine, by Mitski
+419. 1.37B - Can't Stop, by Red Hot Chili Peppers
+420. 1.36B - Lose Control, by Teddy Swims
+421. 1.36B - MIDDLE CHILD, by J. Cole
+422. 1.36B - Blueberry Faygo, by Lil Mosey
+423. 1.35B - Promiscuous, by Nelly Furtado, Timbaland
+424. 1.35B - Paint It, Black, by The Rolling Stones
+425. 1.35B - PROVENZA, by KAROL G
+426. 1.35B - Zombie, by The Cranberries
+427. 1.35B - Daylight, by David Kushner
+428. 1.35B - You Shook Me All Night Long, by AC/DC
+429. 1.34B - Wet Dreamz, by J. Cole
+430. 1.34B - I Wanna Dance with Somebody, by Whitney Houston
+431. 1.34B - Scared to Be Lonely, by Martin Garrix, Dua Lipa
+432. 1.34B - Thrift Shop, by Macklemore & Ryan Lewis, Macklemore, Ryan Lewis, Wanz
+433. 1.34B - Star Shopping, by Lil Peep
+434. 1.33B - Falling Down, by Lil Peep, XXXTENTACION
+435. 1.33B - Summer Of '69, by Bryan Adams
+436. 1.33B - Ella Baila Sola, by Eslabon Armado, Peso Pluma
+437. 1.33B - august, by Taylor Swift
+438. 1.33B - Nice For What, by Drake
+439. 1.33B - Gata Only, by FloyyMenor, Cris Mj
+440. 1.33B - Natural, by Imagine Dragons
+441. 1.32B - Sultans of Swing, by Dire Straits
+442. 1.32B - Falling, by Harry Styles
+443. 1.32B - Goodbyes, by Post Malone, Young Thug
+444. 1.32B - Everlong, by Foo Fighters
+445. 1.32B - Style, by Taylor Swift
+446. 1.32B - Last Friday Night, by Katy Perry
+447. 1.32B - Girls Just Want to Have Fun, by Cyndi Lauper
+448. 1.32B - Like Crazy, by Jimin
+449. 1.31B - Outside, by Calvin Harris, Ellie Goulding
+450. 1.31B - hot girl bummer, by blackbear
+451. 1.31B - Running Up That Hill, by Kate Bush
+452. 1.31B - Stick Season, by Noah Kahan
+453. 1.31B - Butter, by BTS
+454. 1.31B - Bring Me To Life, by Evanescence
+455. 1.31B - How to Save a Life, by The Fray
+456. 1.31B - Dancing On My Own, by Calum Scott
+457. 1.31B - Sugar, by Robin Schulz, Francesco Yates
+458. 1.30B - Astronaut In The Ocean, by Masked Wolf
+459. 1.30B - Budapest, by George Ezra
+460. 1.30B - Welcome To The Jungle, by Guns N' Roses
+461. 1.30B - I'm the One, by DJ Khaled, Justin Bieber, Quavo, Chance the Rapper, Lil Wayne
+462. 1.30B - Royals, by Lorde
+463. 1.29B - telepatía, by Kali Uchis
+464. 1.29B - Arcade, by Duncan Laurence
+465. 1.29B - Lose You To Love Me, by Selena Gomez
+466. 1.29B - Life Is Good, by Future, Drake
+467. 1.28B - Heartbreak Anniversary, by Giveon
+468. 1.28B - Don’t Blame Me, by Taylor Swift
+469. 1.28B - No Lie, by Sean Paul, Dua Lipa
+470. 1.28B - Snooze, by SZA
+471. 1.28B - How Deep Is Your Love, by Calvin Harris, Disciples
+472. 1.28B - Freaks, by Surf Curse
+473. 1.28B - Centuries, by Fall Out Boy
+474. 1.28B - happier, by Olivia Rodrigo
+475. 1.27B - Beat It, by Michael Jackson
+476. 1.27B - Nothing Else Matters, by Metallica
+477. 1.27B - Good Days, by SZA
+478. 1.27B - Break My Heart, by Dua Lipa
+479. 1.27B - Body, by Loud Luxury, Brando
+480. 1.27B - Stay, by Zedd, Alessia Cara
+481. 1.27B - Only Girl, by Rihanna
+482. 1.26B - What Lovers Do, by Maroon 5, SZA
+483. 1.26B - MONEY, by LISA
+484. 1.26B - golden hour, by JVKE
+485. 1.26B - Head & Heart, by Joel Corry, MNEK
+486. 1.26B - Hypnotize, by The Notorious B.I.G.
+487. 1.26B - Way down We Go, by KALEO
+488. 1.26B - Father Stretch My Hands Pt. 1, by Kanye West
+489. 1.26B - Stargirl Interlude, by The Weeknd, Lana Del Rey
+490. 1.26B - Gold Digger, by Kanye West, Jamie Foxx
+491. 1.26B - Bad Habit, by Steve Lacy
+492. 1.26B - Issues, by Julia Michaels
+493. 1.26B - Roar, by Katy Perry
+494. 1.25B - Paint The Town Red, by Doja Cat
+495. 1.25B - Dream On, by Aerosmith
+496. 1.25B - The Business, by Tiësto
+497. 1.25B - Trap Queen, by Fetty Wap
+498. 1.25B - Let It Go, by James Bay
+499. 1.25B - Starships, by Nicki Minaj
+500. 1.25B - Space Song, by Beach House
+501. 1.25B - DNA., by Kendrick Lamar
+502. 1.25B - It Was A Good Day, by Ice Cube
+503. 1.25B - This Love, by Maroon 5
+504. 1.25B - Dangerous Woman, by Ariana Grande
+505. 1.25B - Last Resort, by Papa Roach
+506. 1.25B - I'm Still Standing, by Elton John
+507. 1.25B - Look What You Made Me Do, by Taylor Swift
+508. 1.25B - Say So, by Doja Cat
+509. 1.25B - Going Bad, by Meek Mill, Drake
+510. 1.25B - All The Small Things, by blink-182
+511. 1.25B - We Are Young, by fun., Janelle Monáe
+512. 1.24B - You Give Love A Bad Name, by Bon Jovi
+513. 1.24B - Need to Know, by Doja Cat
+514. 1.24B - Intentions, by Justin Bieber, Quavo
+515. 1.24B - Brown Eyed Girl, by Van Morrison
+516. 1.24B - Paris, by The Chainsmokers
+517. 1.24B - How You Remind Me, by Nickelback
+518. 1.24B - Wild Thoughts, by DJ Khaled, Rihanna, Bryson Tiller
+519. 1.24B - Here With Me, by d4vd
+520. 1.23B - we fell in love in october, by girl in red
+521. 1.23B - Flashing Lights, by Kanye West, Dwele
+522. 1.23B - China, by Anuel AA, Daddy Yankee, KAROL G, J Balvin, Ozuna
+523. 1.23B - Stand By Me, by Ben E. King
+524. 1.23B - Unwritten, by Natasha Bedingfield
+525. 1.23B - No Scrubs, by TLC
+526. 1.23B - MIDDLE OF THE NIGHT, by Elley Duhé
+527. 1.23B - The Chain, by Fleetwood Mac
+528. 1.22B - Stan, by Eminem, Dido
+529. 1.22B - La Curiosidad, by Jay Wheeler, DJ Nelson, Myke Towers
+530. 1.22B - Drag Me Down, by One Direction
+531. 1.22B - If the World Was Ending, by JP Saxe, Julia Michaels
+532. 1.22B - Starving, by Hailee Steinfeld, Grey, Zedd
+533. 1.22B - Paranoid, by Black Sabbath
+534. 1.22B - Moscow Mule, by Bad Bunny
+535. 1.22B - Bruises, by Lewis Capaldi
+536. 1.22B - Te Boté, by Nio Garcia, Casper Magico, Bad Bunny, Darell, Ozuna, Nicky Jam
+537. 1.22B - If I Ain't Got You, by Alicia Keys
+538. 1.22B - Boy With Luv, by BTS, Halsey
+539. 1.21B - All I Want, by Kodaline
+540. 1.21B - favorite crime, by Olivia Rodrigo
+541. 1.21B - Die With A Smile, by Lady Gaga, Bruno Mars
+542. 1.21B - Just Dance, by Lady Gaga, Colby O'Donis
+543. 1.21B - Panda, by Desiigner
+544. 1.21B - End of Beginning, by Djo
+545. 1.21B - Rocket Man, by Elton John
+546. 1.21B - What You Know Bout Love, by Pop Smoke
+547. 1.21B - Ms. Jackson, by Outkast
+548. 1.21B - vampire, by Olivia Rodrigo
+549. 1.20B - Basket Case, by Green Day
+550. 1.20B - Fast Car, by Jonas Blue, Dakota
+551. 1.20B - This Girl, by Kungs, Cookin' On 3 Burners
+552. 1.20B - FourFiveSeconds, by Rihanna, Kanye West, Paul McCartney
+553. 1.20B - Stuck with U, by Ariana Grande, Justin Bieber
+554. 1.20B - Wannabe, by Spice Girls
+555. 1.20B - Make You Feel My Love, by Adele
+556. 1.19B - S&M, by Rihanna
+557. 1.19B - Desesperados, by Rauw Alejandro, Chencho Corleone
+558. 1.19B - Calma, by Pedro Capó, Farruko
+559. 1.19B - I WANNA BE YOUR SLAVE, by Måneskin
+560. 1.19B - Bank Account, by 21 Savage
+561. 1.19B - Midnight City, by M83
+562. 1.19B - Lost, by Frank Ocean
+563. 1.19B - Don't You Worry Child, by Swedish House Mafia, John Martin
+564. 1.19B - Sorry Not Sorry, by Demi Lovato
+565. 1.19B - White Iverson, by Post Malone
+566. 1.19B - Back To Black, by Amy Winehouse
+567. 1.19B - Firework, by Katy Perry
+568. 1.18B - Sucker for Pain, by Lil Wayne, Wiz Khalifa, Imagine Dragons, X Ambassadors, Logic, Ty Dolla $ign
+569. 1.18B - It's You, by Ali Gatie
+570. 1.18B - All Star, by Smash Mouth
+571. 1.18B - Crazy, by Gnarls Barkley
+572. 1.18B - Should I Stay or Should I Go, by The Clash
+573. 1.18B - Sparks, by Coldplay
+574. 1.18B - Are You With Me, by Lost Frequencies
+575. 1.18B - Streets, by Doja Cat
+576. 1.18B - Low, by Flo Rida, T-Pain
+577. 1.18B - TQG, by KAROL G, Shakira
+578. 1.18B - La Bebe, by Yng Lvcas, Peso Pluma
+579. 1.18B - These Days, by Rudimental, Jess Glynne, Macklemore, Dan Caplen
+580. 1.18B - un x100to, by Grupo Frontera, Bad Bunny
+581. 1.18B - abcdefu, by GAYLE
+582. 1.18B - Yes Indeed, by Lil Baby, Drake
+583. 1.17B - Feels, by Calvin Harris, Pharrell Williams, Katy Perry, Big Sean, Funk Wav
+584. 1.17B - Who, by Jimin
+585. 1.17B - Get Lucky, by Daft Punk, Pharrell Williams, Nile Rodgers
+586. 1.17B - Firestone, by Kygo, Conrad Sewell
+587. 1.17B - idontwannabeyouanymore, by Billie Eilish
+588. 1.17B - Careless Whisper, by George Michael
+589. 1.17B - Until I Found You, by Stephen Sanchez
+590. 1.17B - Es un Secreto, by Plan B
+591. 1.17B - Dynamite, by Taio Cruz
+592. 1.17B - Nonstop, by Drake
+593. 1.17B - Prayer in C, by Lilly Wood and The Prick, Robin Schulz
+594. 1.17B - Santa Tell Me, by Ariana Grande
+595. 1.17B - SNAP, by Rosa Linn
+596. 1.17B - Wait a Minute!, by WILLOW
+597. 1.16B - Breaking Me, by Topic, A7S
+598. 1.16B - For The Night, by Pop Smoke, Lil Baby, DaBaby
+599. 1.16B - Feel So Close, by Calvin Harris
+600. 1.16B - Too Sweet, by Hozier
+601. 1.16B - Until I Found You, by Stephen Sanchez, Em Beihold
+602. 1.16B - Electric Love, by BØRNS
+603. 1.16B - Thinkin Bout You, by Frank Ocean
+604. 1.16B - Paradise City, by Guns N' Roses
+605. 1.16B - Bitter Sweet Symphony, by The Verve
+606. 1.16B - Swalla, by Jason Derulo, Nicki Minaj, Ty Dolla $ign
+607. 1.15B - Hey There Delilah, by Plain White T's
+608. 1.15B - Like I'm Gonna Lose You, by Meghan Trainor, John Legend
+609. 1.15B - Savage Love, by Jawsh 685, Jason Derulo
+610. 1.15B - Shut up My Moms Calling, by Hotel Ugly
+611. 1.15B - 20 Min, by Lil Uzi Vert
+612. 1.15B - Lovers Rock, by TV Girl
+613. 1.15B - Snow, by Red Hot Chili Peppers
+614. 1.15B - Mirrors, by Justin Timberlake
+615. 1.15B - Big Poppa, by The Notorious B.I.G.
+616. 1.14B - What Was I Made For? [From The Motion Picture "Barbie"], by Billie Eilish
+617. 1.14B - You Make My Dreams, by Daryl Hall & John Oates
+618. 1.14B - Empire State Of Mind, by JAY-Z, Alicia Keys
+619. 1.14B - Rockin' Around The Christmas Tree, by Brenda Lee
+620. 1.14B - Bad Liar, by Imagine Dragons
+621. 1.14B - Where Are Ü Now, by Jack Ü, Skrillex, Diplo, Justin Bieber
+622. 1.14B - Marry You, by Bruno Mars
+623. 1.14B - Dior, by Pop Smoke
+624. 1.14B - Dog Days Are Over, by Florence + The Machine
+625. 1.14B - Reminder, by The Weeknd
+626. 1.14B - Rap God, by Eminem
+627. 1.14B - July, by Noah Cyrus
+628. 1.14B - Infinity, by Jaymes Young
+629. 1.14B - Softcore, by The Neighbourhood
+630. 1.14B - With Or Without You, by U2
+631. 1.13B - My House, by Flo Rida
+632. 1.13B - Without You, by Avicii, Sandro Cavazza
+633. 1.13B - R U Mine?, by Arctic Monkeys
+634. 1.13B - Something in the Orange, by Zach Bryan
+635. 1.13B - I Was Never There, by The Weeknd, Gesaffelstein
+636. 1.13B - Little Talks, by Of Monsters and Men
+637. 1.13B - Latch, by Disclosure, Sam Smith
+638. 1.13B - Last Night, by Morgan Wallen
+639. 1.13B - The Reason, by Hoobastank
+640. 1.13B - DESPECHÁ, by ROSALÍA
+641. 1.13B - QLONA, by KAROL G, Peso Pluma
+642. 1.13B - Adventure of a Lifetime, by Coldplay
+643. 1.13B - Send My Love, by Adele
+644. 1.13B - Treasure, by Bruno Mars
+645. 1.13B - Let Me Go, by Hailee Steinfeld, Alesso, Florida Georgia Line, WATT
+646. 1.12B - Nonsense, by Sabrina Carpenter
+647. 1.12B - ZEZE, by Kodak Black, Offset, Travis Scott
+648. 1.12B - Don't Stop The Music, by Rihanna
+649. 1.12B - Stayin' Alive, by Bee Gees
+650. 1.12B - I Was Made For Lovin' You, by KISS
+651. 1.12B - Slide, by Calvin Harris, Frank Ocean, Migos
+652. 1.12B - The Monster, by Eminem, Rihanna
+653. 1.12B - Otherside, by Red Hot Chili Peppers
+654. 1.12B - Middle, by DJ Snake, Bipolar Sunshine
+655. 1.11B - THATS WHAT I WANT, by Lil Nas X
+656. 1.11B - You Are The Reason, by Calum Scott
+657. 1.11B - God is a woman, by Ariana Grande
+658. 1.11B - Murder on My Mind, by YNW Melly
+659. 1.11B - Rain On Me, by Lady Gaga, Ariana Grande
+660. 1.11B - The Next Episode, by Dr. Dre, Snoop Dogg
+661. 1.11B - Mo Bamba, by Sheck Wes
+662. 1.11B - Feliz Cumpleaños Ferxxo, by Feid
+663. 1.11B - Back To You, by Selena Gomez
+664. 1.11B - 10,000 Hours, by Dan + Shay, Justin Bieber
+665. 1.11B - Say Something, by A Great Big World, Christina Aguilera
+666. 1.11B - Three Little Birds, by Bob Marley & The Wailers
+667. 1.10B - Exchange, by Bryson Tiller
+668. 1.10B - Where Is The Love?, by Black Eyed Peas
+669. 1.10B - LALA, by Myke Towers
+670. 1.10B - Perfect Strangers, by Jonas Blue, JP Cooper
+671. 1.10B - It Wasn't Me, by Shaggy, Rik Rok
+672. 1.10B - Let Me Love You, by Mario
+673. 1.10B - Numb / Encore, by JAY-Z, Linkin Park
+674. 1.10B - Want to Want Me, by Jason Derulo
+675. 1.10B - Not Afraid, by Eminem
+676. 1.09B - Toosie Slide, by Drake
+677. 1.09B - I Don't Want To Miss A Thing, by Aerosmith
+678. 1.09B - Your Love, by The Outfield
+679. 1.09B - EARFQUAKE, by Tyler, The Creator
+680. 1.09B - You're Gonna Go Far, Kid, by The Offspring
+681. 1.09B - Baby, by Justin Bieber, Ludacris
+682. 1.09B - No Guidance, by Chris Brown, Drake
+683. 1.09B - Tennessee Whiskey, by Chris Stapleton
+684. 1.09B - 3 Nights, by Dominic Fike
+685. 1.09B - It's Beginning to Look a Lot like Christmas, by Michael Bublé
+686. 1.09B - Roses, by The Chainsmokers, ROZES
+687. 1.09B - How You Like That, by BLACKPINK
+688. 1.09B - Too Good, by Drake, Rihanna
+689. 1.09B - Solo, by Clean Bandit, Demi Lovato
+690. 1.09B - Hey Mor, by Ozuna, Feid
+691. 1.09B - i like the way you kiss me, by Artemas
+692. 1.09B - Please Please Please, by Sabrina Carpenter
+693. 1.09B - Wake Up in the Sky, by Gucci Mane, Bruno Mars, Kodak Black
+694. 1.09B - we can't be friends, by Ariana Grande
+695. 1.09B - Jimmy Cooks, by Drake, 21 Savage
+696. 1.08B - Jingle Bell Rock, by Bobby Helms
+697. 1.08B - Ain't No Sunshine, by Bill Withers
+698. 1.08B - Delicate, by Taylor Swift
+699. 1.08B - FE!N, by Travis Scott, Playboi Carti
+700. 1.08B - Best Day Of My Life, by American Authors
+701. 1.08B - Snowman, by Sia
+702. 1.08B - Mine, by Bazzi
+703. 1.08B - Toxicity, by System Of A Down
+704. 1.08B - Go Your Own Way, by Fleetwood Mac
+705. 1.08B - Chantaje, by Shakira, Maluma
+706. 1.08B - Go Flex, by Post Malone
+707. 1.07B - Hey Brother, by Avicii
+708. 1.07B - Bored, by Billie Eilish
+709. 1.07B - Promises, by Calvin Harris, Sam Smith, Jessie Reyez
+710. 1.07B - The Way Life Goes, by Lil Uzi Vert, Oh Wonder
+711. 1.07B - Candy Paint, by Post Malone
+712. 1.07B - Locked Away, by R. City, Adam Levine
+713. 1.07B - Get You The Moon, by Kina, Snøw
+714. 1.07B - Scar Tissue, by Red Hot Chili Peppers
+715. 1.07B - Often, by The Weeknd
+716. 1.07B - Hold On, We're Going Home, by Drake, Majid Jordan
+717. 1.06B - The Lazy Song, by Bruno Mars
+718. 1.06B - Sunroof, by Nicky Youre, dazy
+719. 1.06B - Cigarette Daydreams, by Cage The Elephant
+720. 1.06B - My Girl, by The Temptations
+721. 1.06B - American Idiot, by Green Day
+722. 1.06B - X, by Nicky Jam, J Balvin
+723. 1.06B - Replay, by Iyaz
+724. 1.06B - The Middle, by Jimmy Eat World
+725. 1.06B - Work Out, by J. Cole
+726. 1.06B - Angels Like You, by Miley Cyrus
+727. 1.06B - Uptown Girl, by Billy Joel
+728. 1.06B - Waves, by Mr. Probz, Robin Schulz
+729. 1.06B - Bound 2, by Kanye West
+730. 1.06B - If I Can't Have You, by Shawn Mendes
+731. 1.05B - bury a friend, by Billie Eilish
+732. 1.05B - Standing Next to You, by Jung Kook
+733. 1.05B - Wake Me Up Before You Go, by Wham!
+734. 1.05B - House Of The Rising Sun, by The Animals
+735. 1.05B - Don't Call Me Up, by Mabel
+736. 1.05B - Candy Shop, by 50 Cent, Olivia
+737. 1.05B - Could You Be Loved, by Bob Marley & The Wailers
+738. 1.05B - After Hours, by The Weeknd
+739. 1.05B - Stairway to Heaven, by Led Zeppelin
+740. 1.05B - Heartless, by The Weeknd
+741. 1.05B - On Top Of The World, by Imagine Dragons
+742. 1.05B - Video Games, by Lana Del Rey
+743. 1.05B - bellyache, by Billie Eilish
+744. 1.05B - Superman, by Eminem, Dina Rae
+745. 1.05B - Walking On A Dream, by Empire Of The Sun
+746. 1.04B - Teenagers, by My Chemical Romance
+747. 1.04B - Old Town Road, by Lil Nas X
+748. 1.04B - Strip That Down, by Liam Payne, Quavo
+749. 1.04B - LA NOCHE DE ANOCHE, by Bad Bunny, ROSALÍA
+750. 1.04B - Good Luck, Babe!, by Chappell Roan
+751. 1.04B - Die For You, by The Weeknd, Ariana Grande
+752. 1.04B - Or Nah, by Ty Dolla $ign, The Weeknd, Wiz Khalifa, Mustard
+753. 1.04B - Gasolina, by Daddy Yankee
+754. 1.04B - Memories, by David Guetta, Kid Cudi
+755. 1.04B - CLASSY 101, by Feid, Young Miko
+756. 1.04B - The One That Got Away, by Katy Perry
+757. 1.04B - It Will Rain, by Bruno Mars
+758. 1.04B - Physical, by Dua Lipa
+759. 1.04B - Stole the Show, by Kygo, Parson James
+760. 1.04B - Clocks, by Coldplay
+761. 1.04B - Friday, by Riton, Nightcrawlers, Mufasa & Hypeman, Mufasa, Dopamine
+762. 1.04B - No Idea, by Don Toliver
+763. 1.04B - Nevermind, by Dennis Lloyd
+764. 1.04B - This Town, by Niall Horan
+765. 1.04B - Blame, by Calvin Harris, John Newman
+766. 1.04B - Levels, by Avicii
+767. 1.04B - Kings & Queens, by Ava Max
+768. 1.04B - MAMIII, by Becky G, KAROL G
+769. 1.04B - Am I Wrong, by Nico & Vinz
+770. 1.03B - Vete, by Bad Bunny
+771. 1.03B - We Can't Stop, by Miley Cyrus
+772. 1.03B - Nothing Breaks Like a Heart, by Mark Ronson, Miley Cyrus
+773. 1.03B - i love you, by Billie Eilish
+774. 1.03B - Everywhere, by Fleetwood Mac
+775. 1.03B - Hold the Line, by TOTO
+776. 1.03B - Late Night Talking, by Harry Styles
+777. 1.03B - Mr. Blue Sky, by Electric Light Orchestra
+778. 1.03B - 34+35, by Ariana Grande
+779. 1.03B - Piece Of Your Heart, by MEDUZA, Goodboys
+780. 1.03B - Sex, Drugs, Etc., by Beach Weather
+781. 1.03B - Him & I, by G-Eazy, Halsey
+782. 1.03B - Kryptonite, by 3 Doors Down
+783. 1.02B - The Way I Are, by Timbaland, Keri Hilson, D.O.E.
+784. 1.02B - What's Up?, by 4 Non Blondes
+785. 1.02B - Wildest Dreams, by Taylor Swift
+786. 1.02B - The A Team, by Ed Sheeran
+787. 1.02B - Sexy Bitch, by David Guetta, Akon
+788. 1.02B - The Kids Aren't Alright, by The Offspring
+789. 1.02B - Crazy Little Thing Called Love, by Queen
+790. 1.02B - a lot, by 21 Savage
+791. 1.02B - November Rain, by Guns N' Roses
+792. 1.02B - Shakira: Bzrp Music Sessions, Vol. 53, by Bizarrap, Shakira
+793. 1.02B - break up with your girlfriend, i'm bored, by Ariana Grande
+794. 1.02B - Truth Hurts, by Lizzo
+795. 1.02B - Higher Love, by Kygo, Whitney Houston
+796. 1.02B - Black Beatles, by Rae Sremmurd, Gucci Mane
+797. 1.01B - Hot N Cold, by Katy Perry
+798. 1.01B - Come & Go, by Juice WRLD, Marshmello
+799. 1.01B - Levitating, by Dua Lipa
+800. 1.01B - Money In The Grave, by Drake, Rick Ross
+801. 1.01B - Lost in the Fire, by Gesaffelstein, The Weeknd
+802. 1.01B - Elastic Heart, by Sia
+803. 1.01B - Soltera, by Lunay, Daddy Yankee, Bad Bunny
+804. 1.01B - Wrecking Ball, by Miley Cyrus
+805. 1.01B - Love Me Harder, by Ariana Grande, The Weeknd
+806. 1.01B - double take, by Dhruv
+807. 1.01B - You Need To Calm Down, by Taylor Swift
+808. 1.01B - Can't Help Falling in Love, by Elvis Presley
+809. 1.01B - Moth To A Flame, by Swedish House Mafia, The Weeknd
+810. 1.01B - Je te laisserai des mots, by Patrick Watson
+811. 1.01B - Dance The Night, by Dua Lipa
+812. 1.01B - jealousy, jealousy, by Olivia Rodrigo
+813. 1.01B - Habits, by Tove Lo
+814. 1.01B - Laugh Now Cry Later, by Drake, Lil Durk
+815. 1.00B - La Santa, by Bad Bunny, Daddy Yankee
+816. 1.00B - Popular, by The Weeknd, Playboi Carti, Madonna
+817. 1.00B - the remedy for a broken heart, by XXXTENTACION
+818. 1.00B - How Do You Sleep?, by Sam Smith
+819. 1.00B - Shotgun, by George Ezra
+820. 1.00B - Never Forget You, by Zara Larsson, MNEK
+821. 1.00B - Look Alive, by BlocBoy JB, Drake
+822. 0.53B - White Christmas, by Bing Crosby, Ken Darby Singers, John Scott Trotter & His Orchestra

@@ -4,6 +4,7 @@ const { generate_report } = require("./backend/report");
 const bodyParser = require("body-parser");
 const express = require("express");
 const path = require("path");
+const fs = require('fs');
 require("dotenv").config();
 
 const VERBOSE = true;
@@ -20,7 +21,8 @@ app.use(express.static(path.join(__dirname, "./public")));
 
 app.post("/get-report", async (_, res) => {
     // get the most recent tracks file
-    const tracksFile = fs.readdirSync("data").filter(file => file.startsWith("tracks_")).sort().reverse()[0];
+    // const tracksFile = fs.readdirSync("data").filter(file => file.startsWith("tracks_")).sort().reverse()[0];
+    const tracksFile = "data/tracks_2024-12-13.json";
     try {
         if (fs.existsSync(reportFile)) {
             const report = JSON.parse(fs.readFileSync(reportFile, "utf-8"));
