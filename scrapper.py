@@ -3,22 +3,18 @@ import json
 import time
 import datetime
 import requests
-import http.client
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from concurrent.futures import ThreadPoolExecutor, as_completed
 from dotenv import load_dotenv
-from threading import Lock
 
-lock = Lock()
 load_dotenv()
 RAPID_API_KEY = os.getenv("RAPID_API_KEY")
 PLAYLIST_ID = os.getenv("PLAYLIST_ID")
-
+MIN_PLAYCOUNT = 1_000_000_000
 
 
 
@@ -81,6 +77,10 @@ def fetch_tracks(outputFile):
 
 
 def clean_playlist(tracksPath, cleanedPath):
+    if os.path.exists(cleanedPath):
+        print("Cleaned file already exists. Using stored data.")
+        return
+    
     with open(tracksPath, 'r', encoding='utf-8') as file:
         playlist = json.load(file)
 
@@ -115,7 +115,7 @@ def clean_playlist(tracksPath, cleanedPath):
     print(f"Playlist cleaned and saved in {cleanedPath}")
 
 
-def get_play_count_with_selenium(track_id):
+def scrappe_playcount_from_spotify(track_id):
     url = f"https://open.spotify.com/track/{track_id}"
 
     chrome_options = Options()
@@ -123,7 +123,7 @@ def get_play_count_with_selenium(track_id):
     chrome_options.add_argument("--no-sandbox")
     chrome_options.add_argument("--disable-dev-shm-usage")
 
-    service = Service()
+    service = Service("/usr/bin/chromedriver") if os.path.exists("/usr/bin/chromedriver") else Service() # CHANGE THIS PATH TO YOUR CHROMEDRIVER PATH
     driver = webdriver.Chrome(service=service, options=chrome_options)
 
     try:
@@ -131,22 +131,12 @@ def get_play_count_with_selenium(track_id):
         wait = WebDriverWait(driver, 10)
         play_count_span = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, 'span[data-testid="playcount"]')))
         return int(play_count_span.text.strip().replace('\u202f', ''))
+    
     except Exception as e:
-        print(f"Erreur pour {track_id}: {e}")
         return None
+    
     finally:
         driver.quit()
-
-
-def process_track(track):
-    track_id = track["id"]
-    if ("playcount" in track) and (track["playcount"] is not None):
-        return track
-    play_count = get_play_count_with_selenium(track_id)
-    if play_count is not None:
-        with lock:
-            track["playcount"] = play_count
-    return track
 
 
 def retrieve_playcounts(tracksPath):
@@ -158,23 +148,27 @@ def retrieve_playcounts(tracksPath):
     
     tracks = tracks_data["items"]
 
+    startTime = time.time()
     for i in range(len(tracks)):
         track = tracks[i]
-        print(f"Processing track {i+1}/{len(tracks)}...", end="\r")
+        print(f"Processing track {i+1}/{len(tracks)} ({time.time() - startTime:.1f}s)...   ", end="\r")
+
         if ("playcount" not in track) or (track["playcount"] is None) or (track["playcount"] <= 0):
-            track_id = track["id"]
-            playcount = get_play_count_with_selenium(track_id)
+            playcount = scrappe_playcount_from_spotify(track["id"])
             if (playcount):
-                tracks[i]["playcount"] = playcount
+                if (playcount < MIN_PLAYCOUNT):
+                    tracks.pop(i)
+                else:
+                    tracks[i]["playcount"] = playcount
             else:
-                print(f"Playcount not found for {track['name']}")
+                print(f"Playcount not found for {i+1}: {track['name']}")
 
     tracks_data["items"] = tracks
 
     with open(tracksPath, "w", encoding="utf-8") as f:
         json.dump(tracks_data, f, ensure_ascii=False, indent=4)
 
-    print(f"Playcounts retrieved and saved in {tracksPath}")
+    print(f"\nPlaycounts retrieved and saved in {tracksPath}")
 
 
 def format_number(number):
