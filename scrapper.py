@@ -18,6 +18,11 @@ MIN_PLAYCOUNT = 1_000_000_000
 
 
 
+
+def format_number(number):
+    return f"{number/1_000_000_000:.2f}B"
+
+
 def fetch_tracks(outputFile):
     if os.path.exists(outputFile):
         print("File already exists. Using stored data.")
@@ -30,7 +35,7 @@ def fetch_tracks(outputFile):
         "x-rapidapi-host": "spotify-downloader9.p.rapidapi.com",
     }
 
-    default_json = {
+    tracks_json = {
         "total": 0,
         "items": [],
         "generatedTimeStamp": 0,
@@ -53,8 +58,8 @@ def fetch_tracks(outputFile):
             data = response.json()
 
             if data.get("success"):
-                default_json["items"].extend(data["data"]["items"])
-                default_json["generatedTimeStamp"] = data.get("generatedTimeStamp", int(time.time() * 1000))
+                tracks_json["items"].extend(data["data"]["items"])
+                tracks_json["generatedTimeStamp"] = data.get("generatedTimeStamp", int(time.time() * 1000))
                 is_next = data["data"].get("next", False)
                 print(f"Fetched {offset+len(data["data"]["items"])} / {data['data']['total']} tracks...", end="\r")
                 offset += 100
@@ -65,14 +70,45 @@ def fetch_tracks(outputFile):
             print("Error while fetching playlist:", error)
             is_next = False
 
-    if not(default_json["items"]):
+    if not(tracks_json["items"]):
         print("No tracks found in playlist.")
+
     else:
-        default_json["total"] = len(default_json["items"])
-        print(f"Fetched {default_json["total"]} tracks!          ")
+        tracks_json["total"] = len(tracks_json["items"])
+        print(f"Fetched {tracks_json["total"]} tracks!          ")
+
+        print("Requesting playlist details...")
+
+        api_url = "https://spotify-downloader9.p.rapidapi.com/playlist"
+        headers = {
+            "x-rapidapi-key": RAPID_API_KEY,
+            "x-rapidapi-host": "spotify-downloader9.p.rapidapi.com",
+        }
+
+        try:
+            response = requests.get(
+                api_url,
+                headers=headers,
+                params={
+                    "id": PLAYLIST_ID,
+                },
+            )
+            response.raise_for_status()
+            data = response.json()
+
+            nbFollowers = data["data"]["playlist"]["followers"]["total"]
+            coverUrl = data["data"]["playlist"]["images"][0]["url"] if data["data"]["playlist"]["images"] else None
+            description = data["data"]["playlist"]["description"]
+
+            tracks_json["nbFollowers"] = nbFollowers
+            tracks_json["coverUrl"] = coverUrl
+            tracks_json["description"] = description
+
+        except Exception as e:
+            print("Error while fetching playlist details:", e)
             
         with open(outputFile, "w", encoding="utf-8") as file:
-            json.dump(default_json, file, indent=4)
+            json.dump(tracks_json, file, indent=4)
         print(f"Tracks saved in {outputFile}")
 
 
@@ -111,6 +147,10 @@ def clean_playlist(tracksPath, cleanedPath):
     playlist["items"] = cleaned_tracks
     with open(cleanedPath, 'w', encoding='utf-8') as file:
         json.dump(playlist, file, indent=4)
+
+    if (len(cleaned_tracks) == len(tracks_raw)):
+        print("Playlist fully cleaned.")
+        os.remove(tracksPath)
 
     print(f"Playlist cleaned and saved in {cleanedPath}")
 
@@ -171,17 +211,15 @@ def retrieve_playcounts(tracksPath):
     print(f"\nPlaycounts retrieved and saved in {tracksPath}")
 
 
-def format_number(number):
-    return f"{number/1_000_000_000:.2f}B"
 
 
 
 if __name__ == "__main__":
 
     TIME_KEY = datetime.datetime.now().strftime("%Y-%m-%d")
+    dataRawPath = f"data/tracks_{TIME_KEY}_raw.json"
     dataPath = f"data/tracks_{TIME_KEY}.json"
-    dataCleanedPath = f"data/tracks_{TIME_KEY}_cleaned.json"
 
-    fetch_tracks(dataPath)
-    clean_playlist(dataPath, dataCleanedPath)
-    retrieve_playcounts(dataCleanedPath)
+    fetch_tracks(dataRawPath)
+    clean_playlist(dataRawPath, dataPath)
+    retrieve_playcounts(dataPath)
