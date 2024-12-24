@@ -9,6 +9,7 @@ from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from webdriver_manager.chrome import ChromeDriverManager
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -23,8 +24,8 @@ def format_number(number):
     return f"{number/1_000_000_000:.2f}B"
 
 
-def fetch_tracks(outputFile):
-    if os.path.exists(outputFile):
+def fetch_tracks(outputFile, cleanOutputFile):
+    if (os.path.exists(outputFile)) or (os.path.exists(cleanOutputFile)):
         print("File already exists. Using stored data.")
         return
     
@@ -163,7 +164,7 @@ def scrappe_playcount_from_spotify(track_id):
     chrome_options.add_argument("--no-sandbox")
     chrome_options.add_argument("--disable-dev-shm-usage")
 
-    service = Service("/usr/bin/chromedriver") if os.path.exists("/usr/bin/chromedriver") else Service() # CHANGE THIS PATH TO YOUR CHROMEDRIVER PATH
+    service = Service(ChromeDriverManager().install())
     driver = webdriver.Chrome(service=service, options=chrome_options)
 
     try:
@@ -220,6 +221,6 @@ if __name__ == "__main__":
     dataRawPath = f"data/tracks_{TIME_KEY}_raw.json"
     dataPath = f"data/tracks_{TIME_KEY}.json"
 
-    fetch_tracks(dataRawPath)
+    fetch_tracks(dataRawPath, dataPath)
     clean_playlist(dataRawPath, dataPath)
     retrieve_playcounts(dataPath)
