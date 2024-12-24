@@ -1,4 +1,4 @@
-pyton-dotenv
+python-dotenv
 requests
 selenium
 webdriver-manager

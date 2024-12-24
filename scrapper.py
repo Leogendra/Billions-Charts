@@ -218,8 +218,8 @@ def retrieve_playcounts(tracksPath):
 if __name__ == "__main__":
 
     TIME_KEY = datetime.datetime.now().strftime("%Y-%m-%d")
-    dataRawPath = f"data/tracks_{TIME_KEY}_raw.json"
-    dataPath = f"data/tracks_{TIME_KEY}.json"
+    dataRawPath = f"data/tracks/tracks_{TIME_KEY}_raw.json"
+    dataPath = f"data/tracks/tracks_{TIME_KEY}.json"
 
     fetch_tracks(dataRawPath, dataPath)
     clean_playlist(dataRawPath, dataPath)
