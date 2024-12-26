@@ -190,6 +190,27 @@ def scrappe_playcount_from_spotify(track_id):
         driver.quit()
 
 
+def process_track(track, i, tracks, tracksPath, startTime):
+    global lock
+    print(f"Processing {i+1}: {track['name']} ({time.time()-startTime:.1f}s)...   ")
+    if ("playcount" not in track) or (track["playcount"] is None) or (track["playcount"] <= 0):
+        playcount = scrappe_playcount_from_spotify(track["id"])
+        if playcount:
+            with lock:  # Zone critique
+                if playcount < MIN_PLAYCOUNT:
+                    tracks.pop(i)
+                else:
+                    tracks[i]["playcount"] = playcount
+
+                # Sauvegarde toutes les 10 modifications
+                if i % 10 == 0:
+                    with open(tracksPath, "w", encoding="utf-8") as f:
+                        json.dump({"items": tracks}, f, ensure_ascii=False, indent=4)
+                    print(f"\nPlaycounts saved")
+        else:
+            print(f"Playcount not found for {i+1}: {track['name']}")
+
+
 def retrieve_playcounts(tracksPath):
     if os.path.exists(tracksPath):
         with open(tracksPath, "r", encoding="utf-8") as f:
@@ -200,32 +221,18 @@ def retrieve_playcounts(tracksPath):
     tracks = tracks_data["items"]
 
     startTime = time.time()
-    for i in range(len(tracks)):
-        track = tracks[i]
-        print(f"Processing track {i+1}/{len(tracks)} ({time.time() - startTime:.1f}s)...   ", end="\r")
+    with ThreadPoolExecutor(max_workers=4) as executor:  # 4 threads en parallèle
+        futures = [
+            executor.submit(process_track, tracks[i], i, tracks, tracksPath, startTime)
+            for i in range(len(tracks))
+        ]
+        for future in futures:
+            future.result()
 
-        if ("playcount" not in track) or (track["playcount"] is None) or (track["playcount"] <= 0):
-            playcount = scrappe_playcount_from_spotify(track["id"])
-            if (playcount):
-                with lock:
-                    if (playcount < MIN_PLAYCOUNT):
-                        tracks.pop(i)
-                    else:
-                        tracks[i]["playcount"] = playcount
-
-                    # save every 10 tracks
-                    if (i % 10 == 0):
-                        with open(tracksPath, "w", encoding="utf-8") as f:
-                            json.dump(tracks_data, f, ensure_ascii=False, indent=4)
-                        print(f"\nPlaycounts saved")
-            else:
-                print(f"Playcount not found for {i+1}: {track['name']}")
-
-    tracks_data["items"] = tracks
-
-    with open(tracksPath, "w", encoding="utf-8") as f:
-        json.dump(tracks_data, f, ensure_ascii=False, indent=4)
-
+    # Sauvegarde finale
+    with lock:
+        with open(tracksPath, "w", encoding="utf-8") as f:
+            json.dump({"items": tracks}, f, ensure_ascii=False, indent=4)
     print(f"\nPlaycounts retrieved and saved in {tracksPath}")
 
 
