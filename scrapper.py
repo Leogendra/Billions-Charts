@@ -3,6 +3,7 @@ import json
 import time
 import datetime
 import requests
+import threading
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.service import Service
@@ -11,8 +12,10 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from webdriver_manager.chrome import ChromeDriverManager
 from dotenv import load_dotenv
+from concurrent.futures import ThreadPoolExecutor
 
 load_dotenv()
+lock = threading.Lock()
 RAPID_API_KEY = os.getenv("RAPID_API_KEY")
 PLAYLIST_ID = os.getenv("PLAYLIST_ID")
 MIN_PLAYCOUNT = 1_000_000_000
@@ -162,9 +165,16 @@ def scrappe_playcount_from_spotify(track_id):
     chrome_options = Options()
     chrome_options.add_argument("--headless")
     chrome_options.add_argument("--no-sandbox")
+    chrome_options.add_argument("--disable-gpu")
+    chrome_options.add_argument("--disable-extensions")
     chrome_options.add_argument("--disable-dev-shm-usage")
+    chrome_options.add_argument("--disable-notifications")
+    chrome_options.add_argument("--disable-direct-composition")
+    chrome_options.add_argument("--disable-background-networking")
+    chrome_options.add_argument("--user-data-dir=chrome_data/")
 
-    service = Service(ChromeDriverManager().install())
+
+    service = Service(ChromeDriverManager().install(), log_path=os.devnull)
     driver = webdriver.Chrome(service=service, options=chrome_options)
 
     try:
@@ -173,7 +183,7 @@ def scrappe_playcount_from_spotify(track_id):
         play_count_span = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, 'span[data-testid="playcount"]')))
         return int(play_count_span.text.strip().replace('\u202f', ''))
     
-    except Exception as e:
+    except Exception:
         return None
     
     finally:
@@ -197,10 +207,17 @@ def retrieve_playcounts(tracksPath):
         if ("playcount" not in track) or (track["playcount"] is None) or (track["playcount"] <= 0):
             playcount = scrappe_playcount_from_spotify(track["id"])
             if (playcount):
-                if (playcount < MIN_PLAYCOUNT):
-                    tracks.pop(i)
-                else:
-                    tracks[i]["playcount"] = playcount
+                with lock:
+                    if (playcount < MIN_PLAYCOUNT):
+                        tracks.pop(i)
+                    else:
+                        tracks[i]["playcount"] = playcount
+
+                    # save every 10 tracks
+                    if (i % 10 == 0):
+                        with open(tracksPath, "w", encoding="utf-8") as f:
+                            json.dump(tracks_data, f, ensure_ascii=False, indent=4)
+                        print(f"\nPlaycounts saved")
             else:
                 print(f"Playcount not found for {i+1}: {track['name']}")
 
