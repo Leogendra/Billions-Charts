@@ -1,3 +1,8 @@
+function format_numbers(number) {
+    return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "'");
+}
+
+
 async function animateCounter(id, targetValue, duration, addString = "") {
     const element = document.getElementById(id);
     if (!element) {
@@ -19,7 +24,7 @@ async function animateCounter(id, targetValue, duration, addString = "") {
         const easedProgress = easeOut(progress);
 
         const currentValue = Math.floor(startValue + easedProgress * (targetValue - startValue));
-        element.textContent = `${currentValue.toLocaleString()}${addString}`;
+        element.textContent = `${format_numbers(currentValue)}${addString}`;
 
         if (progress < 1) {
             requestAnimationFrame(updateCounter);
