@@ -1,3 +1,10 @@
+const playlist_cover = document.querySelector("#playlist-cover");
+const playlist_description = document.querySelector("#playlist-description");
+
+
+
+
+
 function format_numbers(number) {
     return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "'");
 }
@@ -40,6 +47,9 @@ async function main() {
     animateCounter("total-tracks", report.total_tracks, 3000);
     animateCounter("total-artists", report.total_artists, 3500);
     animateCounter("total-streams", report.total_streams/1_000_000_000, 4000, "B");
+    
+    playlist_cover.src = report.image_url;
+    playlist_description.textContent = report.description;
 }
 
 
