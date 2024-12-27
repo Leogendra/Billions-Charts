@@ -171,7 +171,7 @@ def scrappe_playcount_from_spotify(track_id):
     chrome_options.add_argument("--disable-notifications")
     chrome_options.add_argument("--disable-direct-composition")
     chrome_options.add_argument("--disable-background-networking")
-    # chrome_options.add_argument("--user-data-dir=chrome_data/")
+    chrome_options.add_argument("--user-data-dir=chrome_data/")
 
     service = Service(ChromeDriverManager().install(), log_path=os.devnull)
     driver = webdriver.Chrome(service=service, options=chrome_options)
@@ -214,7 +214,7 @@ def retrieve_playcounts(tracksPath):
         if ("playcount" in track) and (track["playcount"] is not None) and (track["playcount"] > 0):
             results[i] = track["playcount"]
 
-    nbRetries = 3
+    nbRetries = 5
     while (len(results.keys()) != len(tracks)) and nbRetries:
         nbRetries -= 1
         startTime = time.time()
@@ -223,7 +223,7 @@ def retrieve_playcounts(tracksPath):
         for trackNb in range(0, len(tracks), 100):
             print(f"Processing tracks {trackNb+1} to {min(trackNb+100, len(tracks))}...")
             try:
-                with ThreadPoolExecutor(max_workers=4) as executor:
+                with ThreadPoolExecutor(max_workers=1) as executor:
                     futures = [
                         executor.submit(process_track, tracks[i], i, results, startTime)
                         for i in range(trackNb, min(trackNb+100, len(tracks)))
