@@ -1,0 +1,3 @@
+[205866:205866:1227/100334.051436:WARNING:chrome_main_delegate.cc(672)] This is Chrome version 131.0.6778.139 (not a warning)
+[205866:205866:1227/100334.100556:ERROR:process_singleton_posix.cc(340)] Failed to create /home/ghaddad/Téléchargements/Billions-Charts/chrome_data/SingletonLock: Le fichier existe (17)
+[205866:205866:1227/100334.100907:ERROR:chrome_main_delegate.cc(559)] Failed to create a ProcessSingleton for your profile directory. This means that running multiple instances would start multiple browser processes rather than opening a new window in the existing process. Aborting now to avoid profile corruption.
