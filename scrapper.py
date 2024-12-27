@@ -221,6 +221,7 @@ def retrieve_playcounts(tracksPath):
         print(f"\nRetrieving playcounts ({len(results.keys())}/{len(tracks)})...")
 
         for trackNb in range(0, len(tracks), 100):
+            print(f"Processing tracks {trackNb+1} to {min(trackNb+100, len(tracks))}...")
             try:
                 with ThreadPoolExecutor(max_workers=4) as executor:
                     futures = [
@@ -241,19 +242,22 @@ def retrieve_playcounts(tracksPath):
                             tracks[i]["playcount"] = playcount
                             # don't pop here to not modify the lenght of the array
 
+                    tracks_data["items"] = tracks
                     with open(tracksPath, "w", encoding="utf-8") as f:
-                        json.dump({"items": tracks}, f, ensure_ascii=False, indent=4)
+                        json.dump(tracks_data, f, ensure_ascii=False, indent=4)
 
 
     with lock:
         for i, playcount in results.items():
             if playcount and (playcount >= MIN_PLAYCOUNT):
                 tracks[i]["playcount"] = playcount
-            else:
-                tracks.pop(i)
+                
+        # remove tracks without playcount or with playcount < MIN_PLAYCOUNT
+        tracks = [track for track in tracks if (("playcount" in track) and (track["playcount"] is not None) and (track["playcount"] >= MIN_PLAYCOUNT))]
 
+        tracks_data["items"] = tracks
         with open(tracksPath, "w", encoding="utf-8") as f:
-            json.dump({"items": tracks}, f, ensure_ascii=False, indent=4)
+            json.dump(tracks_data, f, ensure_ascii=False, indent=4)
 
         print(f"\nPlaycounts retrieved and saved in {tracksPath}")
 

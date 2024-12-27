@@ -1,5 +1,6 @@
 # Modules
 node_modules/
+chrome_data/
 
 # Environment
 .vscode/
