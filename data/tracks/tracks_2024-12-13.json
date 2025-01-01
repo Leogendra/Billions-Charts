@@ -1,6 +1,8 @@
 {
-    "total": 822,
+    "totalCount": 822,
     "generatedTimeStamp": 1734087425134,
+    "name": "BILLIONS CLUB",
+    "followers": 0,
     "coverUrl": "https://i.scdn.co/image/ab67706f0000000251429005ff2855a9888f5e56",
     "items": [
         {
@@ -16089,5 +16091,6 @@
             "spotify_url": "https://open.spotify.com/track/5HkFTCxSeJ3kGNyQJbT4rJ",
             "id": "5HkFTCxSeJ3kGNyQJbT4rJ"
         }
-    ]
+    ],
+    "uri": "spotify:playlist:37i9dQZF1DX7iB3RCnBnN4"
 }

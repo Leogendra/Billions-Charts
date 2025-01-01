@@ -1,5 +1,5 @@
 {
-    "total": 836,
+    "totalCount": 836,
     "items": [
         {
             "name": "A Bar Song (Tipsy)",
@@ -16387,7 +16387,8 @@
         }
     ],
     "generatedTimeStamp": 1735244802813,
-    "nbFollowers": 703424,
+    "followers": 703424,
     "coverUrl": "https://i.scdn.co/image/ab67706f000000024cb517c02e767a29d8b943b8",
-    "description": "All the songs with over a Billions streams on Spotify! Cover: Shaboozey"
+    "description": "All the songs with over a Billions streams on Spotify! Cover: Shaboozey",
+    "uri": "spotify:playlist:37i9dQZF1DX7iB3RCnBnN4"
 }

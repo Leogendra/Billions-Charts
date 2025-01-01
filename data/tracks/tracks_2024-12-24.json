@@ -1,5 +1,5 @@
 {
-    "total": 833,
+    "totalCount": 833,
     "items": [
         {
             "name": "Pray For Me (with Kendrick Lamar)",
@@ -16325,7 +16325,8 @@
         }
     ],
     "generatedTimeStamp": 1734996037433,
-    "nbFollowers": 702630,
+    "followers": 702630,
     "coverUrl": "https://i.scdn.co/image/ab67706f000000026f6ff829138961d7bc20a5a3",
-    "description": "The Weeknd celebrates 25 Billion Club songs!"
+    "description": "The Weeknd celebrates 25 Billion Club songs!",
+    "uri": "spotify:playlist:37i9dQZF1DX7iB3RCnBnN4"
 }
