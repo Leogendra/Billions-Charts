@@ -173,7 +173,6 @@ def scrappe_playcount_from_spotify(track_id):
     chrome_options.add_argument("--disable-background-networking")
     chrome_options.add_argument("--user-data-dir=chrome_data/")
 
-
     service = Service(ChromeDriverManager().install(), log_path=os.devnull)
     driver = webdriver.Chrome(service=service, options=chrome_options)
 
@@ -190,23 +189,14 @@ def scrappe_playcount_from_spotify(track_id):
         driver.quit()
 
 
-def process_track(track, i, tracks, tracksPath, startTime):
+def process_track(track, i, results, startTime):
     global lock
     print(f"Processing {i+1}: {track['name']} ({time.time()-startTime:.1f}s)...   ")
     if ("playcount" not in track) or (track["playcount"] is None) or (track["playcount"] <= 0):
         playcount = scrappe_playcount_from_spotify(track["id"])
-        if playcount:
-            with lock:  # Zone critique
-                if playcount < MIN_PLAYCOUNT:
-                    tracks.pop(i)
-                else:
-                    tracks[i]["playcount"] = playcount
-
-                # Sauvegarde toutes les 10 modifications
-                if i % 10 == 0:
-                    with open(tracksPath, "w", encoding="utf-8") as f:
-                        json.dump({"items": tracks}, f, ensure_ascii=False, indent=4)
-                    print(f"\nPlaycounts saved")
+        if (playcount) and (playcount > 0):
+            with lock:
+                results[i] = playcount
         else:
             print(f"Playcount not found for {i+1}: {track['name']}")
 
@@ -219,21 +209,57 @@ def retrieve_playcounts(tracksPath):
         raise FileNotFoundError("The file does not exist.")
     
     tracks = tracks_data["items"]
+    results = {} # {index: playcount}
+    for i, track in enumerate(tracks):
+        if ("playcount" in track) and (track["playcount"] is not None) and (track["playcount"] > 0):
+            results[i] = track["playcount"]
 
-    startTime = time.time()
-    with ThreadPoolExecutor(max_workers=4) as executor:  # 4 threads en parallèle
-        futures = [
-            executor.submit(process_track, tracks[i], i, tracks, tracksPath, startTime)
-            for i in range(len(tracks))
-        ]
-        for future in futures:
-            future.result()
+    nbRetries = 5
+    while (len(results.keys()) != len(tracks)) and nbRetries:
+        nbRetries -= 1
+        startTime = time.time()
+        print(f"\nRetrieving playcounts ({len(results.keys())}/{len(tracks)})...")
 
-    # Sauvegarde finale
+        for trackNb in range(0, len(tracks), 100):
+            print(f"Processing tracks {trackNb+1} to {min(trackNb+100, len(tracks))}...")
+            try:
+                with ThreadPoolExecutor(max_workers=1) as executor:
+                    futures = [
+                        executor.submit(process_track, tracks[i], i, results, startTime)
+                        for i in range(trackNb, min(trackNb+100, len(tracks)))
+                        if (i not in results)
+                    ]
+
+                    for future in futures:
+                        future.result()
+            except:
+                pass
+
+            finally:
+                with lock:
+                    for i, playcount in results.items():
+                        if playcount and (playcount >= MIN_PLAYCOUNT):
+                            tracks[i]["playcount"] = playcount
+                            # don't pop here to not modify the lenght of the array
+
+                    tracks_data["items"] = tracks
+                    with open(tracksPath, "w", encoding="utf-8") as f:
+                        json.dump(tracks_data, f, ensure_ascii=False, indent=4)
+
+
     with lock:
+        for i, playcount in results.items():
+            if playcount and (playcount >= MIN_PLAYCOUNT):
+                tracks[i]["playcount"] = playcount
+                
+        # remove tracks without playcount or with playcount < MIN_PLAYCOUNT
+        tracks = [track for track in tracks if (("playcount" in track) and (track["playcount"] is not None) and (track["playcount"] >= MIN_PLAYCOUNT))]
+
+        tracks_data["items"] = tracks
         with open(tracksPath, "w", encoding="utf-8") as f:
-            json.dump({"items": tracks}, f, ensure_ascii=False, indent=4)
-    print(f"\nPlaycounts retrieved and saved in {tracksPath}")
+            json.dump(tracks_data, f, ensure_ascii=False, indent=4)
+
+        print(f"\nPlaycounts retrieved and saved in {tracksPath}")
 
 
 
