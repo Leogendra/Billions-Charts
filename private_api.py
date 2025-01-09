@@ -1,17 +1,29 @@
 from spotapi import Song, PublicPlaylist
-import pymongo
-import redis
-import websockets
-import time
 from dotenv import load_dotenv
+# import websockets
+# import pymongo
+# import redis
 import datetime
+import requests
+import time
 import json
 import os
 
 load_dotenv()
 PLAYLIST_ID = os.getenv("PLAYLIST_ID")
+CLIENT_ID = os.getenv("CLIENT_ID")
+CLIENT_SECRET = os.getenv("CLIENT_SECRET")
 
 
+
+
+def get_access_token():
+    url = "https://accounts.spotify.com/api/token"
+    headers = {"Content-Type": "application/x-www-form-urlencoded"}
+    data = {"grant_type": "client_credentials"}
+    response = requests.post(url, headers=headers, data=data, auth=(CLIENT_ID, CLIENT_SECRET))
+    response.raise_for_status()
+    return response.json()["access_token"]
 
 
 def fetch_playlist_infos(dataPath):
@@ -53,7 +65,8 @@ def fetch_playlist_infos(dataPath):
                 }
                 for artist in item["itemV2"]["data"]["artists"]["items"]
             ],
-            "image": max(item["itemV2"]["data"]["albumOfTrack"]["coverArt"]["sources"], key=lambda x: x["width"])
+            "image": max(item["itemV2"]["data"]["albumOfTrack"]["coverArt"]["sources"], key=lambda x: x["width"])["url"],
+            "image_size": max(item["itemV2"]["data"]["albumOfTrack"]["coverArt"]["sources"], key=lambda x: x["width"])["width"]
         })
         
 
@@ -64,10 +77,54 @@ def fetch_playlist_infos(dataPath):
 
 
 def fetch_songs_infos(dataPath):
-    # TODO: Query Spotify's public API
-    pass
+    # Query Spotify's public API to retrieve missing data
+    with open(dataPath, "r", encoding="utf-8") as f:
+        tracks_data = json.load(f)
 
+    access_token = get_access_token()
 
+    track_ids = [track["id"] for track in tracks_data["items"]]
+
+    url = "https://api.spotify.com/v1/tracks"
+    headers = {"Authorization": f"Bearer {access_token}"}
+    track_infos = []
+    
+    # Découper les IDs en lots de 50
+    for i in range(0, len(track_ids), 50):
+        print(f"Fetching tracks {i} to {i + 50}...")
+        chunk = track_ids[i:i + 50]
+        params = {"ids": ",".join(chunk)}
+        response = requests.get(url, headers=headers, params=params)
+        response.raise_for_status()
+        tracks_fetched = response.json()["tracks"]
+        
+        for track in tracks_fetched:
+            try:
+                if track:
+                    track_infos.append({
+                        "id": track["id"],
+                        "popularity": track["popularity"],
+                        "release_date": track["album"]["release_date"],
+                        "release_date_precision": track["album"]["release_date_precision"]
+                    })
+            except:
+                print("Error while fetching track info:", track)
+                continue
+                
+    for i, track in enumerate(tracks_data["items"]):
+        for info in track_infos:
+            if (track["id"] == info["id"]):
+                tracks_data["items"][i]["popularity"] = info["popularity"]
+                tracks_data["items"][i]["release_date"] = info["release_date"]
+                tracks_data["items"][i]["release_date_precision"] = info["release_date_precision"]
+                break
+
+    with open(dataPath, "w", encoding="utf-8") as f:
+        json.dump(tracks_data, f, indent=4, ensure_ascii=False)
+
+    print(f"Song infos saved in {dataPath}")
+    
+    
 
 
 if __name__ == "__main__":
