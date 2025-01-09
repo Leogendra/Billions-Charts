@@ -2,3 +2,8 @@ python-dotenv
 requests
 selenium
 webdriver-manager
+
+spotapi
+pymongo
+redis
+websockets
