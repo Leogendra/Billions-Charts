@@ -3,6 +3,7 @@ from dotenv import load_dotenv
 # import websockets
 # import pymongo
 # import redis
+from report import generate_report
 import datetime
 import requests
 import time
@@ -27,6 +28,11 @@ def get_access_token():
 
 
 def fetch_playlist_infos(dataPath):
+    # check if file already exists
+    if os.path.exists(dataPath):
+        print(f"Playlist infos already fetched in {dataPath}")
+        return
+    
     playlist = PublicPlaylist(PLAYLIST_ID)
     playlist_info = playlist.get_playlist_info(limit=1000)
     raw_data = playlist_info["data"]["playlistV2"]
@@ -55,7 +61,7 @@ def fetch_playlist_infos(dataPath):
             "added_at": item["addedAt"]["isoString"],
             "id": item["itemV2"]["data"]["uri"].split(":")[-1],
             "name": item["itemV2"]["data"]["name"],
-            "playcount": item["itemV2"]["data"]["playcount"],
+            "playcount": int(item["itemV2"]["data"]["playcount"]),
             "contentRating": item["itemV2"]["data"]["contentRating"]["label"],
             "duration_ms": item["itemV2"]["data"]["trackDuration"]["totalMilliseconds"],
             "artists": [
@@ -81,6 +87,18 @@ def fetch_songs_infos(dataPath):
     with open(dataPath, "r", encoding="utf-8") as f:
         tracks_data = json.load(f)
 
+    # check if infos is already fetched
+    already_fetched = True
+    for track in tracks_data["items"]:
+        if ("popularity" not in track):
+            print(f"Some songs infos are missing in {track['name']}")
+            already_fetched = False
+            break
+    
+    if already_fetched:
+        print(" All songs infos already fetched.")
+        return
+
     access_token = get_access_token()
 
     track_ids = [track["id"] for track in tracks_data["items"]]
@@ -98,7 +116,7 @@ def fetch_songs_infos(dataPath):
         response.raise_for_status()
         tracks_fetched = response.json()["tracks"]
         
-        for track in tracks_fetched:
+        for track in tracks_fetched:                
             try:
                 if track:
                     track_infos.append({
@@ -107,6 +125,8 @@ def fetch_songs_infos(dataPath):
                         "release_date": track["album"]["release_date"],
                         "release_date_precision": track["album"]["release_date_precision"]
                     })
+                else:
+                    print("Corrupted track info:", track)
             except:
                 print("Error while fetching track info:", track)
                 continue
@@ -131,24 +151,9 @@ if __name__ == "__main__":
 
     TIME_KEY = datetime.datetime.now().strftime("%Y-%m-%d")
     dataPath = f"data/tracks/tracks_{TIME_KEY}.json"
+    reportPath = f"data/reports/report_{TIME_KEY}.json"
 
     fetch_playlist_infos(dataPath)
     fetch_songs_infos(dataPath)
 
-
-
-    """
-    song = Song()
-
-    BELIEVER = "0pqnGHJpmpxLKifKRmU6WP"
-
-    track_info = song.get_track_info(BELIEVER)
-    with open("track_info.json", "w", encoding="utf-8") as f:
-        json.dump(track_info, f, indent=4, ensure_ascii=False)
-
-
-    songs = song.query_songs("Imagine Dragons", limit=3)
-    data = songs["data"]["searchV2"]["tracksV2"]["items"]
-    with open("songs.json", "w", encoding="utf-8") as f:
-        json.dump(data, f, indent=4, ensure_ascii=False)
-    """
+    generate_report(dataPath, reportPath)
