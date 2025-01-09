@@ -57,6 +57,27 @@ def aggregate_dates(tracks):
     return oldest_tracks, newest_tracks
 
 
+def agregate_billions(tracks):
+    normalized_tracks = []
+    for track in tracks:
+        # format : "2022-07-27T16:32:16.167Z"
+        added_at = track['added_at']
+
+        added_at_cleaned = added_at.split("T")[0]
+
+        normalized_tracks.append({
+            "name": track['name'],
+            "artists": [artist['name'] for artist in track['artists']],
+            "playcount": track['playcount'],
+            "added_at": added_at_cleaned
+        })
+
+    sorted_tracks = sorted(normalized_tracks, key=lambda x: x['added_at'])
+    newest_billions = sorted_tracks[-MAX_TOP_SONGS:][::-1]
+
+    return newest_billions
+
+
 def aggregate_playcount(tracks):
     sorted_tracks = sorted(tracks, key=lambda x: x['playcount'], reverse=True)
 
@@ -112,6 +133,7 @@ def generate_report(playlist_file, output_report_file):
     total_tracks, total_artists, total_streams = aggregate_general(tracks)
     artists_counts, artists_playcounts, artists_length = aggregate_artists(tracks)
     oldest_tracks, newest_tracks = aggregate_dates(tracks)
+    newest_billions = agregate_billions(tracks)
     most_streamed_tracks, least_streamed_tracks = aggregate_playcount(tracks)
     most_popular_tracks, least_popular_tracks = aggregate_popularity(tracks)
     most_long_tracks, most_short_tracks = aggregate_length(tracks)
@@ -132,6 +154,7 @@ def generate_report(playlist_file, output_report_file):
         "artists_length": artists_length,
         "oldest_tracks": oldest_tracks,
         "newest_tracks": newest_tracks,
+        "newest_billions": newest_billions,
         "most_streamed_tracks": most_streamed_tracks,
         "least_streamed_tracks": least_streamed_tracks,
         "most_popular_tracks": most_popular_tracks,
