@@ -107,29 +107,30 @@ def fetch_songs_infos(dataPath):
     headers = {"Authorization": f"Bearer {access_token}"}
     track_infos = []
     
-    # Découper les IDs en lots de 50
+    # Fetch track infos in chunks of 50
     for i in range(0, len(track_ids), 50):
-        print(f"Fetching tracks {i} to {i + 50}...")
+
+        print(f"Fetching tracks {i} to {i + 50}...", end="\r")
         chunk = track_ids[i:i + 50]
         params = {"ids": ",".join(chunk)}
-        response = requests.get(url, headers=headers, params=params)
-        response.raise_for_status()
-        tracks_fetched = response.json()["tracks"]
+
+        try:
+            response = requests.get(url, headers=headers, params=params)
+            response.raise_for_status()
+            tracks_fetched = response.json()["tracks"]
+        except:
+            print("Error while fetching track info:", track)
         
         for track in tracks_fetched:                
-            try:
-                if track:
-                    track_infos.append({
-                        "id": track["id"],
-                        "popularity": track["popularity"],
-                        "release_date": track["album"]["release_date"],
-                        "release_date_precision": track["album"]["release_date_precision"]
-                    })
-                else:
-                    print("Corrupted track info:", track)
-            except:
-                print("Error while fetching track info:", track)
-                continue
+            if track:
+                track_infos.append({
+                    "id": track["id"],
+                    "popularity": track["popularity"],
+                    "release_date": track["album"]["release_date"],
+                    "release_date_precision": track["album"]["release_date_precision"]
+                })
+            else:
+                print("Corrupted track info:", track)
                 
     for i, track in enumerate(tracks_data["items"]):
         for info in track_infos:
