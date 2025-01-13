@@ -18,6 +18,11 @@ CLIENT_SECRET = os.getenv("CLIENT_SECRET")
 
 
 
+def create_folder(folder):
+    if not os.path.exists(folder):
+        os.makedirs(folder)
+
+
 def get_access_token():
     url = "https://accounts.spotify.com/api/token"
     headers = {"Content-Type": "application/x-www-form-urlencoded"}
@@ -96,7 +101,7 @@ def fetch_songs_infos(dataPath):
             break
     
     if already_fetched:
-        print(" All songs infos already fetched.")
+        print("All songs infos already fetched.")
         return
 
     access_token = get_access_token()
@@ -145,16 +150,53 @@ def fetch_songs_infos(dataPath):
 
     print(f"Song infos saved in {dataPath}")
     
+
+
+def generate_leaderboard(dataPath):
+    create_folder("data/analysis")
+    with open(dataPath, "r", encoding="utf-8") as f:
+        tracks_data = json.load(f)
+
+    artists = {}
+    streams = {}
+    tracks = {}
+    for track in tracks_data["items"]:
+        for artist in track["artists"]:
+            artists[artist["name"]] = artists.get(artist["name"], 0) + 1
+            streams[artist["name"]] = streams.get(artist["name"], 0) + track["playcount"]
+        tracks[track["name"]] = track["playcount"]
+
+    leaderboard_artists = sorted(artists.items(), key=lambda x: x[1], reverse=True)
+    leaderboard_streams = sorted(streams.items(), key=lambda x: x[1], reverse=True)
+    leaderboard_tracks = sorted(tracks.items(), key=lambda x: x[1], reverse=True)
+
+    with open("data/analysis/leaderboard_artists.txt", "w", encoding="utf-8") as f:
+        for i, (artist, count) in enumerate(leaderboard_artists):
+            f.write(f"{i+1}. {artist}: {count} tracks\n")
+
+    with open("data/analysis/leaderboard_streams.txt", "w", encoding="utf-8") as f:
+        for i, (artist, count) in enumerate(leaderboard_streams):
+            f.write(f"{i+1}. {artist}: {count/1_000_000_000:.2f}B streams\n")
+
+    with open("data/analysis/leaderboard_tracks.txt", "w", encoding="utf-8") as f:
+        for i, (track, count) in enumerate(leaderboard_tracks):
+            f.write(f"{i+1}. {track}: {count/1_000_000_000:.2f}B streams\n")
+
+    print("Leaderboards updated.")
+            
     
 
 
 if __name__ == "__main__":
 
     TIME_KEY = datetime.datetime.now().strftime("%Y-%m-%d")
+    create_folder("data/tracks")
+
     dataPath = f"data/tracks/tracks_{TIME_KEY}.json"
     reportPath = f"data/reports/report_{TIME_KEY}.json"
 
     fetch_playlist_infos(dataPath)
     fetch_songs_infos(dataPath)
 
-    generate_report(dataPath, reportPath)
+    generate_leaderboard(dataPath)
+    # generate_report(dataPath, reportPath)

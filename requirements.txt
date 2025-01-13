@@ -2,3 +2,4 @@ spotapi
 pymongo
 redis
 websockets
+python-dotenv
