@@ -4,6 +4,7 @@ from dotenv import load_dotenv
 # import pymongo
 # import redis
 from report import generate_report
+from pymongo import MongoClient
 import datetime
 import requests
 import time
@@ -14,6 +15,10 @@ load_dotenv()
 PLAYLIST_ID = os.getenv("PLAYLIST_ID")
 CLIENT_ID = os.getenv("CLIENT_ID")
 CLIENT_SECRET = os.getenv("CLIENT_SECRET")
+MONGO_URI = os.getenv("MONGO_URI")
+
+client = MongoClient(MONGO_URI)
+playlists_collection = client.billions.spotify_data
 
 
 
@@ -144,11 +149,14 @@ def fetch_songs_infos(dataPath):
                 tracks_data["items"][i]["release_date"] = info["release_date"]
                 tracks_data["items"][i]["release_date_precision"] = info["release_date_precision"]
                 break
-
+    
     with open(dataPath, "w", encoding="utf-8") as f:
         json.dump(tracks_data, f, indent=4, ensure_ascii=False)
 
     print(f"Song infos saved in {dataPath}")
+
+    playlists_collection.insert_one(tracks_data)
+    print("Song infos inserted in database.")
     
 
 
