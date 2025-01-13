@@ -1,9 +1,7 @@
-from spotapi import Song, PublicPlaylist
-from dotenv import load_dotenv
-# import websockets
-# import pymongo
-# import redis
+from spotapi import PublicPlaylist
+from backend.utils import create_folder
 from pymongo import MongoClient
+from dotenv import load_dotenv
 import datetime
 import requests
 import time
@@ -50,6 +48,7 @@ def fetch_playlist_infos(dataPath):
     playlist_infos["followers"] = raw_data["followers"]
     playlist_infos["totalCount"] = raw_data["content"]["totalCount"]
     playlist_infos["generatedTimeStamp"] = int(time.time() * 1000)
+    playlist_infos["date"] = datetime.datetime.now().strftime("%Y-%m-%d")
 
     try:
         playlist_infos["coverUrl"] = raw_data["images"]["items"][0]["sources"][0]["url"]
@@ -187,20 +186,3 @@ def generate_leaderboard(dataPath):
             f.write(f"{i+1}. {track}: {count/1_000_000_000:.2f}B streams\n")
 
     print("Leaderboards updated.")
-            
-    
-
-
-# if __name__ == "__main__":
-
-#     TIME_KEY = datetime.datetime.now().strftime("%Y-%m-%d")
-#     utils.create_folder("data/tracks")
-
-#     dataPath = f"../data/tracks/tracks_{TIME_KEY}.json"
-#     reportPath = f"../data/reports/report_{TIME_KEY}.json"
-
-#     fetch_playlist_infos(dataPath)
-#     fetch_songs_infos(dataPath)
-
-#     generate_leaderboard(dataPath)
-#     # generate_report(dataPath, reportPath)
