@@ -4,3 +4,4 @@ redis
 websockets
 python-dotenv
 pymongo[srv]==3.12
+flask

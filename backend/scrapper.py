@@ -3,7 +3,6 @@ from dotenv import load_dotenv
 # import websockets
 # import pymongo
 # import redis
-from report import generate_report
 from pymongo import MongoClient
 import datetime
 import requests
@@ -23,9 +22,6 @@ playlists_collection = client.billions.spotify_data
 
 
 
-def create_folder(folder):
-    if not os.path.exists(folder):
-        os.makedirs(folder)
 
 
 def get_access_token():
@@ -195,16 +191,16 @@ def generate_leaderboard(dataPath):
     
 
 
-if __name__ == "__main__":
+# if __name__ == "__main__":
 
-    TIME_KEY = datetime.datetime.now().strftime("%Y-%m-%d")
-    create_folder("data/tracks")
+#     TIME_KEY = datetime.datetime.now().strftime("%Y-%m-%d")
+#     utils.create_folder("data/tracks")
 
-    dataPath = f"data/tracks/tracks_{TIME_KEY}.json"
-    reportPath = f"data/reports/report_{TIME_KEY}.json"
+#     dataPath = f"../data/tracks/tracks_{TIME_KEY}.json"
+#     reportPath = f"../data/reports/report_{TIME_KEY}.json"
 
-    fetch_playlist_infos(dataPath)
-    fetch_songs_infos(dataPath)
+#     fetch_playlist_infos(dataPath)
+#     fetch_songs_infos(dataPath)
 
-    generate_leaderboard(dataPath)
-    # generate_report(dataPath, reportPath)
+#     generate_leaderboard(dataPath)
+#     # generate_report(dataPath, reportPath)
