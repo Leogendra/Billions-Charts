@@ -24,10 +24,12 @@ def search():
     DATE_KEY = datetime.datetime.now().strftime("%Y-%m-%d")
     create_folder("data/tracks")
     dataPath = f"data/tracks/tracks_{DATE_KEY}.json"
+    reportPublicPath = f"public/data/report.json"
 
     try:
         fetch_playlist_infos(dataPath)
         fetch_songs_infos(dataPath)
+        generate_report(dataPath, reportPublicPath) # Static update, TODO: CLEAN
         return jsonify(
             {
                 "message": "Search completed!",
@@ -48,10 +50,10 @@ def report():
     DATE_KEY = datetime.datetime.now().strftime("%Y-%m-%d")
     create_folder("data/reports")
     dataPath = f"data/tracks/tracks_{DATE_KEY}.json"
-    reportPath = f"data/reports/report_{DATE_KEY}.json"
+    reportPublicPath = f"public/data/report.json"
 
     try:
-        generate_report(dataPath, reportPath)
+        generate_report(dataPath, reportPublicPath)
         return jsonify(
             {
                 "message": "Report generated!",
