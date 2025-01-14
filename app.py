@@ -1,3 +1,4 @@
+from flask import Flask, jsonify, send_file
 from backend.scrapper import (
     fetch_playlist_infos,
     fetch_songs_infos,
@@ -5,32 +6,16 @@ from backend.scrapper import (
 )
 from backend.report import generate_report
 from backend.utils import create_folder
-from flask import Flask, jsonify
 from dotenv import load_dotenv
 import datetime
 import os
 
 load_dotenv()
-app = Flask(__name__)
+app = Flask(__name__, static_folder="public", static_url_path="/")
 PORT = os.getenv("PORT") or 3434
 BASE_IMAGE_DIR = "public"
 BASE_URL = f"http://localhost:{PORT}"
 
-
-
-
-def main_function():
-    DATE_KEY = datetime.datetime.now().strftime("%Y-%m-%d")
-    create_folder("data/tracks")
-
-    dataPath = f"../data/tracks/tracks_{DATE_KEY}.json"
-    reportPath = f"../data/reports/report_{DATE_KEY}.json"
-
-    fetch_playlist_infos(dataPath)
-    fetch_songs_infos(dataPath)
-
-    generate_leaderboard(dataPath)
-    # generate_report(dataPath, reportPath)
 
 
 
@@ -46,14 +31,14 @@ def search():
         return jsonify(
             {
                 "message": "Search completed!",
-                "data": "The search has been completed successfully.",
+                "output": "The search has been completed successfully.",
             }
         )
     except Exception as error:
         return jsonify(
             {
                 "message": "Search failed!",
-                "data": error.__str__(),
+                "output": error.__str__(),
             }
         )
     
@@ -70,31 +55,44 @@ def report():
         return jsonify(
             {
                 "message": "Report generated!",
-                "data": "The report has been generated successfully.",
+                "output": "The report has been generated successfully.",
             }
         )
     except Exception as error:
         return jsonify(
             {
                 "message": "Report failed!",
-                "data": error.__str__(),
+                "output": error.__str__(),
+            }
+        )
+
+
+@app.route("/leaderboard/", methods=["GET"])
+def leaderboard():
+    DATE_KEY = datetime.datetime.now().strftime("%Y-%m-%d")
+    create_folder("data/reports")
+    dataPath = f"data/tracks/tracks_{DATE_KEY}.json"
+
+    try:
+        generate_leaderboard(dataPath)
+        return jsonify(
+            {
+                "message": "Leaderboard updated!",
+                "output": "The leaderboard has been generated successfully.",
+            }
+        )
+    except Exception as error:
+        return jsonify(
+            {
+                "message": "Leaderboard failed!",
+                "output": error.__str__(),
             }
         )
 
 
 @app.route("/", methods=["GET"])
 def read_root():
-    return jsonify(
-        {
-            "message": (
-                "Welcome to Billions Charts!\n"
-                "This is the web API for the Billions Charts project.\n"
-                "You can use the following endpoints:\n"
-                "GET /search/ - To search for the latest playlist and songs.\n"
-                "GET /report/ - To generate the report for the curent day."
-            )
-        }
-    )
+    return send_file("public/index.html")
 
 
 
