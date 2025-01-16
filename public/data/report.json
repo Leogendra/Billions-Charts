@@ -1,17 +1,17 @@
 {
     "name": "BILLIONS CLUB",
     "description": "All the songs with more than 1 Billion streams on Spotify. Cover: Kendrick Lamar",
-    "generatedTimeStamp": 1736851916468,
-    "followers": 711155,
+    "generatedTimeStamp": 1737032817235,
+    "followers": 712350,
     "coverUrl": "https://i.scdn.co/image/ab67706f000000027adc0b4ce83a85a77ca45b3a",
     "coverHex": "#535353",
-    "total_tracks": 855,
+    "total_tracks": 857,
     "total_artists": 557,
-    "total_streams": 1307324451053,
+    "total_streams": 1310622543914,
     "artists_counts": [
         [
             "The Weeknd",
-            26
+            27
         ],
         [
             "Drake",
@@ -53,49 +53,49 @@
     "artists_playcounts": [
         [
             "The Weeknd",
-            43085107265
+            44132850500
         ],
         [
             "Justin Bieber",
-            29508002201
+            29530260630
         ],
         [
             "Drake",
-            28392020935
+            28407145397
         ],
         [
             "Bad Bunny",
-            27042343068
+            27064194580
         ],
         [
             "Bruno Mars",
-            26779180526
+            26835617852
         ],
         [
             "Ariana Grande",
-            26547020886
+            26571267404
         ],
         [
             "Ed Sheeran",
-            25046147197
+            25059744306
         ],
         [
             "Rihanna",
-            23512203452
+            23535232060
         ],
         [
             "Post Malone",
-            23336361188
+            23347193510
         ],
         [
             "Coldplay",
-            21657330885
+            21687489735
         ]
     ],
     "artists_length": [
         [
             "The Weeknd",
-            6063036
+            6300556
         ],
         [
             "Bad Bunny",
@@ -140,7 +140,7 @@
             "artists": [
                 "Bobby Helms"
             ],
-            "playcount": 1213358262,
+            "playcount": 1213585187,
             "release_date": "1957-12-02"
         },
         {
@@ -148,7 +148,7 @@
             "artists": [
                 "Elvis Presley"
             ],
-            "playcount": 1027564773,
+            "playcount": 1028722304,
             "release_date": "1961-10-20"
         },
         {
@@ -156,7 +156,7 @@
             "artists": [
                 "Ben E. King"
             ],
-            "playcount": 1247498756,
+            "playcount": 1248625373,
             "release_date": "1962-08-20"
         },
         {
@@ -164,7 +164,7 @@
             "artists": [
                 "Andy Williams"
             ],
-            "playcount": 1022433546,
+            "playcount": 1022521746,
             "release_date": "1963-11-24"
         },
         {
@@ -172,7 +172,7 @@
             "artists": [
                 "The Animals"
             ],
-            "playcount": 1065826528,
+            "playcount": 1066725516,
             "release_date": "1964-01-01"
         },
         {
@@ -180,7 +180,7 @@
             "artists": [
                 "Brenda Lee"
             ],
-            "playcount": 1286532019,
+            "playcount": 1286746441,
             "release_date": "1964-10-19"
         },
         {
@@ -188,7 +188,7 @@
             "artists": [
                 "The Temptations"
             ],
-            "playcount": 1080124694,
+            "playcount": 1081219871,
             "release_date": "1965-03-22"
         },
         {
@@ -196,7 +196,7 @@
             "artists": [
                 "The Rolling Stones"
             ],
-            "playcount": 1376274674,
+            "playcount": 1377727252,
             "release_date": "1966-04-15"
         },
         {
@@ -205,7 +205,7 @@
                 "Marvin Gaye",
                 "Tammi Terrell"
             ],
-            "playcount": 1542380175,
+            "playcount": 1543971765,
             "release_date": "1967-08-29"
         },
         {
@@ -213,7 +213,7 @@
             "artists": [
                 "Van Morrison"
             ],
-            "playcount": 1251657504,
+            "playcount": 1252433038,
             "release_date": "1967-09-01"
         }
     ],
@@ -223,7 +223,7 @@
             "artists": [
                 "Sabrina Carpenter"
             ],
-            "playcount": 1170076688,
+            "playcount": 1174908845,
             "release_date": "2024-08-23"
         },
         {
@@ -231,7 +231,7 @@
             "artists": [
                 "Hozier"
             ],
-            "playcount": 1236101568,
+            "playcount": 1240818861,
             "release_date": "2024-08-19"
         },
         {
@@ -240,7 +240,7 @@
                 "Lady Gaga",
                 "Bruno Mars"
             ],
-            "playcount": 1532224769,
+            "playcount": 1552732301,
             "release_date": "2024-08-16"
         },
         {
@@ -248,7 +248,7 @@
             "artists": [
                 "Jimin"
             ],
-            "playcount": 1337028670,
+            "playcount": 1347873841,
             "release_date": "2024-07-19"
         },
         {
@@ -256,7 +256,7 @@
             "artists": [
                 "Billie Eilish"
             ],
-            "playcount": 1855004469,
+            "playcount": 1868004079,
             "release_date": "2024-05-17"
         },
         {
@@ -264,7 +264,7 @@
             "artists": [
                 "Kendrick Lamar"
             ],
-            "playcount": 1005581850,
+            "playcount": 1008893369,
             "release_date": "2024-05-04"
         },
         {
@@ -272,7 +272,7 @@
             "artists": [
                 "Tommy Richman"
             ],
-            "playcount": 1041557222,
+            "playcount": 1044659657,
             "release_date": "2024-04-26"
         },
         {
@@ -280,7 +280,7 @@
             "artists": [
                 "Shaboozey"
             ],
-            "playcount": 1041345879,
+            "playcount": 1045539320,
             "release_date": "2024-04-12"
         },
         {
@@ -288,7 +288,7 @@
             "artists": [
                 "Sabrina Carpenter"
             ],
-            "playcount": 1822419755,
+            "playcount": 1829913603,
             "release_date": "2024-04-12"
         },
         {
@@ -296,17 +296,33 @@
             "artists": [
                 "Chappell Roan"
             ],
-            "playcount": 1152215151,
+            "playcount": 1158997587,
             "release_date": "2024-04-05"
         }
     ],
     "newest_billions": [
         {
+            "name": "Breakeven",
+            "artists": [
+                "The Script"
+            ],
+            "playcount": 1000566793,
+            "added_at": "2025-01-15"
+        },
+        {
+            "name": "In Your Eyes",
+            "artists": [
+                "The Weeknd"
+            ],
+            "playcount": 1000402324,
+            "added_at": "2025-01-15"
+        },
+        {
             "name": "Perfect",
             "artists": [
                 "One Direction"
             ],
-            "playcount": 1000711602,
+            "playcount": 1001870129,
             "added_at": "2025-01-13"
         },
         {
@@ -315,7 +331,7 @@
                 "Future",
                 "The Weeknd"
             ],
-            "playcount": 1002089818,
+            "playcount": 1004055856,
             "added_at": "2025-01-13"
         },
         {
@@ -323,7 +339,7 @@
             "artists": [
                 "Niall Horan"
             ],
-            "playcount": 1000988594,
+            "playcount": 1001523516,
             "added_at": "2025-01-13"
         },
         {
@@ -331,7 +347,7 @@
             "artists": [
                 "Rage Against The Machine"
             ],
-            "playcount": 1001317158,
+            "playcount": 1002105180,
             "added_at": "2025-01-13"
         },
         {
@@ -339,7 +355,7 @@
             "artists": [
                 "Kendrick Lamar"
             ],
-            "playcount": 1005581850,
+            "playcount": 1008893369,
             "added_at": "2025-01-13"
         },
         {
@@ -347,7 +363,7 @@
             "artists": [
                 "Britney Spears"
             ],
-            "playcount": 1003127717,
+            "playcount": 1004589555,
             "added_at": "2025-01-09"
         },
         {
@@ -355,7 +371,7 @@
             "artists": [
                 "Franz Ferdinand"
             ],
-            "playcount": 1002937747,
+            "playcount": 1004086957,
             "added_at": "2025-01-08"
         },
         {
@@ -363,23 +379,7 @@
             "artists": [
                 "Kanye West"
             ],
-            "playcount": 1002594353,
-            "added_at": "2025-01-07"
-        },
-        {
-            "name": "Where Is My Mind?",
-            "artists": [
-                "Pixies"
-            ],
-            "playcount": 1004634983,
-            "added_at": "2025-01-07"
-        },
-        {
-            "name": "Dile",
-            "artists": [
-                "Don Omar"
-            ],
-            "playcount": 1005780288,
+            "playcount": 1003324961,
             "added_at": "2025-01-07"
         }
     ],
@@ -388,7 +388,7 @@
             "added_at": "2021-07-21T15:35:04.193Z",
             "id": "0VjIjW4GlUZAMYd2vXMi3b",
             "name": "Blinding Lights",
-            "playcount": 4656153548,
+            "playcount": 4659312530,
             "contentRating": "NONE",
             "duration_ms": 200040,
             "artists": [
@@ -407,7 +407,7 @@
             "added_at": "2021-07-21T15:35:04.193Z",
             "id": "7qiZfU4dY1lWllzX7mPBI3",
             "name": "Shape of You",
-            "playcount": 4180835837,
+            "playcount": 4183066371,
             "contentRating": "NONE",
             "duration_ms": 233712,
             "artists": [
@@ -426,7 +426,7 @@
             "added_at": "2021-07-21T15:35:04.193Z",
             "id": "7qEHsqek33rTcFNT9PFqLf",
             "name": "Someone You Loved",
-            "playcount": 3756504625,
+            "playcount": 3759041590,
             "contentRating": "NONE",
             "duration_ms": 182160,
             "artists": [
@@ -445,7 +445,7 @@
             "added_at": "2022-07-28T22:29:21.390Z",
             "id": "4Dvkj6JhhA12EX05fT7y2e",
             "name": "As It Was",
-            "playcount": 3716888469,
+            "playcount": 3719695254,
             "contentRating": "NONE",
             "duration_ms": 167303,
             "artists": [
@@ -464,7 +464,7 @@
             "added_at": "2021-07-21T15:35:04.193Z",
             "id": "7MXVkk9YMctZqd1Srtv4MB",
             "name": "Starboy",
-            "playcount": 3683970566,
+            "playcount": 3687561444,
             "contentRating": "EXPLICIT",
             "duration_ms": 230453,
             "artists": [
@@ -487,7 +487,7 @@
             "added_at": "2021-07-21T15:35:04.193Z",
             "id": "3KkXRkHbMCARz0aVfEt68P",
             "name": "Sunflower - Spider-Man: Into the Spider-Verse",
-            "playcount": 3670436057,
+            "playcount": 3672815798,
             "contentRating": "NONE",
             "duration_ms": 158040,
             "artists": [
@@ -510,7 +510,7 @@
             "added_at": "2021-08-13T16:23:25.468Z",
             "id": "2QjOHCTQ1Jl3zawyYOpxh6",
             "name": "Sweater Weather",
-            "playcount": 3495977513,
+            "playcount": 3501167067,
             "contentRating": "NONE",
             "duration_ms": 240400,
             "artists": [
@@ -529,7 +529,7 @@
             "added_at": "2021-07-21T15:35:04.193Z",
             "id": "1zi7xx7UVEFkmKfv06H8x0",
             "name": "One Dance",
-            "playcount": 3490140145,
+            "playcount": 3492518049,
             "contentRating": "NONE",
             "duration_ms": 173986,
             "artists": [
@@ -556,7 +556,7 @@
             "added_at": "2021-11-04T20:15:37.462Z",
             "id": "5HCyWlXZPP0y6Gqq8TgA20",
             "name": "STAY (with Justin Bieber)",
-            "playcount": 3425330462,
+            "playcount": 3427835930,
             "contentRating": "EXPLICIT",
             "duration_ms": 141805,
             "artists": [
@@ -579,7 +579,7 @@
             "added_at": "2021-07-21T15:35:04.193Z",
             "id": "0pqnGHJpmpxLKifKRmU6WP",
             "name": "Believer",
-            "playcount": 3287022046,
+            "playcount": 3289469252,
             "contentRating": "NONE",
             "duration_ms": 204346,
             "artists": [
@@ -597,29 +597,48 @@
     ],
     "least_streamed_tracks": [
         {
-            "added_at": "2025-01-13T17:19:10.142Z",
-            "id": "3NLnwwAQbbFKcEcV8hDItk",
-            "name": "Perfect",
-            "playcount": 1000711602,
-            "contentRating": "NONE",
-            "duration_ms": 230333,
+            "added_at": "2025-01-15T15:20:20.962Z",
+            "id": "7szuecWAPwGoV1e5vGu8tl",
+            "name": "In Your Eyes",
+            "playcount": 1000402324,
+            "contentRating": "EXPLICIT",
+            "duration_ms": 237520,
             "artists": [
                 {
-                    "name": "One Direction",
-                    "id": "4AK6F7OLvEQ5QYCBNiQWHq"
+                    "name": "The Weeknd",
+                    "id": "1Xyo4u8uXC1ZmMpatF05PJ"
                 }
             ],
-            "image": "https://i.scdn.co/image/ab67616d0000b273241e4fe75732c9c4b49b94c3",
+            "image": "https://i.scdn.co/image/ab67616d0000b2738863bc11d2aa12b54f5aeb36",
             "image_size": 640,
-            "popularity": 79,
-            "release_date": "2015-11-13",
+            "popularity": 74,
+            "release_date": "2020-03-20",
+            "release_date_precision": "day"
+        },
+        {
+            "added_at": "2025-01-15T21:18:40.639Z",
+            "id": "285hMzLhJwHVLe9QT9qilk",
+            "name": "Breakeven",
+            "playcount": 1000566793,
+            "contentRating": "NONE",
+            "duration_ms": 261426,
+            "artists": [
+                {
+                    "name": "The Script",
+                    "id": "3AQRLZ9PuTAozP28Skbq8V"
+                }
+            ],
+            "image": "https://i.scdn.co/image/ab67616d0000b273f33a9f529c12f79b116eb218",
+            "image_size": 640,
+            "popularity": 78,
+            "release_date": "2008-07-14",
             "release_date_precision": "day"
         },
         {
             "added_at": "2025-01-13T17:19:10.142Z",
             "id": "2cOUlop2ZakjOKe4WinesN",
             "name": "Slow Hands",
-            "playcount": 1000988594,
+            "playcount": 1001523516,
             "contentRating": "NONE",
             "duration_ms": 188174,
             "artists": [
@@ -636,9 +655,28 @@
         },
         {
             "added_at": "2025-01-13T17:19:10.142Z",
+            "id": "3NLnwwAQbbFKcEcV8hDItk",
+            "name": "Perfect",
+            "playcount": 1001870129,
+            "contentRating": "NONE",
+            "duration_ms": 230333,
+            "artists": [
+                {
+                    "name": "One Direction",
+                    "id": "4AK6F7OLvEQ5QYCBNiQWHq"
+                }
+            ],
+            "image": "https://i.scdn.co/image/ab67616d0000b273241e4fe75732c9c4b49b94c3",
+            "image_size": 640,
+            "popularity": 79,
+            "release_date": "2015-11-13",
+            "release_date_precision": "day"
+        },
+        {
+            "added_at": "2025-01-13T17:19:10.142Z",
             "id": "59WN2psjkt1tyaxjspN8fp",
             "name": "Killing In The Name",
-            "playcount": 1001317158,
+            "playcount": 1002105180,
             "contentRating": "EXPLICIT",
             "duration_ms": 313573,
             "artists": [
@@ -654,10 +692,29 @@
             "release_date_precision": "year"
         },
         {
+            "added_at": "2025-01-07T15:50:02.204Z",
+            "id": "2gZUPNdnz5Y45eiGxpHGSc",
+            "name": "POWER",
+            "playcount": 1003324961,
+            "contentRating": "EXPLICIT",
+            "duration_ms": 292093,
+            "artists": [
+                {
+                    "name": "Kanye West",
+                    "id": "5K4W6rqBFWDnAN6FQUkS6x"
+                }
+            ],
+            "image": "https://i.scdn.co/image/ab67616d0000b273d9194aa18fa4c9362b47464f",
+            "image_size": 640,
+            "popularity": 75,
+            "release_date": "2010-11-22",
+            "release_date_precision": "day"
+        },
+        {
             "added_at": "2025-01-13T17:19:10.142Z",
             "id": "7EiZI6JVHllARrX9PUvAdX",
             "name": "Low Life (feat. The Weeknd)",
-            "playcount": 1002089818,
+            "playcount": 1004055856,
             "contentRating": "EXPLICIT",
             "duration_ms": 313546,
             "artists": [
@@ -677,29 +734,10 @@
             "release_date_precision": "day"
         },
         {
-            "added_at": "2025-01-07T15:50:02.204Z",
-            "id": "2gZUPNdnz5Y45eiGxpHGSc",
-            "name": "POWER",
-            "playcount": 1002594353,
-            "contentRating": "EXPLICIT",
-            "duration_ms": 292093,
-            "artists": [
-                {
-                    "name": "Kanye West",
-                    "id": "5K4W6rqBFWDnAN6FQUkS6x"
-                }
-            ],
-            "image": "https://i.scdn.co/image/ab67616d0000b273d9194aa18fa4c9362b47464f",
-            "image_size": 640,
-            "popularity": 75,
-            "release_date": "2010-11-22",
-            "release_date_precision": "day"
-        },
-        {
             "added_at": "2025-01-08T21:49:24.731Z",
             "id": "20I8RduZC2PWMWTDCZuuAN",
             "name": "Take Me Out",
-            "playcount": 1002937747,
+            "playcount": 1004086957,
             "contentRating": "NONE",
             "duration_ms": 237026,
             "artists": [
@@ -715,48 +753,10 @@
             "release_date_precision": "day"
         },
         {
-            "added_at": "2025-01-09T22:38:37.660Z",
-            "id": "3MjUtNVVq3C8Fn0MP3zhXa",
-            "name": "...Baby One More Time",
-            "playcount": 1003127717,
-            "contentRating": "NONE",
-            "duration_ms": 211066,
-            "artists": [
-                {
-                    "name": "Britney Spears",
-                    "id": "26dSoYclwsYLMAKD3tpOr4"
-                }
-            ],
-            "image": "https://i.scdn.co/image/ab67616d0000b27336cf58e3e7cf36a145b1da18",
-            "image_size": 640,
-            "popularity": 81,
-            "release_date": "1999-01-12",
-            "release_date_precision": "day"
-        },
-        {
-            "added_at": "2025-01-03T02:25:41.113Z",
-            "id": "0GO8y8jQk1PkHzS31d699N",
-            "name": "Tongue Tied",
-            "playcount": 1003837949,
-            "contentRating": "NONE",
-            "duration_ms": 218013,
-            "artists": [
-                {
-                    "name": "GROUPLOVE",
-                    "id": "3kVUvbeRdcrqQ3oHk5hPdx"
-                }
-            ],
-            "image": "https://i.scdn.co/image/ab67616d0000b273d84a9bbcba91cb6a4a212b1b",
-            "image_size": 640,
-            "popularity": 75,
-            "release_date": "2011-09-02",
-            "release_date_precision": "day"
-        },
-        {
             "added_at": "2024-12-23T18:28:16.953Z",
             "id": "1qYKWcEOrh2tM8PlgIm8K1",
             "name": "Sunday Best",
-            "playcount": 1004025971,
+            "playcount": 1004398831,
             "contentRating": "NONE",
             "duration_ms": 158947,
             "artists": [
@@ -772,22 +772,22 @@
             "release_date_precision": "day"
         },
         {
-            "added_at": "2025-01-07T15:50:02.204Z",
-            "id": "0KzAbK6nItSqNh8q70tb0K",
-            "name": "Where Is My Mind?",
-            "playcount": 1004634983,
+            "added_at": "2025-01-03T02:25:41.113Z",
+            "id": "0GO8y8jQk1PkHzS31d699N",
+            "name": "Tongue Tied",
+            "playcount": 1004463689,
             "contentRating": "NONE",
-            "duration_ms": 229226,
+            "duration_ms": 218013,
             "artists": [
                 {
-                    "name": "Pixies",
-                    "id": "6zvul52xwTWzilBZl6BUbT"
+                    "name": "GROUPLOVE",
+                    "id": "3kVUvbeRdcrqQ3oHk5hPdx"
                 }
             ],
-            "image": "https://i.scdn.co/image/ab67616d0000b273b17d34882944eaf0695153f2",
+            "image": "https://i.scdn.co/image/ab67616d0000b273d84a9bbcba91cb6a4a212b1b",
             "image_size": 640,
-            "popularity": 71,
-            "release_date": "1997-10-06",
+            "popularity": 75,
+            "release_date": "2011-09-02",
             "release_date_precision": "day"
         }
     ],
@@ -796,7 +796,7 @@
             "added_at": "2024-11-21T14:00:00.048Z",
             "id": "2plbrEY59IikOBgBGLjaoe",
             "name": "Die With A Smile",
-            "playcount": 1532224769,
+            "playcount": 1552732301,
             "contentRating": "NONE",
             "duration_ms": 251667,
             "artists": [
@@ -819,7 +819,7 @@
             "added_at": "2024-09-14T18:00:00.088Z",
             "id": "6dOtVTDdiauQNBQEDOtlAB",
             "name": "BIRDS OF A FEATHER",
-            "playcount": 1855004469,
+            "playcount": 1868004079,
             "contentRating": "NONE",
             "duration_ms": 210373,
             "artists": [
@@ -838,7 +838,7 @@
             "added_at": "2021-12-05T16:41:13.238Z",
             "id": "0bYg9bo50gSsH3LtXe2SQn",
             "name": "All I Want for Christmas Is You",
-            "playcount": 2163261168,
+            "playcount": 2163655243,
             "contentRating": "NONE",
             "duration_ms": 241106,
             "artists": [
@@ -849,34 +849,15 @@
             ],
             "image": "https://i.scdn.co/image/ab67616d0000b2734246e3158421f5abb75abc4f",
             "image_size": 640,
-            "popularity": 93,
-            "release_date": "1994-10-28",
-            "release_date_precision": "day"
-        },
-        {
-            "added_at": "2023-12-29T16:41:57.619Z",
-            "id": "2EjXfH91m7f8HiJN1yQg97",
-            "name": "Rockin' Around The Christmas Tree",
-            "playcount": 1286532019,
-            "contentRating": "NONE",
-            "duration_ms": 126266,
-            "artists": [
-                {
-                    "name": "Brenda Lee",
-                    "id": "4cPHsZM98sKzmV26wlwD2W"
-                }
-            ],
-            "image": "https://i.scdn.co/image/ab67616d0000b2737845f74d6db14b400fa61cd3",
-            "image_size": 640,
             "popularity": 92,
-            "release_date": "1964-10-19",
+            "release_date": "1994-10-28",
             "release_date_precision": "day"
         },
         {
             "added_at": "2024-12-02T17:33:17.054Z",
             "id": "0WbMK4wrZ1wFSty9F7FCgu",
             "name": "Good Luck, Babe!",
-            "playcount": 1152215151,
+            "playcount": 1158997587,
             "contentRating": "NONE",
             "duration_ms": 218423,
             "artists": [
@@ -895,7 +876,7 @@
             "added_at": "2022-12-12T14:39:21.365Z",
             "id": "2FRnf9qhLbvw8fu4IBXx78",
             "name": "Last Christmas",
-            "playcount": 1858759322,
+            "playcount": 1859332650,
             "contentRating": "NONE",
             "duration_ms": 262960,
             "artists": [
@@ -911,10 +892,29 @@
             "release_date_precision": "day"
         },
         {
+            "added_at": "2023-12-29T16:41:57.619Z",
+            "id": "2EjXfH91m7f8HiJN1yQg97",
+            "name": "Rockin' Around The Christmas Tree",
+            "playcount": 1286746441,
+            "contentRating": "NONE",
+            "duration_ms": 126266,
+            "artists": [
+                {
+                    "name": "Brenda Lee",
+                    "id": "4cPHsZM98sKzmV26wlwD2W"
+                }
+            ],
+            "image": "https://i.scdn.co/image/ab67616d0000b2737845f74d6db14b400fa61cd3",
+            "image_size": 640,
+            "popularity": 91,
+            "release_date": "1964-10-19",
+            "release_date_precision": "day"
+        },
+        {
             "added_at": "2023-03-27T18:27:36.456Z",
             "id": "5XeFesFbtLpXzIVDNQP22n",
             "name": "I Wanna Be Yours",
-            "playcount": 2755454823,
+            "playcount": 2760326309,
             "contentRating": "NONE",
             "duration_ms": 183956,
             "artists": [
@@ -933,7 +933,7 @@
             "added_at": "2024-07-03T20:26:10.168Z",
             "id": "7CyPwkp0oE8Ro9Dd5CUDjW",
             "name": "One Of The Girls (with JENNIE, Lily Rose Depp)",
-            "playcount": 1533976600,
+            "playcount": 1539610144,
             "contentRating": "NONE",
             "duration_ms": 244684,
             "artists": [
@@ -960,7 +960,7 @@
             "added_at": "2024-11-15T04:00:00.056Z",
             "id": "7tI8dRuH2Yc6RuoTjxo4dU",
             "name": "Who",
-            "playcount": 1337028670,
+            "playcount": 1347873841,
             "contentRating": "NONE",
             "duration_ms": 170887,
             "artists": [
@@ -976,22 +976,22 @@
             "release_date_precision": "day"
         },
         {
-            "added_at": "2023-12-24T16:37:15.088Z",
-            "id": "0lizgQ7Qw35od7CYaoMBZb",
-            "name": "Santa Tell Me",
-            "playcount": 1275774697,
+            "added_at": "2021-08-13T16:23:25.468Z",
+            "id": "2QjOHCTQ1Jl3zawyYOpxh6",
+            "name": "Sweater Weather",
+            "playcount": 3501167067,
             "contentRating": "NONE",
-            "duration_ms": 204093,
+            "duration_ms": 240400,
             "artists": [
                 {
-                    "name": "Ariana Grande",
-                    "id": "66CXWjxzNUsdJxJ2JdwvnR"
+                    "name": "The Neighbourhood",
+                    "id": "77SW9BnxLY8rJ0RciFqkHh"
                 }
             ],
-            "image": "https://i.scdn.co/image/ab67616d0000b273a1db745e63940bc06985dea5",
+            "image": "https://i.scdn.co/image/ab67616d0000b2738265a736a1eb838ad5a0b921",
             "image_size": 640,
-            "popularity": 90,
-            "release_date": "2014-11-24",
+            "popularity": 89,
+            "release_date": "2013-04-22",
             "release_date_precision": "day"
         }
     ],
@@ -1000,7 +1000,7 @@
             "added_at": "2023-02-24T17:27:19.370Z",
             "id": "0a9sd6MEXZXIPHk0fAxpZ4",
             "name": "We Will Rock You",
-            "playcount": 1444240090,
+            "playcount": 1445256069,
             "contentRating": "NONE",
             "duration_ms": 121973,
             "artists": [
@@ -1019,7 +1019,7 @@
             "added_at": "2021-07-21T15:35:04.193Z",
             "id": "3tNE4i6TBqMdyTZxHDAn9B",
             "name": "Sweet but Psycho",
-            "playcount": 1795803208,
+            "playcount": 1796726019,
             "contentRating": "NONE",
             "duration_ms": 187436,
             "artists": [
@@ -1038,7 +1038,7 @@
             "added_at": "2021-07-21T15:35:04.193Z",
             "id": "5HkFTCxSeJ3kGNyQJbT4rJ",
             "name": "Another One Bites The Dust",
-            "playcount": 2067108781,
+            "playcount": 2068728398,
             "contentRating": "NONE",
             "duration_ms": 215933,
             "artists": [
@@ -1057,7 +1057,7 @@
             "added_at": "2021-07-21T15:35:04.193Z",
             "id": "4sPmO7WMQUAf45kwMOtONw",
             "name": "Hello",
-            "playcount": 1640508328,
+            "playcount": 1641318911,
             "contentRating": "NONE",
             "duration_ms": 295493,
             "artists": [
@@ -1076,7 +1076,7 @@
             "added_at": "2021-11-04T20:15:37.462Z",
             "id": "1mSClObliRtgPVT399COQH",
             "name": "Under Pressure",
-            "playcount": 1782301635,
+            "playcount": 1783855694,
             "contentRating": "NONE",
             "duration_ms": 245506,
             "artists": [
@@ -1099,7 +1099,7 @@
             "added_at": "2021-07-21T15:35:04.193Z",
             "id": "0JmiBCpWc1IAc0et7Xm7FL",
             "name": "Let Her Go",
-            "playcount": 2442291973,
+            "playcount": 2444006262,
             "contentRating": "NONE",
             "duration_ms": 252733,
             "artists": [
@@ -1118,7 +1118,7 @@
             "added_at": "2021-07-21T15:35:04.193Z",
             "id": "3VlbOrM6nYPprVvzBZllE5",
             "name": "Too Good At Goodbyes",
-            "playcount": 2224557737,
+            "playcount": 2226037059,
             "contentRating": "NONE",
             "duration_ms": 201000,
             "artists": [
@@ -1137,7 +1137,7 @@
             "added_at": "2021-08-10T10:00:00.106Z",
             "id": "500mvzh7TRZ0YdnVeHhj8b",
             "name": "Light It Up - Remix",
-            "playcount": 1387495888,
+            "playcount": 1388326126,
             "contentRating": "NONE",
             "duration_ms": 166138,
             "artists": [
@@ -1164,7 +1164,7 @@
             "added_at": "2021-07-21T15:35:04.193Z",
             "id": "1pKeFVVUOPjFsOABub0OaV",
             "name": "Side To Side",
-            "playcount": 1533960581,
+            "playcount": 1535097513,
             "contentRating": "EXPLICIT",
             "duration_ms": 226160,
             "artists": [
@@ -1187,7 +1187,7 @@
             "added_at": "2021-07-21T15:35:04.193Z",
             "id": "4TnjEaWOeW0eKTKIEvJyCa",
             "name": "Falling",
-            "playcount": 1719075974,
+            "playcount": 1719787935,
             "contentRating": "NONE",
             "duration_ms": 159381,
             "artists": [
@@ -1208,7 +1208,7 @@
             "added_at": "2024-11-05T14:42:30.792Z",
             "id": "3YRCqOhFifThpSRFJ1VWFM",
             "name": "November Rain",
-            "playcount": 1032502760,
+            "playcount": 1033441615,
             "contentRating": "NONE",
             "duration_ms": 536066,
             "artists": [
@@ -1227,7 +1227,7 @@
             "added_at": "2024-03-15T14:20:13.172Z",
             "id": "4rHZZAmHpZrA3iH5zx8frV",
             "name": "Mirrors",
-            "playcount": 1160276429,
+            "playcount": 1161389629,
             "contentRating": "NONE",
             "duration_ms": 484146,
             "artists": [
@@ -1246,7 +1246,7 @@
             "added_at": "2024-08-12T14:02:36.766Z",
             "id": "5CQ30WqJwcep0pYcV4AMNc",
             "name": "Stairway to Heaven - Remaster",
-            "playcount": 1062639564,
+            "playcount": 1063732129,
             "contentRating": "NONE",
             "duration_ms": 482830,
             "artists": [
@@ -1265,7 +1265,7 @@
             "added_at": "2022-09-29T20:09:06.465Z",
             "id": "3V8UKqhEK5zBkBb6d6ub8i",
             "name": "Te Boté - Remix",
-            "playcount": 1224740568,
+            "playcount": 1225176763,
             "contentRating": "EXPLICIT",
             "duration_ms": 417920,
             "artists": [
@@ -1304,7 +1304,7 @@
             "added_at": "2024-01-15T20:32:06.989Z",
             "id": "6eN1f9KNmiWEhpE2RhQqB5",
             "name": "Paradise City",
-            "playcount": 1175835569,
+            "playcount": 1176776492,
             "contentRating": "NONE",
             "duration_ms": 405600,
             "artists": [
@@ -1323,7 +1323,7 @@
             "added_at": "2023-12-06T11:00:00.043Z",
             "id": "3UmaczJpikHgJFyBTAJVoz",
             "name": "Stan",
-            "playcount": 1239403505,
+            "playcount": 1240450143,
             "contentRating": "EXPLICIT",
             "duration_ms": 404106,
             "artists": [
@@ -1338,7 +1338,7 @@
             ],
             "image": "https://i.scdn.co/image/ab67616d0000b273dbb3dd82da45b7d7f31b1b42",
             "image_size": 640,
-            "popularity": 79,
+            "popularity": 78,
             "release_date": "2000-05-23",
             "release_date_precision": "day"
         },
@@ -1346,7 +1346,7 @@
             "added_at": "2022-02-28T18:46:23.035Z",
             "id": "40riOy7x9W7GXjyGp4pjAv",
             "name": "Hotel California - 2013 Remaster",
-            "playcount": 1776363995,
+            "playcount": 1777966603,
             "contentRating": "NONE",
             "duration_ms": 391376,
             "artists": [
@@ -1365,7 +1365,7 @@
             "added_at": "2023-08-30T21:33:22.947Z",
             "id": "2CtemffYhT0DJWcT1XW047",
             "name": "Nothing Else Matters (Remastered)",
-            "playcount": 1293650370,
+            "playcount": 1295002155,
             "contentRating": "NONE",
             "duration_ms": 388733,
             "artists": [
@@ -1384,7 +1384,7 @@
             "added_at": "2023-05-23T17:09:56.314Z",
             "id": "2HbKqm4o0w5wEeEFXm2sD4",
             "name": "Money Trees",
-            "playcount": 1695248939,
+            "playcount": 1697263105,
             "contentRating": "EXPLICIT",
             "duration_ms": 386906,
             "artists": [
@@ -1407,7 +1407,7 @@
             "added_at": "2023-10-23T20:00:27.112Z",
             "id": "6or1bKJiZ06IlK0vFvY75k",
             "name": "Rap God",
-            "playcount": 1150108830,
+            "playcount": 1150852988,
             "contentRating": "EXPLICIT",
             "duration_ms": 363521,
             "artists": [
@@ -1428,7 +1428,7 @@
             "added_at": "2023-06-14T17:01:49.800Z",
             "id": "3GVkPk8mqxz0itaAriG1L7",
             "name": "Everybody Dies In Their Nightmares",
-            "playcount": 1742378586,
+            "playcount": 1743471924,
             "contentRating": "EXPLICIT",
             "duration_ms": 95466,
             "artists": [
@@ -1439,7 +1439,7 @@
             ],
             "image": "https://i.scdn.co/image/ab67616d0000b273203c89bd4391468eea4cc3f5",
             "image_size": 640,
-            "popularity": 81,
+            "popularity": 80,
             "release_date": "2017-08-25",
             "release_date_precision": "day"
         },
@@ -1447,7 +1447,7 @@
             "added_at": "2022-11-21T19:38:28.761Z",
             "id": "2ZRo7axmMPeSVUvDbGkJah",
             "name": "Hope",
-            "playcount": 1631642507,
+            "playcount": 1633163448,
             "contentRating": "EXPLICIT",
             "duration_ms": 110886,
             "artists": [
@@ -1466,7 +1466,7 @@
             "added_at": "2024-05-01T18:10:04.830Z",
             "id": "4EDijkJdHBZZ0GwJ12iTAj",
             "name": "Stargirl Interlude",
-            "playcount": 1284030606,
+            "playcount": 1285562759,
             "contentRating": "NONE",
             "duration_ms": 111640,
             "artists": [
@@ -1489,7 +1489,7 @@
             "added_at": "2024-04-24T12:08:26.784Z",
             "id": "0F7FA14euOIX8KcbEturGH",
             "name": "Old Town Road",
-            "playcount": 1049699746,
+            "playcount": 1050016992,
             "contentRating": "NONE",
             "duration_ms": 113000,
             "artists": [
@@ -1508,7 +1508,7 @@
             "added_at": "2021-07-21T15:35:04.193Z",
             "id": "7m9OqQk4RVRkw9JJdeAw96",
             "name": "Jocelyn Flores",
-            "playcount": 2312388017,
+            "playcount": 2313397163,
             "contentRating": "EXPLICIT",
             "duration_ms": 119133,
             "artists": [
@@ -1527,7 +1527,7 @@
             "added_at": "2023-06-29T16:08:19.371Z",
             "id": "5TXDeTFVRVY7Cvt0Dw4vWW",
             "name": "Revenge",
-            "playcount": 1628938296,
+            "playcount": 1630894989,
             "contentRating": "EXPLICIT",
             "duration_ms": 120026,
             "artists": [
@@ -1546,7 +1546,7 @@
             "added_at": "2024-12-30T18:18:35.103Z",
             "id": "3GfOAdcoc3X5GPiiXmpBjK",
             "name": "Song 2",
-            "playcount": 1010194395,
+            "playcount": 1011544583,
             "contentRating": "NONE",
             "duration_ms": 121880,
             "artists": [
@@ -1557,7 +1557,7 @@
             ],
             "image": "https://i.scdn.co/image/ab67616d0000b27334cbf7013afccc7df67fa43f",
             "image_size": 640,
-            "popularity": 65,
+            "popularity": 66,
             "release_date": "2000-10-23",
             "release_date_precision": "day"
         },
@@ -1565,7 +1565,7 @@
             "added_at": "2021-08-09T15:13:22.164Z",
             "id": "7AFASza1mXqntmGtbxXprO",
             "name": "changes",
-            "playcount": 1424942020,
+            "playcount": 1425433361,
             "contentRating": "NONE",
             "duration_ms": 121886,
             "artists": [
@@ -1584,7 +1584,7 @@
             "added_at": "2023-02-24T17:27:19.370Z",
             "id": "0a9sd6MEXZXIPHk0fAxpZ4",
             "name": "We Will Rock You",
-            "playcount": 1444240090,
+            "playcount": 1445256069,
             "contentRating": "NONE",
             "duration_ms": 121973,
             "artists": [
@@ -1603,7 +1603,7 @@
             "added_at": "2025-01-07T15:54:35.898Z",
             "id": "4rXLjWdF2ZZpXCVTfWcshS",
             "name": "fukumean",
-            "playcount": 1005694229,
+            "playcount": 1006825629,
             "contentRating": "EXPLICIT",
             "duration_ms": 125040,
             "artists": [
@@ -1621,39 +1621,39 @@
     ],
     "year_count": {
         "2024": 15,
+        "2020": 53,
         "1992": 3,
         "2017": 79,
-        "1994": 3,
         "2016": 60,
-        "1964": 2,
+        "1994": 3,
+        "2008": 15,
         "2015": 51,
+        "1964": 2,
         "1984": 3,
-        "2014": 42,
         "2013": 28,
         "2023": 30,
-        "1957": 1,
-        "2018": 84,
+        "2014": 42,
         "2012": 31,
+        "1957": 1,
         "2022": 37,
         "2000": 10,
+        "2018": 84,
         "2019": 71,
-        "1963": 1,
         "1983": 5,
-        "2020": 52,
+        "1963": 1,
         "1998": 4,
         "2002": 10,
-        "2003": 10,
-        "2008": 14,
         "1993": 1,
         "2010": 22,
-        "1985": 6,
+        "2003": 10,
         "2005": 8,
+        "1985": 6,
         "2004": 10,
         "1977": 5,
         "1982": 5,
         "2011": 19,
-        "1995": 2,
         "1987": 4,
+        "1995": 2,
         "1979": 3,
         "1986": 2,
         "2021": 41,
@@ -1685,16 +1685,16 @@
     },
     "month_count": {
         "05": 85,
+        "03": 67,
         "08": 72,
         "10": 86,
         "04": 51,
+        "07": 55,
         "11": 86,
-        "07": 54,
         "09": 67,
         "06": 92,
         "12": 51,
         "02": 41,
-        "03": 66,
         "01": 78
     }
 }

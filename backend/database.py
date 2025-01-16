@@ -8,10 +8,9 @@ MONGO_URI = os.getenv("MONGO_URI")
 
 client = MongoClient(MONGO_URI)
 db = client.billions
-global_collections = db.spotify_data
+global_collections = db.spotify_data # to remove after migration
 playlists_collection = db.playlists_headers
 tracks_collection = db.playlist_tracks
-
 
 
 
@@ -34,7 +33,14 @@ def insert_or_update_playlist_header(playlist_data):
         "coverUrl": playlist_data["coverUrl"],
         "coverHex": playlist_data["coverHex"],
         # Include only the track ids and playcounts
-        "tracks": [{"id": track["id"], "playcount": track["playcount"]} for track in playlist_data["items"]]
+        "tracks": [
+            {
+                "id": track["id"], 
+                "playcount": track["playcount"],
+                "popularity": track["popularity"],
+            } 
+            for track in playlist_data["items"]
+        ]
     }
 
     # Upsert based on the date
@@ -44,9 +50,6 @@ def insert_or_update_playlist_header(playlist_data):
         upsert=True,
     )
 
-    with open("test.json", "w", encoding="utf-8") as f:
-        json.dump(header_data, f, default=convert_objectid)
-
 
 def insert_or_update_tracks(playlist_data):
     operations = []
@@ -55,13 +58,11 @@ def insert_or_update_tracks(playlist_data):
             "id": track["id"],
             "name": track["name"],
             "added_at": track["added_at"],
-            "playcount": track["playcount"],
             "contentRating": track["contentRating"],
             "duration_ms": track["duration_ms"],
             "artists": track["artists"],
             "image": track["image"],
             "image_size": track["image_size"],
-            "popularity": track["popularity"],
             "release_date": track["release_date"],
             "release_date_precision": track["release_date_precision"],
         }
@@ -88,6 +89,37 @@ def add_to_database(playlist_data):
 
 
 
+def retrieve_playlist_infos_from_mongo(date):
+    # Retrieve the playlists headers data where the field "date" matches the input date
+    playlist_data = playlists_collection.find({"date": date})
+    if not playlist_data:
+        raise ValueError(f"No playlist data found for the date {date}")
+    
+    playlist_data = list(playlist_data)[0]
+    del playlist_data["_id"]
+
+    # Retrieve the track ids from the playlist header
+    track_ids = [track["id"] for track in playlist_data["tracks"]]
+
+    # Retrieve the details of the tracks from the tracks collection
+    tracks_details = list(tracks_collection.find({"id": {"$in": track_ids}}))
+
+    track_details_dict = {track["id"]: track for track in tracks_details}
+
+    for track in playlist_data["tracks"]:
+        track_id = track["id"]
+        if (track_id in track_details_dict):
+            track.update(track_details_dict[track_id])
+        del track["_id"]
+
+    return playlist_data
+
+
+
+
+###############################################
+# TO DELETE AFTER TESTS
+
 def retrieve_global_from_mongo(date):
     # Retrieve the global_collections data where the field "date" matches the input date
     gloal_data = global_collections.find({"date": date})
@@ -97,23 +129,21 @@ def retrieve_global_from_mongo(date):
 
     return global_data
 
-
-def retrieve_playlist_from_mongo(date):
-    # Retrieve the playlists headers data where the field "date" matches the input date
-    playlist_data = playlists_collection.find({"date": date})
-    playlist_data = list(playlist_data)[0]
-    playlist_data["uri"] = str(playlist_data["_id"])
-    del playlist_data["_id"]
-
-    return playlist_data
-
-
-import datetime, json
-
+import json
 if __name__ == "__main__":
     # DATE_KEY = datetime.datetime.now().strftime("%Y-%m-%d")
-    DATE_KEY = "2025-01-16"
+    DATE_KEY = "2025-01-15"
+
+    global_data = retrieve_playlist_infos_from_mongo(DATE_KEY)
+
+    with open("test.json", "w", encoding="utf-8") as f:
+        json.dump(global_data, f, indent=4, ensure_ascii=False)
+
+    """
     global_data = retrieve_global_from_mongo(DATE_KEY)
 
     add_to_database(global_data)
     print("Data added to the database.")
+    """
+
+###############################################

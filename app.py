@@ -15,6 +15,7 @@ app = Flask(__name__, static_folder="public", static_url_path="/")
 PORT = os.getenv("PORT") or 3434
 BASE_IMAGE_DIR = "public"
 BASE_URL = f"http://localhost:{PORT}"
+WRITE_TO_DATABASE = True # If False, will write to json files instead of database
 
 
 
@@ -26,24 +27,24 @@ def search():
     dataPath = f"data/tracks/tracks_{DATE_KEY}.json"
     reportPublicPath = f"public/data/report.json"
 
-    try:
-        fetch_playlist_infos(dataPath)
-        fetch_songs_infos(dataPath)
-        generate_report(dataPath, reportPublicPath) # Static update, TODO: CLEAN
+    # try:
+    if 1:
+        fetch_playlist_infos(dataPath, WRITE_TO_DATABASE)
+        generate_report(dataPath, reportPublicPath, WRITE_TO_DATABASE) # Static update, TODO: make a clean backend instead of static file
         return jsonify(
             {
                 "message": "Search completed!",
                 "output": "The search has been completed successfully.",
             }
         )
-    except Exception as error:
-        print(f"[ERROR] {error}")
-        return jsonify(
-            {
-                "message": "Search failed!",
-                "output": error.__str__(),
-            }
-        )
+    # except Exception as error:
+    #     print(f"[ERROR] {error}")
+    #     return jsonify(
+    #         {
+    #             "message": "Search failed!",
+    #             "output": error.__str__(),
+    #         }
+    #     )
     
 
 @app.route("/report/", methods=["GET"])
@@ -54,7 +55,7 @@ def report():
     reportPublicPath = f"public/data/report.json"
 
     try:
-        generate_report(dataPath, reportPublicPath)
+        generate_report(dataPath, reportPublicPath, WRITE_TO_DATABASE)
         return jsonify(
             {
                 "message": "Report generated!",
@@ -77,7 +78,7 @@ def leaderboard():
     dataPath = f"data/tracks/tracks_{DATE_KEY}.json"
 
     try:
-        generate_leaderboard(dataPath)
+        generate_leaderboard(dataPath, WRITE_TO_DATABASE)
         return jsonify(
             {
                 "message": "Leaderboard updated!",

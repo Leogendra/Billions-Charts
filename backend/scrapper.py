@@ -25,7 +25,7 @@ def get_access_token():
     return response.json()["access_token"]
 
 
-def fetch_playlist_infos(dataPath):
+def fetch_playlist_infos(dataPath, WRITE_TO_DATABASE):
     # check if file already exists
     if os.path.exists(dataPath):
         print(f"Playlist infos already fetched in {dataPath}")
@@ -73,45 +73,19 @@ def fetch_playlist_infos(dataPath):
             "image": max(item["itemV2"]["data"]["albumOfTrack"]["coverArt"]["sources"], key=lambda x: x["width"])["url"],
             "image_size": max(item["itemV2"]["data"]["albumOfTrack"]["coverArt"]["sources"], key=lambda x: x["width"])["width"]
         })
-        
-
-    with open(dataPath, "w", encoding="utf-8") as f:
-        json.dump(playlist_infos, f, indent=4, ensure_ascii=False)
-    print(f"Playlist infos saved in {dataPath}")
-
-    add_to_database(playlist_infos)
-    print("Playlist infos inserted in database.")
 
 
-def fetch_songs_infos(dataPath):
-    # Query Spotify's public API to retrieve missing data
-    with open(dataPath, "r", encoding="utf-8") as f:
-        tracks_data = json.load(f)
-
-    # check if infos is already fetched
-    already_fetched = True
-    for track in tracks_data["items"]:
-        if ("popularity" not in track):
-            print(f"Some songs infos are missing in {track['name']}")
-            already_fetched = False
-            break
-    
-    if already_fetched:
-        print("All songs infos already fetched.")
-        return
-
+    # Fetch missing track infos
     access_token = get_access_token()
-
-    track_ids = [track["id"] for track in tracks_data["items"]]
+    track_ids = [track["id"] for track in playlist_infos["items"]]
 
     url = "https://api.spotify.com/v1/tracks"
     headers = {"Authorization": f"Bearer {access_token}"}
     track_infos = []
     
-    # Fetch track infos in chunks of 50
+    # Fetch track infos in chunks of 50 (max limit)
     for i in range(0, len(track_ids), 50):
-
-        print(f"Fetching tracks {i} to {i + 50}...", end="\r")
+        print(f"Fetching tracks {i}/{len(track_ids)}...      ", end="\r")
         chunk = track_ids[i:i + 50]
         params = {"ids": ",".join(chunk)}
 
@@ -133,65 +107,20 @@ def fetch_songs_infos(dataPath):
             else:
                 print("Corrupted track info:", track)
                 
-    for i, track in enumerate(tracks_data["items"]):
+    for i, track in enumerate(playlist_infos["items"]):
         for info in track_infos:
             if (track["id"] == info["id"]):
-                tracks_data["items"][i]["popularity"] = info["popularity"]
-                tracks_data["items"][i]["release_date"] = info["release_date"]
-                tracks_data["items"][i]["release_date_precision"] = info["release_date_precision"]
+                playlist_infos["items"][i]["popularity"] = info["popularity"]
+                playlist_infos["items"][i]["release_date"] = info["release_date"]
+                playlist_infos["items"][i]["release_date_precision"] = info["release_date_precision"]
                 break
     
-    with open(dataPath, "w", encoding="utf-8") as f:
-        json.dump(tracks_data, f, indent=4, ensure_ascii=False)
 
-    print(f"Song infos saved in {dataPath}")
+    if WRITE_TO_DATABASE:
+        add_to_database(playlist_infos)
+        print("Song infos inserted in database.")
 
-    add_to_database.insert_one(tracks_data)
-    print("Song infos inserted in database.")
-    
-
-
-def generate_leaderboard(dataPath):
-    create_folder("data/analysis")
-    with open(dataPath, "r", encoding="utf-8") as f:
-        tracks_data = json.load(f)
-
-    artists = {}
-    streams = {}
-    tracks = {}
-    for track in tracks_data["items"]:
-        for artist in track["artists"]:
-            artists[artist["name"]] = artists.get(artist["name"], 0) + 1
-            streams[artist["name"]] = streams.get(artist["name"], 0) + track["playcount"]
-        tracks[track["name"]] = track["playcount"]
-
-    leaderboard_artists = sorted(artists.items(), key=lambda x: x[1], reverse=True)
-    leaderboard_streams = sorted(streams.items(), key=lambda x: x[1], reverse=True)
-    leaderboard_tracks = sorted(tracks.items(), key=lambda x: x[1], reverse=True)
-
-    with open("data/analysis/leaderboard_artists.txt", "w", encoding="utf-8") as f:
-        for i, (artist, count) in enumerate(leaderboard_artists):
-            f.write(f"{i+1}. {artist}: {count} tracks\n")
-
-    with open("data/analysis/leaderboard_streams.txt", "w", encoding="utf-8") as f:
-        for i, (artist, count) in enumerate(leaderboard_streams):
-            f.write(f"{i+1}. {artist}: {count/1_000_000_000:.2f}B streams\n")
-
-    with open("data/analysis/leaderboard_tracks.txt", "w", encoding="utf-8") as f:
-        for i, (track, count) in enumerate(leaderboard_tracks):
-            f.write(f"{i+1}. {track}: {count/1_000_000_000:.2f}B streams\n")
-
-    print("Leaderboards updated.")
-
-
-
-
-if __name__ == "__main__":
-    DATE_KEY = datetime.datetime.now().strftime("%Y-%m-%d")
-    create_folder("data/tracks")
-    dataPath = f"data/tracks/tracks_{DATE_KEY}.json"
-
-    fetch_playlist_infos(dataPath)
-    fetch_songs_infos(dataPath)
-    generate_leaderboard(dataPath)
-    print
+    else:
+        with open(dataPath, "w", encoding="utf-8") as f:
+            json.dump(playlist_infos, f, indent=4, ensure_ascii=False)
+        print(f"Song infos saved in {dataPath}")

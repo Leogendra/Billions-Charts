@@ -1,3 +1,5 @@
+from backend.database import retrieve_playlist_infos_from_mongo
+from backend.utils import create_folder
 from collections import defaultdict
 import json
 
@@ -167,3 +169,41 @@ def generate_report(playlist_file, output_report_file):
 
     with open(output_report_file, 'w', encoding='utf-8') as f:
         json.dump(final_report, f, ensure_ascii=False, indent=4)
+
+
+def generate_leaderboard(dataPath, WRITE_TO_DATABASE):
+    create_folder("data/analysis")
+
+    if WRITE_TO_DATABASE:
+        dateKey = dataPath.split("_")[-1].split(".")[0]
+        tracks_data = retrieve_playlist_infos_from_mongo(dateKey)
+    else:
+        with open(dataPath, "r", encoding="utf-8") as f:
+            tracks_data = json.load(f)
+
+    artists = {}
+    streams = {}
+    tracks = {}
+    for track in tracks_data["items"]:
+        for artist in track["artists"]:
+            artists[artist["name"]] = artists.get(artist["name"], 0) + 1
+            streams[artist["name"]] = streams.get(artist["name"], 0) + track["playcount"]
+        tracks[track["name"]] = track["playcount"]
+
+    leaderboard_artists = sorted(artists.items(), key=lambda x: x[1], reverse=True)
+    leaderboard_streams = sorted(streams.items(), key=lambda x: x[1], reverse=True)
+    leaderboard_tracks = sorted(tracks.items(), key=lambda x: x[1], reverse=True)
+
+    with open("data/analysis/leaderboard_artists.txt", "w", encoding="utf-8") as f:
+        for i, (artist, count) in enumerate(leaderboard_artists):
+            f.write(f"{i+1}. {artist}: {count} tracks\n")
+
+    with open("data/analysis/leaderboard_streams.txt", "w", encoding="utf-8") as f:
+        for i, (artist, count) in enumerate(leaderboard_streams):
+            f.write(f"{i+1}. {artist}: {count/1_000_000_000:.2f}B streams\n")
+
+    with open("data/analysis/leaderboard_tracks.txt", "w", encoding="utf-8") as f:
+        for i, (track, count) in enumerate(leaderboard_tracks):
+            f.write(f"{i+1}. {track}: {count/1_000_000_000:.2f}B streams\n")
+
+    print("Leaderboards updated.")
