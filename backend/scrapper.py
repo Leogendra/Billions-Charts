@@ -1,6 +1,6 @@
-from spotapi import PublicPlaylist
+from backend.database import add_to_database, retrieve_playlist_infos_from_mongo
 from backend.utils import create_folder
-from backend.database import add_to_database
+from spotapi import PublicPlaylist
 from dotenv import load_dotenv
 import datetime
 import requests
@@ -26,11 +26,15 @@ def get_access_token():
 
 
 def fetch_playlist_infos(dataPath, WRITE_TO_DATABASE):
-    # check if file already exists
-    if os.path.exists(dataPath):
-        print(f"Playlist infos already fetched in {dataPath}")
-        return
-    
+    if WRITE_TO_DATABASE:
+        dateKey = dataPath.split("_")[-1].split(".")[0]
+        playlist = retrieve_playlist_infos_from_mongo(dateKey)
+    else:
+        if os.path.exists(dataPath):
+            print(f"Playlist infos already fetched in {dataPath}")
+            return
+        
+    create_folder("data/tracks")
     playlist = PublicPlaylist(PLAYLIST_ID)
     playlist_info = playlist.get_playlist_info(limit=1000)
     raw_data = playlist_info["data"]["playlistV2"]

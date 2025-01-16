@@ -86,9 +86,6 @@ def add_to_database(playlist_data):
     insert_or_update_tracks(playlist_data)
 
 
-
-
-
 def retrieve_playlist_infos_from_mongo(date):
     # Retrieve the playlists headers data where the field "date" matches the input date
     playlist_data = playlists_collection.find({"date": date})
@@ -113,37 +110,3 @@ def retrieve_playlist_infos_from_mongo(date):
         del track["_id"]
 
     return playlist_data
-
-
-
-
-###############################################
-# TO DELETE AFTER TESTS
-
-def retrieve_global_from_mongo(date):
-    # Retrieve the global_collections data where the field "date" matches the input date
-    gloal_data = global_collections.find({"date": date})
-    global_data = list(gloal_data)[0] 
-    global_data["uri"] = str(global_data["_id"])
-    del global_data["_id"]
-
-    return global_data
-
-import json
-if __name__ == "__main__":
-    # DATE_KEY = datetime.datetime.now().strftime("%Y-%m-%d")
-    DATE_KEY = "2025-01-15"
-
-    global_data = retrieve_playlist_infos_from_mongo(DATE_KEY)
-
-    with open("test.json", "w", encoding="utf-8") as f:
-        json.dump(global_data, f, indent=4, ensure_ascii=False)
-
-    """
-    global_data = retrieve_global_from_mongo(DATE_KEY)
-
-    add_to_database(global_data)
-    print("Data added to the database.")
-    """
-
-###############################################

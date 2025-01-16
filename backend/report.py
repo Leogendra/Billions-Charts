@@ -126,10 +126,15 @@ def aggregate_periods(tracks):
     return dict(year_count), dict(month_count)
 
 
-def generate_report(playlist_file, output_report_file):
-    with open(playlist_file, 'r', encoding='utf-8') as f:
-        playlist = json.load(f)
+def generate_report(dataPath, outputReportPath, WRITE_TO_DATABASE):
+    if WRITE_TO_DATABASE:
+        dateKey = dataPath.split("_")[-1].split(".")[0]
+        playlist = retrieve_playlist_infos_from_mongo(dateKey)
+    else:
+        with open(dataPath, 'r', encoding='utf-8') as f:
+            playlist = json.load(f)
 
+    create_folder("data/reports/")
     tracks = playlist['items']
 
     total_tracks, total_artists, total_streams = aggregate_general(tracks)
@@ -167,12 +172,12 @@ def generate_report(playlist_file, output_report_file):
         "month_count": month_count
     }
 
-    with open(output_report_file, 'w', encoding='utf-8') as f:
+    with open(outputReportPath, 'w', encoding='utf-8') as f:
         json.dump(final_report, f, ensure_ascii=False, indent=4)
 
 
 def generate_leaderboard(dataPath, WRITE_TO_DATABASE):
-    create_folder("data/analysis")
+    create_folder("data/analysis/")
 
     if WRITE_TO_DATABASE:
         dateKey = dataPath.split("_")[-1].split(".")[0]
