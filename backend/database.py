@@ -33,7 +33,7 @@ def insert_or_update_playlist_header(playlist_data):
         "coverUrl": playlist_data["coverUrl"],
         "coverHex": playlist_data["coverHex"],
         # Include only the track ids and playcounts
-        "tracks": [
+        "items": [
             {
                 "id": track["id"], 
                 "playcount": track["playcount"],
@@ -90,23 +90,35 @@ def retrieve_playlist_infos_from_mongo(date):
     # Retrieve the playlists headers data where the field "date" matches the input date
     playlist_data = playlists_collection.find({"date": date})
     if not playlist_data:
-        raise ValueError(f"No playlist data found for the date {date}")
+        print(f"No playlist data found for the date {date}")
+        return None
     
     playlist_data = list(playlist_data)[0]
     del playlist_data["_id"]
 
     # Retrieve the track ids from the playlist header
-    track_ids = [track["id"] for track in playlist_data["tracks"]]
+    track_ids = [track["id"] for track in playlist_data["items"]]
 
     # Retrieve the details of the tracks from the tracks collection
     tracks_details = list(tracks_collection.find({"id": {"$in": track_ids}}))
 
     track_details_dict = {track["id"]: track for track in tracks_details}
 
-    for track in playlist_data["tracks"]:
+    for track in playlist_data["items"]:
         track_id = track["id"]
         if (track_id in track_details_dict):
             track.update(track_details_dict[track_id])
         del track["_id"]
 
     return playlist_data
+
+
+
+
+import json
+if __name__ == "__main__":
+    dateKey = "2025-01-16"
+
+    data = retrieve_playlist_infos_from_mongo(dateKey)
+    with open("test.json", "w") as f:
+        json.dump(data, f, default=convert_objectid, indent=4)

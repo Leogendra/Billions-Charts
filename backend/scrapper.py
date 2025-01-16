@@ -29,6 +29,9 @@ def fetch_playlist_infos(dataPath, WRITE_TO_DATABASE):
     if WRITE_TO_DATABASE:
         dateKey = dataPath.split("_")[-1].split(".")[0]
         playlist = retrieve_playlist_infos_from_mongo(dateKey)
+        if playlist:
+            print(f"Playlist infos already fetched in database")
+            return
     else:
         if os.path.exists(dataPath):
             print(f"Playlist infos already fetched in {dataPath}")

@@ -1,11 +1,10 @@
 from flask import Flask, jsonify, send_file
-from backend.scrapper import (
-    fetch_playlist_infos,
-    fetch_songs_infos,
-    generate_leaderboard,
-)
-from backend.report import generate_report
+from backend.scrapper import fetch_playlist_infos
 from backend.utils import create_folder
+from backend.report import (
+    generate_report,
+    generate_leaderboard
+)
 from dotenv import load_dotenv
 import datetime
 import os
@@ -30,12 +29,10 @@ def search():
     if 1:
         fetch_playlist_infos(dataPath, WRITE_TO_DATABASE)
         generate_report(dataPath, reportPublicPath, WRITE_TO_DATABASE) # Static update, TODO: make a clean backend instead of static file
-        return jsonify(
-            {
-                "message": "Search completed!",
-                "output": "The search has been completed successfully.",
-            }
-        )
+        return jsonify({
+            "message": "Search completed!",
+            "output": "The search has been completed successfully.",
+        })
     # except Exception as error:
     #     print(f"[ERROR] {error}")
     #     return jsonify(
@@ -54,19 +51,15 @@ def report():
 
     try:
         generate_report(dataPath, reportPublicPath, WRITE_TO_DATABASE)
-        return jsonify(
-            {
-                "message": "Report generated!",
-                "output": "The report has been generated successfully.",
-            }
-        )
+        return jsonify( {
+            "message": "Report generated!",
+            "output": "The report has been generated successfully.",
+        })
     except Exception as error:
-        return jsonify(
-            {
-                "message": "Report failed!",
-                "output": error.__str__(),
-            }
-        )
+        return jsonify( {
+            "message": "Report failed!",
+            "output": error.__str__(),
+        })
 
 
 @app.route("/leaderboard/", methods=["GET"])
@@ -77,19 +70,15 @@ def leaderboard():
 
     try:
         generate_leaderboard(dataPath, WRITE_TO_DATABASE)
-        return jsonify(
-            {
-                "message": "Leaderboard updated!",
-                "output": "The leaderboard has been generated successfully.",
-            }
-        )
+        return jsonify({
+            "message": "Leaderboard updated!",
+            "output": "The leaderboard has been generated successfully.",
+        })
     except Exception as error:
-        return jsonify(
-            {
-                "message": "Leaderboard failed!",
-                "output": error.__str__(),
-            }
-        )
+        return jsonify({
+            "message": "Leaderboard failed!",
+            "output": error.__str__(),
+        })
 
 
 @app.route("/", methods=["GET"])

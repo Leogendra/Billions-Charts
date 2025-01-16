@@ -135,6 +135,7 @@ def generate_report(dataPath, outputReportPath, WRITE_TO_DATABASE):
             playlist = json.load(f)
 
     create_folder("data/reports/")
+
     tracks = playlist['items']
 
     total_tracks, total_artists, total_streams = aggregate_general(tracks)
@@ -174,6 +175,8 @@ def generate_report(dataPath, outputReportPath, WRITE_TO_DATABASE):
 
     with open(outputReportPath, 'w', encoding='utf-8') as f:
         json.dump(final_report, f, ensure_ascii=False, indent=4)
+
+    print(f"Report successfully generated in {outputReportPath}.")
 
 
 def generate_leaderboard(dataPath, WRITE_TO_DATABASE):
