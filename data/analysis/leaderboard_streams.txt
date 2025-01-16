@@ -1,0 +1,556 @@
+1. The Weeknd: 42.06B streams
+2. Justin Bieber: 29.50B streams
+3. Drake: 28.39B streams
+4. Bad Bunny: 27.03B streams
+5. Bruno Mars: 26.75B streams
+6. Ariana Grande: 26.54B streams
+7. Ed Sheeran: 25.04B streams
+8. Rihanna: 23.50B streams
+9. Post Malone: 23.33B streams
+10. Coldplay: 21.64B streams
+11. Taylor Swift: 21.38B streams
+12. Billie Eilish: 21.23B streams
+13. Dua Lipa: 20.61B streams
+14. Eminem: 20.09B streams
+15. Imagine Dragons: 19.73B streams
+16. XXXTENTACION: 18.87B streams
+17. Maroon 5: 18.20B streams
+18. Calvin Harris: 16.14B streams
+19. Khalid: 14.17B streams
+20. Adele: 13.43B streams
+21. Olivia Rodrigo: 13.09B streams
+22. Sam Smith: 12.90B streams
+23. Harry Styles: 12.49B streams
+24. Shawn Mendes: 12.16B streams
+25. Kanye West: 11.73B streams
+26. Queen: 11.21B streams
+27. Sia: 11.17B streams
+28. Lady Gaga: 10.90B streams
+29. Travis Scott: 10.75B streams
+30. Selena Gomez: 10.64B streams
+31. The Chainsmokers: 10.43B streams
+32. Arctic Monkeys: 10.25B streams
+33. SZA: 10.15B streams
+34. Kendrick Lamar: 9.84B streams
+35. Katy Perry: 9.71B streams
+36. Daddy Yankee: 9.41B streams
+37. Halsey: 9.40B streams
+38. Avicii: 9.35B streams
+39. J Balvin: 8.97B streams
+40. Doja Cat: 8.79B streams
+41. Juice WRLD: 8.63B streams
+42. Miley Cyrus: 8.35B streams
+43. Nicki Minaj: 8.00B streams
+44. Marshmello: 7.99B streams
+45. 21 Savage: 7.93B streams
+46. Wiz Khalifa: 7.92B streams
+47. Red Hot Chili Peppers: 7.90B streams
+48. Lil Nas X: 7.87B streams
+49. KAROL G: 7.59B streams
+50. DJ Snake: 7.39B streams
+51. Lewis Capaldi: 7.08B streams
+52. JAY-Z: 6.98B streams
+53. Daft Punk: 6.74B streams
+54. AC/DC: 6.66B streams
+55. Linkin Park: 6.58B streams
+56. Ty Dolla $ign: 6.47B streams
+57. Cardi B: 6.45B streams
+58. Twenty One Pilots: 6.35B streams
+59. Bebe Rexha: 6.34B streams
+60. The Neighbourhood: 6.34B streams
+61. J. Cole: 6.27B streams
+62. One Direction: 6.20B streams
+63. Charlie Puth: 6.07B streams
+64. Swae Lee: 6.03B streams
+65. BTS: 5.93B streams
+66. David Guetta: 5.87B streams
+67. Clean Bandit: 5.78B streams
+68. Quavo: 5.70B streams
+69. Guns N' Roses: 5.63B streams
+70. Pitbull: 5.61B streams
+71. Lana Del Rey: 5.57B streams
+72. Fleetwood Mac: 5.31B streams
+73. Major Lazer: 5.29B streams
+74. Macklemore: 5.23B streams
+75. Shakira: 5.22B streams
+76. Ozuna: 5.21B streams
+77. Frank Ocean: 5.17B streams
+78. Camila Cabello: 5.11B streams
+79. ZAYN: 5.10B streams
+80. DaBaby: 5.09B streams
+81. Gunna: 5.03B streams
+82. Kygo: 4.78B streams
+83. Elton John: 4.75B streams
+84. Anne-Marie: 4.75B streams
+85. OneRepublic: 4.64B streams
+86. Lil Uzi Vert: 4.53B streams
+87. Creedence Clearwater Revival: 4.47B streams
+88. Offset: 4.29B streams
+89. Snoop Dogg: 4.26B streams
+90. Metro Boomin: 4.23B streams
+91. Zara Larsson: 4.21B streams
+92. Alessia Cara: 4.17B streams
+93. Sabrina Carpenter: 4.15B streams
+94. Hozier: 4.09B streams
+95. Zedd: 4.08B streams
+96. Macklemore & Ryan Lewis: 4.05B streams
+97. Ryan Lewis: 4.05B streams
+98. Bastille: 4.04B streams
+99. Lil Baby: 3.96B streams
+100. MØ: 3.90B streams
+101. Calum Scott: 3.89B streams
+102. Pharrell Williams: 3.86B streams
+103. Bryson Tiller: 3.86B streams
+104. Roddy Ricch: 3.77B streams
+105. John Legend: 3.75B streams
+106. Nirvana: 3.73B streams
+107. Peso Pluma: 3.70B streams
+108. Luis Fonsi: 3.62B streams
+109. JHAYCO: 3.60B streams
+110. Robin Schulz: 3.58B streams
+111. Pop Smoke: 3.54B streams
+112. Young Thug: 3.53B streams
+113. Wizkid: 3.49B streams
+114. Kyla: 3.49B streams
+115. The Kid LAROI: 3.42B streams
+116. Jason Derulo: 3.42B streams
+117. Kali Uchis: 3.41B streams
+118. Daniel Caesar: 3.34B streams
+119. Michael Jackson: 3.31B streams
+120. Feid: 3.30B streams
+121. Glass Animals: 3.26B streams
+122. Jung Kook: 3.24B streams
+123. Mark Ronson: 3.23B streams
+124. Tate McRae: 3.23B streams
+125. Tyler, The Creator: 3.21B streams
+126. Tones And I: 3.20B streams
+127. Chencho Corleone: 3.20B streams
+128. James Arthur: 3.13B streams
+129. Beyoncé: 3.10B streams
+130. Kesha: 3.09B streams
+131. Bon Jovi: 3.07B streams
+132. Future: 3.06B streams
+133. TOTO: 3.05B streams
+134. Giveon: 3.02B streams
+135. Justin Timberlake: 3.00B streams
+136. Måneskin: 3.00B streams
+137. Ellie Goulding: 2.95B streams
+138. Sean Paul: 2.94B streams
+139. Wham!: 2.93B streams
+140. Vance Joy: 2.93B streams
+141. Ne-Yo: 2.92B streams
+142. Martin Garrix: 2.90B streams
+143. Don Omar: 2.87B streams
+144. Metallica: 2.87B streams
+145. Bizarrap: 2.86B streams
+146. Steve Lacy: 2.86B streams
+147. Ava Max: 2.85B streams
+148. The Lumineers: 2.84B streams
+149. Tom Odell: 2.84B streams
+150. Joji: 2.83B streams
+151. Grey: 2.81B streams
+152. Farruko: 2.80B streams
+153. Christina Aguilera: 2.78B streams
+154. 50 Cent: 2.77B streams
+155. Outkast: 2.75B streams
+156. Black Eyed Peas: 2.74B streams
+157. Lil Peep: 2.73B streams
+158. Rauw Alejandro: 2.73B streams
+159. Dr. Dre: 2.70B streams
+160. Ray Dalton: 2.69B streams
+161. d4vd: 2.69B streams
+162. Lord Huron: 2.69B streams
+163. System Of A Down: 2.67B streams
+164. Jimin: 2.66B streams
+165. Ludacris: 2.65B streams
+166. Bradley Cooper: 2.64B streams
+167. Lost Frequencies: 2.64B streams
+168. Jess Glynne: 2.64B streams
+169. Chris Brown: 2.58B streams
+170. Logic: 2.57B streams
+171. Florida Georgia Line: 2.57B streams
+172. DJ Khaled: 2.55B streams
+173. Adam Levine: 2.54B streams
+174. USHER: 2.54B streams
+175. Maluma: 2.51B streams
+176. Britney Spears: 2.50B streams
+177. Lil Wayne: 2.49B streams
+178. Julia Michaels: 2.49B streams
+179. Don Toliver: 2.48B streams
+180. The Killers: 2.46B streams
+181. G-Eazy: 2.45B streams
+182. Passenger: 2.44B streams
+183. The Notorious B.I.G.: 2.44B streams
+184. Timbaland: 2.43B streams
+185. Alicia Keys: 2.40B streams
+186. The Police: 2.40B streams
+187. Whitney Houston: 2.39B streams
+188. Aerosmith: 2.38B streams
+189. Stephen Sanchez: 2.38B streams
+190. Myke Towers: 2.37B streams
+191. French Montana: 2.36B streams
+192. Hailee Steinfeld: 2.36B streams
+193. Flo Rida: 2.34B streams
+194. George Ezra: 2.33B streams
+195. Jonas Blue: 2.32B streams
+196. Green Day: 2.31B streams
+197. Nicky Jam: 2.30B streams
+198. Demi Lovato: 2.28B streams
+199. MNEK: 2.28B streams
+200. PNAU: 2.25B streams
+201. Journey: 2.24B streams
+202. Swedish House Mafia: 2.24B streams
+203. Kodak Black: 2.23B streams
+204. Oasis: 2.22B streams
+205. ROSALÍA: 2.19B streams
+206. Bob Marley & The Wailers: 2.19B streams
+207. a-ha: 2.19B streams
+208. Gesaffelstein: 2.19B streams
+209. Playboi Carti: 2.17B streams
+210. Mariah Carey: 2.16B streams
+211. Latto: 2.15B streams
+212. The Offspring: 2.15B streams
+213. Nate Dogg: 2.13B streams
+214. Gucci Mane: 2.12B streams
+215. Jack Harlow: 2.11B streams
+216. The Goo Goo Dolls: 2.10B streams
+217. Alan Walker: 2.10B streams
+218. Lukas Graham: 2.09B streams
+219. Mike Posner: 2.09B streams
+220. Seeb: 2.09B streams
+221. Foster The People: 2.04B streams
+222. Daya: 2.03B streams
+223. Manuel Turizo: 2.03B streams
+224. Jason Mraz: 2.03B streams
+225. SAINt JHN: 2.02B streams
+226. Imanbek: 2.02B streams
+227. 24kGoldn: 2.00B streams
+228. iann dior: 2.00B streams
+229. Radiohead: 1.96B streams
+230. Gotye: 1.96B streams
+231. Kimbra: 1.96B streams
+232. Coolio: 1.95B streams
+233. L.V.: 1.95B streams
+234. WALK THE MOON: 1.94B streams
+235. Danny Ocean: 1.93B streams
+236. Tears For Fears: 1.92B streams
+237. Lauv: 1.91B streams
+238. Wyclef Jean: 1.91B streams
+239. Conan Gray: 1.91B streams
+240. Alec Benjamin: 1.91B streams
+241. 5 Seconds of Summer: 1.91B streams
+242. Dean Lewis: 1.88B streams
+243. Lucenzo: 1.87B streams
+244. benny blanco: 1.86B streams
+245. Earth, Wind & Fire: 1.86B streams
+246. Tame Impala: 1.85B streams
+247. The White Stripes: 1.84B streams
+248. OMI: 1.84B streams
+249. Trippie Redd: 1.84B streams
+250. Ruth B.: 1.84B streams
+251. Quevedo: 1.84B streams
+252. Keane: 1.83B streams
+253. Christina Perri: 1.83B streams
+254. David Bowie: 1.78B streams
+255. Eagles: 1.78B streams
+256. Powfu: 1.77B streams
+257. beabadoobee: 1.77B streams
+258. The Walters: 1.77B streams
+259. DNCE: 1.75B streams
+260. Benson Boone: 1.74B streams
+261. Train: 1.74B streams
+262. Childish Gambino: 1.73B streams
+263. Trevor Daniel: 1.72B streams
+264. Panic! At The Disco: 1.71B streams
+265. Kim Petras: 1.70B streams
+266. Jay Rock: 1.69B streams
+267. MAGIC!: 1.69B streams
+268. JID: 1.69B streams
+269. Arcane: 1.69B streams
+270. League of Legends: 1.69B streams
+271. Kings of Leon: 1.67B streams
+272. Cigarettes After Sex: 1.65B streams
+273. Backstreet Boys: 1.65B streams
+274. The Script: 1.65B streams
+275. will.i.am: 1.65B streams
+276. H.E.R.: 1.63B streams
+277. Gorillaz: 1.62B streams
+278. Miguel: 1.62B streams
+279. Milky Chance: 1.61B streams
+280. Juicy J: 1.61B streams
+281. Lil Tecca: 1.59B streams
+282. Carly Rae Jepsen: 1.59B streams
+283. Eurythmics: 1.58B streams
+284. Annie Lennox: 1.58B streams
+285. Dave Stewart: 1.58B streams
+286. Maren Morris: 1.58B streams
+287. Bomba Estéreo: 1.57B streams
+288. Billy Ray Cyrus: 1.57B streams
+289. Rema: 1.57B streams
+290. Dynoro: 1.57B streams
+291. Gigi D'Agostino: 1.57B streams
+292. Willy William: 1.56B streams
+293. NF: 1.55B streams
+294. Tainy: 1.55B streams
+295. Marvin Gaye: 1.54B streams
+296. Tammi Terrell: 1.54B streams
+297. R.E.M.: 1.54B streams
+298. Lil Jon: 1.54B streams
+299. ABBA: 1.54B streams
+300. JENNIE: 1.53B streams
+301. Lily-Rose Depp: 1.53B streams
+302. P!nk: 1.53B streams
+303. Nate Ruess: 1.53B streams
+304. Arizona Zervas: 1.52B streams
+305. The Beatles: 1.51B streams
+306. Zacari: 1.50B streams
+307. Fifth Harmony: 1.49B streams
+308. Jonas Brothers: 1.49B streams
+309. Mikky Ekko: 1.49B streams
+310. MKTO: 1.48B streams
+311. Regard: 1.48B streams
+312. Capital Cities: 1.48B streams
+313. gnash: 1.46B streams
+314. Olivia O'Brien: 1.46B streams
+315. Gym Class Heroes: 1.45B streams
+316. Survivor: 1.45B streams
+317. Snow Patrol: 1.45B streams
+318. Normani: 1.45B streams
+319. Teddy Swims: 1.45B streams
+320. Jessie J: 1.44B streams
+321. Axwell /\ Ingrosso: 1.44B streams
+322. Anderson .Paak: 1.44B streams
+323. Silk Sonic: 1.44B streams
+324. Snow: 1.44B streams
+325. AFROJACK: 1.44B streams
+326. Nayer: 1.44B streams
+327. Tyga: 1.43B streams
+328. Portugal. The Man: 1.43B streams
+329. Mitski: 1.42B streams
+330. Lynyrd Skynyrd: 1.41B streams
+331. Internet Money: 1.41B streams
+332. NAV: 1.41B streams
+333. A$AP Rocky: 1.40B streams
+334. Skepta: 1.40B streams
+335. Megan Thee Stallion: 1.40B streams
+336. Nyla: 1.39B streams
+337. Fuse ODG: 1.39B streams
+338. FloyyMenor: 1.39B streams
+339. Cris Mj: 1.39B streams
+340. Nelly Furtado: 1.38B streams
+341. David Kushner: 1.38B streams
+342. The Rolling Stones: 1.38B streams
+343. The Cranberries: 1.37B streams
+344. Lil Mosey: 1.37B streams
+345. Noah Kahan: 1.36B streams
+346. Wanz: 1.35B streams
+347. Bryan Adams: 1.35B streams
+348. Dire Straits: 1.35B streams
+349. Eslabon Armado: 1.35B streams
+350. Evanescence: 1.34B streams
+351. Foo Fighters: 1.34B streams
+352. Cyndi Lauper: 1.34B streams
+353. The Fray: 1.33B streams
+354. Francesco Yates: 1.33B streams
+355. Kate Bush: 1.33B streams
+356. blackbear: 1.32B streams
+357. Surf Curse: 1.31B streams
+358. Masked Wolf: 1.31B streams
+359. Lorde: 1.31B streams
+360. Duncan Laurence: 1.30B streams
+361. Chance the Rapper: 1.30B streams
+362. Disciples: 1.30B streams
+363. Fall Out Boy: 1.30B streams
+364. Brenda Lee: 1.29B streams
+365. JVKE: 1.28B streams
+366. Loud Luxury: 1.28B streams
+367. Brando: 1.28B streams
+368. Djo: 1.28B streams
+369. KALEO: 1.28B streams
+370. Jamie Foxx: 1.27B streams
+371. LISA: 1.27B streams
+372. Beach House: 1.27B streams
+373. Joel Corry: 1.27B streams
+374. fun.: 1.27B streams
+375. Janelle Monáe: 1.27B streams
+376. Ice Cube: 1.27B streams
+377. Nickelback: 1.27B streams
+378. blink-182: 1.27B streams
+379. Papa Roach: 1.26B streams
+380. Natasha Bedingfield: 1.26B streams
+381. Fetty Wap: 1.26B streams
+382. girl in red: 1.26B streams
+383. James Bay: 1.26B streams
+384. Tiësto: 1.26B streams
+385. Dwele: 1.26B streams
+386. Meek Mill: 1.25B streams
+387. Van Morrison: 1.25B streams
+388. TLC: 1.25B streams
+389. Ben E. King: 1.25B streams
+390. Elley Duhé: 1.24B streams
+391. Black Sabbath: 1.24B streams
+392. Jay Wheeler: 1.24B streams
+393. DJ Nelson: 1.24B streams
+394. Anuel AA: 1.24B streams
+395. Dido: 1.24B streams
+396. Colby O'Donis: 1.24B streams
+397. JP Saxe: 1.23B streams
+398. Kodaline: 1.23B streams
+399. Nio Garcia: 1.22B streams
+400. Casper Magico: 1.22B streams
+401. Darell: 1.22B streams
+402. Spice Girls: 1.22B streams
+403. Kungs: 1.21B streams
+404. Cookin' On 3 Burners: 1.21B streams
+405. Desiigner: 1.21B streams
+406. Dakota: 1.21B streams
+407. Bobby Helms: 1.21B streams
+408. Amy Winehouse: 1.21B streams
+409. Paul McCartney: 1.21B streams
+410. Grupo Frontera: 1.21B streams
+411. M83: 1.21B streams
+412. John Martin: 1.20B streams
+413. The Clash: 1.20B streams
+414. Pedro Capó: 1.20B streams
+415. T-Pain: 1.20B streams
+416. Plan B: 1.20B streams
+417. Smash Mouth: 1.20B streams
+418. Gnarls Barkley: 1.19B streams
+419. Ali Gatie: 1.19B streams
+420. Yng Lvcas: 1.19B streams
+421. X Ambassadors: 1.19B streams
+422. George Michael: 1.19B streams
+423. Lilly Wood and The Prick: 1.19B streams
+424. Hotel Ugly: 1.19B streams
+425. Rudimental: 1.19B streams
+426. Dan Caplen: 1.19B streams
+427. TV Girl: 1.19B streams
+428. Em Beihold: 1.19B streams
+429. Nile Rodgers: 1.18B streams
+430. Thomas Bangalter: 1.18B streams
+431. Guy-Manuel de Homem-Christo: 1.18B streams
+432. GAYLE: 1.18B streams
+433. Taio Cruz: 1.18B streams
+434. Rosa Linn: 1.18B streams
+435. Big Sean: 1.18B streams
+436. Funk Wav: 1.18B streams
+437. The Verve: 1.18B streams
+438. Conrad Sewell: 1.18B streams
+439. WILLOW: 1.18B streams
+440. BØRNS: 1.17B streams
+441. Michael Bublé: 1.17B streams
+442. Topic: 1.17B streams
+443. A7S: 1.17B streams
+444. Meghan Trainor: 1.17B streams
+445. Plain White T's: 1.16B streams
+446. Zach Bryan: 1.16B streams
+447. Florence + The Machine: 1.16B streams
+448. Noah Cyrus: 1.16B streams
+449. Daryl Hall & John Oates: 1.16B streams
+450. Jawsh 685: 1.16B streams
+451. Disclosure: 1.15B streams
+452. Morgan Wallen: 1.15B streams
+453. U2: 1.15B streams
+454. Chappell Roan: 1.15B streams
+455. Jaymes Young: 1.15B streams
+456. Hoobastank: 1.15B streams
+457. Sandro Cavazza: 1.15B streams
+458. Jack Ü: 1.15B streams
+459. Skrillex: 1.15B streams
+460. Diplo: 1.15B streams
+461. KISS: 1.14B streams
+462. Of Monsters and Men: 1.14B streams
+463. Artemas: 1.14B streams
+464. Bee Gees: 1.14B streams
+465. Alesso: 1.13B streams
+466. WATT: 1.13B streams
+467. Migos: 1.13B streams
+468. Bipolar Sunshine: 1.12B streams
+469. YNW Melly: 1.12B streams
+470. Mario: 1.12B streams
+471. Sheck Wes: 1.12B streams
+472. Dan + Shay: 1.11B streams
+473. The Outfield: 1.11B streams
+474. Shaggy: 1.11B streams
+475. Rik Rok: 1.11B streams
+476. A Great Big World: 1.11B streams
+477. Chris Stapleton: 1.11B streams
+478. JP Cooper: 1.11B streams
+479. Dominic Fike: 1.11B streams
+480. Bill Withers: 1.10B streams
+481. BLACKPINK: 1.10B streams
+482. ROZES: 1.10B streams
+483. American Authors: 1.09B streams
+484. R. City: 1.09B streams
+485. Iyaz: 1.09B streams
+486. Nicky Youre: 1.09B streams
+487. dazy: 1.09B streams
+488. Billy Joel: 1.09B streams
+489. Cage The Elephant: 1.09B streams
+490. Oh Wonder: 1.08B streams
+491. Bazzi: 1.08B streams
+492. Jimmy Eat World: 1.08B streams
+493. The Temptations: 1.08B streams
+494. Jessie Reyez: 1.08B streams
+495. Majid Jordan: 1.08B streams
+496. Kina: 1.07B streams
+497. Snøw: 1.07B streams
+498. Mr. Probz: 1.07B streams
+499. Olivia: 1.07B streams
+500. Dina Rae: 1.07B streams
+501. Empire Of The Sun: 1.07B streams
+502. The Animals: 1.07B streams
+503. Kid Cudi: 1.06B streams
+504. My Chemical Romance: 1.06B streams
+505. Young Miko: 1.06B streams
+506. Beach Weather: 1.06B streams
+507. Led Zeppelin: 1.06B streams
+508. Mustard: 1.06B streams
+509. Mabel: 1.06B streams
+510. John Newman: 1.05B streams
+511. Parson James: 1.05B streams
+512. Liam Payne: 1.05B streams
+513. Niall Horan: 1.05B streams
+514. Keri Hilson: 1.05B streams
+515. D.O.E.: 1.05B streams
+516. Nico & Vinz: 1.05B streams
+517. Riton: 1.05B streams
+518. Nightcrawlers: 1.05B streams
+519. Mufasa & Hypeman: 1.05B streams
+520. Mufasa: 1.05B streams
+521. Dopamine: 1.05B streams
+522. Becky G: 1.05B streams
+523. Dennis Lloyd: 1.05B streams
+524. Akon: 1.04B streams
+525. 3 Doors Down: 1.04B streams
+526. Tommy Richman: 1.04B streams
+527. Electric Light Orchestra: 1.04B streams
+528. Shaboozey: 1.04B streams
+529. 4 Non Blondes: 1.04B streams
+530. MEDUZA: 1.03B streams
+531. Goodboys: 1.03B streams
+532. Patrick Watson: 1.03B streams
+533. Dhruv: 1.03B streams
+534. Madonna: 1.03B streams
+535. Tory Lanez: 1.03B streams
+536. Elvis Presley: 1.03B streams
+537. Tove Lo: 1.02B streams
+538. Rae Sremmurd: 1.02B streams
+539. Lunay: 1.02B streams
+540. Andy Williams: 1.02B streams
+541. Lizzo: 1.02B streams
+542. Rick Ross: 1.02B streams
+543. The Mamas & The Papas: 1.02B streams
+544. Lil Durk: 1.01B streams
+545. Polo G: 1.01B streams
+546. V: 1.01B streams
+547. Avril Lavigne: 1.01B streams
+548. Simple Minds: 1.01B streams
+549. Blur: 1.01B streams
+550. Toploader: 1.01B streams
+551. BlocBoy JB: 1.00B streams
+552. Seafret: 1.00B streams
+553. Pixies: 1.00B streams
+554. Surfaces: 1.00B streams
+555. GROUPLOVE: 1.00B streams
+556. Franz Ferdinand: 1.00B streams

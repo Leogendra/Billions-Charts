@@ -1,9 +1,8 @@
 # Modules
 node_modules/
+chrome_data/
+__*/
 
 # Environment
-.env
 .vscode/
-
-# Production
-data/
+venv*/

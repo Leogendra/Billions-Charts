@@ -1,0 +1,556 @@
+1. The Weeknd: 25 tracks
+2. Drake: 20 tracks
+3. Ariana Grande: 19 tracks
+4. Bad Bunny: 19 tracks
+5. Justin Bieber: 17 tracks
+6. Bruno Mars: 16 tracks
+7. Rihanna: 16 tracks
+8. Taylor Swift: 14 tracks
+9. Billie Eilish: 13 tracks
+10. Coldplay: 12 tracks
+11. Eminem: 12 tracks
+12. Ed Sheeran: 12 tracks
+13. Post Malone: 12 tracks
+14. Dua Lipa: 12 tracks
+15. Imagine Dragons: 11 tracks
+16. XXXTENTACION: 11 tracks
+17. Maroon 5: 11 tracks
+18. Calvin Harris: 11 tracks
+19. Kanye West: 9 tracks
+20. Khalid: 8 tracks
+21. Olivia Rodrigo: 8 tracks
+22. Sam Smith: 8 tracks
+23. Adele: 8 tracks
+24. Katy Perry: 8 tracks
+25. Lady Gaga: 7 tracks
+26. Sia: 7 tracks
+27. Daddy Yankee: 7 tracks
+28. Selena Gomez: 7 tracks
+29. Travis Scott: 6 tracks
+30. SZA: 6 tracks
+31. Harry Styles: 6 tracks
+32. Kendrick Lamar: 6 tracks
+33. Avicii: 6 tracks
+34. Shawn Mendes: 6 tracks
+35. J Balvin: 6 tracks
+36. Red Hot Chili Peppers: 6 tracks
+37. KAROL G: 6 tracks
+38. Doja Cat: 6 tracks
+39. Nicki Minaj: 6 tracks
+40. Miley Cyrus: 6 tracks
+41. Queen: 6 tracks
+42. Arctic Monkeys: 5 tracks
+43. The Chainsmokers: 5 tracks
+44. Juice WRLD: 5 tracks
+45. Halsey: 5 tracks
+46. 21 Savage: 5 tracks
+47. JAY-Z: 5 tracks
+48. Wiz Khalifa: 5 tracks
+49. Marshmello: 5 tracks
+50. Ty Dolla $ign: 5 tracks
+51. Lil Nas X: 5 tracks
+52. Pitbull: 4 tracks
+53. Gunna: 4 tracks
+54. One Direction: 4 tracks
+55. Frank Ocean: 4 tracks
+56. Linkin Park: 4 tracks
+57. Fleetwood Mac: 4 tracks
+58. David Guetta: 4 tracks
+59. Bebe Rexha: 4 tracks
+60. Shakira: 4 tracks
+61. Guns N' Roses: 4 tracks
+62. AC/DC: 4 tracks
+63. DJ Snake: 4 tracks
+64. J. Cole: 4 tracks
+65. Lana Del Rey: 4 tracks
+66. Quavo: 4 tracks
+67. Kygo: 4 tracks
+68. Cardi B: 4 tracks
+69. BTS: 4 tracks
+70. Clean Bandit: 4 tracks
+71. Ozuna: 4 tracks
+72. The Neighbourhood: 3 tracks
+73. Sabrina Carpenter: 3 tracks
+74. Daft Punk: 3 tracks
+75. Lewis Capaldi: 3 tracks
+76. Twenty One Pilots: 3 tracks
+77. Bryson Tiller: 3 tracks
+78. Creedence Clearwater Revival: 3 tracks
+79. Elton John: 3 tracks
+80. Peso Pluma: 3 tracks
+81. Charlie Puth: 3 tracks
+82. Metro Boomin: 3 tracks
+83. Offset: 3 tracks
+84. Snoop Dogg: 3 tracks
+85. Zara Larsson: 3 tracks
+86. ZAYN: 3 tracks
+87. Lil Uzi Vert: 3 tracks
+88. Pharrell Williams: 3 tracks
+89. Robin Schulz: 3 tracks
+90. DaBaby: 3 tracks
+91. Lil Baby: 3 tracks
+92. Feid: 3 tracks
+93. Calum Scott: 3 tracks
+94. Pop Smoke: 3 tracks
+95. Macklemore: 3 tracks
+96. Zedd: 3 tracks
+97. Anne-Marie: 3 tracks
+98. Jason Derulo: 3 tracks
+99. Alessia Cara: 3 tracks
+100. Major Lazer: 3 tracks
+101. Britney Spears: 2 tracks
+102. USHER: 2 tracks
+103. Don Omar: 2 tracks
+104. Wham!: 2 tracks
+105. Jimin: 2 tracks
+106. Tyler, The Creator: 2 tracks
+107. Kali Uchis: 2 tracks
+108. Playboi Carti: 2 tracks
+109. Jung Kook: 2 tracks
+110. d4vd: 2 tracks
+111. TOTO: 2 tracks
+112. Steve Lacy: 2 tracks
+113. Lil Peep: 2 tracks
+114. Daniel Caesar: 2 tracks
+115. Ne-Yo: 2 tracks
+116. Mark Ronson: 2 tracks
+117. Swae Lee: 2 tracks
+118. Bon Jovi: 2 tracks
+119. John Legend: 2 tracks
+120. Ludacris: 2 tracks
+121. Chris Brown: 2 tracks
+122. Kesha: 2 tracks
+123. System Of A Down: 2 tracks
+124. Timbaland: 2 tracks
+125. Ellie Goulding: 2 tracks
+126. Måneskin: 2 tracks
+127. Myke Towers: 2 tracks
+128. George Ezra: 2 tracks
+129. Outkast: 2 tracks
+130. Green Day: 2 tracks
+131. Michael Jackson: 2 tracks
+132. Future: 2 tracks
+133. Don Toliver: 2 tracks
+134. Whitney Houston: 2 tracks
+135. Gesaffelstein: 2 tracks
+136. Chencho Corleone: 2 tracks
+137. The Offspring: 2 tracks
+138. Dr. Dre: 2 tracks
+139. Aerosmith: 2 tracks
+140. Sean Paul: 2 tracks
+141. Alicia Keys: 2 tracks
+142. Camila Cabello: 2 tracks
+143. Young Thug: 2 tracks
+144. Roddy Ricch: 2 tracks
+145. Bob Marley & The Wailers: 2 tracks
+146. OneRepublic: 2 tracks
+147. Bizarrap: 2 tracks
+148. Flo Rida: 2 tracks
+149. Hozier: 2 tracks
+150. Rauw Alejandro: 2 tracks
+151. JHAYCO: 2 tracks
+152. Adam Levine: 2 tracks
+153. Swedish House Mafia: 2 tracks
+154. Black Eyed Peas: 2 tracks
+155. Martin Garrix: 2 tracks
+156. Justin Timberlake: 2 tracks
+157. Luis Fonsi: 2 tracks
+158. Ava Max: 2 tracks
+159. G-Eazy: 2 tracks
+160. 50 Cent: 2 tracks
+161. Stephen Sanchez: 2 tracks
+162. Macklemore & Ryan Lewis: 2 tracks
+163. Ryan Lewis: 2 tracks
+164. Beyoncé: 2 tracks
+165. Nirvana: 2 tracks
+166. Grey: 2 tracks
+167. Maluma: 2 tracks
+168. Lost Frequencies: 2 tracks
+169. Jonas Blue: 2 tracks
+170. Nicky Jam: 2 tracks
+171. Kodak Black: 2 tracks
+172. Lil Wayne: 2 tracks
+173. Logic: 2 tracks
+174. Metallica: 2 tracks
+175. MNEK: 2 tracks
+176. Gucci Mane: 2 tracks
+177. Julia Michaels: 2 tracks
+178. ROSALÍA: 2 tracks
+179. Jess Glynne: 2 tracks
+180. Hailee Steinfeld: 2 tracks
+181. Florida Georgia Line: 2 tracks
+182. Demi Lovato: 2 tracks
+183. Farruko: 2 tracks
+184. The Notorious B.I.G.: 2 tracks
+185. Bastille: 2 tracks
+186. Christina Aguilera: 2 tracks
+187. Giveon: 2 tracks
+188. MØ: 2 tracks
+189. DJ Khaled: 2 tracks
+190. Joji: 2 tracks
+191. Tate McRae: 2 tracks
+192. The Lumineers: 2 tracks
+193. Seafret: 1 tracks
+194. Pixies: 1 tracks
+195. Mariah Carey: 1 tracks
+196. Chappell Roan: 1 tracks
+197. Brenda Lee: 1 tracks
+198. Bobby Helms: 1 tracks
+199. JENNIE: 1 tracks
+200. Lily-Rose Depp: 1 tracks
+201. Djo: 1 tracks
+202. Andy Williams: 1 tracks
+203. The Police: 1 tracks
+204. Tommy Richman: 1 tracks
+205. Mitski: 1 tracks
+206. Cigarettes After Sex: 1 tracks
+207. Noah Kahan: 1 tracks
+208. The Goo Goo Dolls: 1 tracks
+209. FloyyMenor: 1 tracks
+210. Cris Mj: 1 tracks
+211. Shaboozey: 1 tracks
+212. Lil Tecca: 1 tracks
+213. Radiohead: 1 tracks
+214. The Walters: 1 tracks
+215. Michael Bublé: 1 tracks
+216. TV Girl: 1 tracks
+217. Benson Boone: 1 tracks
+218. Ruth B.: 1 tracks
+219. Hotel Ugly: 1 tracks
+220. Tears For Fears: 1 tracks
+221. Gorillaz: 1 tracks
+222. Wizkid: 1 tracks
+223. Kyla: 1 tracks
+224. Natasha Bedingfield: 1 tracks
+225. Conan Gray: 1 tracks
+226. H.E.R.: 1 tracks
+227. Wyclef Jean: 1 tracks
+228. Miguel: 1 tracks
+229. James Arthur: 1 tracks
+230. AFROJACK: 1 tracks
+231. Nayer: 1 tracks
+232. Zach Bryan: 1 tracks
+233. Coolio: 1 tracks
+234. L.V.: 1 tracks
+235. French Montana: 1 tracks
+236. a-ha: 1 tracks
+237. Trippie Redd: 1 tracks
+238. Foster The People: 1 tracks
+239. Lil Jon: 1 tracks
+240. WALK THE MOON: 1 tracks
+241. Tory Lanez: 1 tracks
+242. girl in red: 1 tracks
+243. Nickelback: 1 tracks
+244. Train: 1 tracks
+245. Artemas: 1 tracks
+246. ABBA: 1 tracks
+247. Evanescence: 1 tracks
+248. Surf Curse: 1 tracks
+249. Alec Benjamin: 1 tracks
+250. Tame Impala: 1 tracks
+251. R.E.M.: 1 tracks
+252. Nelly Furtado: 1 tracks
+253. Dwele: 1 tracks
+254. Eurythmics: 1 tracks
+255. Annie Lennox: 1 tracks
+256. Dave Stewart: 1 tracks
+257. Backstreet Boys: 1 tracks
+258. P!nk: 1 tracks
+259. Nate Ruess: 1 tracks
+260. Patrick Watson: 1 tracks
+261. Kings of Leon: 1 tracks
+262. Billy Joel: 1 tracks
+263. Marvin Gaye: 1 tracks
+264. Tammi Terrell: 1 tracks
+265. The White Stripes: 1 tracks
+266. Eagles: 1 tracks
+267. MAGIC!: 1 tracks
+268. Keri Hilson: 1 tracks
+269. D.O.E.: 1 tracks
+270. The Beatles: 1 tracks
+271. KISS: 1 tracks
+272. Bradley Cooper: 1 tracks
+273. The Cranberries: 1 tracks
+274. Chris Stapleton: 1 tracks
+275. Teddy Swims: 1 tracks
+276. David Kushner: 1 tracks
+277. The Rolling Stones: 1 tracks
+278. Zacari: 1 tracks
+279. Avril Lavigne: 1 tracks
+280. Latto: 1 tracks
+281. A$AP Rocky: 1 tracks
+282. Skepta: 1 tracks
+283. Amy Winehouse: 1 tracks
+284. Foo Fighters: 1 tracks
+285. TLC: 1 tracks
+286. Noah Cyrus: 1 tracks
+287. blink-182: 1 tracks
+288. Bomba Estéreo: 1 tracks
+289. The Fray: 1 tracks
+290. Bryan Adams: 1 tracks
+291. Christina Perri: 1 tracks
+292. KALEO: 1 tracks
+293. Daya: 1 tracks
+294. The Verve: 1 tracks
+295. Jimmy Eat World: 1 tracks
+296. Lukas Graham: 1 tracks
+297. Cyndi Lauper: 1 tracks
+298. JID: 1 tracks
+299. Arcane: 1 tracks
+300. League of Legends: 1 tracks
+301. Snow Patrol: 1 tracks
+302. Bill Withers: 1 tracks
+303. Lucenzo: 1 tracks
+304. Hoobastank: 1 tracks
+305. Francesco Yates: 1 tracks
+306. The Clash: 1 tracks
+307. My Chemical Romance: 1 tracks
+308. V: 1 tracks
+309. Franz Ferdinand: 1 tracks
+310. Quevedo: 1 tracks
+311. T-Pain: 1 tracks
+312. DNCE: 1 tracks
+313. Dynoro: 1 tracks
+314. Gigi D'Agostino: 1 tracks
+315. MKTO: 1 tracks
+316. Morgan Wallen: 1 tracks
+317. Papa Roach: 1 tracks
+318. Regard: 1 tracks
+319. Spice Girls: 1 tracks
+320. Powfu: 1 tracks
+321. beabadoobee: 1 tracks
+322. Jay Wheeler: 1 tracks
+323. DJ Nelson: 1 tracks
+324. Rema: 1 tracks
+325. Toploader: 1 tracks
+326. The Temptations: 1 tracks
+327. 4 Non Blondes: 1 tracks
+328. John Newman: 1 tracks
+329. 24kGoldn: 1 tracks
+330. iann dior: 1 tracks
+331. 3 Doors Down: 1 tracks
+332. R. City: 1 tracks
+333. Cage The Elephant: 1 tracks
+334. John Martin: 1 tracks
+335. Fall Out Boy: 1 tracks
+336. Sandro Cavazza: 1 tracks
+337. 5 Seconds of Summer: 1 tracks
+338. Gym Class Heroes: 1 tracks
+339. Lynyrd Skynyrd: 1 tracks
+340. Jamie Foxx: 1 tracks
+341. Elvis Presley: 1 tracks
+342. Yng Lvcas: 1 tracks
+343. Young Miko: 1 tracks
+344. Polo G: 1 tracks
+345. Mustard: 1 tracks
+346. Kate Bush: 1 tracks
+347. Van Morrison: 1 tracks
+348. Empire Of The Sun: 1 tracks
+349. Portugal. The Man: 1 tracks
+350. Jessie J: 1 tracks
+351. Olivia: 1 tracks
+352. The Kid LAROI: 1 tracks
+353. Em Beihold: 1 tracks
+354. Ice Cube: 1 tracks
+355. Meghan Trainor: 1 tracks
+356. Of Monsters and Men: 1 tracks
+357. Niall Horan: 1 tracks
+358. Nile Rodgers: 1 tracks
+359. Thomas Bangalter: 1 tracks
+360. Guy-Manuel de Homem-Christo: 1 tracks
+361. Panic! At The Disco: 1 tracks
+362. Axwell /\ Ingrosso: 1 tracks
+363. Daryl Hall & John Oates: 1 tracks
+364. Lilly Wood and The Prick: 1 tracks
+365. Lord Huron: 1 tracks
+366. Led Zeppelin: 1 tracks
+367. Smash Mouth: 1 tracks
+368. Wanz: 1 tracks
+369. Kodaline: 1 tracks
+370. American Authors: 1 tracks
+371. Jaymes Young: 1 tracks
+372. Shaggy: 1 tracks
+373. Rik Rok: 1 tracks
+374. Jay Rock: 1 tracks
+375. Oh Wonder: 1 tracks
+376. WILLOW: 1 tracks
+377. Kungs: 1 tracks
+378. Cookin' On 3 Burners: 1 tracks
+379. Manuel Turizo: 1 tracks
+380. NF: 1 tracks
+381. BØRNS: 1 tracks
+382. Ray Dalton: 1 tracks
+383. Parson James: 1 tracks
+384. Nico & Vinz: 1 tracks
+385. The Outfield: 1 tracks
+386. Jonas Brothers: 1 tracks
+387. Kim Petras: 1 tracks
+388. Loud Luxury: 1 tracks
+389. Brando: 1 tracks
+390. Maren Morris: 1 tracks
+391. Paul McCartney: 1 tracks
+392. Bee Gees: 1 tracks
+393. Plain White T's: 1 tracks
+394. Snow: 1 tracks
+395. Beach House: 1 tracks
+396. YNW Melly: 1 tracks
+397. Lorde: 1 tracks
+398. GROUPLOVE: 1 tracks
+399. Mr. Probz: 1 tracks
+400. Electric Light Orchestra: 1 tracks
+401. Riton: 1 tracks
+402. Nightcrawlers: 1 tracks
+403. Mufasa & Hypeman: 1 tracks
+404. Mufasa: 1 tracks
+405. Dopamine: 1 tracks
+406. Conrad Sewell: 1 tracks
+407. Grupo Frontera: 1 tracks
+408. Ben E. King: 1 tracks
+409. JP Cooper: 1 tracks
+410. JVKE: 1 tracks
+411. Ali Gatie: 1 tracks
+412. Simple Minds: 1 tracks
+413. Dennis Lloyd: 1 tracks
+414. Jason Mraz: 1 tracks
+415. Elley Duhé: 1 tracks
+416. Keane: 1 tracks
+417. Megan Thee Stallion: 1 tracks
+418. Survivor: 1 tracks
+419. Sheck Wes: 1 tracks
+420. X Ambassadors: 1 tracks
+421. Dean Lewis: 1 tracks
+422. Fifth Harmony: 1 tracks
+423. Gotye: 1 tracks
+424. Kimbra: 1 tracks
+425. Colby O'Donis: 1 tracks
+426. Bipolar Sunshine: 1 tracks
+427. Joel Corry: 1 tracks
+428. Tove Lo: 1 tracks
+429. Rae Sremmurd: 1 tracks
+430. Duncan Laurence: 1 tracks
+431. Beach Weather: 1 tracks
+432. fun.: 1 tracks
+433. Janelle Monáe: 1 tracks
+434. Florence + The Machine: 1 tracks
+435. Fetty Wap: 1 tracks
+436. Black Sabbath: 1 tracks
+437. blackbear: 1 tracks
+438. Juicy J: 1 tracks
+439. Meek Mill: 1 tracks
+440. Jack Ü: 1 tracks
+441. Skrillex: 1 tracks
+442. Diplo: 1 tracks
+443. Tyga: 1 tracks
+444. gnash: 1 tracks
+445. Olivia O'Brien: 1 tracks
+446. ROZES: 1 tracks
+447. Jack Harlow: 1 tracks
+448. Kina: 1 tracks
+449. Snøw: 1 tracks
+450. Earth, Wind & Fire: 1 tracks
+451. Tones And I: 1 tracks
+452. GAYLE: 1 tracks
+453. Danny Ocean: 1 tracks
+454. Arizona Zervas: 1 tracks
+455. Surfaces: 1 tracks
+456. Tiësto: 1 tracks
+457. Topic: 1 tracks
+458. A7S: 1 tracks
+459. Iyaz: 1 tracks
+460. JP Saxe: 1 tracks
+461. Eslabon Armado: 1 tracks
+462. LISA: 1 tracks
+463. Billy Ray Cyrus: 1 tracks
+464. BLACKPINK: 1 tracks
+465. Carly Rae Jepsen: 1 tracks
+466. Anuel AA: 1 tracks
+467. The Mamas & The Papas: 1 tracks
+468. Oasis: 1 tracks
+469. Dan + Shay: 1 tracks
+470. Nio Garcia: 1 tracks
+471. Casper Magico: 1 tracks
+472. Darell: 1 tracks
+473. Mario: 1 tracks
+474. Alesso: 1 tracks
+475. WATT: 1 tracks
+476. Liam Payne: 1 tracks
+477. benny blanco: 1 tracks
+478. Taio Cruz: 1 tracks
+479. Normani: 1 tracks
+480. Pedro Capó: 1 tracks
+481. The Animals: 1 tracks
+482. Dhruv: 1 tracks
+483. Masked Wolf: 1 tracks
+484. Jawsh 685: 1 tracks
+485. Bazzi: 1 tracks
+486. Alan Walker: 1 tracks
+487. Dominic Fike: 1 tracks
+488. Becky G: 1 tracks
+489. M83: 1 tracks
+490. Lil Mosey: 1 tracks
+491. Lizzo: 1 tracks
+492. The Script: 1 tracks
+493. will.i.am: 1 tracks
+494. A Great Big World: 1 tracks
+495. PNAU: 1 tracks
+496. Kid Cudi: 1 tracks
+497. Disclosure: 1 tracks
+498. Rudimental: 1 tracks
+499. Dan Caplen: 1 tracks
+500. Akon: 1 tracks
+501. Blur: 1 tracks
+502. MEDUZA: 1 tracks
+503. Goodboys: 1 tracks
+504. Willy William: 1 tracks
+505. Desiigner: 1 tracks
+506. Lunay: 1 tracks
+507. Dire Straits: 1 tracks
+508. Dakota: 1 tracks
+509. Plan B: 1 tracks
+510. OMI: 1 tracks
+511. Tom Odell: 1 tracks
+512. Mike Posner: 1 tracks
+513. Seeb: 1 tracks
+514. Chance the Rapper: 1 tracks
+515. Nicky Youre: 1 tracks
+516. dazy: 1 tracks
+517. James Bay: 1 tracks
+518. BlocBoy JB: 1 tracks
+519. U2: 1 tracks
+520. Mabel: 1 tracks
+521. George Michael: 1 tracks
+522. Vance Joy: 1 tracks
+523. Rosa Linn: 1 tracks
+524. Capital Cities: 1 tracks
+525. Glass Animals: 1 tracks
+526. The Killers: 1 tracks
+527. Journey: 1 tracks
+528. Gnarls Barkley: 1 tracks
+529. Milky Chance: 1 tracks
+530. SAINt JHN: 1 tracks
+531. Imanbek: 1 tracks
+532. Childish Gambino: 1 tracks
+533. Internet Money: 1 tracks
+534. NAV: 1 tracks
+535. Lauv: 1 tracks
+536. Trevor Daniel: 1 tracks
+537. Nyla: 1 tracks
+538. Fuse ODG: 1 tracks
+539. David Bowie: 1 tracks
+540. Passenger: 1 tracks
+541. Madonna: 1 tracks
+542. Nate Dogg: 1 tracks
+543. Dina Rae: 1 tracks
+544. Dido: 1 tracks
+545. Disciples: 1 tracks
+546. Lil Durk: 1 tracks
+547. Rick Ross: 1 tracks
+548. Big Sean: 1 tracks
+549. Funk Wav: 1 tracks
+550. Tainy: 1 tracks
+551. Majid Jordan: 1 tracks
+552. Jessie Reyez: 1 tracks
+553. Anderson .Paak: 1 tracks
+554. Silk Sonic: 1 tracks
+555. Migos: 1 tracks
+556. Mikky Ekko: 1 tracks

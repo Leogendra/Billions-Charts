@@ -1,0 +1,842 @@
+1. Blinding Lights: 4.65B streams
+2. Shape of You: 4.18B streams
+3. Someone You Loved: 3.76B streams
+4. As It Was: 3.72B streams
+5. Starboy: 3.68B streams
+6. Sunflower - Spider-Man: Into the Spider-Verse: 3.67B streams
+7. Sweater Weather: 3.49B streams
+8. One Dance: 3.49B streams
+9. STAY (with Justin Bieber): 3.42B streams
+10. Believer: 3.29B streams
+11. Heat Waves: 3.26B streams
+12. Perfect: 3.25B streams
+13. Dance Monkey: 3.20B streams
+14. lovely (with Khalid): 3.15B streams
+15. Say You Won't Let Go: 3.13B streams
+16. Closer: 3.10B streams
+17. rockstar (feat. 21 Savage): 3.10B streams
+18. Something Just Like This: 2.96B streams
+19. Riptide: 2.93B streams
+20. Watermelon Sugar: 2.92B streams
+21. Señorita: 2.91B streams
+22. Take Me to Church: 2.85B streams
+23. Another Love: 2.84B streams
+24. Don't Start Now: 2.82B streams
+25. Counting Stars: 2.78B streams
+26. Lucid Dreams: 2.76B streams
+27. Photograph: 2.76B streams
+28. Yellow: 2.75B streams
+29. I Wanna Be Yours: 2.75B streams
+30. Cruel Summer: 2.71B streams
+31. Circles: 2.70B streams
+32. Can't Hold Us (feat. Ray Dalton): 2.69B streams
+33. goosebumps: 2.69B streams
+34. The Night We Met: 2.69B streams
+35. God's Plan: 2.68B streams
+36. Bohemian Rhapsody - 2011 Remaster: 2.68B streams
+37. Thinking out Loud: 2.66B streams
+38. bad guy: 2.65B streams
+39. Shallow: 2.64B streams
+40. Love Yourself: 2.64B streams
+41. Thunder: 2.60B streams
+42. Die For You: 2.60B streams
+43. All of Me: 2.59B streams
+44. Wake Me Up: 2.57B streams
+45. Demons: 2.55B streams
+46. The Hills: 2.53B streams
+47. Stressed Out: 2.52B streams
+48. Viva La Vida: 2.52B streams
+49. Just the Way You Are: 2.49B streams
+50. No Role Modelz: 2.46B streams
+51. Mr. Brightside: 2.46B streams
+52. When I Was Your Man: 2.45B streams
+53. HUMBLE.: 2.45B streams
+54. Let Her Go: 2.44B streams
+55. 7 rings: 2.44B streams
+56. That's What I Like: 2.44B streams
+57. Lose Yourself: 2.43B streams
+58. Do I Wanna Know?: 2.42B streams
+59. Locked out of Heaven: 2.42B streams
+60. In the End: 2.40B streams
+61. Every Breath You Take: 2.40B streams
+62. Flowers: 2.38B streams
+63. Treat You Better: 2.38B streams
+64. drivers license: 2.37B streams
+65. One Kiss (with Dua Lipa): 2.36B streams
+66. Unforgettable: 2.36B streams
+67. good 4 u: 2.34B streams
+68. SAD!: 2.33B streams
+69. Jocelyn Flores: 2.31B streams
+70. Kill Bill: 2.30B streams
+71. Sorry: 2.30B streams
+72. SICKO MODE: 2.28B streams
+73. XO Tour Llif3: 2.28B streams
+74. There's Nothing Holdin' Me Back: 2.28B streams
+75. Lean On: 2.26B streams
+76. Smells Like Teen Spirit: 2.25B streams
+77. Cold Heart - PNAU Remix: 2.25B streams
+78. Don't Stop Believin': 2.24B streams
+79. New Rules: 2.24B streams
+80. Levitating (feat. DaBaby): 2.23B streams
+81. Save Your Tears: 2.22B streams
+82. Too Good At Goodbyes: 2.22B streams
+83. Wonderwall: 2.22B streams
+84. Stay With Me: 2.22B streams
+85. Don't Stop Me Now - Remastered 2011: 2.20B streams
+86. Havana (feat. Young Thug): 2.20B streams
+87. Take on Me: 2.19B streams
+88. Uptown Funk (feat. Bruno Mars): 2.18B streams
+89. Memories: 2.17B streams
+90. Without Me: 2.17B streams
+91. Someone Like You: 2.17B streams
+92. All I Want for Christmas Is You: 2.16B streams
+93. The Scientist: 2.16B streams
+94. Seven (feat. Latto): 2.15B streams
+95. Till I Collapse: 2.13B streams
+96. DÁKITI: 2.12B streams
+97. INDUSTRY BABY (feat. Jack Harlow): 2.11B streams
+98. Sweet Child O' Mine: 2.11B streams
+99. Iris: 2.10B streams
+100. See You Again (feat. Kali Uchis): 2.10B streams
+101. Faded: 2.10B streams
+102. Congratulations: 2.10B streams
+103. Before You Go: 2.10B streams
+104. 7 Years: 2.09B streams
+105. I Took A Pill In Ibiza - Seeb Remix: 2.09B streams
+106. Stitches: 2.08B streams
+107. The Box: 2.08B streams
+108. We Don't Talk Anymore (feat. Selena Gomez): 2.08B streams
+109. I'm Not The Only One: 2.07B streams
+110. Payphone: 2.07B streams
+111. Another One Bites The Dust: 2.07B streams
+112. Numb: 2.06B streams
+113. Better Now: 2.05B streams
+114. when the party's over: 2.05B streams
+115. See You Again (feat. Charlie Puth): 2.05B streams
+116. The Real Slim Shady: 2.04B streams
+117. Moonlight: 2.04B streams
+118. Pumped Up Kicks: 2.04B streams
+119. Don't Let Me Down: 2.03B streams
+120. La Bachata: 2.03B streams
+121. I'm Yours: 2.03B streams
+122. Roses - Imanbek Remix: 2.02B streams
+123. Rolling in the Deep: 2.02B streams
+124. MONTERO (Call Me By Your Name): 2.01B streams
+125. Billie Jean: 2.01B streams
+126. Kiss Me More (feat. SZA): 2.01B streams
+127. Africa: 2.01B streams
+128. Radioactive: 2.00B streams
+129. Mood (feat. iann dior): 2.00B streams
+130. Dynamite: 2.00B streams
+131. Easy On Me: 2.00B streams
+132. 505: 2.00B streams
+133. Blank Space: 1.99B streams
+134. Call Out My Name: 1.98B streams
+135. thank u, next: 1.98B streams
+136. Me Porto Bonito: 1.98B streams
+137. The Nights: 1.98B streams
+138. Sugar: 1.98B streams
+139. Night Changes: 1.96B streams
+140. Mockingbird: 1.96B streams
+141. Creep: 1.96B streams
+142. Somebody That I Used To Know: 1.96B streams
+143. I'm Good (Blue): 1.95B streams
+144. Gangsta's Paradise: 1.95B streams
+145. Attention: 1.95B streams
+146. Shut Up and Dance: 1.94B streams
+147. All The Stars (with SZA): 1.93B streams
+148. Me Rehúso: 1.93B streams
+149. Heathens: 1.93B streams
+150. Why'd You Only Call Me When You're High?: 1.93B streams
+151. I Don't Care (with Justin Bieber): 1.93B streams
+152. Maps: 1.92B streams
+153. Dreams - 2004 Remaster: 1.92B streams
+154. LA CANCIÓN: 1.92B streams
+155. Everybody Wants To Rule The World: 1.92B streams
+156. We Found Love: 1.92B streams
+157. This Is What You Came For: 1.91B streams
+158. I Like Me Better: 1.91B streams
+159. Hips Don't Lie (feat. Wyclef Jean): 1.91B streams
+160. Heather: 1.91B streams
+161. Let Me Down Slowly: 1.91B streams
+162. Youngblood: 1.91B streams
+163. HIGHEST IN THE ROOM: 1.90B streams
+164. Chandelier: 1.90B streams
+165. Ride: 1.90B streams
+166. Be Alright: 1.88B streams
+167. Cheap Thrills: 1.88B streams
+168. I Feel It Coming: 1.88B streams
+169. Can't Feel My Face: 1.88B streams
+170. Have You Ever Seen The Rain: 1.87B streams
+171. Danza Kuduro: 1.87B streams
+172. Bad Habits: 1.87B streams
+173. Dusk Till Dawn (feat. Sia) - Radio Edit: 1.86B streams
+174. I Ain't Worried: 1.86B streams
+175. Eastside (with Halsey & Khalid): 1.86B streams
+176. September: 1.86B streams
+177. Last Christmas: 1.86B streams
+178. Despacito: 1.86B streams
+179. Set Fire to the Rain: 1.85B streams
+180. The Less I Know The Better: 1.85B streams
+181. BIRDS OF A FEATHER: 1.85B streams
+182. Seven Nation Army: 1.84B streams
+183. CAN'T STOP THE FEELING! (from DreamWorks Animation's "TROLLS"): 1.84B streams
+184. Cheerleader - Felix Jaehn Remix Radio Edit: 1.84B streams
+185. Fuck Love: 1.84B streams
+186. Dandelions: 1.84B streams
+187. Quevedo: Bzrp Music Sessions, Vol. 52: 1.84B streams
+188. Somewhere Only We Know: 1.83B streams
+189. Highway to Hell: 1.83B streams
+190. Ghost: 1.83B streams
+191. a thousand years: 1.83B streams
+192. All Girls Are The Same: 1.82B streams
+193. Espresso: 1.82B streams
+194. Livin' On A Prayer: 1.81B streams
+195. Earned It (Fifty Shades Of Grey): 1.81B streams
+196. deja vu: 1.81B streams
+197. Titanium (feat. Sia): 1.81B streams
+198. Adore You: 1.81B streams
+199. I Don’t Wanna Live Forever (Fifty Shades Darker): 1.80B streams
+200. Sweet but Psycho: 1.80B streams
+201. Woman: 1.79B streams
+202. Beggin': 1.79B streams
+203. Under Pressure: 1.78B streams
+204. A Sky Full of Stars: 1.78B streams
+205. traitor: 1.78B streams
+206. Hotel California - 2013 Remaster: 1.78B streams
+207. everything i wanted: 1.77B streams
+208. Wow.: 1.77B streams
+209. Party In The U.S.A.: 1.77B streams
+210. death bed (coffee for your head): 1.77B streams
+211. Despacito - Remix: 1.77B streams
+212. I Love You So: 1.77B streams
+213. Mask Off: 1.77B streams
+214. Passionfruit: 1.76B streams
+215. Back In Black: 1.75B streams
+216. Anti-Hero: 1.75B streams
+217. Cake By The Ocean: 1.75B streams
+218. Everybody Dies In Their Nightmares: 1.74B streams
+219. Shivers: 1.74B streams
+220. Save Your Tears (with Ariana Grande) (Remix): 1.74B streams
+221. Silence: 1.74B streams
+222. Umbrella: 1.74B streams
+223. Beautiful Things: 1.74B streams
+224. Hey, Soul Sister: 1.74B streams
+225. Love The Way You Lie: 1.74B streams
+226. What Do You Mean?: 1.73B streams
+227. Redbone: 1.73B streams
+228. Summertime Sadness: 1.73B streams
+229. Pompeii: 1.72B streams
+230. Ric Flair Drip (with Metro Boomin): 1.72B streams
+231. Falling: 1.72B streams
+232. Peaches (feat. Daniel Caesar & Giveon): 1.71B streams
+233. Thunderstruck: 1.71B streams
+234. High Hopes: 1.71B streams
+235. Girls Like You (feat. Cardi B) - Cardi B Version: 1.71B streams
+236. Unholy (feat. Kim Petras): 1.70B streams
+237. In Da Club: 1.70B streams
+238. I Fall Apart: 1.70B streams
+239. Money Trees: 1.69B streams
+240. I Like It: 1.69B streams
+241. ROCKSTAR (feat. Roddy Ricch): 1.69B streams
+242. Rude: 1.69B streams
+243. Enemy (with JID) - from the series Arcane League of Legends: 1.69B streams
+244. Summer: 1.69B streams
+245. Halo: 1.69B streams
+246. Timber: 1.68B streams
+247. Sign of the Times: 1.68B streams
+248. Love On The Brain: 1.68B streams
+249. Daddy Issues: 1.67B streams
+250. Moves Like Jagger - Studio Recording From "The Voice" Performance: 1.67B streams
+251. IDGAF: 1.67B streams
+252. Sex on Fire: 1.67B streams
+253. Young Dumb & Broke: 1.66B streams
+254. Apocalypse: 1.65B streams
+255. I Want It That Way: 1.65B streams
+256. Lover: 1.65B streams
+257. Hall of Fame (feat. will.i.am): 1.65B streams
+258. One Last Time: 1.65B streams
+259. ocean eyes: 1.65B streams
+260. Fix You: 1.65B streams
+261. Taki Taki (with Selena Gomez, Ozuna & Cardi B): 1.65B streams
+262. Pink + White: 1.64B streams
+263. Cold Water: 1.64B streams
+264. Hello: 1.64B streams
+265. Tití Me Preguntó: 1.64B streams
+266. Rockabye (feat. Sean Paul & Anne-Marie): 1.63B streams
+267. Needed Me: 1.63B streams
+268. Hope: 1.63B streams
+269. Best Part (feat. H.E.R.): 1.63B streams
+270. Revenge: 1.63B streams
+271. Godzilla (feat. Juice WRLD): 1.63B streams
+272. Feel Good Inc.: 1.62B streams
+273. Sure Thing: 1.62B streams
+274. you broke me first: 1.62B streams
+275. 2002: 1.62B streams
+276. I Gotta Feeling: 1.62B streams
+277. BUTTERFLY EFFECT: 1.62B streams
+278. Stolen Dance: 1.61B streams
+279. Dark Horse: 1.61B streams
+280. Love Me Like You Do - From "Fifty Shades Of Grey": 1.61B streams
+281. greedy: 1.61B streams
+282. Drip Too Hard (Lil Baby & Gunna): 1.60B streams
+283. Lush Life: 1.60B streams
+284. Pepas: 1.60B streams
+285. Symphony (feat. Zara Larsson): 1.60B streams
+286. Talking to the Moon: 1.60B streams
+287. She Will Be Loved: 1.59B streams
+288. Fortunate Son: 1.59B streams
+289. Ransom: 1.59B streams
+290. Call Me Maybe: 1.59B streams
+291. Sweet Dreams (Are Made of This) - 2005 Remaster: 1.58B streams
+292. Hymn for the Weekend: 1.58B streams
+293. The Middle: 1.58B streams
+294. Enter Sandman (Remastered): 1.58B streams
+295. Californication: 1.58B streams
+296. Diamonds: 1.58B streams
+297. 24K Magic: 1.57B streams
+298. Dark Red: 1.57B streams
+299. Still D.R.E.: 1.57B streams
+300. Ojitos Lindos: 1.57B streams
+301. Old Town Road (feat. Billy Ray Cyrus) - Remix: 1.57B streams
+302. Tusa: 1.57B streams
+303. Psycho (feat. Ty Dolla $ign): 1.57B streams
+304. Calm Down (with Selena Gomez): 1.57B streams
+305. In My Mind: 1.57B streams
+306. Mi Gente: 1.56B streams
+307. Ni**as In Paris: 1.56B streams
+308. Chop Suey!: 1.56B streams
+309. Young, Wild & Free (feat. Bruno Mars): 1.56B streams
+310. Let You Down: 1.55B streams
+311. Shake It Off: 1.55B streams
+312. Under the Bridge: 1.55B streams
+313. Look At Me!: 1.55B streams
+314. Callaita: 1.55B streams
+315. In the Name of Love: 1.54B streams
+316. positions: 1.54B streams
+317. Ain't No Mountain High Enough: 1.54B streams
+318. Losing My Religion: 1.54B streams
+319. Yeah! (feat. Lil Jon & Ludacris): 1.54B streams
+320. Dancing Queen: 1.54B streams
+321. Side To Side: 1.53B streams
+322. cardigan: 1.53B streams
+323. One Of The Girls (with JENNIE, Lily Rose Depp): 1.53B streams
+324. Just Give Me a Reason (feat. Nate Ruess): 1.53B streams
+325. Animals: 1.53B streams
+326. ROXANNE: 1.52B streams
+327. Die With A Smile: 1.52B streams
+328. Scars To Your Beautiful: 1.52B streams
+329. Hey Ya!: 1.52B streams
+330. It Ain’t Me (with Selena Gomez): 1.52B streams
+331. Story of My Life: 1.52B streams
+332. Stronger: 1.52B streams
+333. Unstoppable: 1.52B streams
+334. Poker Face: 1.51B streams
+335. Waiting For Love: 1.51B streams
+336. Grenade: 1.51B streams
+337. Todo De Ti: 1.51B streams
+338. Into You: 1.51B streams
+339. Here Comes The Sun - Remastered 2009: 1.51B streams
+340. Creepin' (with The Weeknd & 21 Savage): 1.50B streams
+341. Young And Beautiful: 1.50B streams
+342. LOVE. FEAT. ZACARI.: 1.50B streams
+343. Happy - From "Despicable Me 2": 1.50B streams
+344. Don't: 1.49B streams
+345. FRIENDS: 1.49B streams
+346. Work from Home (feat. Ty Dolla $ign): 1.49B streams
+347. Toxic: 1.49B streams
+348. Sucker: 1.49B streams
+349. What Makes You Beautiful: 1.49B streams
+350. Work: 1.49B streams
+351. Stay: 1.49B streams
+352. Classic: 1.48B streams
+353. Better: 1.48B streams
+354. Under The Influence: 1.48B streams
+355. Happier Than Ever: 1.48B streams
+356. Time of Our Lives: 1.48B streams
+357. No Me Conoce - Remix: 1.48B streams
+358. Ride It: 1.48B streams
+359. Safe And Sound: 1.48B streams
+360. Come As You Are: 1.48B streams
+361. Yonaguni: 1.47B streams
+362. Always Remember Us This Way: 1.46B streams
+363. i hate u, i love u (feat. olivia o'brien): 1.46B streams
+364. Stereo Hearts (feat. Adam Levine): 1.45B streams
+365. Eye of the Tiger: 1.45B streams
+366. Mercy: 1.45B streams
+367. Rather Be (feat. Jess Glynne): 1.45B streams
+368. Paradise: 1.45B streams
+369. Chasing Cars: 1.45B streams
+370. Location: 1.45B streams
+371. Dancing With A Stranger (with Normani): 1.45B streams
+372. Where Are You Now: 1.45B streams
+373. Beautiful People (feat. Khalid): 1.45B streams
+374. Lose Control: 1.45B streams
+375. Bones: 1.45B streams
+376. We Will Rock You: 1.44B streams
+377. Bang Bang: 1.44B streams
+378. More Than You Know: 1.44B streams
+379. Leave The Door Open: 1.44B streams
+380. PILLOWTALK: 1.44B streams
+381. Glimpse of Us: 1.44B streams
+382. Con Calma: 1.44B streams
+383. Meant to Be (feat. Florida Georgia Line): 1.44B streams
+384. Give Me Everything (feat. Nayer): 1.44B streams
+385. Taste (feat. Offset): 1.43B streams
+386. In My Feelings: 1.43B streams
+387. Hawái: 1.43B streams
+388. Feel It Still: 1.43B streams
+389. changes: 1.42B streams
+390. Castle on the Hill: 1.42B streams
+391. Ho Hey: 1.42B streams
+392. Wolves: 1.42B streams
+393. My Love Mine All Mine: 1.42B streams
+394. Efecto: 1.42B streams
+395. Romantic Homicide: 1.42B streams
+396. Ophelia: 1.42B streams
+397. Sweet Home Alabama: 1.41B streams
+398. Lemonade (feat. Gunna, Don Toliver & NAV): 1.41B streams
+399. Crazy In Love (feat. Jay-Z): 1.41B streams
+400. Me, Myself & I: 1.41B streams
+401. TiK ToK: 1.41B streams
+402. When We Were Young: 1.41B streams
+403. Hotline Bling: 1.40B streams
+404. Whatever It Takes: 1.40B streams
+405. Robbery: 1.40B streams
+406. Praise The Lord (Da Shine) (feat. Skepta): 1.40B streams
+407. Bad Romance: 1.40B streams
+408. WAP (feat. Megan Thee Stallion): 1.40B streams
+409. SLOW DANCING IN THE DARK: 1.39B streams
+410. no tears left to cry: 1.39B streams
+411. Can't Stop: 1.39B streams
+412. Light It Up - Remix: 1.39B streams
+413. Gata Only: 1.39B streams
+414. Galway Girl: 1.38B streams
+415. My Universe: 1.38B streams
+416. MIA (feat. Drake): 1.38B streams
+417. Promiscuous: 1.38B streams
+418. 1-800-273-8255: 1.38B streams
+419. PROVENZA: 1.38B streams
+420. Happier: 1.38B streams
+421. Daylight: 1.38B streams
+422. Paint It, Black: 1.38B streams
+423. MIDDLE CHILD: 1.37B streams
+424. Zombie: 1.37B streams
+425. Blueberry Faygo: 1.37B streams
+426. Falling Down - Bonus Track: 1.37B streams
+427. You Shook Me All Night Long: 1.36B streams
+428. I Wanna Dance with Somebody (Who Loves Me): 1.36B streams
+429. Wet Dreamz: 1.36B streams
+430. Stick Season: 1.36B streams
+431. Star Shopping: 1.36B streams
+432. Scared to Be Lonely: 1.36B streams
+433. august: 1.36B streams
+434. Thrift Shop (feat. Wanz): 1.35B streams
+435. Summer Of '69: 1.35B streams
+436. Sultans of Swing: 1.35B streams
+437. Ella Baila Sola: 1.35B streams
+438. Last Friday Night (T.G.I.F.): 1.34B streams
+439. Snooze: 1.34B streams
+440. Natural: 1.34B streams
+441. Bring Me To Life: 1.34B streams
+442. Outside (feat. Ellie Goulding): 1.34B streams
+443. Everlong: 1.34B streams
+444. Girls Just Want to Have Fun: 1.34B streams
+445. Nice For What: 1.34B streams
+446. Who: 1.33B streams
+447. Style: 1.33B streams
+448. How to Save a Life: 1.33B streams
+449. Goodbyes (feat. Young Thug): 1.33B streams
+450. Sugar (feat. Francesco Yates): 1.33B streams
+451. Running Up That Hill (A Deal With God): 1.33B streams
+452. Like Crazy: 1.32B streams
+453. Dancing On My Own: 1.32B streams
+454. Budapest: 1.32B streams
+455. hot girl bummer: 1.32B streams
+456. Butter: 1.32B streams
+457. Welcome To The Jungle: 1.32B streams
+458. telepatía: 1.31B streams
+459. Freaks: 1.31B streams
+460. Astronaut In The Ocean: 1.31B streams
+461. Royals: 1.31B streams
+462. Arcade: 1.30B streams
+463. Don’t Blame Me: 1.30B streams
+464. Heartbreak Anniversary: 1.30B streams
+465. No Lie: 1.30B streams
+466. I'm the One (feat. Justin Bieber, Quavo, Chance the Rapper & Lil Wayne): 1.30B streams
+467. happier: 1.30B streams
+468. How Deep Is Your Love: 1.30B streams
+469. Lose You To Love Me: 1.30B streams
+470. Beat It: 1.30B streams
+471. Centuries: 1.30B streams
+472. Only Girl (In The World): 1.29B streams
+473. Good Days: 1.29B streams
+474. Nothing Else Matters (Remastered): 1.29B streams
+475. Life Is Good (feat. Drake): 1.29B streams
+476. Rockin' Around The Christmas Tree: 1.29B streams
+477. Bad Habit: 1.28B streams
+478. Stargirl Interlude: 1.28B streams
+479. golden hour: 1.28B streams
+480. Body: 1.28B streams
+481. Paint The Town Red: 1.28B streams
+482. End of Beginning: 1.28B streams
+483. Break My Heart: 1.28B streams
+484. Hypnotize - 2007 Remaster: 1.28B streams
+485. Father Stretch My Hands Pt. 1: 1.28B streams
+486. Way down We Go: 1.28B streams
+487. Santa Tell Me: 1.28B streams
+488. Gold Digger: 1.27B streams
+489. MONEY: 1.27B streams
+490. Dream On: 1.27B streams
+491. Space Song: 1.27B streams
+492. What Lovers Do (feat. SZA): 1.27B streams
+493. I'm Still Standing: 1.27B streams
+494. Roar: 1.27B streams
+495. This Love: 1.27B streams
+496. Here With Me: 1.27B streams
+497. Head & Heart (feat. MNEK): 1.27B streams
+498. Dangerous Woman: 1.27B streams
+499. We Are Young (feat. Janelle Monáe): 1.27B streams
+500. Starships: 1.27B streams
+501. It Was A Good Day: 1.27B streams
+502. How You Remind Me: 1.27B streams
+503. All The Small Things: 1.27B streams
+504. Last Resort: 1.26B streams
+505. Issues: 1.26B streams
+506. Unwritten: 1.26B streams
+507. Trap Queen: 1.26B streams
+508. we fell in love in october: 1.26B streams
+509. DNA.: 1.26B streams
+510. Let It Go: 1.26B streams
+511. Look What You Made Me Do: 1.26B streams
+512. The Business: 1.26B streams
+513. You Give Love A Bad Name: 1.26B streams
+514. Flashing Lights: 1.26B streams
+515. Say So: 1.25B streams
+516. Going Bad (feat. Drake): 1.25B streams
+517. Brown Eyed Girl: 1.25B streams
+518. Intentions (feat. Quavo): 1.25B streams
+519. Need to Know: 1.25B streams
+520. No Scrubs: 1.25B streams
+521. Stand By Me: 1.25B streams
+522. Wild Thoughts (feat. Rihanna & Bryson Tiller): 1.25B streams
+523. Paris: 1.25B streams
+524. MIDDLE OF THE NIGHT: 1.24B streams
+525. The Chain - 2004 Remaster: 1.24B streams
+526. Paranoid - 2012 - Remaster: 1.24B streams
+527. La Curiosidad: 1.24B streams
+528. China: 1.24B streams
+529. Stan: 1.24B streams
+530. Just Dance: 1.24B streams
+531. If I Ain't Got You: 1.24B streams
+532. Moscow Mule: 1.24B streams
+533. favorite crime: 1.24B streams
+534. Too Sweet: 1.23B streams
+535. vampire: 1.23B streams
+536. If the World Was Ending (feat. Julia Michaels): 1.23B streams
+537. Drag Me Down: 1.23B streams
+538. Bruises: 1.23B streams
+539. Basket Case: 1.23B streams
+540. Ms. Jackson: 1.23B streams
+541. Boy With Luv (feat. Halsey): 1.23B streams
+542. Starving: 1.23B streams
+543. Rocket Man (I Think It's Going To Be A Long, Long Time): 1.23B streams
+544. All I Want: 1.23B streams
+545. Te Boté - Remix: 1.22B streams
+546. What You Know Bout Love: 1.22B streams
+547. Sparks: 1.22B streams
+548. S&M: 1.22B streams
+549. Wannabe: 1.22B streams
+550. Desesperados: 1.22B streams
+551. This Girl (Kungs Vs. Cookin' On 3 Burners): 1.21B streams
+552. Stuck with U (with Justin Bieber): 1.21B streams
+553. Panda: 1.21B streams
+554. Fast Car: 1.21B streams
+555. Jingle Bell Rock: 1.21B streams
+556. Back To Black: 1.21B streams
+557. FourFiveSeconds: 1.21B streams
+558. Lost: 1.21B streams
+559. I WANNA BE YOUR SLAVE: 1.21B streams
+560. un x100to: 1.21B streams
+561. Make You Feel My Love: 1.21B streams
+562. Midnight City: 1.21B streams
+563. Streets: 1.21B streams
+564. Don't You Worry Child - Radio Edit: 1.20B streams
+565. Firework: 1.20B streams
+566. Should I Stay or Should I Go - Remastered: 1.20B streams
+567. TQG: 1.20B streams
+568. Calma - Remix: 1.20B streams
+569. Are You With Me - Radio Edit: 1.20B streams
+570. Bank Account: 1.20B streams
+571. Low (feat. T-Pain): 1.20B streams
+572. Es un Secreto: 1.20B streams
+573. All Star: 1.20B streams
+574. Crazy: 1.19B streams
+575. It's You: 1.19B streams
+576. White Iverson: 1.19B streams
+577. Thinkin Bout You: 1.19B streams
+578. La Bebe - Remix: 1.19B streams
+579. Until I Found You: 1.19B streams
+580. Sorry Not Sorry: 1.19B streams
+581. Sucker for Pain (with Wiz Khalifa, Imagine Dragons, Logic & Ty Dolla $ign feat. X Ambassadors): 1.19B streams
+582. Careless Whisper: 1.19B streams
+583. Prayer in C - Robin Schulz Radio Edit: 1.19B streams
+584. Shut up My Moms Calling: 1.19B streams
+585. These Days (feat. Jess Glynne, Macklemore & Dan Caplen): 1.19B streams
+586. Lovers Rock: 1.19B streams
+587. Until I Found You (with Em Beihold) - Em Beihold Version: 1.19B streams
+588. Yes Indeed: 1.19B streams
+589. Get Lucky (Radio Edit) [feat. Pharrell Williams and Nile Rodgers]: 1.18B streams
+590. Feel So Close - Radio Edit: 1.18B streams
+591. abcdefu: 1.18B streams
+592. idontwannabeyouanymore: 1.18B streams
+593. SNAP: 1.18B streams
+594. Snowman: 1.18B streams
+595. Feels (feat. Pharrell Williams, Katy Perry & Big Sean): 1.18B streams
+596. Bitter Sweet Symphony - Remastered 2016: 1.18B streams
+597. Firestone: 1.18B streams
+598. What Was I Made For? [From The Motion Picture "Barbie"]: 1.18B streams
+599. Wait a Minute!: 1.18B streams
+600. Paradise City: 1.18B streams
+601. Nonstop: 1.17B streams
+602. Electric Love: 1.17B streams
+603. For The Night (feat. Lil Baby & DaBaby): 1.17B streams
+604. It's Beginning to Look a Lot like Christmas: 1.17B streams
+605. Marry You: 1.17B streams
+606. Breaking Me: 1.17B streams
+607. Softcore: 1.17B streams
+608. Please Please Please: 1.17B streams
+609. Nonsense: 1.17B streams
+610. Like I'm Gonna Lose You (feat. John Legend): 1.17B streams
+611. 20 Min: 1.17B streams
+612. Empire State Of Mind: 1.16B streams
+613. Hey There Delilah: 1.16B streams
+614. Something in the Orange: 1.16B streams
+615. Big Poppa - 2007 Remaster: 1.16B streams
+616. Swalla (feat. Nicki Minaj & Ty Dolla $ign): 1.16B streams
+617. Mirrors: 1.16B streams
+618. Dog Days Are Over: 1.16B streams
+619. Snow (Hey Oh): 1.16B streams
+620. we can't be friends (wait for your love): 1.16B streams
+621. July: 1.16B streams
+622. Reminder: 1.16B streams
+623. You Make My Dreams (Come True): 1.16B streams
+624. QLONA: 1.16B streams
+625. Savage Love (Laxed - Siren Beat): 1.16B streams
+626. Bad Liar: 1.16B streams
+627. Latch: 1.15B streams
+628. Last Night: 1.15B streams
+629. I Was Never There: 1.15B streams
+630. With Or Without You: 1.15B streams
+631. Rap God: 1.15B streams
+632. Good Luck, Babe!: 1.15B streams
+633. Infinity: 1.15B streams
+634. Dior: 1.15B streams
+635. The Reason: 1.15B streams
+636. Without You (feat. Sandro Cavazza): 1.15B streams
+637. R U Mine?: 1.15B streams
+638. Where Are Ü Now (with Justin Bieber): 1.15B streams
+639. Treasure: 1.15B streams
+640. I Was Made For Lovin' You: 1.14B streams
+641. DESPECHÁ: 1.14B streams
+642. Don't Stop The Music: 1.14B streams
+643. Little Talks: 1.14B streams
+644. My House: 1.14B streams
+645. Send My Love (To Your New Lover): 1.14B streams
+646. Adventure of a Lifetime: 1.14B streams
+647. i like the way you kiss me: 1.14B streams
+648. Stayin' Alive - From "Saturday Night Fever" Soundtrack: 1.14B streams
+649. FE!N (feat. Playboi Carti): 1.14B streams
+650. Feliz Cumpleaños Ferxxo: 1.14B streams
+651. The Monster: 1.13B streams
+652. Otherside: 1.13B streams
+653. ZEZE (feat. Travis Scott & Offset): 1.13B streams
+654. Let Me Go (with Alesso, Florida Georgia Line & watt): 1.13B streams
+655. LALA: 1.13B streams
+656. The Next Episode: 1.13B streams
+657. Slide (feat. Frank Ocean & Migos): 1.13B streams
+658. Middle: 1.12B streams
+659. You Are The Reason: 1.12B streams
+660. Murder on My Mind: 1.12B streams
+661. Exchange: 1.12B streams
+662. God is a woman: 1.12B streams
+663. Three Little Birds: 1.12B streams
+664. Let Me Love You: 1.12B streams
+665. THATS WHAT I WANT: 1.12B streams
+666. Where Is The Love?: 1.12B streams
+667. Rain On Me (with Ariana Grande): 1.12B streams
+668. Mo Bamba: 1.12B streams
+669. Baby: 1.12B streams
+670. Back To You: 1.12B streams
+671. EARFQUAKE: 1.11B streams
+672. 10,000 Hours (with Justin Bieber): 1.11B streams
+673. Your Love: 1.11B streams
+674. It Wasn't Me: 1.11B streams
+675. Say Something: 1.11B streams
+676. You're Gonna Go Far, Kid: 1.11B streams
+677. Tennessee Whiskey: 1.11B streams
+678. Perfect Strangers: 1.11B streams
+679. Toxicity: 1.11B streams
+680. Not Afraid: 1.11B streams
+681. Numb / Encore: 1.11B streams
+682. I Don't Want To Miss A Thing - From "Armageddon" Soundtrack: 1.11B streams
+683. 3 Nights: 1.11B streams
+684. Want to Want Me: 1.11B streams
+685. Toosie Slide: 1.10B streams
+686. No Guidance (feat. Drake): 1.10B streams
+687. Jimmy Cooks (feat. 21 Savage): 1.10B streams
+688. Ain't No Sunshine: 1.10B streams
+689. Wake Up in the Sky: 1.10B streams
+690. Hey Mor: 1.10B streams
+691. Delicate: 1.10B streams
+692. How You Like That: 1.10B streams
+693. Roses: 1.10B streams
+694. Best Day Of My Life: 1.09B streams
+695. Too Good: 1.09B streams
+696. Go Your Own Way - 2004 Remaster: 1.09B streams
+697. Solo (feat. Demi Lovato): 1.09B streams
+698. Bored: 1.09B streams
+699. Locked Away (feat. Adam Levine): 1.09B streams
+700. Replay: 1.09B streams
+701. Hey Brother: 1.09B streams
+702. Chantaje (feat. Maluma): 1.09B streams
+703. Sunroof: 1.09B streams
+704. Scar Tissue: 1.09B streams
+705. Standing Next to You: 1.09B streams
+706. Uptown Girl: 1.09B streams
+707. Cigarette Daydreams: 1.09B streams
+708. The Way Life Goes (feat. Oh Wonder): 1.08B streams
+709. Mine: 1.08B streams
+710. Go Flex: 1.08B streams
+711. The Lazy Song: 1.08B streams
+712. Often: 1.08B streams
+713. American Idiot: 1.08B streams
+714. My Girl: 1.08B streams
+715. Promises (with Sam Smith): 1.08B streams
+716. Candy Paint: 1.08B streams
+717. Hold On, We're Going Home: 1.08B streams
+718. Angels Like You: 1.08B streams
+719. Work Out: 1.08B streams
+720. Bound 2: 1.07B streams
+721. Get You The Moon (feat. Snøw): 1.07B streams
+722. X: 1.07B streams
+723. Wake Me Up Before You Go-Go: 1.07B streams
+724. It Will Rain: 1.07B streams
+725. Could You Be Loved: 1.07B streams
+726. Waves - Robin Schulz Radio Edit: 1.07B streams
+727. Gasolina: 1.07B streams
+728. Video Games: 1.07B streams
+729. Candy Shop: 1.07B streams
+730. After Hours: 1.07B streams
+731. Superman: 1.07B streams
+732. Walking On A Dream: 1.07B streams
+733. House Of The Rising Sun: 1.07B streams
+734. Memories (feat. Kid Cudi): 1.06B streams
+735. Teenagers: 1.06B streams
+736. If I Can't Have You: 1.06B streams
+737. No Idea: 1.06B streams
+738. CLASSY 101: 1.06B streams
+739. The One That Got Away: 1.06B streams
+740. Sex, Drugs, Etc.: 1.06B streams
+741. Stairway to Heaven - Remaster: 1.06B streams
+742. bury a friend: 1.06B streams
+743. Die For You (with Ariana Grande) - Remix: 1.06B streams
+744. bellyache: 1.06B streams
+745. Heartless: 1.06B streams
+746. Clocks: 1.06B streams
+747. On Top Of The World: 1.06B streams
+748. Or Nah (feat. The Weeknd, Wiz Khalifa & DJ Mustard) - Remix: 1.06B streams
+749. Don't Call Me Up: 1.06B streams
+750. Levels - Radio Edit: 1.06B streams
+751. Blame (feat. John Newman): 1.05B streams
+752. i love you: 1.05B streams
+753. Physical: 1.05B streams
+754. Stole the Show: 1.05B streams
+755. LA NOCHE DE ANOCHE: 1.05B streams
+756. Strip That Down (feat. Quavo): 1.05B streams
+757. This Town: 1.05B streams
+758. Kings & Queens: 1.05B streams
+759. Everywhere: 1.05B streams
+760. Old Town Road: 1.05B streams
+761. The Way I Are: 1.05B streams
+762. Am I Wrong: 1.05B streams
+763. Friday (feat. Mufasa & Hypeman) - Dopamine Re-Edit: 1.05B streams
+764. We Can't Stop: 1.05B streams
+765. Nothing Breaks Like a Heart (feat. Miley Cyrus): 1.05B streams
+766. MAMIII: 1.05B streams
+767. Hold the Line: 1.05B streams
+768. Nevermind: 1.05B streams
+769. Sexy Bitch (feat. Akon): 1.04B streams
+770. Kryptonite: 1.04B streams
+771. Vete: 1.04B streams
+772. Late Night Talking: 1.04B streams
+773. Him & I (with Halsey): 1.04B streams
+774. 34+35: 1.04B streams
+775. MILLION DOLLAR BABY: 1.04B streams
+776. Mr. Blue Sky: 1.04B streams
+777. The Kids Aren't Alright: 1.04B streams
+778. A Bar Song (Tipsy): 1.04B streams
+779. What's Up?: 1.04B streams
+780. Hot N Cold: 1.04B streams
+781. Crazy Little Thing Called Love - Remastered 2011: 1.04B streams
+782. Lost in the Fire (feat. The Weeknd): 1.04B streams
+783. Piece Of Your Heart: 1.03B streams
+784. Je te laisserai des mots: 1.03B streams
+785. double take: 1.03B streams
+786. November Rain: 1.03B streams
+787. Moth To A Flame (with The Weeknd): 1.03B streams
+788. Wildest Dreams: 1.03B streams
+789. Popular (with Playboi Carti & Madonna) - From The Idol Vol. 1 (Music from the HBO Original Series): 1.03B streams
+790. a lot: 1.03B streams
+791. Higher Love: 1.03B streams
+792. The A Team: 1.03B streams
+793. Shakira: Bzrp Music Sessions, Vol. 53: 1.03B streams
+794. Elastic Heart: 1.03B streams
+795. Dance The Night: 1.03B streams
+796. The Color Violet: 1.03B streams
+797. Can't Help Falling in Love: 1.03B streams
+798. Love Me Harder: 1.03B streams
+799. Wrecking Ball: 1.03B streams
+800. break up with your girlfriend, i'm bored: 1.02B streams
+801. jealousy, jealousy: 1.02B streams
+802. Come & Go (with Marshmello): 1.02B streams
+803. Habits (Stay High): 1.02B streams
+804. Levitating: 1.02B streams
+805. Black Beatles: 1.02B streams
+806. Soltera (Remix): 1.02B streams
+807. It's the Most Wonderful Time of the Year: 1.02B streams
+808. Beauty And A Beat: 1.02B streams
+809. Truth Hurts: 1.02B streams
+810. Money In The Grave (Drake ft. Rick Ross): 1.02B streams
+811. La Santa: 1.02B streams
+812. You Need To Calm Down: 1.02B streams
+813. California Dreamin': 1.02B streams
+814. Laugh Now Cry Later (feat. Lil Durk): 1.01B streams
+815. RAPSTAR: 1.01B streams
+816. Love Me Again: 1.01B streams
+817. Shotgun: 1.01B streams
+818. One More Night: 1.01B streams
+819. Complicated: 1.01B streams
+820. Don't You (Forget About Me): 1.01B streams
+821. the remedy for a broken heart (why am I so in love): 1.01B streams
+822. Bad Moon Rising: 1.01B streams
+823. Song 2: 1.01B streams
+824. Space Cadet (feat. Gunna): 1.01B streams
+825. What I've Done: 1.01B streams
+826. Pray For Me (with Kendrick Lamar): 1.01B streams
+827. How Do You Sleep?: 1.01B streams
+828. I Kissed A Girl: 1.01B streams
+829. Never Forget You: 1.01B streams
+830. DJ Got Us Fallin' In Love (feat. Pitbull): 1.01B streams
+831. Dancing in the Moonlight: 1.01B streams
+832. Si Estuviésemos Juntos: 1.01B streams
+833. fukumean: 1.01B streams
+834. Dile: 1.01B streams
+835. Look Alive (feat. Drake): 1.00B streams
+836. Atlantis: 1.00B streams
+837. Where Is My Mind?: 1.00B streams
+838. Sunday Best: 1.00B streams
+839. Tongue Tied: 1.00B streams
+840. Take Me Out: 1.00B streams
+841. ...Baby One More Time: 1.00B streams
+842. POWER: 1.00B streams

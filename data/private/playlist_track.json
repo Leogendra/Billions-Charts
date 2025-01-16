@@ -1,0 +1,84 @@
+{
+    "addedAt": {
+        "isoString": "2024-12-26T16:48:42.597Z"
+    },
+    "addedBy": null,
+    "attributes": [
+        {
+            "key": "shuffle.average_position",
+            "value": "0"
+        },
+        {
+            "key": "decision_id",
+            "value": "ssp~062a407311b769e7718705aae2c3cd9ad6cb"
+        }
+    ],
+    "itemV2": {
+        "__typename": "TrackResponseWrapper",
+        "data": {
+            "__typename": "Track",
+            "albumOfTrack": {
+                "artists": {
+                    "items": [
+                        {
+                            "profile": {
+                                "name": "Shaboozey"
+                            },
+                            "uri": "spotify:artist:3y2cIKLjiOlp1Np37WiUdH"
+                        }
+                    ]
+                },
+                "coverArt": {
+                    "sources": [
+                        {
+                            "height": 300,
+                            "url": "https://i.scdn.co/image/ab67616d00001e0280d86d636244b72a3a1eede2",
+                            "width": 300
+                        },
+                        {
+                            "height": 64,
+                            "url": "https://i.scdn.co/image/ab67616d0000485180d86d636244b72a3a1eede2",
+                            "width": 64
+                        },
+                        {
+                            "height": 640,
+                            "url": "https://i.scdn.co/image/ab67616d0000b27380d86d636244b72a3a1eede2",
+                            "width": 640
+                        }
+                    ]
+                },
+                "name": "A Bar Song (Tipsy)",
+                "uri": "spotify:album:6egBeCLeGITzGSo5VyRjwZ"
+            },
+            "artists": {
+                "items": [
+                    {
+                        "profile": {
+                            "name": "Shaboozey"
+                        },
+                        "uri": "spotify:artist:3y2cIKLjiOlp1Np37WiUdH"
+                    }
+                ]
+            },
+            "associationsV2": {
+                "totalCount": 1
+            },
+            "contentRating": {
+                "label": "EXPLICIT"
+            },
+            "discNumber": 1,
+            "trackDuration": {
+                "totalMilliseconds": 171291
+            },
+            "name": "A Bar Song (Tipsy)",
+            "playability": {
+                "playable": true,
+                "reason": "PLAYABLE"
+            },
+            "playcount": "1000583454",
+            "trackNumber": 1,
+            "uri": "spotify:track:2FQrifJ1N335Ljm3TjTVVf"
+        }
+    },
+    "uid": "37313766353537393135663037353338"
+}
