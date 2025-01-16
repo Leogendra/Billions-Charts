@@ -1,6 +1,6 @@
 from spotapi import PublicPlaylist
 from backend.utils import create_folder
-from pymongo import MongoClient
+from backend.database import add_to_database
 from dotenv import load_dotenv
 import datetime
 import requests
@@ -12,12 +12,6 @@ load_dotenv()
 PLAYLIST_ID = os.getenv("PLAYLIST_ID")
 CLIENT_ID = os.getenv("CLIENT_ID")
 CLIENT_SECRET = os.getenv("CLIENT_SECRET")
-MONGO_URI = os.getenv("MONGO_URI")
-
-client = MongoClient(MONGO_URI)
-playlists_collection = client.billions.spotify_data
-
-
 
 
 
@@ -83,8 +77,10 @@ def fetch_playlist_infos(dataPath):
 
     with open(dataPath, "w", encoding="utf-8") as f:
         json.dump(playlist_infos, f, indent=4, ensure_ascii=False)
-
     print(f"Playlist infos saved in {dataPath}")
+
+    add_to_database(playlist_infos)
+    print("Playlist infos inserted in database.")
 
 
 def fetch_songs_infos(dataPath):
@@ -150,7 +146,7 @@ def fetch_songs_infos(dataPath):
 
     print(f"Song infos saved in {dataPath}")
 
-    playlists_collection.insert_one(tracks_data)
+    add_to_database.insert_one(tracks_data)
     print("Song infos inserted in database.")
     
 
@@ -186,3 +182,16 @@ def generate_leaderboard(dataPath):
             f.write(f"{i+1}. {track}: {count/1_000_000_000:.2f}B streams\n")
 
     print("Leaderboards updated.")
+
+
+
+
+if __name__ == "__main__":
+    DATE_KEY = datetime.datetime.now().strftime("%Y-%m-%d")
+    create_folder("data/tracks")
+    dataPath = f"data/tracks/tracks_{DATE_KEY}.json"
+
+    fetch_playlist_infos(dataPath)
+    fetch_songs_infos(dataPath)
+    generate_leaderboard(dataPath)
+    print

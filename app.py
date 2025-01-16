@@ -37,6 +37,7 @@ def search():
             }
         )
     except Exception as error:
+        print(f"[ERROR] {error}")
         return jsonify(
             {
                 "message": "Search failed!",
