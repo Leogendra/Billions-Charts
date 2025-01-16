@@ -12,7 +12,6 @@ import os
 load_dotenv()
 app = Flask(__name__, static_folder="public", static_url_path="/")
 PORT = os.getenv("PORT") or 3434
-BASE_IMAGE_DIR = "public"
 BASE_URL = f"http://localhost:{PORT}"
 WRITE_TO_DATABASE = True # If False, will write to json files instead of database
 
