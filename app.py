@@ -24,22 +24,21 @@ def search():
     dataPath = f"data/tracks/tracks_{dateKey}.json"
     reportPublicPath = f"public/data/report.json"
 
-    # try:
-    if 1:
+    try:
         fetch_playlist_infos(dataPath, WRITE_TO_DATABASE)
         generate_report(dataPath, reportPublicPath, WRITE_TO_DATABASE) # Static update, TODO: make a clean backend instead of static file
         return jsonify({
             "message": "Search completed!",
             "output": "The search has been completed successfully.",
         })
-    # except Exception as error:
-    #     print(f"[ERROR] {error}")
-    #     return jsonify(
-    #         {
-    #             "message": "Search failed!",
-    #             "output": error.__str__(),
-    #         }
-    #     )
+    except Exception as error:
+        print(f"[ERROR] {error}")
+        return jsonify(
+            {
+                "message": "Search failed!",
+                "output": error.__str__(),
+            }
+        )
     
 
 @app.route("/report/", methods=["GET"])
