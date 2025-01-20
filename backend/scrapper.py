@@ -37,11 +37,13 @@ def fetch_playlist_infos(dataPath, WRITE_TO_DATABASE):
             print(f"Playlist infos already fetched in {dataPath}")
             return
         
+    # Fetch playlist infos from Spotify
     create_folder("data/tracks")
     playlist = PublicPlaylist(PLAYLIST_ID)
     playlist_info = playlist.get_playlist_info(limit=1000)
     raw_data = playlist_info["data"]["playlistV2"]
 
+    # Clean playlist infos
     playlist_infos = {}
     playlist_infos["uri"] = raw_data["uri"]
     playlist_infos["name"] = raw_data["name"]
@@ -61,6 +63,7 @@ def fetch_playlist_infos(dataPath, WRITE_TO_DATABASE):
     except:
         playlist_infos["coverHex"] = "#000000"
 
+    # Clean track infos
     playlist_infos["items"] = []
     for item in raw_data["content"]["items"]:
         playlist_infos["items"].append({
@@ -114,6 +117,7 @@ def fetch_playlist_infos(dataPath, WRITE_TO_DATABASE):
             else:
                 print("Corrupted track info:", track)
                 
+    # Merge track infos
     for i, track in enumerate(playlist_infos["items"]):
         for info in track_infos:
             if (track["id"] == info["id"]):

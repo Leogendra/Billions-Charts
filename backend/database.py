@@ -89,7 +89,7 @@ def add_to_database(playlist_data):
 def retrieve_playlist_infos_from_mongo(date):
     # Retrieve the playlists headers data where the field "date" matches the input date
     playlist_data = playlists_collection.find({"date": date})
-    if not playlist_data:
+    if (playlist_data.count() == 0):
         print(f"No playlist data found for the date {date}")
         return None
     
