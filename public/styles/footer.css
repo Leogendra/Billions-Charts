@@ -1,0 +1,20 @@
+footer {
+    text-align: center;
+    margin-top: 40px;
+    color: var(--text-color);
+}
+
+footer img {
+    width: 100%;
+}
+
+footer > * {
+    width: 40px;
+    height: 40px;
+    margin: 20px auto 30px;
+    transition: transform 0.2s ease-in-out;
+}
+
+footer > *:hover {
+    transform: scale(1.1);
+}
