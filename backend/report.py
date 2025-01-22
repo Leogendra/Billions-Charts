@@ -130,6 +130,8 @@ def generate_report(dataPath, outputReportPath, WRITE_TO_DATABASE):
     if WRITE_TO_DATABASE:
         dateKey = dataPath.split("_")[-1].split(".")[0]
         playlist = retrieve_playlist_infos_from_mongo(dateKey)
+        if not(playlist):
+            raise Exception(f"No data found for {dateKey} in database.")
     else:
         with open(dataPath, 'r', encoding='utf-8') as f:
             playlist = json.load(f)
