@@ -4,3 +4,6 @@ __*/
 # Environment
 .vscode/
 *env*/
+
+# Sensitive data
+*/data/
