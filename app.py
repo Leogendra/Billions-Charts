@@ -43,7 +43,8 @@ def search():
 
 @app.route("/report/", methods=["GET"])
 def report():
-    dateKey = datetime.datetime.now().strftime("%Y-%m-%d")
+    # dateKey = datetime.datetime.now().strftime("%Y-%m-%d")
+    dateKey = "2025-01-21"
     dataPath = f"data/tracks/tracks_{dateKey}.json"
     reportPublicPath = f"public/data/report.json"
 

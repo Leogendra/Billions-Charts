@@ -68,9 +68,10 @@ def agregate_billions(tracks):
         added_at_cleaned = added_at.split("T")[0]
 
         normalized_tracks.append({
+            "id": track['id'],
             "name": track['name'],
             "artists": [artist['name'] for artist in track['artists']],
-            "playcount": track['playcount'],
+            "image": track['image'],
             "added_at": added_at_cleaned
         })
 

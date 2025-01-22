@@ -27,7 +27,7 @@ a {
 
 /* TITLE */
 .title {
-    margin: 30px 0 10px;
+    margin: 20px 0 10px;
     text-align: center;
 }
 
@@ -63,6 +63,9 @@ a {
 }
 
 @media (max-width: 800px) {
+    .title {
+        margin-top: 10px;
+    }
     .title-text {
         font-size: 2rem;
     }
