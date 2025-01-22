@@ -1,0 +1,30 @@
+{
+    "errors": [
+        {
+            "message": "Variable 'enableWatchFeedEntrypoint' has an invalid value: Variable 'enableWatchFeedEntrypoint' has coerced Null value for NonNull type 'Boolean!'",
+            "locations": [
+                {
+                    "line": 1,
+                    "column": 5055
+                }
+            ],
+            "extensions": {
+                "classification": "ValidationError"
+            }
+        },
+        {
+            "message": "Variable 'enableWatchFeedEntrypoint' undefined",
+            "locations": [
+                {
+                    "line": -1,
+                    "column": -1
+                }
+            ],
+            "extensions": {
+                "classification": "ValidationError"
+            }
+        }
+    ],
+    "data": null,
+    "extensions": {}
+}

@@ -24,8 +24,8 @@ def search():
     dataPath = f"data/tracks/tracks_{dateKey}.json"
     reportPublicPath = f"public/data/report.json"
 
+    fetch_playlist_infos(dataPath, WRITE_TO_DATABASE)
     try:
-        fetch_playlist_infos(dataPath, WRITE_TO_DATABASE)
         generate_report(dataPath, reportPublicPath, WRITE_TO_DATABASE) # Static update, TODO: make a clean backend instead of static file
         return jsonify({
             "message": "Search completed!",
@@ -43,8 +43,8 @@ def search():
 
 @app.route("/report/", methods=["GET"])
 def report():
-    # dateKey = datetime.datetime.now().strftime("%Y-%m-%d")
-    dateKey = "2025-01-21"
+    dateKey = datetime.datetime.now().strftime("%Y-%m-%d")
+    # dateKey = "2025-01-21"
     dataPath = f"data/tracks/tracks_{dateKey}.json"
     reportPublicPath = f"public/data/report.json"
 

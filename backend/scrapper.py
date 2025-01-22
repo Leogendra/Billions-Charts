@@ -38,9 +38,12 @@ def fetch_playlist_infos(dataPath, WRITE_TO_DATABASE):
             return
         
     # Fetch playlist infos from Spotify
-    create_folder("data/tracks")
+    create_folder("data/tracks/")
     playlist = PublicPlaylist(PLAYLIST_ID)
     playlist_info = playlist.get_playlist_info(limit=1000)
+    if not(playlist_info["data"]):
+        raise Exception("Critical Error while fetching playlist infos:", playlist_info["errors"])
+    
     raw_data = playlist_info["data"]["playlistV2"]
 
     # Clean playlist infos

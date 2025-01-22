@@ -138,6 +138,7 @@ def generate_report(dataPath, outputReportPath, WRITE_TO_DATABASE):
             playlist = json.load(f)
 
     create_folder("data/reports/")
+    create_folder("public/data/")
 
     tracks = playlist['items']
 
