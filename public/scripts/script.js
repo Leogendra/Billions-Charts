@@ -1,23 +1,9 @@
-async function call_backend() {
-    console.log("Calling backend");
+// Playlist image and description
+const playlist_cover = document.querySelector("#playlist-cover");
+const playlist_description = document.querySelector("#playlist-description");
 
-    const password = document.querySelector("#password").value;
-    console.log("Password: ", password);
-
-    fetch("/retrieve-tracks", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ password: password })
-    })
-        .then(response => response.json())
-        .then(response => {
-            document.querySelector(".result").textContent = response.message;
-        })
-        .catch(error => console.error("Error:", error))
-}
-
+const update_date = document.querySelector(".update-date");
+const cover_container = document.querySelector(".cover-container");
 
 async function get_report(reportPath) {
     try {
@@ -32,3 +18,30 @@ async function get_report(reportPath) {
         console.error('Erreur lors du chargement du JSON:', error);
     }
 }
+
+
+function update_playlist_infos(report) {
+    // last update date
+    let lastUpdateDate = new Date(report.generatedTimeStamp);
+    lastUpdateDate = lastUpdateDate.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+    update_date.textContent = lastUpdateDate;
+    
+    // playlist image and description
+    playlist_cover.src = report.coverUrl;
+    playlist_description.textContent = report.description.replace(/<[^>]*>|{[^}]*}/g, '');
+    cover_container.style.boxShadow = report.coverHex;
+}
+
+
+
+
+async function main() {
+    const report = await get_report("data/report.json");
+    update_counters(report);
+    update_playlist_infos(report);
+}
+
+
+document.addEventListener("DOMContentLoaded", () => {
+    main();
+});

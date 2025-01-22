@@ -5,7 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/x-icon" href="assets/favicon.png">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/odometer.js/0.4.7/themes/odometer-theme-default.css" />
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/odometer.js/0.4.7/themes/odometer-theme-default.css" />
     <link rel="stylesheet" href="styles/styles.css">
     <link rel="stylesheet" href="styles/charts.css">
     <link rel="stylesheet" href="styles/footer.css">
@@ -14,39 +15,47 @@
 
 <body>
     <div class="title">
-        <h1>Welcome to Billions Charts</h1>
+        <h1 class="title-text">Billions Charts</h1>
     </div>
 
     <div class="main-container">
         <div class="intro">
-            <p>Get ready to explore the hits of the <a href='https://open.spotify.com/playlist/37i9dQZF1DX7iB3RCnBnN4' target="_blank">Billions Club</a>:</p>
+            <p>Get ready to explore the hits of the <a href='https://open.spotify.com/playlist/37i9dQZF1DX7iB3RCnBnN4'
+                    target="_blank">Billions Club</a>:</p>
             <p>the songs that have surpassed one billion streams on Spotify.</p>
             <p>Discover statistics, trends, and much more.</p>
-        </div>
 
-        <div class="chart-container charts-hero">
-            <div class="counter-container">
-                <h2>Total Tracks</h2>
-                <div id="total-tracks" class="counter">0</div>
-            </div>
-            <div class="counter-container">
-                <h2>Total Streams</h2>
-                <div class="counter-addon">
-                    <div id="total-streams" class="counter">0</div>
-                    <span class="counter-suffix">B</span>
+            <div class="charts-hero">
+                <div class="counter-container">
+                    <h2>Total Tracks</h2>
+                    <div id="total-tracks" class="counter">0</div>
+                </div>
+                <div class="counter-container">
+                    <h2>Total Streams</h2>
+                    <div class="counter-addon">
+                        <div id="total-streams" class="counter">0</div>
+                        <span class="counter-suffix">B</span>
+                    </div>
+                </div>
+                <div class="counter-container">
+                    <h2>Total Artists</h2>
+                    <div id="total-artists" class="counter">0</div>
                 </div>
             </div>
-            <div class="counter-container">
-                <h2>Total Artists</h2>
-                <div id="total-artists" class="counter">0</div>
-            </div>
+        </div>
+
+        <div class="chart-container additional-infos">
+            <p>📅 This page reflect the data available at the date of <span class="update-date accent-color">January 2025</span>.</p>
+            <p>📊 The data was collected using the Spotify Web API</p>
         </div>
 
         <div class="chart-container">
             <h2>Today's Cover</h2>
-            
+
             <div class="counter-container">
-                <img src="" alt="Playlist Cover" id="playlist-cover">
+                <div class="cover-container">
+                    <img src="" alt="Playlist Cover" id="playlist-cover">
+                </div>
                 <h2 id="playlist-description"></h2>
             </div>
 
@@ -54,7 +63,7 @@
 
         <div class="chart-container">
             <h2>New Entries</h2>
-            
+
             <div class="counter-container">
                 <h2>Coming soon...</h2>
             </div>
@@ -62,7 +71,7 @@
         </div>
     </div>
 
-    
+
     <footer>
         <div class="github">
             <a href="https://github.com/Leogendra" target="_blank">

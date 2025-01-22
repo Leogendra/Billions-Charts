@@ -27,11 +27,11 @@ a {
 
 /* TITLE */
 .title {
-    margin: 50px 0 10px;
+    margin: 30px 0 10px;
     text-align: center;
 }
 
-.title h1 {
+.title-text {
     color: var(--accent-color);
     font-size: 3rem;
 }
@@ -51,4 +51,22 @@ a {
     text-align: center;
     word-wrap: break-word;
     background-color: var(--secondary-color);
+}
+
+.additional-infos {
+    font-size: 1.2rem;
+    line-height: 2;
+}
+
+.accent-color {
+    color: var(--accent-color);
+}
+
+@media (max-width: 800px) {
+    .title-text {
+        font-size: 2rem;
+    }
+    .intro {
+        font-size: 1.2rem;
+    }
 }

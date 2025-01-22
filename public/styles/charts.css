@@ -43,22 +43,24 @@
 .counter, .counter-suffix {
     font-size: 3.5rem;
     font-weight: bold;
-    color: #4CAF50;
+    color: var(--accent-color);
     font-weight: bold;
     letter-spacing: 0.15rem;
 }
 
 
-/* Playlist Cover */
-#playlist-cover {
+/* Playlist cover and description */
+.cover-container {
+    box-shadow: #000000 0px 0px 20px;
     border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 300px;
+    height: 300px;
+    overflow: hidden;
 }
 
 #playlist-description {
     text-align: center;
 }
-
 
 /* Media query */
 @media screen and (max-width: 800px) {
