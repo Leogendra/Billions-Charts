@@ -31,4 +31,4 @@ jobs:
         REMOTE_USER: dybedywe
         REMOTE_PORT: 5022
         SOURCE: "app.py backend public"
-        TARGET: "~/billions-test"
+        TARGET: "/home/dybedywe/billions-test/"
