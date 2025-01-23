@@ -23,6 +23,11 @@ jobs:
       run: |
         echo "${{ secrets.KNOWN_HOSTS }}" >> ~/.ssh/known_hosts
 
+    - name: List files for debug
+      run: |
+        ls -la /home/runner/work/Billions-Charts/Billions-Charts/
+      
+
     - name: Deploy project with SSH
       uses: easingthemes/ssh-deploy@v2.1.4
       env:
@@ -30,5 +35,6 @@ jobs:
         REMOTE_HOST: 185.221.182.209
         REMOTE_USER: dybedywe
         REMOTE_PORT: 5022
-        SOURCE: "app.py backend public"
+        SOURCE: "public/"
         TARGET: "/home/dybedywe/billions-test/"
+        DEBUG: true
