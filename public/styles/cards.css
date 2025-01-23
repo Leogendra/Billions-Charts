@@ -1,0 +1,64 @@
+.music-card {
+    background-color: var(--text-color);
+    border-radius: 16px;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
+    overflow: hidden;
+    width: 250px;
+    text-align: center;
+    transition: transform 0.3s ease;
+}
+
+.music-card:has(a:hover) {
+    transform: scale(1.05);
+}
+
+.music-card img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+}
+
+.music-card-content {
+    padding: 5px 15px 5px;
+}
+
+.music-title {
+    width: fit-content;
+    min-width: 100%;
+    text-align: left;
+    margin: 4px 0;
+    color: #333;
+    white-space: nowrap;
+    font-size: 1.4rem;
+    font-weight: bold;
+    animation: scroll-text 20s linear infinite;
+}
+
+.music-artist {
+    width: fit-content;
+    min-width: 100%;
+    text-align: left;
+    font-size: 1rem;
+    color: #333;
+    margin-bottom: 12px;
+    white-space: nowrap;
+    animation: scroll-text 10s linear infinite;
+}
+
+@keyframes scroll-text {
+    0% {
+        transform: translateX(0);
+    }
+
+    30% {
+        transform: translateX(0);
+    }
+
+    90% {
+        transform: translateX(calc((250px - 30px) - 100%)); /* Minus the padding */
+    }
+
+    100% {
+        transform: translateX(calc((250px - 30px) - 100%));
+    }
+}

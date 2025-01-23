@@ -39,13 +39,14 @@ a {
 
 /* CONTAINER */
 .main-container {
+    display: flex;
+    flex-direction: column;
     max-width: 800px;
     margin: 0 auto;
 }
 
 .intro {
     padding: 20px;
-    margin-bottom: 30px;
     border-radius: 10px;
     font-size: 1.5rem;
     text-align: center;
@@ -66,9 +67,11 @@ a {
     .title {
         margin-top: 10px;
     }
+
     .title-text {
         font-size: 2rem;
     }
+
     .intro {
         font-size: 1.2rem;
     }

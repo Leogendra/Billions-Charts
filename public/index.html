@@ -9,6 +9,8 @@
         href="https://cdnjs.cloudflare.com/ajax/libs/odometer.js/0.4.7/themes/odometer-theme-default.css" />
     <link rel="stylesheet" href="styles/styles.css">
     <link rel="stylesheet" href="styles/charts.css">
+    <link rel="stylesheet" href="styles/decoration.css">
+    <link rel="stylesheet" href="styles/cards.css">
     <link rel="stylesheet" href="styles/footer.css">
     <title>Billions Charts</title>
 </head>
@@ -19,6 +21,7 @@
     </div>
 
     <div class="main-container">
+
         <div class="intro">
             <p>Get ready to explore the hits of the <a href='https://open.spotify.com/playlist/37i9dQZF1DX7iB3RCnBnN4'
                     target="_blank">Billions Club</a>:</p>
@@ -44,10 +47,16 @@
             </div>
         </div>
 
+
         <div class="chart-container additional-infos">
-            <p>📅 This page reflect the data available at the date of <span class="update-date accent-color">January 2025</span>.</p>
-            <p>📊 The data was collected using the Spotify Web API</p>
+            <p>📅 This page uses the data available at the date of <span class="update-date accent-color">January
+                    2025</span>.</p>
+            <p>📊 The data was collected using the <a href="https://developer.spotify.com/documentation/web-api">Spotify
+                    Web API</a></p>
         </div>
+
+        <div class="next-arrow-container"></div>
+
 
         <div class="chart-container">
             <h2>Today's Cover</h2>
@@ -58,12 +67,17 @@
                 </div>
                 <h2 id="playlist-description"></h2>
             </div>
-
         </div>
 
         <div class="chart-container">
-            <h2>Top 3 new entries</h2>
+            <h2>🆕 New entries of <span class="new-entries-date accent-color">January 2025</span></h2>
             <div class="charts-new-entries" id="new-entries"></div>
+        </div>
+
+
+        <div class="chart-container">
+            <h2>📈 Trending Tracks</h2>
+            <div class="charts-new-entries" id="trendings"></div>
         </div>
     </div>
 
@@ -78,6 +92,7 @@
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="scripts/odometer.js"></script>
+    <script src="scripts/decoration.js"></script>
     <script src="scripts/script.js"></script>
     <script src="scripts/counters.js"></script>
 </body>

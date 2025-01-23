@@ -1,0 +1,35 @@
+<svg class="next-arrow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800">
+    <defs>
+        <linearGradient
+            x1="50%"
+            y1="0%"
+            x2="50%"
+            y2="100%"
+            id="arrow-grad"
+            gradientTransform="rotate(270 .5 .5)">
+            <stop stop-color="var(--main-bg-color)" offset="0%"></stop>
+            <stop stop-color="var(--accent-color)" offset="75%"></stop>
+        </linearGradient>
+        <marker
+            markerWidth="5"
+            markerHeight="5"
+            refX="2"
+            refY="2.6"
+            viewBox="0 0 5 5"
+            orient="auto"
+            id="arrow-marker">
+            <path fill="var(--accent-color)" d="M0 5V0l5 2.5z"></path>
+        </marker>
+    </defs>
+    <path
+        d="M80.5 94.75q320-139 319.5 319.5 15.5 358.5 319.5 319.5"
+        marker-end="url(#arrow-marker)"
+        stroke-width="20"
+        stroke="url(#arrow-grad)"
+        fill="none"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-dasharray="15 30"
+        transform="rotate(85 400 400)">
+    </path>
+</svg>

@@ -27,7 +27,7 @@
     flex: 1;
 }
 
-.counter-container > h2 {
+.counter-container>h2 {
     margin: 0;
     font-size: 1.5rem;
     color: #333;
@@ -86,37 +86,36 @@
 }
 
 .new-entry-name {
-    font-size: 1.5rem !important;
+    font-size: 1.3rem !important;
     padding-top: 10px;
     flex: 1;
-    width: 100%;
     line-height: 1.6;
     text-align: center;
+
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 }
 
 .new-entry-artists {
     font-size: 1.2rem !important;
     width: 100%;
-    line-height: 1.4;
+    line-height: 1.6;
     text-align: center;
-}
 
-.limited-text-2,
-.limited-text-3 {
     display: -webkit-box;
     -webkit-box-orient: vertical;
     overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-.limited-text-2 {
     -webkit-line-clamp: 2;
 }
 
-.limited-text-3 {
-    -webkit-line-clamp: 3;
-}
 
+/* Trending */
+.charts-trending {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
 
 
 /* Media query */
@@ -129,5 +128,9 @@
     .counter-container {
         margin: 20px 0;
         width: 100%;
+    }
+
+    .charts-new-entries {
+        grid-template-columns: repeat(1, 1fr);
     }
 }
