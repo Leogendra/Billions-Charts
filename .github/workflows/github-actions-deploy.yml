@@ -29,5 +29,6 @@ jobs:
         SSH_PRIVATE_KEY: ${{ secrets.DEPLOY_KEY }}
         REMOTE_HOST: 185.221.182.209
         REMOTE_USER: dybedywe
+        REMOTE_PORT: 5022
         SOURCE: "dist"
-        TARGET: "~/"
+        TARGET: "~/home/dybedywe/billions-test"
