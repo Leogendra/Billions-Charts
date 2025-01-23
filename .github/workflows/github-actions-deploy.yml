@@ -23,6 +23,11 @@ jobs:
       run: |
         echo "${{ secrets.KNOWN_HOSTS }}" >> ~/.ssh/known_hosts
 
-    - name: Deploy files to server
-      run: |
-        rsync -e "ssh -p 5022" -avz --exclude='.env' --exclude='.git/' ./ dybedywe@185.221.182.209:/home/dybedywe/billions-test/
+    - name: Deploy project with SSH
+      uses: easingthemes/ssh-deploy@v2.1.4
+      env:
+        SSH_PRIVATE_KEY: ${{ secrets.DEPLOY_KEY }}
+        REMOTE_HOST: 185.221.182.209
+        REMOTE_USER: dybedywe
+        SOURCE: "dist"
+        TARGET: "~/"
