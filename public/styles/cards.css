@@ -31,7 +31,7 @@
     white-space: nowrap;
     font-size: 1.4rem;
     font-weight: bold;
-    animation: scroll-text 20s linear infinite;
+    animation: scroll-text 8s linear infinite;
 }
 
 .music-artist {
@@ -54,7 +54,7 @@
         transform: translateX(0);
     }
 
-    90% {
+    85% {
         transform: translateX(calc((250px - 30px) - 100%)); /* Minus the padding */
     }
 

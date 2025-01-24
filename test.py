@@ -1,10 +1,11 @@
-from spotapi import Public
+from spotapi import PublicPlaylist
+import json
 
-# Exemple d'ID ou URI d'un artiste (par exemple, ID de Spotify : "1Xyo4u8uXC1ZmMpatF05PJ")
-artist_id = "1Xyo4u8uXC1ZmMpatF05PJ"  # ID ou URI de l'artiste
-artist_info = Public.artist(artist_id)
 
-# Affichage des informations de l'artiste
-print(f"Nom : {artist_info['name']}")
-print(f"Popularité : {artist_info['popularity']}")
-print(f"Genres : {artist_info['genres']}")
+playlist = PublicPlaylist("4bT9Ay9RHjruGhJIndqlw1")
+playlist_info = playlist.get_playlist_info(limit=100)
+# print(playlist_info)
+
+
+with open("test.json", "w") as f:
+    f.write(json.dumps(playlist_info, indent=4))
