@@ -30,7 +30,7 @@ def search():
         generate_leaderboard(dataPath, WRITE_TO_DATABASE)
         return jsonify({
             "message": "Search completed!",
-            "output": "The search has been completed successfully.",
+            "output": "The search of the playlist has been completed successfully.",
         })
     except Exception as error:
         print(f"[ERROR] {error}")
