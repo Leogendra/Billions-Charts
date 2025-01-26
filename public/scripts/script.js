@@ -43,6 +43,11 @@ async function main() {
     update_trendings(report);
 
     place_arrow();
+
+    // Caroussel
+    // window.addEventListener("mousemove", handleMouseMove);
+    // window.addEventListener("mousedown", handleMouseDown);
+    // window.addEventListener("mouseup", handleMouseUp);
 }
 
 

@@ -37,23 +37,23 @@ jobs:
         SOURCE: "app.py"
         TARGET: "/home/${{ secrets.USERNAME }}/billions-charts/"
       
-    # - name: Deploy backend/
-    #   uses: easingthemes/ssh-deploy@v2.1.4
-    #   env:
-    #     SSH_PRIVATE_KEY: ${{ secrets.DEPLOY_KEY }}
-    #     REMOTE_HOST: ${{ secrets.IP_ADRESS }}
-    #     REMOTE_USER: ${{ secrets.USERNAME }}
-    #     REMOTE_PORT: 5022
-    #     SOURCE: "backend/"
-    #     TARGET: "/home/${{ secrets.USERNAME }}/billions-charts/backend/"
+    - name: Deploy backend/
+      uses: easingthemes/ssh-deploy@v2.1.4
+      env:
+        SSH_PRIVATE_KEY: ${{ secrets.DEPLOY_KEY }}
+        REMOTE_HOST: ${{ secrets.IP_ADRESS }}
+        REMOTE_USER: ${{ secrets.USERNAME }}
+        REMOTE_PORT: 5022
+        SOURCE: "backend/"
+        TARGET: "/home/${{ secrets.USERNAME }}/billions-charts/backend/"
       
-    # - name: Deploy public/
-    #   uses: easingthemes/ssh-deploy@v2.1.4
-    #   env:
-    #     SSH_PRIVATE_KEY: ${{ secrets.DEPLOY_KEY }}
-    #     REMOTE_HOST: ${{ secrets.IP_ADRESS }}
-    #     REMOTE_USER: ${{ secrets.USERNAME }}
-    #     REMOTE_PORT: 5022
-    #     SOURCE: "public/"
-    #     TARGET: "/home/${{ secrets.USERNAME }}/billions-charts/public/"
-    #     ARGS: "--exclude='data/'"
+    - name: Deploy public/
+      uses: easingthemes/ssh-deploy@v2.1.4
+      env:
+        SSH_PRIVATE_KEY: ${{ secrets.DEPLOY_KEY }}
+        REMOTE_HOST: ${{ secrets.IP_ADRESS }}
+        REMOTE_USER: ${{ secrets.USERNAME }}
+        REMOTE_PORT: 5022
+        SOURCE: "public/"
+        TARGET: "/home/${{ secrets.USERNAME }}/billions-charts/public/"
+        ARGS: "--exclude='data/'"

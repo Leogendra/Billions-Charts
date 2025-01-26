@@ -62,15 +62,17 @@ main {
 
 
 
-
+/* Manual slider */
 
 #image-track {
     display: flex;
+    flex-direction: row;
+    width: fit-content;
     gap: 20px;
     user-select: none;
 }
 
-#image-track>.image {
+#image-track > .image {
     width: 100px;
     height: 100px;
     object-fit: cover;

@@ -10,6 +10,8 @@
         href="https://cdnjs.cloudflare.com/ajax/libs/odometer.js/0.4.7/themes/odometer-theme-default.css" />
     <!-- Slider -->
     <link rel="stylesheet" href="styles/caroussel.css">
+    <!-- Material Icons -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=help" />
     <!-- Styles -->
     <link rel="stylesheet" href="styles/styles.css">
     <link rel="stylesheet" href="styles/charts.css">
@@ -73,7 +75,8 @@
             </div>
         </div>
 
-        <div class="slider" style="--width: 100px; --height: 100px; --quantity: 9; --speed: 10s;">
+        <!-- Moving slider demo -->
+        <!-- <div class="slider" style="--width: 100px; --height: 100px; --quantity: 9; --speed: 10s;">
             <div class="list">
                 <div class="item" style="--position: 1"><img
                         src="https://i.scdn.co/image/ab67706f0000000296e70ed19eff885572863357" alt=""></div>
@@ -94,9 +97,10 @@
                 <div class="item" style="--position: 9"><img
                         src="https://i.scdn.co/image/ab67706f0000000296e70ed19eff885572863357" alt=""></div>
             </div>
-        </div>
+        </div> -->
 
-        <div class="chart-container">
+        <!-- Scrolling slider demo -->
+        <!-- <div class="chart-container">
             <div id="image-track" data-mouse-down-at="0" data-prev-percentage="0">
                 <img class="image" src="https://i.scdn.co/image/ab67706f0000000296e70ed19eff885572863357"
                     draggable="false" />
@@ -106,20 +110,8 @@
                     draggable="false" />
                 <img class="image" src="https://i.scdn.co/image/ab67706f0000000296e70ed19eff885572863357"
                     draggable="false" />
-                <img class="image" src="https://i.scdn.co/image/ab67706f0000000296e70ed19eff885572863357"
-                    draggable="false" />
-                <img class="image" src="https://i.scdn.co/image/ab67706f0000000296e70ed19eff885572863357"
-                    draggable="false" />
-                <img class="image" src="https://i.scdn.co/image/ab67706f0000000296e70ed19eff885572863357"
-                    draggable="false" />
-                <img class="image" src="https://i.scdn.co/image/ab67706f0000000296e70ed19eff885572863357"
-                    draggable="false" />
-                <img class="image" src="https://i.scdn.co/image/ab67706f0000000296e70ed19eff885572863357"
-                    draggable="false" />
-                <img class="image" src="https://i.scdn.co/image/ab67706f0000000296e70ed19eff885572863357"
-                    draggable="false" />
             </div>
-        </div>
+        </div> -->
 
 
         <div class="chart-container">
@@ -127,12 +119,18 @@
             <div class="charts-new-entries" id="new-entries"></div>
         </div>
 
-
-        <div class="slider" style="--width: 250px; --height: 450px; --quantity: 10; --speed: 20s;">
+        <!-- Slider demo 2 -->
+        <!-- <div class="slider" style="--width: 250px; --height: 450px; --quantity: 10; --speed: 20s;">
             <h2>📈 Trending Tracks</h2>
             <div class="list" id="trendings"></div>
+        </div> -->
+        <div class="chart-container">
+            <!-- TODO: CENTER THIS SHIT -->
+            <h2>📈 Trending Tracks <span class="material-symbols-outlined">help</span></h2>
+            <div class="charts-new-entries" id="trendings"></div>
+            <!-- TODO: REMOVE ORANGE ON ARTISTS LINKS -->
         </div>
-
+        
     </div>
 
     <footer>

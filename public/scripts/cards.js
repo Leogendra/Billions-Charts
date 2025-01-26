@@ -14,19 +14,26 @@ function create_music_card(track, position, additionalInfo="") {
     music_card.classList.add("music-card");
     music_card.classList.add("item");
     music_card.style.setProperty("--position", position);
-    let artists = track.artists;
-    // check if artists type are string or dict
-    if (typeof artists[0] === "object") {
-        artists = artists.map(artist => artist.name);
-    }
+    
+    // Generate artists links
+    const artistsLinks = track.artists
+        .map(artist => `<a href="https://open.spotify.com/artist/${artist.id}" target="_blank">${artist.name}</a>`)
+        .join(", ");
+
+    const additionalInfoDiv = additionalInfo === "" ? "" : `<div class="music-infos">${additionalInfo}</div>`;
+
     music_card.innerHTML = `
     <a href="https://open.spotify.com/track/${track.id}" target="_blank">
         <img src="${track.image}" alt="${trackName}">
     </a>
     <div class="music-card-content">
-        <div class="music-title">${trackName}</div>
-        <div class="music-artist">${artists.join(", ")}</div>
-        <div class="music-infos">${additionalInfo}</div>
+        <div class="music-title">
+            <a href="https://open.spotify.com/track/${track.id}" target="_blank">${trackName}</a>
+        </div>
+        <div class="music-artist">
+            ${artistsLinks}
+        </div>
+        ${additionalInfoDiv}
     </div>
     `;
     return music_card;
@@ -55,7 +62,7 @@ function update_new_entries(report) {
 async function update_trendings(report) {
     for (let i = 0; i < report.most_popular_tracks.length; i++) {
         const trending = report.most_popular_tracks[i];
-        const trending_entry = create_music_card(trending, i+1, `Popularity: ${trending.popularity}`);
+        const trending_entry = create_music_card(trending, i+1, `Popularity<br>${trending.popularity}`);
         trendings_section.appendChild(trending_entry);
     }
 }

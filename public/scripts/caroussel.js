@@ -1,14 +1,9 @@
 const track = document.getElementById("image-track");
 
-window.onmousedown = (e) => {
-    track.dataset.mouseDownAt = e.clientX;
-};
-window.onmouseup = () => {
-    track.dataset.mouseDownAt = "0";
-    track.dataset.prevPercentage = track.dataset.percentage;
-}
 
-window.onmousemove = (e) => {
+
+
+const handleMouseMove = (e) => {
     if (track.dataset.mouseDownAt === "0") return;
 
     const mouseDelta = parseFloat(track.dataset.mouseDownAt) - e.clientX;
@@ -17,10 +12,20 @@ window.onmousemove = (e) => {
     const percentage = (mouseDelta / maxDelta) * -100;
     const nextPercentageUnconstrained = parseFloat(track.dataset.prevPercentage || "0") + percentage;
 
-    // Limitation pour éviter de scroller au-delà des bornes
-    const nextPercentage = Math.max(Math.min(nextPercentageUnconstrained, 0), -100);
+    // Allows the first and the last element to be scrolled to the center
+    const nextPercentage = Math.max(Math.min(nextPercentageUnconstrained, 30), -65);
 
     track.dataset.percentage = nextPercentage;
 
     track.style.transform = `translate(${nextPercentage}%, 0%)`;
+};
+
+
+const handleMouseDown = (e) => {
+    track.dataset.mouseDownAt = e.clientX;
+};
+
+const handleMouseUp = () => {
+    track.dataset.mouseDownAt = "0";
+    track.dataset.prevPercentage = track.dataset.percentage;
 };

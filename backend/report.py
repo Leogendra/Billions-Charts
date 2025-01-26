@@ -121,6 +121,7 @@ def aggregate_by_key(tracks, agregateKey):
                 for artist in track['artists']
             ],
             "playcount": track['playcount'],
+            "popularity": track['popularity'],
             "image": track['image']
         }
         for track in sorted_tracks
