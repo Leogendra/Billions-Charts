@@ -5,8 +5,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/x-icon" href="assets/favicon.png">
+    <!-- Odometer -->
     <link rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/odometer.js/0.4.7/themes/odometer-theme-default.css" />
+    <!-- Slider -->
+    <link rel="stylesheet" href="styles/caroussel.css">
+    <!-- Styles -->
     <link rel="stylesheet" href="styles/styles.css">
     <link rel="stylesheet" href="styles/charts.css">
     <link rel="stylesheet" href="styles/decoration.css">
@@ -69,18 +73,67 @@
             </div>
         </div>
 
+        <div class="slider" style="--width: 100px; --height: 100px; --quantity: 9; --speed: 10s;">
+            <div class="list">
+                <div class="item" style="--position: 1"><img
+                        src="https://i.scdn.co/image/ab67706f0000000296e70ed19eff885572863357" alt=""></div>
+                <div class="item" style="--position: 2"><img
+                        src="https://i.scdn.co/image/ab67706f0000000296e70ed19eff885572863357" alt=""></div>
+                <div class="item" style="--position: 3"><img
+                        src="https://i.scdn.co/image/ab67706f0000000296e70ed19eff885572863357" alt=""></div>
+                <div class="item" style="--position: 4"><img
+                        src="https://i.scdn.co/image/ab67706f0000000296e70ed19eff885572863357" alt=""></div>
+                <div class="item" style="--position: 5"><img
+                        src="https://i.scdn.co/image/ab67706f0000000296e70ed19eff885572863357" alt=""></div>
+                <div class="item" style="--position: 6"><img
+                        src="https://i.scdn.co/image/ab67706f0000000296e70ed19eff885572863357" alt=""></div>
+                <div class="item" style="--position: 7"><img
+                        src="https://i.scdn.co/image/ab67706f0000000296e70ed19eff885572863357" alt=""></div>
+                <div class="item" style="--position: 8"><img
+                        src="https://i.scdn.co/image/ab67706f0000000296e70ed19eff885572863357" alt=""></div>
+                <div class="item" style="--position: 9"><img
+                        src="https://i.scdn.co/image/ab67706f0000000296e70ed19eff885572863357" alt=""></div>
+            </div>
+        </div>
+
+        <div class="chart-container">
+            <div id="image-track" data-mouse-down-at="0" data-prev-percentage="0">
+                <img class="image" src="https://i.scdn.co/image/ab67706f0000000296e70ed19eff885572863357"
+                    draggable="false" />
+                <img class="image" src="https://i.scdn.co/image/ab67706f0000000296e70ed19eff885572863357"
+                    draggable="false" />
+                <img class="image" src="https://i.scdn.co/image/ab67706f0000000296e70ed19eff885572863357"
+                    draggable="false" />
+                <img class="image" src="https://i.scdn.co/image/ab67706f0000000296e70ed19eff885572863357"
+                    draggable="false" />
+                <img class="image" src="https://i.scdn.co/image/ab67706f0000000296e70ed19eff885572863357"
+                    draggable="false" />
+                <img class="image" src="https://i.scdn.co/image/ab67706f0000000296e70ed19eff885572863357"
+                    draggable="false" />
+                <img class="image" src="https://i.scdn.co/image/ab67706f0000000296e70ed19eff885572863357"
+                    draggable="false" />
+                <img class="image" src="https://i.scdn.co/image/ab67706f0000000296e70ed19eff885572863357"
+                    draggable="false" />
+                <img class="image" src="https://i.scdn.co/image/ab67706f0000000296e70ed19eff885572863357"
+                    draggable="false" />
+                <img class="image" src="https://i.scdn.co/image/ab67706f0000000296e70ed19eff885572863357"
+                    draggable="false" />
+            </div>
+        </div>
+
+
         <div class="chart-container">
             <h2>🆕 New entries of <span class="new-entries-date accent-color">January 2025</span></h2>
             <div class="charts-new-entries" id="new-entries"></div>
         </div>
 
 
-        <div class="chart-container">
+        <div class="slider" style="--width: 250px; --height: 450px; --quantity: 10; --speed: 20s;">
             <h2>📈 Trending Tracks</h2>
-            <div class="charts-new-entries" id="trendings"></div>
+            <div class="list" id="trendings"></div>
         </div>
-    </div>
 
+    </div>
 
     <footer>
         <div class="github">
@@ -90,11 +143,17 @@
         </div>
     </footer>
 
+
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="scripts/odometer.js"></script>
     <script src="scripts/decoration.js"></script>
+    <script src="scripts/cards.js"></script>
     <script src="scripts/script.js"></script>
     <script src="scripts/counters.js"></script>
+
+    <script src="scripts/caroussel.js"></script>
+
+
 </body>
 
 

@@ -47,13 +47,13 @@ jobs:
     #     SOURCE: "backend/"
     #     TARGET: "/home/dybedywe/billions-charts/backend/"
       
-    - name: Deploy public/
-      uses: easingthemes/ssh-deploy@v2.1.4
-      env:
-        SSH_PRIVATE_KEY: ${{ secrets.DEPLOY_KEY }}
-        REMOTE_HOST: 185.221.182.209
-        REMOTE_USER: dybedywe
-        REMOTE_PORT: 5022
-        SOURCE: "public/"
-        TARGET: "/home/dybedywe/billions-charts/public/"
-        ARGS: "--exclude='data/'"
+    # - name: Deploy public/
+    #   uses: easingthemes/ssh-deploy@v2.1.4
+    #   env:
+    #     SSH_PRIVATE_KEY: ${{ secrets.DEPLOY_KEY }}
+    #     REMOTE_HOST: 185.221.182.209
+    #     REMOTE_USER: dybedywe
+    #     REMOTE_PORT: 5022
+    #     SOURCE: "public/"
+    #     TARGET: "/home/dybedywe/billions-charts/public/"
+    #     ARGS: "--exclude='data/'"

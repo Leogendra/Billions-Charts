@@ -17,6 +17,7 @@ body {
     color: var(--text-color);
     line-height: 1.6;
     padding: 20px;
+    overflow-x: hidden;
 }
 
 a {
@@ -43,6 +44,7 @@ a {
     flex-direction: column;
     max-width: 800px;
     margin: 0 auto;
+    overflow-x: hidden;
 }
 
 .intro {

@@ -128,7 +128,8 @@ def fetch_playlist_infos(dataPath, WRITE_TO_DATABASE):
                 playlist_infos["items"][i]["release_date"] = info["release_date"]
                 playlist_infos["items"][i]["release_date_precision"] = info["release_date_precision"]
                 break
-    
+
+    # TODO: Fetch Artists infos: genres, followers, popularity, images
 
     if WRITE_TO_DATABASE:
         add_to_database(playlist_infos)

@@ -27,6 +27,7 @@ def search():
     fetch_playlist_infos(dataPath, WRITE_TO_DATABASE)
     try:
         generate_report(dataPath, reportPublicPath, WRITE_TO_DATABASE) # Static update, TODO: make a clean backend instead of static file
+        generate_leaderboard(dataPath, WRITE_TO_DATABASE)
         return jsonify({
             "message": "Search completed!",
             "output": "The search has been completed successfully.",
@@ -41,10 +42,8 @@ def search():
         )
     
 
-@app.route("/report/", methods=["GET"])
-def report():
-    dateKey = datetime.datetime.now().strftime("%Y-%m-%d")
-    # dateKey = "2025-01-21"
+@app.route("/report/<dateKey>", methods=["GET"])
+def report(dateKey):
     dataPath = f"data/tracks/tracks_{dateKey}.json"
     reportPublicPath = f"public/data/report.json"
 
@@ -61,11 +60,10 @@ def report():
         })
 
 
-@app.route("/leaderboard/", methods=["GET"])
-def leaderboard():
-    DATE_KEY = datetime.datetime.now().strftime("%Y-%m-%d")
+@app.route("/leaderboard/<dateKey>", methods=["GET"])
+def leaderboard(dateKey):
     create_folder("data/reports")
-    dataPath = f"data/tracks/tracks_{DATE_KEY}.json"
+    dataPath = f"data/tracks/tracks_{dateKey}.json"
 
     try:
         generate_leaderboard(dataPath, WRITE_TO_DATABASE)
