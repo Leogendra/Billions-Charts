@@ -1,0 +1,168 @@
+{
+    "data": {
+        "playlistV2": {
+            "__typename": "Playlist",
+            "content": {
+                "__typename": "PlaylistItemsPage",
+                "items": [
+                    {
+                        "addedAt": {
+                            "isoString": "2025-01-27T15:56:03.696Z"
+                        },
+                        "addedBy": {
+                            "data": {
+                                "__typename": "User",
+                                "avatar": {
+                                    "sources": [
+                                        {
+                                            "height": 64,
+                                            "url": "https://i.scdn.co/image/ab67757000003b828682746c517a923075756099",
+                                            "width": 64
+                                        },
+                                        {
+                                            "height": 300,
+                                            "url": "https://i.scdn.co/image/ab6775700000ee858682746c517a923075756099",
+                                            "width": 300
+                                        }
+                                    ]
+                                },
+                                "name": "gatienhaddad",
+                                "uri": "spotify:user:gatienhaddad",
+                                "username": "gatienhaddad"
+                            }
+                        },
+                        "attributes": [],
+                        "itemV2": {
+                            "__typename": "TrackResponseWrapper",
+                            "data": {
+                                "__typename": "Track",
+                                "albumOfTrack": {
+                                    "artists": {
+                                        "items": [
+                                            {
+                                                "profile": {
+                                                    "name": "Twenty One Pilots"
+                                                },
+                                                "uri": "spotify:artist:3YQKmKGau1PzlVlkL1iodx"
+                                            }
+                                        ]
+                                    },
+                                    "coverArt": {
+                                        "sources": [
+                                            {
+                                                "height": 300,
+                                                "url": "https://i.scdn.co/image/ab67616d00001e029cf15c7323fb85b7112197d5",
+                                                "width": 300
+                                            },
+                                            {
+                                                "height": 64,
+                                                "url": "https://i.scdn.co/image/ab67616d000048519cf15c7323fb85b7112197d5",
+                                                "width": 64
+                                            },
+                                            {
+                                                "height": 640,
+                                                "url": "https://i.scdn.co/image/ab67616d0000b2739cf15c7323fb85b7112197d5",
+                                                "width": 640
+                                            }
+                                        ]
+                                    },
+                                    "name": "Clancy",
+                                    "uri": "spotify:album:1KFWgQTw3EMTQebaaepVBI"
+                                },
+                                "artists": {
+                                    "items": [
+                                        {
+                                            "profile": {
+                                                "name": "Twenty One Pilots"
+                                            },
+                                            "uri": "spotify:artist:3YQKmKGau1PzlVlkL1iodx"
+                                        }
+                                    ]
+                                },
+                                "associationsV2": {
+                                    "totalCount": 1
+                                },
+                                "contentRating": {
+                                    "label": "NONE"
+                                },
+                                "discNumber": 1,
+                                "trackDuration": {
+                                    "totalMilliseconds": 236000
+                                },
+                                "name": "Overcompensate",
+                                "playability": {
+                                    "playable": true,
+                                    "reason": "PLAYABLE"
+                                },
+                                "playcount": "85409424",
+                                "trackNumber": 1,
+                                "uri": "spotify:track:1LAlLBTGBUO0MDA8IbSysd"
+                            }
+                        },
+                        "uid": "b0439f9d4f1d1549"
+                    }
+                ],
+                "pagingInfo": {
+                    "limit": 5000,
+                    "offset": 0
+                },
+                "totalCount": 1
+            },
+            "attributes": [],
+            "basePermission": "VIEWER",
+            "description": "",
+            "followers": 0,
+            "following": false,
+            "format": "",
+            "images": {
+                "items": [
+                    {
+                        "extractedColors": {
+                            "colorRaw": {
+                                "hex": "#E84838",
+                                "isFallback": false
+                            }
+                        },
+                        "sources": [
+                            {
+                                "height": null,
+                                "url": "https://i.scdn.co/image/ab67616d00001e029cf15c7323fb85b7112197d5",
+                                "width": null
+                            }
+                        ]
+                    }
+                ]
+            },
+            "name": "TEST",
+            "ownerV2": {
+                "data": {
+                    "__typename": "User",
+                    "avatar": {
+                        "sources": [
+                            {
+                                "height": 64,
+                                "url": "https://i.scdn.co/image/ab67757000003b828682746c517a923075756099",
+                                "width": 64
+                            },
+                            {
+                                "height": 300,
+                                "url": "https://i.scdn.co/image/ab6775700000ee858682746c517a923075756099",
+                                "width": 300
+                            }
+                        ]
+                    },
+                    "name": "gatienhaddad",
+                    "uri": "spotify:user:gatienhaddad",
+                    "username": "gatienhaddad"
+                }
+            },
+            "revisionId": "AAAAA+8Kuc1Ga9tMwZK3o4TOJ9MGB998",
+            "sharingInfo": {
+                "shareId": "zHMYT7z9T_GluWeCZmD9KQ",
+                "shareUrl": "https://open.spotify.com/playlist/5ncmDMsWsIHoNSGyrZLDNb?si=zHMYT7z9T_GluWeCZmD9KQ"
+            },
+            "uri": "spotify:playlist:5ncmDMsWsIHoNSGyrZLDNb"
+        }
+    },
+    "extensions": {}
+}

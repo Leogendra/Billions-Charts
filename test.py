@@ -1,9 +1,16 @@
-from spotapi import PublicPlaylist
+import spotapi
 import json
 
+import logging
+import http.client as http_client
 
-playlist = PublicPlaylist("4bT9Ay9RHjruGhJIndqlw1")
-playlist_info = playlist.get_playlist_info(limit=100)
+http_client.HTTPConnection.debuglevel = 1
+logging.basicConfig(level=logging.DEBUG)
+logging.getLogger("urllib3").setLevel(logging.DEBUG)
+
+
+playlist = spotapi.PublicPlaylist("5ncmDMsWsIHoNSGyrZLDNb")
+playlist_info = playlist.get_playlist_info(limit=5000, enable_watch_feed_entrypoint=True)
 # print(playlist_info)
 
 
