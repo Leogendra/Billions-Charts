@@ -1,0 +1,35 @@
+{
+    "external_urls": {
+        "spotify": "https://open.spotify.com/artist/3eVa5w3URK5duf6eyVDbu9"
+    },
+    "followers": {
+        "href": null,
+        "total": 9780958
+    },
+    "genres": [
+        "k-pop"
+    ],
+    "href": "https://api.spotify.com/v1/artists/3eVa5w3URK5duf6eyVDbu9",
+    "id": "3eVa5w3URK5duf6eyVDbu9",
+    "images": [
+        {
+            "url": "https://i.scdn.co/image/ab6761610000e5eb727a1f1f508238a20ac9fdbf",
+            "height": 640,
+            "width": 640
+        },
+        {
+            "url": "https://i.scdn.co/image/ab67616100005174727a1f1f508238a20ac9fdbf",
+            "height": 320,
+            "width": 320
+        },
+        {
+            "url": "https://i.scdn.co/image/ab6761610000f178727a1f1f508238a20ac9fdbf",
+            "height": 160,
+            "width": 160
+        }
+    ],
+    "name": "ROSÉ",
+    "popularity": 87,
+    "type": "artist",
+    "uri": "spotify:artist:3eVa5w3URK5duf6eyVDbu9"
+}

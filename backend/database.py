@@ -1,6 +1,5 @@
 from pymongo import MongoClient, UpdateOne
 from dotenv import load_dotenv
-from bson import ObjectId
 import os
 
 load_dotenv()
@@ -11,15 +10,12 @@ db = client.billions
 global_collections = db.spotify_data # to remove after migration
 playlists_collection = db.playlists_headers
 tracks_collection = db.playlist_tracks
+artists_collection = db.playlist_artists
 
 
 
 
-def convert_objectid(obj):
-    if isinstance(obj, ObjectId):
-        return str(obj)
-    raise TypeError(f"Object of type {type(obj).__name__} is not JSON serializable")
-
+### Insert data into the database ###
 
 def insert_or_update_playlist_header(playlist_data):
     header_data = {
@@ -60,7 +56,7 @@ def insert_or_update_tracks(playlist_data):
             "added_at": track["added_at"],
             "contentRating": track["contentRating"],
             "duration_ms": track["duration_ms"],
-            "artists": track["artists"],
+            "artists": [{"id": artist["id"]} for artist in track["artists"]],
             "image": track["image"],
             "image_size": track["image_size"],
             "release_date": track["release_date"],
@@ -76,15 +72,45 @@ def insert_or_update_tracks(playlist_data):
             )
         )
 
-    # Execute the bulk write operations
     if operations:
         tracks_collection.bulk_write(operations)
 
 
+def insert_or_update_artists(playlist_data):
+    operations = []
+    for track in playlist_data["items"]:
+        for artist in track["artists"]:
+            artist_data = {
+                "id": artist["id"],
+                "name": artist["name"],
+                "genres": artist["genres"],
+                "followers": artist["followers"],
+                "popularity": artist["popularity"],
+                "image": artist["image"],
+            }
+
+            operations.append(
+                UpdateOne(
+                    {"id": artist["id"]},
+                    {"$set": artist_data},
+                    upsert=True,
+                )
+            )
+
+    if operations:
+        artists_collection.bulk_write(operations)
+
+
 def add_to_database(playlist_data):
     insert_or_update_playlist_header(playlist_data)
+    print("Playlist header added to the database")
     insert_or_update_tracks(playlist_data)
+    print("Tracks added to the database")
+    insert_or_update_artists(playlist_data)
+    print("Artists added to the database")
 
+
+### Retrieve data from the database ###
 
 def retrieve_playlist_infos_from_mongo(date):
     # Retrieve the playlists headers data where the field "date" matches the input date
@@ -96,12 +122,9 @@ def retrieve_playlist_infos_from_mongo(date):
     playlist_data = list(playlist_data)[0]
     del playlist_data["_id"]
 
-    # Retrieve the track ids from the playlist header
-    track_ids = [track["id"] for track in playlist_data["items"]]
-
     # Retrieve the details of the tracks from the tracks collection
+    track_ids = [track["id"] for track in playlist_data["items"]]
     tracks_details = list(tracks_collection.find({"id": {"$in": track_ids}}))
-
     track_details_dict = {track["id"]: track for track in tracks_details}
 
     for track in playlist_data["items"]:
@@ -110,15 +133,16 @@ def retrieve_playlist_infos_from_mongo(date):
             track.update(track_details_dict[track_id])
         del track["_id"]
 
+    # Retrieve the artists details from the artists collection
+    artist_ids = list({artist["id"] for track in playlist_data["items"] for artist in track["artists"]})
+    artists_details = list(artists_collection.find({"id": {"$in": artist_ids}}))
+    artist_details_dict = {artist["id"]: artist for artist in artists_details}
+
+    for track in playlist_data["items"]:
+        for artist in track["artists"]:
+            artist_id = artist["id"]
+            if (artist_id in artist_details_dict):
+                artist.update(artist_details_dict[artist_id])
+            del artist["_id"]
+
     return playlist_data
-
-
-
-
-import json
-if __name__ == "__main__":
-    dateKey = "2025-01-16"
-
-    data = retrieve_playlist_infos_from_mongo(dateKey)
-    with open("test.json", "w") as f:
-        json.dump(data, f, default=convert_objectid, indent=4)

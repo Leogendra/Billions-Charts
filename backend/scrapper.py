@@ -1,6 +1,6 @@
 from backend.database import add_to_database, retrieve_playlist_infos_from_mongo
 from backend.utils import create_folder
-from spotapi import PublicPlaylist
+from spotapi import PublicPlaylist, Artist
 from dotenv import load_dotenv
 import datetime
 import requests
@@ -92,7 +92,6 @@ def fetch_playlist_infos(dataPath, WRITE_TO_DATABASE):
     access_token = get_access_token()
     track_ids = [track["id"] for track in playlist_infos["items"]]
 
-    url = "https://api.spotify.com/v1/tracks"
     headers = {"Authorization": f"Bearer {access_token}"}
     track_infos = []
     
@@ -103,7 +102,11 @@ def fetch_playlist_infos(dataPath, WRITE_TO_DATABASE):
         params = {"ids": ",".join(chunk)}
 
         try:
-            response = requests.get(url, headers=headers, params=params)
+            response = requests.get(
+                "https://api.spotify.com/v1/tracks", 
+                headers=headers, 
+                params=params
+            )
             response.raise_for_status()
             tracks_fetched = response.json()["tracks"]
         except:
@@ -130,7 +133,41 @@ def fetch_playlist_infos(dataPath, WRITE_TO_DATABASE):
                 break
 
     # TODO: Fetch Artists infos: genres, followers, popularity, images
+    artist_ids = list({artist["id"] for track in playlist_infos["items"] for artist in track["artists"]})
 
+    artists_infos = {}
+    for i in range(0, len(artist_ids), 50):
+        batch = artist_ids[i:i + 50]
+        params = {"ids": ",".join(batch)}
+
+        try:
+            response = requests.get(
+                "https://api.spotify.com/v1/artists", 
+                headers=headers, 
+                params=params
+            )
+            response.raise_for_status()
+            artists_batch = response.json()["artists"]
+            
+            for artist in artists_batch:
+                artists_infos[artist["id"]] = {
+                    "id": artist["id"],
+                    "name": artist["name"],
+                    "genres": artist["genres"],
+                    "followers": artist["followers"]["total"],
+                    "popularity": artist["popularity"],
+                    "image": max(artist["images"], key=lambda x: x["width"]) if artist["images"] else None
+                }
+
+        except Exception as e:
+            print(f"Error fetching batch {i}: {e}")
+
+    # Merge artists infos
+    for i, track in enumerate(playlist_infos["items"]):
+        for j, artist in enumerate(track["artists"]):
+            playlist_infos["items"][i]["artists"][j] = artists_infos[artist["id"]]
+
+    # Save or insert in database
     if WRITE_TO_DATABASE:
         add_to_database(playlist_infos)
         print("Song infos inserted in database.")

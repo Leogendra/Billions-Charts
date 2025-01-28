@@ -1,18 +1,15 @@
-import spotapi
+from backend.database import retrieve_playlist_infos_from_mongo
 import json
 
-import logging
-import http.client as http_client
-
-http_client.HTTPConnection.debuglevel = 1
-logging.basicConfig(level=logging.DEBUG)
-logging.getLogger("urllib3").setLevel(logging.DEBUG)
 
 
-playlist = spotapi.PublicPlaylist("5ncmDMsWsIHoNSGyrZLDNb")
-playlist_info = playlist.get_playlist_info(limit=5000, enable_watch_feed_entrypoint=True)
-# print(playlist_info)
+date = "2025-01-28"
+infos = retrieve_playlist_infos_from_mongo(date)
 
+for track in infos["items"]:
+    for artist in track["artists"]:
+        if not(artist["image"]):
+            print(artist)
 
-with open("test.json", "w") as f:
-    f.write(json.dumps(playlist_info, indent=4))
+with open("test.json", "w", encoding="utf-8") as f:
+    json.dump(infos, f, ensure_ascii=False, indent=4)
