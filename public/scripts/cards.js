@@ -22,6 +22,14 @@ const most_short_section = document.querySelector("#most-short");
 
 
 
+function format_milliseconds(ms) {
+    const seconds = Math.floor(ms / 1000);
+    const minutes = Math.floor(seconds / 60);
+    const remaining_seconds = seconds % 60;
+    return `${minutes}:${remaining_seconds.toString().padStart(2, '0')}`;
+}
+
+
 function create_music_card(track, position, additionalInfo="") {
     const trackName = track.name.replace(/\([^)]*\)/g, "").trim()
     const music_card = document.createElement("div");
@@ -31,7 +39,7 @@ function create_music_card(track, position, additionalInfo="") {
     
     // Generate artists links
     const artistsLinks = track.artists
-        .map(artist => `<a href="https://open.spotify.com/artist/${artist.id}" target="_blank">${artist.name}</a>`)
+        .map(artist => `<a class="cta-link" href="https://open.spotify.com/artist/${artist.id}" target="_blank">${artist.name}</a>`)
         .join(", ");
 
     const additionalInfoDiv = additionalInfo === "" ? "" : `<div class="music-infos">${additionalInfo}</div>`;
@@ -42,13 +50,13 @@ function create_music_card(track, position, additionalInfo="") {
     </a>
     <div class="music-card-content">
         <div class="music-title">
-            <a href="https://open.spotify.com/track/${track.id}" target="_blank">${trackName}</a>
+            <a class="cta-link" href="https://open.spotify.com/track/${track.id}" target="_blank">${trackName}</a>
         </div>
         <div class="music-artist">
             ${artistsLinks}
         </div>
-        ${additionalInfoDiv}
     </div>
+    ${additionalInfoDiv}
     `;
     return music_card;
 }
@@ -85,7 +93,7 @@ async function update_trendings(report) {
 async function update_newest(report) {
     for (let i = 0; i < report.newest_tracks.length; i++) {
         const newest = report.newest_tracks[i];
-        const newest_entry = create_music_card(newest, i+1, `Popularity<br>${newest.popularity}`);
+        const newest_entry = create_music_card(newest, i+1, `Release<br>${newest.release_date}`);
         newest_section.appendChild(newest_entry);
     }
 }
@@ -112,7 +120,7 @@ async function update_least_streamed(report) {
 async function update_most_long(report) {
     for (let i = 0; i < report.most_long_tracks.length; i++) {
         const track = report.most_long_tracks[i];
-        const track_entry = create_music_card(track, i+1, `Duration<br>${track.duration}s`);
+        const track_entry = create_music_card(track, i+1, `Duration<br>${format_milliseconds(track.duration_ms)}`);
         most_long_section.appendChild(track_entry);
     }
 }
@@ -121,7 +129,7 @@ async function update_most_long(report) {
 async function update_most_short(report) {
     for (let i = 0; i < report.most_short_tracks.length; i++) {
         const track = report.most_short_tracks[i];
-        const track_entry = create_music_card(track, i+1, `Duration<br>${track.duration}s`);
+        const track_entry = create_music_card(track, i+1, `Duration<br>${format_milliseconds(track.duration_ms)}`);
         most_short_section.appendChild(track_entry);
     }
 }

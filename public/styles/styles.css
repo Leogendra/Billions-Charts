@@ -3,6 +3,7 @@
     --primary-color: #E0E1DD;
     --secondary-color: #1B263B;
     --main-bg-color: #0D1B2A;
+    --dark-bg-color: #010b17;
 }
 
 * {
@@ -20,47 +21,6 @@ body {
     overflow-x: hidden;
 }
 
-a {
-    text-decoration: none;
-}
-
-.important-link {
-    text-decoration: underline;
-    color: var(--accent-color);
-    font-size: 600;
-    text-decoration-color: var(--primary-color);
-    transition: all 0.2s ease;
-}
-
-.important-link:hover {
-    text-decoration-color: var(--accent-color);
-}
-
-.normal-link {
-    text-decoration: none;
-    color: var(--accent-color);
-    font-size: 600;
-    position: relative;
-}
-
-.normal-link::before {
-    content: "";
-    bottom: 0;
-    left: 0;
-    transform-origin: left;
-    position: absolute;
-    width: 100%;
-    height: 2px;
-    background: var(--accent-color);
-    transform: scaleX(0);
-    transition: transform 0.3s ease;
-}
-
-.normal-link:hover::before {
-    transform: scaleX(1);
-}
-
-
 
 /* TITLE */
 .title {
@@ -71,6 +31,28 @@ a {
 .title-text {
     color: var(--accent-color);
     font-size: 3rem;
+}
+
+
+/* LINKS */
+a {
+    text-decoration: underline;
+    text-decoration-color: transparent;
+    transition: all 0.3s ease;
+}
+
+.important-link {
+    color: var(--accent-color);
+    font-weight: 600;
+}
+
+.cta-link {
+    color: var(--main-bg-color);
+}
+
+.important-link:hover,
+.cta-link:hover {
+    text-decoration-color: initial;
 }
 
 
@@ -104,6 +86,9 @@ a {
 
 
 @media (max-width: 800px) {
+    h2 {
+        font-size: 1.2rem;
+    }
     .title {
         margin-top: 10px;
     }
