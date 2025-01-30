@@ -1,0 +1,1176 @@
+{
+    "data": {
+        "albumUnion": {
+            "__typename": "Album",
+            "copyright": {
+                "items": [
+                    {
+                        "text": "2023 Be\u00edcoli",
+                        "type": "C"
+                    },
+                    {
+                        "text": "2023 Be\u00edcoli",
+                        "type": "P"
+                    }
+                ],
+                "totalCount": 2
+            },
+            "courtesyLine": "",
+            "date": {
+                "isoString": "2023-10-14T00:00:00Z",
+                "precision": "DAY"
+            },
+            "label": "Be\u00edcoli",
+            "name": "LAIKA: Aged Through Blood (Original Soundtrack)",
+            "playability": {
+                "playable": true,
+                "reason": "PLAYABLE"
+            },
+            "saved": false,
+            "sharingInfo": {
+                "shareId": "Ig9h_LuNQvuL2eZ32qARMw",
+                "shareUrl": "https://open.spotify.com/album/3dQQAi7HumuMD2TL3Ky7t4?si=Ig9h_LuNQvuL2eZ32qARMw"
+            },
+            "tracksV2": {
+                "items": [
+                    {
+                        "track": {
+                            "artists": {
+                                "items": [
+                                    {
+                                        "profile": {
+                                            "name": "Be\u00edcoli"
+                                        },
+                                        "uri": "spotify:artist:3ZKXnMD4kamNQg3cqC0bVa"
+                                    }
+                                ]
+                            },
+                            "associationsV2": {
+                                "totalCount": 0
+                            },
+                            "contentRating": {
+                                "label": "NONE"
+                            },
+                            "discNumber": 1,
+                            "duration": {
+                                "totalMilliseconds": 188413
+                            },
+                            "name": "The Whisper",
+                            "playability": {
+                                "playable": true
+                            },
+                            "playcount": "424192",
+                            "relinkingInformation": null,
+                            "saved": false,
+                            "trackNumber": 1,
+                            "uri": "spotify:track:5b4ITSMYxLfDwLNokEBVyV"
+                        },
+                        "uid": "b0ed985f193916b4818b"
+                    },
+                    {
+                        "track": {
+                            "artists": {
+                                "items": [
+                                    {
+                                        "profile": {
+                                            "name": "Be\u00edcoli"
+                                        },
+                                        "uri": "spotify:artist:3ZKXnMD4kamNQg3cqC0bVa"
+                                    }
+                                ]
+                            },
+                            "associationsV2": {
+                                "totalCount": 0
+                            },
+                            "contentRating": {
+                                "label": "NONE"
+                            },
+                            "discNumber": 1,
+                            "duration": {
+                                "totalMilliseconds": 173280
+                            },
+                            "name": "Bloody Sunset",
+                            "playability": {
+                                "playable": true
+                            },
+                            "playcount": "158228",
+                            "relinkingInformation": null,
+                            "saved": false,
+                            "trackNumber": 2,
+                            "uri": "spotify:track:56Tqiy7H877guf4mZHzpke"
+                        },
+                        "uid": "fac0c7e0792eb8bc9019"
+                    },
+                    {
+                        "track": {
+                            "artists": {
+                                "items": [
+                                    {
+                                        "profile": {
+                                            "name": "Be\u00edcoli"
+                                        },
+                                        "uri": "spotify:artist:3ZKXnMD4kamNQg3cqC0bVa"
+                                    }
+                                ]
+                            },
+                            "associationsV2": {
+                                "totalCount": 0
+                            },
+                            "contentRating": {
+                                "label": "NONE"
+                            },
+                            "discNumber": 1,
+                            "duration": {
+                                "totalMilliseconds": 210000
+                            },
+                            "name": "Playing In The Sun",
+                            "playability": {
+                                "playable": true
+                            },
+                            "playcount": "289646",
+                            "relinkingInformation": null,
+                            "saved": false,
+                            "trackNumber": 3,
+                            "uri": "spotify:track:1C4UbHu2D4GuWCS8QR7MFS"
+                        },
+                        "uid": "d22089fc58bc7bf4410e"
+                    },
+                    {
+                        "track": {
+                            "artists": {
+                                "items": [
+                                    {
+                                        "profile": {
+                                            "name": "Be\u00edcoli"
+                                        },
+                                        "uri": "spotify:artist:3ZKXnMD4kamNQg3cqC0bVa"
+                                    }
+                                ]
+                            },
+                            "associationsV2": {
+                                "totalCount": 0
+                            },
+                            "contentRating": {
+                                "label": "NONE"
+                            },
+                            "discNumber": 1,
+                            "duration": {
+                                "totalMilliseconds": 185000
+                            },
+                            "name": "Heartbeat From The Last Century",
+                            "playability": {
+                                "playable": true
+                            },
+                            "playcount": "96264",
+                            "relinkingInformation": null,
+                            "saved": false,
+                            "trackNumber": 4,
+                            "uri": "spotify:track:7uWQ1kLWaYNjbZp1LpyZAf"
+                        },
+                        "uid": "60685184a8ab631f1159"
+                    },
+                    {
+                        "track": {
+                            "artists": {
+                                "items": [
+                                    {
+                                        "profile": {
+                                            "name": "Be\u00edcoli"
+                                        },
+                                        "uri": "spotify:artist:3ZKXnMD4kamNQg3cqC0bVa"
+                                    }
+                                ]
+                            },
+                            "associationsV2": {
+                                "totalCount": 0
+                            },
+                            "contentRating": {
+                                "label": "NONE"
+                            },
+                            "discNumber": 1,
+                            "duration": {
+                                "totalMilliseconds": 213000
+                            },
+                            "name": "Trust Them",
+                            "playability": {
+                                "playable": true
+                            },
+                            "playcount": "92896",
+                            "relinkingInformation": null,
+                            "saved": false,
+                            "trackNumber": 5,
+                            "uri": "spotify:track:3bdf7fdI1hdMVIpUJ41iHG"
+                        },
+                        "uid": "39ad29206aa77f24a405"
+                    },
+                    {
+                        "track": {
+                            "artists": {
+                                "items": [
+                                    {
+                                        "profile": {
+                                            "name": "Be\u00edcoli"
+                                        },
+                                        "uri": "spotify:artist:3ZKXnMD4kamNQg3cqC0bVa"
+                                    }
+                                ]
+                            },
+                            "associationsV2": {
+                                "totalCount": 0
+                            },
+                            "contentRating": {
+                                "label": "NONE"
+                            },
+                            "discNumber": 1,
+                            "duration": {
+                                "totalMilliseconds": 167181
+                            },
+                            "name": "Lullaby Of The Dead",
+                            "playability": {
+                                "playable": true
+                            },
+                            "playcount": "84883",
+                            "relinkingInformation": null,
+                            "saved": false,
+                            "trackNumber": 6,
+                            "uri": "spotify:track:2zsW39nfsfNAgqIl4NLTJG"
+                        },
+                        "uid": "be51c61a7f20b514677e"
+                    },
+                    {
+                        "track": {
+                            "artists": {
+                                "items": [
+                                    {
+                                        "profile": {
+                                            "name": "Be\u00edcoli"
+                                        },
+                                        "uri": "spotify:artist:3ZKXnMD4kamNQg3cqC0bVa"
+                                    }
+                                ]
+                            },
+                            "associationsV2": {
+                                "totalCount": 0
+                            },
+                            "contentRating": {
+                                "label": "NONE"
+                            },
+                            "discNumber": 1,
+                            "duration": {
+                                "totalMilliseconds": 192400
+                            },
+                            "name": "The Hero",
+                            "playability": {
+                                "playable": true
+                            },
+                            "playcount": "112395",
+                            "relinkingInformation": null,
+                            "saved": false,
+                            "trackNumber": 7,
+                            "uri": "spotify:track:6rm2ktwnNWdmRBm2EWY2a9"
+                        },
+                        "uid": "974571d663422f8332ea"
+                    },
+                    {
+                        "track": {
+                            "artists": {
+                                "items": [
+                                    {
+                                        "profile": {
+                                            "name": "Be\u00edcoli"
+                                        },
+                                        "uri": "spotify:artist:3ZKXnMD4kamNQg3cqC0bVa"
+                                    }
+                                ]
+                            },
+                            "associationsV2": {
+                                "totalCount": 0
+                            },
+                            "contentRating": {
+                                "label": "NONE"
+                            },
+                            "discNumber": 1,
+                            "duration": {
+                                "totalMilliseconds": 229600
+                            },
+                            "name": "The Last Tear",
+                            "playability": {
+                                "playable": true
+                            },
+                            "playcount": "152766",
+                            "relinkingInformation": null,
+                            "saved": false,
+                            "trackNumber": 8,
+                            "uri": "spotify:track:3OZMpvf9sQQjx47azMKeUj"
+                        },
+                        "uid": "80b88c955327fa6ab37e"
+                    },
+                    {
+                        "track": {
+                            "artists": {
+                                "items": [
+                                    {
+                                        "profile": {
+                                            "name": "Be\u00edcoli"
+                                        },
+                                        "uri": "spotify:artist:3ZKXnMD4kamNQg3cqC0bVa"
+                                    }
+                                ]
+                            },
+                            "associationsV2": {
+                                "totalCount": 0
+                            },
+                            "contentRating": {
+                                "label": "NONE"
+                            },
+                            "discNumber": 1,
+                            "duration": {
+                                "totalMilliseconds": 153000
+                            },
+                            "name": "Visions Of Red",
+                            "playability": {
+                                "playable": true
+                            },
+                            "playcount": "79523",
+                            "relinkingInformation": null,
+                            "saved": false,
+                            "trackNumber": 9,
+                            "uri": "spotify:track:1R000BmU69UamTCzeeqiw3"
+                        },
+                        "uid": "f75cbcc169fd465ce0d3"
+                    },
+                    {
+                        "track": {
+                            "artists": {
+                                "items": [
+                                    {
+                                        "profile": {
+                                            "name": "Be\u00edcoli"
+                                        },
+                                        "uri": "spotify:artist:3ZKXnMD4kamNQg3cqC0bVa"
+                                    }
+                                ]
+                            },
+                            "associationsV2": {
+                                "totalCount": 0
+                            },
+                            "contentRating": {
+                                "label": "NONE"
+                            },
+                            "discNumber": 1,
+                            "duration": {
+                                "totalMilliseconds": 187428
+                            },
+                            "name": "My Destiny",
+                            "playability": {
+                                "playable": true
+                            },
+                            "playcount": "147146",
+                            "relinkingInformation": null,
+                            "saved": false,
+                            "trackNumber": 10,
+                            "uri": "spotify:track:3HSJaFrkPrMbYmKr6Bz4Je"
+                        },
+                        "uid": "a47e99bbba55db8e18e0"
+                    },
+                    {
+                        "track": {
+                            "artists": {
+                                "items": [
+                                    {
+                                        "profile": {
+                                            "name": "Be\u00edcoli"
+                                        },
+                                        "uri": "spotify:artist:3ZKXnMD4kamNQg3cqC0bVa"
+                                    }
+                                ]
+                            },
+                            "associationsV2": {
+                                "totalCount": 0
+                            },
+                            "contentRating": {
+                                "label": "NONE"
+                            },
+                            "discNumber": 1,
+                            "duration": {
+                                "totalMilliseconds": 181496
+                            },
+                            "name": "Heartglaze Hope",
+                            "playability": {
+                                "playable": true
+                            },
+                            "playcount": "84609",
+                            "relinkingInformation": null,
+                            "saved": false,
+                            "trackNumber": 11,
+                            "uri": "spotify:track:1vFdFOpU5TovjsGrXXQqSB"
+                        },
+                        "uid": "04a2e7ba44a1a4bdb2e2"
+                    },
+                    {
+                        "track": {
+                            "artists": {
+                                "items": [
+                                    {
+                                        "profile": {
+                                            "name": "Be\u00edcoli"
+                                        },
+                                        "uri": "spotify:artist:3ZKXnMD4kamNQg3cqC0bVa"
+                                    }
+                                ]
+                            },
+                            "associationsV2": {
+                                "totalCount": 0
+                            },
+                            "contentRating": {
+                                "label": "NONE"
+                            },
+                            "discNumber": 1,
+                            "duration": {
+                                "totalMilliseconds": 160430
+                            },
+                            "name": "Coming Home",
+                            "playability": {
+                                "playable": true
+                            },
+                            "playcount": "92206",
+                            "relinkingInformation": null,
+                            "saved": false,
+                            "trackNumber": 12,
+                            "uri": "spotify:track:4EVRZgWOzn6WzkWQ35ycoL"
+                        },
+                        "uid": "dc4c2214c89abc7d078e"
+                    },
+                    {
+                        "track": {
+                            "artists": {
+                                "items": [
+                                    {
+                                        "profile": {
+                                            "name": "Be\u00edcoli"
+                                        },
+                                        "uri": "spotify:artist:3ZKXnMD4kamNQg3cqC0bVa"
+                                    }
+                                ]
+                            },
+                            "associationsV2": {
+                                "totalCount": 0
+                            },
+                            "contentRating": {
+                                "label": "NONE"
+                            },
+                            "discNumber": 1,
+                            "duration": {
+                                "totalMilliseconds": 136123
+                            },
+                            "name": "Blue Limbo",
+                            "playability": {
+                                "playable": true
+                            },
+                            "playcount": "68851",
+                            "relinkingInformation": null,
+                            "saved": false,
+                            "trackNumber": 13,
+                            "uri": "spotify:track:0YBbrTKCt6Lg7bnXZ1UFOD"
+                        },
+                        "uid": "76de8d5e97b93adc1291"
+                    },
+                    {
+                        "track": {
+                            "artists": {
+                                "items": [
+                                    {
+                                        "profile": {
+                                            "name": "Be\u00edcoli"
+                                        },
+                                        "uri": "spotify:artist:3ZKXnMD4kamNQg3cqC0bVa"
+                                    }
+                                ]
+                            },
+                            "associationsV2": {
+                                "totalCount": 0
+                            },
+                            "contentRating": {
+                                "label": "NONE"
+                            },
+                            "discNumber": 1,
+                            "duration": {
+                                "totalMilliseconds": 180279
+                            },
+                            "name": "The End Of The Road",
+                            "playability": {
+                                "playable": true
+                            },
+                            "playcount": "82803",
+                            "relinkingInformation": null,
+                            "saved": false,
+                            "trackNumber": 14,
+                            "uri": "spotify:track:3dvXOIX40mAXN7UtirvKhY"
+                        },
+                        "uid": "3d29830d89181b2280ec"
+                    },
+                    {
+                        "track": {
+                            "artists": {
+                                "items": [
+                                    {
+                                        "profile": {
+                                            "name": "Be\u00edcoli"
+                                        },
+                                        "uri": "spotify:artist:3ZKXnMD4kamNQg3cqC0bVa"
+                                    }
+                                ]
+                            },
+                            "associationsV2": {
+                                "totalCount": 0
+                            },
+                            "contentRating": {
+                                "label": "NONE"
+                            },
+                            "discNumber": 1,
+                            "duration": {
+                                "totalMilliseconds": 146860
+                            },
+                            "name": "The Final Hour",
+                            "playability": {
+                                "playable": true
+                            },
+                            "playcount": "71173",
+                            "relinkingInformation": null,
+                            "saved": false,
+                            "trackNumber": 15,
+                            "uri": "spotify:track:0zHDyJG17v17yOpNy23prI"
+                        },
+                        "uid": "9436c58a061509c253db"
+                    },
+                    {
+                        "track": {
+                            "artists": {
+                                "items": [
+                                    {
+                                        "profile": {
+                                            "name": "Be\u00edcoli"
+                                        },
+                                        "uri": "spotify:artist:3ZKXnMD4kamNQg3cqC0bVa"
+                                    }
+                                ]
+                            },
+                            "associationsV2": {
+                                "totalCount": 0
+                            },
+                            "contentRating": {
+                                "label": "NONE"
+                            },
+                            "discNumber": 1,
+                            "duration": {
+                                "totalMilliseconds": 217600
+                            },
+                            "name": "Overthinker",
+                            "playability": {
+                                "playable": true
+                            },
+                            "playcount": "64505",
+                            "relinkingInformation": null,
+                            "saved": false,
+                            "trackNumber": 16,
+                            "uri": "spotify:track:2XFrcGcnQD6xRvqpUHUW2o"
+                        },
+                        "uid": "859d89414be29df69b42"
+                    },
+                    {
+                        "track": {
+                            "artists": {
+                                "items": [
+                                    {
+                                        "profile": {
+                                            "name": "Be\u00edcoli"
+                                        },
+                                        "uri": "spotify:artist:3ZKXnMD4kamNQg3cqC0bVa"
+                                    }
+                                ]
+                            },
+                            "associationsV2": {
+                                "totalCount": 0
+                            },
+                            "contentRating": {
+                                "label": "NONE"
+                            },
+                            "discNumber": 1,
+                            "duration": {
+                                "totalMilliseconds": 190344
+                            },
+                            "name": "Mother",
+                            "playability": {
+                                "playable": true
+                            },
+                            "playcount": "119094",
+                            "relinkingInformation": null,
+                            "saved": false,
+                            "trackNumber": 17,
+                            "uri": "spotify:track:5ZVAl9BE9PpvalMylbu8yy"
+                        },
+                        "uid": "9b05885ed16d9bd9c908"
+                    },
+                    {
+                        "track": {
+                            "artists": {
+                                "items": [
+                                    {
+                                        "profile": {
+                                            "name": "Be\u00edcoli"
+                                        },
+                                        "uri": "spotify:artist:3ZKXnMD4kamNQg3cqC0bVa"
+                                    }
+                                ]
+                            },
+                            "associationsV2": {
+                                "totalCount": 0
+                            },
+                            "contentRating": {
+                                "label": "NONE"
+                            },
+                            "discNumber": 1,
+                            "duration": {
+                                "totalMilliseconds": 235500
+                            },
+                            "name": "Lonely Mountain",
+                            "playability": {
+                                "playable": true
+                            },
+                            "playcount": "73362",
+                            "relinkingInformation": null,
+                            "saved": false,
+                            "trackNumber": 18,
+                            "uri": "spotify:track:00FymaNhhRggeN9fBpjbyx"
+                        },
+                        "uid": "7868439f5d5f2a261899"
+                    },
+                    {
+                        "track": {
+                            "artists": {
+                                "items": [
+                                    {
+                                        "profile": {
+                                            "name": "Be\u00edcoli"
+                                        },
+                                        "uri": "spotify:artist:3ZKXnMD4kamNQg3cqC0bVa"
+                                    }
+                                ]
+                            },
+                            "associationsV2": {
+                                "totalCount": 0
+                            },
+                            "contentRating": {
+                                "label": "NONE"
+                            },
+                            "discNumber": 1,
+                            "duration": {
+                                "totalMilliseconds": 199636
+                            },
+                            "name": "Recurring dream",
+                            "playability": {
+                                "playable": true
+                            },
+                            "playcount": "59226",
+                            "relinkingInformation": null,
+                            "saved": false,
+                            "trackNumber": 19,
+                            "uri": "spotify:track:0l5jzGciV99oanrOqyUtD7"
+                        },
+                        "uid": "207cbbae44dff3279a03"
+                    },
+                    {
+                        "track": {
+                            "artists": {
+                                "items": [
+                                    {
+                                        "profile": {
+                                            "name": "Be\u00edcoli"
+                                        },
+                                        "uri": "spotify:artist:3ZKXnMD4kamNQg3cqC0bVa"
+                                    }
+                                ]
+                            },
+                            "associationsV2": {
+                                "totalCount": 0
+                            },
+                            "contentRating": {
+                                "label": "NONE"
+                            },
+                            "discNumber": 1,
+                            "duration": {
+                                "totalMilliseconds": 188333
+                            },
+                            "name": "Through The Wind",
+                            "playability": {
+                                "playable": true
+                            },
+                            "playcount": "82814",
+                            "relinkingInformation": null,
+                            "saved": false,
+                            "trackNumber": 20,
+                            "uri": "spotify:track:4y8B3gPnpAiF9UyLvccMQQ"
+                        },
+                        "uid": "3314e2b52856ba482d1a"
+                    },
+                    {
+                        "track": {
+                            "artists": {
+                                "items": [
+                                    {
+                                        "profile": {
+                                            "name": "Be\u00edcoli"
+                                        },
+                                        "uri": "spotify:artist:3ZKXnMD4kamNQg3cqC0bVa"
+                                    }
+                                ]
+                            },
+                            "associationsV2": {
+                                "totalCount": 0
+                            },
+                            "contentRating": {
+                                "label": "NONE"
+                            },
+                            "discNumber": 1,
+                            "duration": {
+                                "totalMilliseconds": 137647
+                            },
+                            "name": "I'm Not Gone",
+                            "playability": {
+                                "playable": true
+                            },
+                            "playcount": "99309",
+                            "relinkingInformation": null,
+                            "saved": false,
+                            "trackNumber": 21,
+                            "uri": "spotify:track:2NFhoT7BNIR14SF1c3sdUJ"
+                        },
+                        "uid": "ea7170454ab1202ebf4a"
+                    }
+                ],
+                "totalCount": 21
+            },
+            "type": "ALBUM",
+            "uri": "spotify:album:3dQQAi7HumuMD2TL3Ky7t4",
+            "watchFeedEntrypoint": null,
+            "artists": {
+                "items": [
+                    {
+                        "id": "3ZKXnMD4kamNQg3cqC0bVa",
+                        "profile": {
+                            "name": "Be\u00edcoli"
+                        },
+                        "sharingInfo": {
+                            "shareUrl": "https://open.spotify.com/artist/3ZKXnMD4kamNQg3cqC0bVa?si=WovDy2sdRFy8Ag90mmw4FQ"
+                        },
+                        "uri": "spotify:artist:3ZKXnMD4kamNQg3cqC0bVa",
+                        "visuals": {
+                            "avatarImage": {
+                                "sources": [
+                                    {
+                                        "height": 640,
+                                        "url": "https://i.scdn.co/image/ab6761610000e5ebbd9b15f7684bd7b4a77adc5e",
+                                        "width": 640
+                                    },
+                                    {
+                                        "height": 160,
+                                        "url": "https://i.scdn.co/image/ab6761610000f178bd9b15f7684bd7b4a77adc5e",
+                                        "width": 160
+                                    },
+                                    {
+                                        "height": 320,
+                                        "url": "https://i.scdn.co/image/ab67616100005174bd9b15f7684bd7b4a77adc5e",
+                                        "width": 320
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                ],
+                "totalCount": 1
+            },
+            "coverArt": {
+                "extractedColors": {
+                    "colorDark": {
+                        "hex": "#D82800"
+                    },
+                    "colorLight": {
+                        "hex": "#E52A00"
+                    },
+                    "colorRaw": {
+                        "hex": "#D82800"
+                    }
+                },
+                "sources": [
+                    {
+                        "height": 300,
+                        "url": "https://i.scdn.co/image/ab67616d00001e02f2b7d3d186d76671b9b193f3",
+                        "width": 300
+                    },
+                    {
+                        "height": 64,
+                        "url": "https://i.scdn.co/image/ab67616d00004851f2b7d3d186d76671b9b193f3",
+                        "width": 64
+                    },
+                    {
+                        "height": 640,
+                        "url": "https://i.scdn.co/image/ab67616d0000b273f2b7d3d186d76671b9b193f3",
+                        "width": 640
+                    }
+                ]
+            },
+            "discs": {
+                "items": [
+                    {
+                        "number": 1,
+                        "tracks": {
+                            "totalCount": 21
+                        }
+                    }
+                ],
+                "totalCount": 1
+            },
+            "releases": {
+                "items": [],
+                "totalCount": 0
+            },
+            "moreAlbumsByArtist": {
+                "items": [
+                    {
+                        "discography": {
+                            "popularReleasesAlbums": {
+                                "items": [
+                                    {
+                                        "coverArt": {
+                                            "sources": [
+                                                {
+                                                    "height": 300,
+                                                    "url": "https://i.scdn.co/image/ab67616d00001e02f2b7d3d186d76671b9b193f3",
+                                                    "width": 300
+                                                },
+                                                {
+                                                    "height": 64,
+                                                    "url": "https://i.scdn.co/image/ab67616d00004851f2b7d3d186d76671b9b193f3",
+                                                    "width": 64
+                                                },
+                                                {
+                                                    "height": 640,
+                                                    "url": "https://i.scdn.co/image/ab67616d0000b273f2b7d3d186d76671b9b193f3",
+                                                    "width": 640
+                                                }
+                                            ]
+                                        },
+                                        "date": {
+                                            "year": 2023
+                                        },
+                                        "id": "3dQQAi7HumuMD2TL3Ky7t4",
+                                        "name": "LAIKA: Aged Through Blood (Original Soundtrack)",
+                                        "playability": {
+                                            "playable": true,
+                                            "reason": "PLAYABLE"
+                                        },
+                                        "sharingInfo": {
+                                            "shareId": "Ig9h_LuNQvuL2eZ32qARMw",
+                                            "shareUrl": "https://open.spotify.com/album/3dQQAi7HumuMD2TL3Ky7t4?si=Ig9h_LuNQvuL2eZ32qARMw"
+                                        },
+                                        "type": "ALBUM",
+                                        "uri": "spotify:album:3dQQAi7HumuMD2TL3Ky7t4"
+                                    },
+                                    {
+                                        "coverArt": {
+                                            "sources": [
+                                                {
+                                                    "height": 300,
+                                                    "url": "https://i.scdn.co/image/ab67616d00001e02de39a1f9b539249260bd6266",
+                                                    "width": 300
+                                                },
+                                                {
+                                                    "height": 64,
+                                                    "url": "https://i.scdn.co/image/ab67616d00004851de39a1f9b539249260bd6266",
+                                                    "width": 64
+                                                },
+                                                {
+                                                    "height": 640,
+                                                    "url": "https://i.scdn.co/image/ab67616d0000b273de39a1f9b539249260bd6266",
+                                                    "width": 640
+                                                }
+                                            ]
+                                        },
+                                        "date": {
+                                            "year": 2023
+                                        },
+                                        "id": "6xaUzzwQP4qKyHMRuYZ6Gg",
+                                        "name": "Laika: Sounds From the Wasteland",
+                                        "playability": {
+                                            "playable": true,
+                                            "reason": "PLAYABLE"
+                                        },
+                                        "sharingInfo": {
+                                            "shareId": "DzPCP8QPSMWaK8Aridkqmg",
+                                            "shareUrl": "https://open.spotify.com/album/6xaUzzwQP4qKyHMRuYZ6Gg?si=DzPCP8QPSMWaK8Aridkqmg"
+                                        },
+                                        "type": "ALBUM",
+                                        "uri": "spotify:album:6xaUzzwQP4qKyHMRuYZ6Gg"
+                                    },
+                                    {
+                                        "coverArt": {
+                                            "sources": [
+                                                {
+                                                    "height": 300,
+                                                    "url": "https://i.scdn.co/image/ab67616d00001e0249cb1f40d221263a6a9d9bc6",
+                                                    "width": 300
+                                                },
+                                                {
+                                                    "height": 64,
+                                                    "url": "https://i.scdn.co/image/ab67616d0000485149cb1f40d221263a6a9d9bc6",
+                                                    "width": 64
+                                                },
+                                                {
+                                                    "height": 640,
+                                                    "url": "https://i.scdn.co/image/ab67616d0000b27349cb1f40d221263a6a9d9bc6",
+                                                    "width": 640
+                                                }
+                                            ]
+                                        },
+                                        "date": {
+                                            "year": 2021
+                                        },
+                                        "id": "6XdUnhMh6kcTqCf4WWgl2i",
+                                        "name": "The Longest Road on Earth (Original Video Game Soundtrack)",
+                                        "playability": {
+                                            "playable": true,
+                                            "reason": "PLAYABLE"
+                                        },
+                                        "sharingInfo": {
+                                            "shareId": "K9JMAYvvT66WBV-rZhC-oQ",
+                                            "shareUrl": "https://open.spotify.com/album/6XdUnhMh6kcTqCf4WWgl2i?si=K9JMAYvvT66WBV-rZhC-oQ"
+                                        },
+                                        "type": "ALBUM",
+                                        "uri": "spotify:album:6XdUnhMh6kcTqCf4WWgl2i"
+                                    },
+                                    {
+                                        "coverArt": {
+                                            "sources": [
+                                                {
+                                                    "height": 300,
+                                                    "url": "https://i.scdn.co/image/ab67616d00001e02a171b4b6ffb339386cad94ad",
+                                                    "width": 300
+                                                },
+                                                {
+                                                    "height": 64,
+                                                    "url": "https://i.scdn.co/image/ab67616d00004851a171b4b6ffb339386cad94ad",
+                                                    "width": 64
+                                                },
+                                                {
+                                                    "height": 640,
+                                                    "url": "https://i.scdn.co/image/ab67616d0000b273a171b4b6ffb339386cad94ad",
+                                                    "width": 640
+                                                }
+                                            ]
+                                        },
+                                        "date": {
+                                            "year": 2022
+                                        },
+                                        "id": "7jL4JlzMh9OSlDA1Mb15C6",
+                                        "name": "Friends vs Friends",
+                                        "playability": {
+                                            "playable": true,
+                                            "reason": "PLAYABLE"
+                                        },
+                                        "sharingInfo": {
+                                            "shareId": "xVFTH-q1RpWY_vLmwr4ptQ",
+                                            "shareUrl": "https://open.spotify.com/album/7jL4JlzMh9OSlDA1Mb15C6?si=xVFTH-q1RpWY_vLmwr4ptQ"
+                                        },
+                                        "type": "SINGLE",
+                                        "uri": "spotify:album:7jL4JlzMh9OSlDA1Mb15C6"
+                                    },
+                                    {
+                                        "coverArt": {
+                                            "sources": [
+                                                {
+                                                    "height": 300,
+                                                    "url": "https://i.scdn.co/image/ab67616d00001e029fb5201ba6fcb4f24a34b99a",
+                                                    "width": 300
+                                                },
+                                                {
+                                                    "height": 64,
+                                                    "url": "https://i.scdn.co/image/ab67616d000048519fb5201ba6fcb4f24a34b99a",
+                                                    "width": 64
+                                                },
+                                                {
+                                                    "height": 640,
+                                                    "url": "https://i.scdn.co/image/ab67616d0000b2739fb5201ba6fcb4f24a34b99a",
+                                                    "width": 640
+                                                }
+                                            ]
+                                        },
+                                        "date": {
+                                            "year": 2023
+                                        },
+                                        "id": "1YzO1g2nSWLUgjNr31Ry2k",
+                                        "name": "The Whisper",
+                                        "playability": {
+                                            "playable": true,
+                                            "reason": "PLAYABLE"
+                                        },
+                                        "sharingInfo": {
+                                            "shareId": "FQDpFihZTr2y8yW3tiBKZQ",
+                                            "shareUrl": "https://open.spotify.com/album/1YzO1g2nSWLUgjNr31Ry2k?si=FQDpFihZTr2y8yW3tiBKZQ"
+                                        },
+                                        "type": "SINGLE",
+                                        "uri": "spotify:album:1YzO1g2nSWLUgjNr31Ry2k"
+                                    },
+                                    {
+                                        "coverArt": {
+                                            "sources": [
+                                                {
+                                                    "height": 300,
+                                                    "url": "https://i.scdn.co/image/ab67616d00001e02cd4e951d3c2667307b67e104",
+                                                    "width": 300
+                                                },
+                                                {
+                                                    "height": 64,
+                                                    "url": "https://i.scdn.co/image/ab67616d00004851cd4e951d3c2667307b67e104",
+                                                    "width": 64
+                                                },
+                                                {
+                                                    "height": 640,
+                                                    "url": "https://i.scdn.co/image/ab67616d0000b273cd4e951d3c2667307b67e104",
+                                                    "width": 640
+                                                }
+                                            ]
+                                        },
+                                        "date": {
+                                            "year": 2020
+                                        },
+                                        "id": "7cymZAXANVVLqKSU3u6WJB",
+                                        "name": "Hold A to Drift",
+                                        "playability": {
+                                            "playable": true,
+                                            "reason": "PLAYABLE"
+                                        },
+                                        "sharingInfo": {
+                                            "shareId": "Vufbny2PQumM5IV8d9Nr7A",
+                                            "shareUrl": "https://open.spotify.com/album/7cymZAXANVVLqKSU3u6WJB?si=Vufbny2PQumM5IV8d9Nr7A"
+                                        },
+                                        "type": "SINGLE",
+                                        "uri": "spotify:album:7cymZAXANVVLqKSU3u6WJB"
+                                    },
+                                    {
+                                        "coverArt": {
+                                            "sources": [
+                                                {
+                                                    "height": 300,
+                                                    "url": "https://i.scdn.co/image/ab67616d00001e0280af81834bdf8567e0263b99",
+                                                    "width": 300
+                                                },
+                                                {
+                                                    "height": 64,
+                                                    "url": "https://i.scdn.co/image/ab67616d0000485180af81834bdf8567e0263b99",
+                                                    "width": 64
+                                                },
+                                                {
+                                                    "height": 640,
+                                                    "url": "https://i.scdn.co/image/ab67616d0000b27380af81834bdf8567e0263b99",
+                                                    "width": 640
+                                                }
+                                            ]
+                                        },
+                                        "date": {
+                                            "year": 2023
+                                        },
+                                        "id": "7EuggHcYT2KN3TcQUqLnj7",
+                                        "name": "This is FvF",
+                                        "playability": {
+                                            "playable": true,
+                                            "reason": "PLAYABLE"
+                                        },
+                                        "sharingInfo": {
+                                            "shareId": "XghgaSX9S8K9oRaAxO44Lw",
+                                            "shareUrl": "https://open.spotify.com/album/7EuggHcYT2KN3TcQUqLnj7?si=XghgaSX9S8K9oRaAxO44Lw"
+                                        },
+                                        "type": "SINGLE",
+                                        "uri": "spotify:album:7EuggHcYT2KN3TcQUqLnj7"
+                                    },
+                                    {
+                                        "coverArt": {
+                                            "sources": [
+                                                {
+                                                    "height": 300,
+                                                    "url": "https://i.scdn.co/image/ab67616d00001e02b73e9a1154e39490552ef7a9",
+                                                    "width": 300
+                                                },
+                                                {
+                                                    "height": 64,
+                                                    "url": "https://i.scdn.co/image/ab67616d00004851b73e9a1154e39490552ef7a9",
+                                                    "width": 64
+                                                },
+                                                {
+                                                    "height": 640,
+                                                    "url": "https://i.scdn.co/image/ab67616d0000b273b73e9a1154e39490552ef7a9",
+                                                    "width": 640
+                                                }
+                                            ]
+                                        },
+                                        "date": {
+                                            "year": 2021
+                                        },
+                                        "id": "3DxdIMxKz1TxetaVQ50IdV",
+                                        "name": "Healing",
+                                        "playability": {
+                                            "playable": true,
+                                            "reason": "PLAYABLE"
+                                        },
+                                        "sharingInfo": {
+                                            "shareId": "H29ycQy_TuKagw0m1b1uWw",
+                                            "shareUrl": "https://open.spotify.com/album/3DxdIMxKz1TxetaVQ50IdV?si=H29ycQy_TuKagw0m1b1uWw"
+                                        },
+                                        "type": "SINGLE",
+                                        "uri": "spotify:album:3DxdIMxKz1TxetaVQ50IdV"
+                                    },
+                                    {
+                                        "coverArt": {
+                                            "sources": [
+                                                {
+                                                    "height": 300,
+                                                    "url": "https://i.scdn.co/image/ab67616d00001e0254603e39ca69eaefd3ec85e3",
+                                                    "width": 300
+                                                },
+                                                {
+                                                    "height": 64,
+                                                    "url": "https://i.scdn.co/image/ab67616d0000485154603e39ca69eaefd3ec85e3",
+                                                    "width": 64
+                                                },
+                                                {
+                                                    "height": 640,
+                                                    "url": "https://i.scdn.co/image/ab67616d0000b27354603e39ca69eaefd3ec85e3",
+                                                    "width": 640
+                                                }
+                                            ]
+                                        },
+                                        "date": {
+                                            "year": 2021
+                                        },
+                                        "id": "5fr5GNtFaNZ3d1o7lT34kC",
+                                        "name": "Trip to the lake",
+                                        "playability": {
+                                            "playable": true,
+                                            "reason": "PLAYABLE"
+                                        },
+                                        "sharingInfo": {
+                                            "shareId": "r44opSuZTrG_9WJqWtNLTA",
+                                            "shareUrl": "https://open.spotify.com/album/5fr5GNtFaNZ3d1o7lT34kC?si=r44opSuZTrG_9WJqWtNLTA"
+                                        },
+                                        "type": "SINGLE",
+                                        "uri": "spotify:album:5fr5GNtFaNZ3d1o7lT34kC"
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                ]
+            }
+        }
+    },
+    "extensions": {}
+}

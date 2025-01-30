@@ -1,7 +1,7 @@
 footer {
     text-align: center;
     margin-top: 40px;
-    color: var(--text-color);
+    color: var(--primary-color);
 }
 
 footer img {
