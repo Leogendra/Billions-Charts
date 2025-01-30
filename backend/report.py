@@ -72,7 +72,7 @@ def aggregate_dates(tracks):
                 } 
                 for artist in track['artists']
             ],
-            "playcount": track['playcount'],
+            "image": track['image'],
             "release_date": release_date
         })
 
@@ -96,6 +96,7 @@ def agregate_billions(tracks):
                 } 
                 for artist in track['artists']
             ],
+            "popularity": track['popularity'],
             "image": track['image'],
             "added_at": track['added_at'].split("T")[0] # format : "2022-07-27T16:32:16.167Z"
         })
@@ -122,6 +123,7 @@ def aggregate_by_key(tracks, agregateKey):
             ],
             "playcount": track['playcount'],
             "popularity": track['popularity'],
+            "duration_ms": track['duration_ms'],
             "image": track['image']
         }
         for track in sorted_tracks
