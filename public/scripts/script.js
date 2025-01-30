@@ -35,12 +35,18 @@ function update_playlist_infos(report) {
 
 
 
+
 async function main() {
     const report = await get_report("data/report.json");
     update_counters(report);
     update_playlist_infos(report);
     update_new_entries(report);
     update_trendings(report);
+    update_newest(report);
+    update_most_streamed(report);
+    update_least_streamed(report);
+    update_most_long(report);
+    update_most_short(report);
 
     place_arrow();
 

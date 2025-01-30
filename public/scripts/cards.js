@@ -5,6 +5,20 @@ const new_entries_section = document.querySelector("#new-entries");
 // Trendings
 const trendings_section = document.querySelector("#trendings");
 
+// Newest
+const newest_section = document.querySelector("#newest");
+
+// Most streamed
+const most_streamed_section = document.querySelector("#most-streamed");
+
+// Least streamed
+const least_streamed_section = document.querySelector("#least-streamed");
+
+// Most long
+const most_long_section = document.querySelector("#most-long");
+
+// Most Short
+const most_short_section = document.querySelector("#most-short");
 
 
 
@@ -64,5 +78,50 @@ async function update_trendings(report) {
         const trending = report.most_popular_tracks[i];
         const trending_entry = create_music_card(trending, i+1, `Popularity<br>${trending.popularity}`);
         trendings_section.appendChild(trending_entry);
+    }
+}
+
+
+async function update_newest(report) {
+    for (let i = 0; i < report.newest_tracks.length; i++) {
+        const newest = report.newest_tracks[i];
+        const newest_entry = create_music_card(newest, i+1, `Popularity<br>${newest.popularity}`);
+        newest_section.appendChild(newest_entry);
+    }
+}
+
+
+async function update_most_streamed(report) {
+    for (let i = 0; i < report.most_streamed_tracks.length; i++) {
+        const track = report.most_streamed_tracks[i];
+        const track_entry = create_music_card(track, i+1, `Streams<br>${(track.playcount/1_000_000_000).toFixed(2)}B`);
+        most_streamed_section.appendChild(track_entry);
+    }
+}
+
+
+async function update_least_streamed(report) {
+    for (let i = 0; i < report.least_streamed_tracks.length; i++) {
+        const track = report.least_streamed_tracks[i];
+        const track_entry = create_music_card(track, i+1, `Streams<br>${(track.playcount/1_000_000_000).toFixed(4)}B`);
+        least_streamed_section.appendChild(track_entry);
+    }
+}
+
+
+async function update_most_long(report) {
+    for (let i = 0; i < report.most_long_tracks.length; i++) {
+        const track = report.most_long_tracks[i];
+        const track_entry = create_music_card(track, i+1, `Duration<br>${track.duration}s`);
+        most_long_section.appendChild(track_entry);
+    }
+}
+
+
+async function update_most_short(report) {
+    for (let i = 0; i < report.most_short_tracks.length; i++) {
+        const track = report.most_short_tracks[i];
+        const track_entry = create_music_card(track, i+1, `Duration<br>${track.duration}s`);
+        most_short_section.appendChild(track_entry);
     }
 }
