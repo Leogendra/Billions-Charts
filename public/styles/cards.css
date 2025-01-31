@@ -15,6 +15,10 @@
     transition: transform 0.3s ease;
 }
 
+.music-card.card-color-1 {
+    background-color: var(--primary-color-darker);
+}
+
 .music-card:hover {
     transform: scale(1.01);
 }

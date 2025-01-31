@@ -63,19 +63,23 @@ function create_music_card(track, position, additionalInfo="") {
 
 
 function update_new_entries(report) {
-    let last_entry_date = "";
+    let lastEntryDate = "";
+    let cardColor = 0;
     for (let i = 0; i < report.newest_billions.length; i++) {
         const entry = report.newest_billions[i];
-        if (last_entry_date === "") {
+        if (lastEntryDate === "") {
             // Update the date of the last entries
-            last_entry_date = entry.added_at;
-            new_entries_date.textContent = new Date(last_entry_date).toLocaleDateString('en-US', { month: 'long', day: 'numeric' });
+            lastEntryDate = entry.added_at;
+            new_entries_date.textContent = new Date(lastEntryDate).toLocaleDateString('en-US', { month: 'long', day: 'numeric' });
         }
-        else if (last_entry_date !== entry.added_at) {
-            break;
+        else if (lastEntryDate !== entry.added_at) {
+            cardColor = (cardColor + 1) % 2;
+            lastEntryDate = entry.added_at;
+            // break; // Only if display the last entries
         }
 
-        const new_entry = create_music_card(entry, i+1);
+        const new_entry = create_music_card(entry, i+1, `Entry<br>${entry.added_at}`);
+        if (cardColor) { new_entry.classList.add(`card-color-${cardColor}`); }
         new_entries_section.appendChild(new_entry);
     }
 }
