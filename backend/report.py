@@ -25,7 +25,7 @@ def aggregate_artists(tracks):
             artists_data[artist_name]["count"] += 1
             artists_data[artist_name]["playcount"] += track['playcount']
             artists_data[artist_name]["length"] += track['duration_ms']
-            # Get the first artist id and image
+            # Get the first artist id and image if still None
             if (not(artists_data[artist_name]["id"]) or not(artists_data[artist_name]["image"])):
                 artists_data[artist_name]["id"] = artist.get('id')
                 artists_data[artist_name]["image"] = artist.get('image')

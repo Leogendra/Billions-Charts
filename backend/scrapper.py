@@ -40,6 +40,8 @@ def fetch_playlist_infos(dataPath, WRITE_TO_DATABASE):
     # Fetch playlist infos from Spotify
     create_folder("data/tracks/")
     playlist = PublicPlaylist(PLAYLIST_ID)
+
+    print("Fetching playlist infos...")
     playlist_info = playlist.get_playlist_info(limit=1000)
     if not(playlist_info["data"]):
         raise Exception("Critical Error while fetching playlist infos:", playlist_info["errors"])
@@ -97,7 +99,7 @@ def fetch_playlist_infos(dataPath, WRITE_TO_DATABASE):
     
     # Fetch track infos in chunks of 50 (max limit)
     for i in range(0, len(track_ids), 50):
-        print(f"Fetching tracks {i}/{len(track_ids)}...      ", end="\r")
+        print(f"Fetching tracks {i}/{len(track_ids)}...   ", end="\r")
         chunk = track_ids[i:i + 50]
         params = {"ids": ",".join(chunk)}
 
@@ -122,6 +124,8 @@ def fetch_playlist_infos(dataPath, WRITE_TO_DATABASE):
                 })
             else:
                 print("Corrupted track info:", track)
+
+    print(f"Fetching tracks {len(track_ids)}/{len(track_ids)} done!")
                 
     # Merge track infos
     for i, track in enumerate(playlist_infos["items"]):
@@ -132,11 +136,12 @@ def fetch_playlist_infos(dataPath, WRITE_TO_DATABASE):
                 playlist_infos["items"][i]["release_date_precision"] = info["release_date_precision"]
                 break
 
-    # TODO: Fetch Artists infos: genres, followers, popularity, images
+    # Fetch Artists infos: genres, followers, popularity, images
     artist_ids = list({artist["id"] for track in playlist_infos["items"] for artist in track["artists"]})
 
     artists_infos = {}
     for i in range(0, len(artist_ids), 50):
+        print(f"Fetching artists {i}/{len(artist_ids)}...   ", end="\r")
         batch = artist_ids[i:i + 50]
         params = {"ids": ",".join(batch)}
 
@@ -161,6 +166,8 @@ def fetch_playlist_infos(dataPath, WRITE_TO_DATABASE):
 
         except Exception as e:
             print(f"Error fetching batch {i}: {e}")
+
+    print(f"Fetching artists {len(artist_ids)}/{len(artist_ids)} done!")
 
     # Merge artists infos
     for i, track in enumerate(playlist_infos["items"]):

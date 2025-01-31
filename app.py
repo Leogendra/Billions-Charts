@@ -24,8 +24,8 @@ def search():
     dataPath = f"data/tracks/tracks_{dateKey}.json"
     reportPublicPath = f"public/data/report.json"
 
+    fetch_playlist_infos(dataPath, WRITE_TO_DATABASE)
     try:
-        fetch_playlist_infos(dataPath, WRITE_TO_DATABASE)
         generate_report(dataPath, reportPublicPath, WRITE_TO_DATABASE) # Static update, TODO: make a clean backend instead of static file
         generate_leaderboard(dataPath, WRITE_TO_DATABASE)
         return jsonify({

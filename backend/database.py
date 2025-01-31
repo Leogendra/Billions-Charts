@@ -82,11 +82,12 @@ def insert_or_update_artists(playlist_data):
         for artist in track["artists"]:
             artist_data = {
                 "id": artist["id"],
-                "name": artist["name"],
-                "genres": artist["genres"],
-                "followers": artist["followers"],
-                "popularity": artist["popularity"],
-                "image": artist["image"],
+                "name": artist.get("name", "Unknown"),
+                "genres": artist.get("genres", []),
+                "followers": artist.get("followers", -1),
+                "popularity": artist.get("popularity", -1),
+                "image": artist.get("image").get("url") if artist.get("image") else None,
+                "image_size": artist.get("image").get("width") if artist.get("image") else None,
             }
 
             operations.append(
