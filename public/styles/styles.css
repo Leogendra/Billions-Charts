@@ -37,6 +37,11 @@ body {
 .cover-container {
     margin-bottom: 10px;
 }
+h2 {
+    margin: 0;
+    font-size: 1.5rem;
+    color: var(--dark-bg-color);
+}
 
 
 /* LINKS */
