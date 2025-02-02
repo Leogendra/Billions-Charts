@@ -1,861 +1,1318 @@
 {
     "data": {
-        "albumUnion": {
-            "__typename": "Album",
-            "copyright": {
-                "items": [
-                    {
-                        "text": "2023 Be\u00edcoli",
-                        "type": "C"
+        "artistUnion": {
+            "__typename": "Artist",
+            "discography": {
+                "albums": {
+                    "items": [],
+                    "totalCount": 0
+                },
+                "compilations": {
+                    "items": [],
+                    "totalCount": 0
+                },
+                "latest": {
+                    "copyright": {
+                        "items": [
+                            {
+                                "text": "2024 Mugen J",
+                                "type": "C"
+                            },
+                            {
+                                "text": "2024 Mugen J",
+                                "type": "P"
+                            }
+                        ]
                     },
-                    {
-                        "text": "2023 Be\u00edcoli",
-                        "type": "P"
-                    }
-                ],
-                "totalCount": 2
-            },
-            "courtesyLine": "",
-            "date": {
-                "isoString": "2023-10-14T00:00:00Z",
-                "precision": "DAY"
-            },
-            "label": "Be\u00edcoli",
-            "name": "LAIKA: Aged Through Blood (Original Soundtrack)",
-            "playability": {
-                "playable": true,
-                "reason": "PLAYABLE"
-            },
-            "saved": false,
-            "sharingInfo": {
-                "shareId": "Ig9h_LuNQvuL2eZ32qARMw",
-                "shareUrl": "https://open.spotify.com/album/3dQQAi7HumuMD2TL3Ky7t4?si=Ig9h_LuNQvuL2eZ32qARMw"
-            },
-            "tracksV2": {
-                "items": [
-                    {
-                        "track": {
-                            "artists": {
+                    "coverArt": {
+                        "sources": [
+                            {
+                                "height": 300,
+                                "url": "https://i.scdn.co/image/ab67616d00001e0263fc30ec8847dc950ad312d1",
+                                "width": 300
+                            },
+                            {
+                                "height": 64,
+                                "url": "https://i.scdn.co/image/ab67616d0000485163fc30ec8847dc950ad312d1",
+                                "width": 64
+                            },
+                            {
+                                "height": 640,
+                                "url": "https://i.scdn.co/image/ab67616d0000b27363fc30ec8847dc950ad312d1",
+                                "width": 640
+                            }
+                        ]
+                    },
+                    "date": {
+                        "day": 3,
+                        "month": 1,
+                        "precision": "DAY",
+                        "year": 2025
+                    },
+                    "id": "0axoLO2Yhmb0Aw0uuG9xFO",
+                    "label": "2507353 Records DK2",
+                    "name": "BADDIE",
+                    "playability": {
+                        "playable": true,
+                        "reason": "PLAYABLE"
+                    },
+                    "sharingInfo": {
+                        "shareId": "OOq0Ole7QQGW4LeBixE66A",
+                        "shareUrl": "https://open.spotify.com/en/album/0axoLO2Yhmb0Aw0uuG9xFO?si=OOq0Ole7QQGW4LeBixE66A"
+                    },
+                    "tracks": {
+                        "totalCount": 1
+                    },
+                    "type": "SINGLE",
+                    "uri": "spotify:album:0axoLO2Yhmb0Aw0uuG9xFO"
+                },
+                "popularReleasesAlbums": {
+                    "items": [
+                        {
+                            "copyright": {
                                 "items": [
                                     {
-                                        "profile": {
-                                            "name": "Be\u00edcoli"
-                                        },
-                                        "uri": "spotify:artist:3ZKXnMD4kamNQg3cqC0bVa"
+                                        "text": "2024 Mugen J",
+                                        "type": "C"
+                                    },
+                                    {
+                                        "text": "2024 Mugen J",
+                                        "type": "P"
                                     }
                                 ]
                             },
-                            "associationsV2": {
-                                "totalCount": 0
-                            },
-                            "contentRating": {
-                                "label": "NONE"
-                            },
-                            "discNumber": 1,
-                            "duration": {
-                                "totalMilliseconds": 188413
-                            },
-                            "name": "The Whisper",
-                            "playability": {
-                                "playable": true
-                            },
-                            "playcount": "424192",
-                            "relinkingInformation": null,
-                            "saved": false,
-                            "trackNumber": 1,
-                            "uri": "spotify:track:5b4ITSMYxLfDwLNokEBVyV"
-                        },
-                        "uid": "b0ed985f193916b4818b"
-                    },
-                    {
-                        "track": {
-                            "artists": {
-                                "items": [
-                                    {
-                                        "profile": {
-                                            "name": "Be\u00edcoli"
-                                        },
-                                        "uri": "spotify:artist:3ZKXnMD4kamNQg3cqC0bVa"
-                                    }
-                                ]
-                            },
-                            "associationsV2": {
-                                "totalCount": 0
-                            },
-                            "contentRating": {
-                                "label": "NONE"
-                            },
-                            "discNumber": 1,
-                            "duration": {
-                                "totalMilliseconds": 173280
-                            },
-                            "name": "Bloody Sunset",
-                            "playability": {
-                                "playable": true
-                            },
-                            "playcount": "158228",
-                            "relinkingInformation": null,
-                            "saved": false,
-                            "trackNumber": 2,
-                            "uri": "spotify:track:56Tqiy7H877guf4mZHzpke"
-                        },
-                        "uid": "fac0c7e0792eb8bc9019"
-                    },
-                    {
-                        "track": {
-                            "artists": {
-                                "items": [
-                                    {
-                                        "profile": {
-                                            "name": "Be\u00edcoli"
-                                        },
-                                        "uri": "spotify:artist:3ZKXnMD4kamNQg3cqC0bVa"
-                                    }
-                                ]
-                            },
-                            "associationsV2": {
-                                "totalCount": 0
-                            },
-                            "contentRating": {
-                                "label": "NONE"
-                            },
-                            "discNumber": 1,
-                            "duration": {
-                                "totalMilliseconds": 210000
-                            },
-                            "name": "Playing In The Sun",
-                            "playability": {
-                                "playable": true
-                            },
-                            "playcount": "289646",
-                            "relinkingInformation": null,
-                            "saved": false,
-                            "trackNumber": 3,
-                            "uri": "spotify:track:1C4UbHu2D4GuWCS8QR7MFS"
-                        },
-                        "uid": "d22089fc58bc7bf4410e"
-                    },
-                    {
-                        "track": {
-                            "artists": {
-                                "items": [
-                                    {
-                                        "profile": {
-                                            "name": "Be\u00edcoli"
-                                        },
-                                        "uri": "spotify:artist:3ZKXnMD4kamNQg3cqC0bVa"
-                                    }
-                                ]
-                            },
-                            "associationsV2": {
-                                "totalCount": 0
-                            },
-                            "contentRating": {
-                                "label": "NONE"
-                            },
-                            "discNumber": 1,
-                            "duration": {
-                                "totalMilliseconds": 185000
-                            },
-                            "name": "Heartbeat From The Last Century",
-                            "playability": {
-                                "playable": true
-                            },
-                            "playcount": "96264",
-                            "relinkingInformation": null,
-                            "saved": false,
-                            "trackNumber": 4,
-                            "uri": "spotify:track:7uWQ1kLWaYNjbZp1LpyZAf"
-                        },
-                        "uid": "60685184a8ab631f1159"
-                    },
-                    {
-                        "track": {
-                            "artists": {
-                                "items": [
-                                    {
-                                        "profile": {
-                                            "name": "Be\u00edcoli"
-                                        },
-                                        "uri": "spotify:artist:3ZKXnMD4kamNQg3cqC0bVa"
-                                    }
-                                ]
-                            },
-                            "associationsV2": {
-                                "totalCount": 0
-                            },
-                            "contentRating": {
-                                "label": "NONE"
-                            },
-                            "discNumber": 1,
-                            "duration": {
-                                "totalMilliseconds": 213000
-                            },
-                            "name": "Trust Them",
-                            "playability": {
-                                "playable": true
-                            },
-                            "playcount": "92896",
-                            "relinkingInformation": null,
-                            "saved": false,
-                            "trackNumber": 5,
-                            "uri": "spotify:track:3bdf7fdI1hdMVIpUJ41iHG"
-                        },
-                        "uid": "39ad29206aa77f24a405"
-                    },
-                    {
-                        "track": {
-                            "artists": {
-                                "items": [
-                                    {
-                                        "profile": {
-                                            "name": "Be\u00edcoli"
-                                        },
-                                        "uri": "spotify:artist:3ZKXnMD4kamNQg3cqC0bVa"
-                                    }
-                                ]
-                            },
-                            "associationsV2": {
-                                "totalCount": 0
-                            },
-                            "contentRating": {
-                                "label": "NONE"
-                            },
-                            "discNumber": 1,
-                            "duration": {
-                                "totalMilliseconds": 167181
-                            },
-                            "name": "Lullaby Of The Dead",
-                            "playability": {
-                                "playable": true
-                            },
-                            "playcount": "84883",
-                            "relinkingInformation": null,
-                            "saved": false,
-                            "trackNumber": 6,
-                            "uri": "spotify:track:2zsW39nfsfNAgqIl4NLTJG"
-                        },
-                        "uid": "be51c61a7f20b514677e"
-                    },
-                    {
-                        "track": {
-                            "artists": {
-                                "items": [
-                                    {
-                                        "profile": {
-                                            "name": "Be\u00edcoli"
-                                        },
-                                        "uri": "spotify:artist:3ZKXnMD4kamNQg3cqC0bVa"
-                                    }
-                                ]
-                            },
-                            "associationsV2": {
-                                "totalCount": 0
-                            },
-                            "contentRating": {
-                                "label": "NONE"
-                            },
-                            "discNumber": 1,
-                            "duration": {
-                                "totalMilliseconds": 192400
-                            },
-                            "name": "The Hero",
-                            "playability": {
-                                "playable": true
-                            },
-                            "playcount": "112395",
-                            "relinkingInformation": null,
-                            "saved": false,
-                            "trackNumber": 7,
-                            "uri": "spotify:track:6rm2ktwnNWdmRBm2EWY2a9"
-                        },
-                        "uid": "974571d663422f8332ea"
-                    },
-                    {
-                        "track": {
-                            "artists": {
-                                "items": [
-                                    {
-                                        "profile": {
-                                            "name": "Be\u00edcoli"
-                                        },
-                                        "uri": "spotify:artist:3ZKXnMD4kamNQg3cqC0bVa"
-                                    }
-                                ]
-                            },
-                            "associationsV2": {
-                                "totalCount": 0
-                            },
-                            "contentRating": {
-                                "label": "NONE"
-                            },
-                            "discNumber": 1,
-                            "duration": {
-                                "totalMilliseconds": 229600
-                            },
-                            "name": "The Last Tear",
-                            "playability": {
-                                "playable": true
-                            },
-                            "playcount": "152766",
-                            "relinkingInformation": null,
-                            "saved": false,
-                            "trackNumber": 8,
-                            "uri": "spotify:track:3OZMpvf9sQQjx47azMKeUj"
-                        },
-                        "uid": "80b88c955327fa6ab37e"
-                    },
-                    {
-                        "track": {
-                            "artists": {
-                                "items": [
-                                    {
-                                        "profile": {
-                                            "name": "Be\u00edcoli"
-                                        },
-                                        "uri": "spotify:artist:3ZKXnMD4kamNQg3cqC0bVa"
-                                    }
-                                ]
-                            },
-                            "associationsV2": {
-                                "totalCount": 0
-                            },
-                            "contentRating": {
-                                "label": "NONE"
-                            },
-                            "discNumber": 1,
-                            "duration": {
-                                "totalMilliseconds": 153000
-                            },
-                            "name": "Visions Of Red",
-                            "playability": {
-                                "playable": true
-                            },
-                            "playcount": "79523",
-                            "relinkingInformation": null,
-                            "saved": false,
-                            "trackNumber": 9,
-                            "uri": "spotify:track:1R000BmU69UamTCzeeqiw3"
-                        },
-                        "uid": "f75cbcc169fd465ce0d3"
-                    },
-                    {
-                        "track": {
-                            "artists": {
-                                "items": [
-                                    {
-                                        "profile": {
-                                            "name": "Be\u00edcoli"
-                                        },
-                                        "uri": "spotify:artist:3ZKXnMD4kamNQg3cqC0bVa"
-                                    }
-                                ]
-                            },
-                            "associationsV2": {
-                                "totalCount": 0
-                            },
-                            "contentRating": {
-                                "label": "NONE"
-                            },
-                            "discNumber": 1,
-                            "duration": {
-                                "totalMilliseconds": 187428
-                            },
-                            "name": "My Destiny",
-                            "playability": {
-                                "playable": true
-                            },
-                            "playcount": "147146",
-                            "relinkingInformation": null,
-                            "saved": false,
-                            "trackNumber": 10,
-                            "uri": "spotify:track:3HSJaFrkPrMbYmKr6Bz4Je"
-                        },
-                        "uid": "a47e99bbba55db8e18e0"
-                    },
-                    {
-                        "track": {
-                            "artists": {
-                                "items": [
-                                    {
-                                        "profile": {
-                                            "name": "Be\u00edcoli"
-                                        },
-                                        "uri": "spotify:artist:3ZKXnMD4kamNQg3cqC0bVa"
-                                    }
-                                ]
-                            },
-                            "associationsV2": {
-                                "totalCount": 0
-                            },
-                            "contentRating": {
-                                "label": "NONE"
-                            },
-                            "discNumber": 1,
-                            "duration": {
-                                "totalMilliseconds": 181496
-                            },
-                            "name": "Heartglaze Hope",
-                            "playability": {
-                                "playable": true
-                            },
-                            "playcount": "84609",
-                            "relinkingInformation": null,
-                            "saved": false,
-                            "trackNumber": 11,
-                            "uri": "spotify:track:1vFdFOpU5TovjsGrXXQqSB"
-                        },
-                        "uid": "04a2e7ba44a1a4bdb2e2"
-                    },
-                    {
-                        "track": {
-                            "artists": {
-                                "items": [
-                                    {
-                                        "profile": {
-                                            "name": "Be\u00edcoli"
-                                        },
-                                        "uri": "spotify:artist:3ZKXnMD4kamNQg3cqC0bVa"
-                                    }
-                                ]
-                            },
-                            "associationsV2": {
-                                "totalCount": 0
-                            },
-                            "contentRating": {
-                                "label": "NONE"
-                            },
-                            "discNumber": 1,
-                            "duration": {
-                                "totalMilliseconds": 160430
-                            },
-                            "name": "Coming Home",
-                            "playability": {
-                                "playable": true
-                            },
-                            "playcount": "92206",
-                            "relinkingInformation": null,
-                            "saved": false,
-                            "trackNumber": 12,
-                            "uri": "spotify:track:4EVRZgWOzn6WzkWQ35ycoL"
-                        },
-                        "uid": "dc4c2214c89abc7d078e"
-                    },
-                    {
-                        "track": {
-                            "artists": {
-                                "items": [
-                                    {
-                                        "profile": {
-                                            "name": "Be\u00edcoli"
-                                        },
-                                        "uri": "spotify:artist:3ZKXnMD4kamNQg3cqC0bVa"
-                                    }
-                                ]
-                            },
-                            "associationsV2": {
-                                "totalCount": 0
-                            },
-                            "contentRating": {
-                                "label": "NONE"
-                            },
-                            "discNumber": 1,
-                            "duration": {
-                                "totalMilliseconds": 136123
-                            },
-                            "name": "Blue Limbo",
-                            "playability": {
-                                "playable": true
-                            },
-                            "playcount": "68851",
-                            "relinkingInformation": null,
-                            "saved": false,
-                            "trackNumber": 13,
-                            "uri": "spotify:track:0YBbrTKCt6Lg7bnXZ1UFOD"
-                        },
-                        "uid": "76de8d5e97b93adc1291"
-                    },
-                    {
-                        "track": {
-                            "artists": {
-                                "items": [
-                                    {
-                                        "profile": {
-                                            "name": "Be\u00edcoli"
-                                        },
-                                        "uri": "spotify:artist:3ZKXnMD4kamNQg3cqC0bVa"
-                                    }
-                                ]
-                            },
-                            "associationsV2": {
-                                "totalCount": 0
-                            },
-                            "contentRating": {
-                                "label": "NONE"
-                            },
-                            "discNumber": 1,
-                            "duration": {
-                                "totalMilliseconds": 180279
-                            },
-                            "name": "The End Of The Road",
-                            "playability": {
-                                "playable": true
-                            },
-                            "playcount": "82803",
-                            "relinkingInformation": null,
-                            "saved": false,
-                            "trackNumber": 14,
-                            "uri": "spotify:track:3dvXOIX40mAXN7UtirvKhY"
-                        },
-                        "uid": "3d29830d89181b2280ec"
-                    },
-                    {
-                        "track": {
-                            "artists": {
-                                "items": [
-                                    {
-                                        "profile": {
-                                            "name": "Be\u00edcoli"
-                                        },
-                                        "uri": "spotify:artist:3ZKXnMD4kamNQg3cqC0bVa"
-                                    }
-                                ]
-                            },
-                            "associationsV2": {
-                                "totalCount": 0
-                            },
-                            "contentRating": {
-                                "label": "NONE"
-                            },
-                            "discNumber": 1,
-                            "duration": {
-                                "totalMilliseconds": 146860
-                            },
-                            "name": "The Final Hour",
-                            "playability": {
-                                "playable": true
-                            },
-                            "playcount": "71173",
-                            "relinkingInformation": null,
-                            "saved": false,
-                            "trackNumber": 15,
-                            "uri": "spotify:track:0zHDyJG17v17yOpNy23prI"
-                        },
-                        "uid": "9436c58a061509c253db"
-                    },
-                    {
-                        "track": {
-                            "artists": {
-                                "items": [
-                                    {
-                                        "profile": {
-                                            "name": "Be\u00edcoli"
-                                        },
-                                        "uri": "spotify:artist:3ZKXnMD4kamNQg3cqC0bVa"
-                                    }
-                                ]
-                            },
-                            "associationsV2": {
-                                "totalCount": 0
-                            },
-                            "contentRating": {
-                                "label": "NONE"
-                            },
-                            "discNumber": 1,
-                            "duration": {
-                                "totalMilliseconds": 217600
-                            },
-                            "name": "Overthinker",
-                            "playability": {
-                                "playable": true
-                            },
-                            "playcount": "64505",
-                            "relinkingInformation": null,
-                            "saved": false,
-                            "trackNumber": 16,
-                            "uri": "spotify:track:2XFrcGcnQD6xRvqpUHUW2o"
-                        },
-                        "uid": "859d89414be29df69b42"
-                    },
-                    {
-                        "track": {
-                            "artists": {
-                                "items": [
-                                    {
-                                        "profile": {
-                                            "name": "Be\u00edcoli"
-                                        },
-                                        "uri": "spotify:artist:3ZKXnMD4kamNQg3cqC0bVa"
-                                    }
-                                ]
-                            },
-                            "associationsV2": {
-                                "totalCount": 0
-                            },
-                            "contentRating": {
-                                "label": "NONE"
-                            },
-                            "discNumber": 1,
-                            "duration": {
-                                "totalMilliseconds": 190344
-                            },
-                            "name": "Mother",
-                            "playability": {
-                                "playable": true
-                            },
-                            "playcount": "119094",
-                            "relinkingInformation": null,
-                            "saved": false,
-                            "trackNumber": 17,
-                            "uri": "spotify:track:5ZVAl9BE9PpvalMylbu8yy"
-                        },
-                        "uid": "9b05885ed16d9bd9c908"
-                    },
-                    {
-                        "track": {
-                            "artists": {
-                                "items": [
-                                    {
-                                        "profile": {
-                                            "name": "Be\u00edcoli"
-                                        },
-                                        "uri": "spotify:artist:3ZKXnMD4kamNQg3cqC0bVa"
-                                    }
-                                ]
-                            },
-                            "associationsV2": {
-                                "totalCount": 0
-                            },
-                            "contentRating": {
-                                "label": "NONE"
-                            },
-                            "discNumber": 1,
-                            "duration": {
-                                "totalMilliseconds": 235500
-                            },
-                            "name": "Lonely Mountain",
-                            "playability": {
-                                "playable": true
-                            },
-                            "playcount": "73362",
-                            "relinkingInformation": null,
-                            "saved": false,
-                            "trackNumber": 18,
-                            "uri": "spotify:track:00FymaNhhRggeN9fBpjbyx"
-                        },
-                        "uid": "7868439f5d5f2a261899"
-                    },
-                    {
-                        "track": {
-                            "artists": {
-                                "items": [
-                                    {
-                                        "profile": {
-                                            "name": "Be\u00edcoli"
-                                        },
-                                        "uri": "spotify:artist:3ZKXnMD4kamNQg3cqC0bVa"
-                                    }
-                                ]
-                            },
-                            "associationsV2": {
-                                "totalCount": 0
-                            },
-                            "contentRating": {
-                                "label": "NONE"
-                            },
-                            "discNumber": 1,
-                            "duration": {
-                                "totalMilliseconds": 199636
-                            },
-                            "name": "Recurring dream",
-                            "playability": {
-                                "playable": true
-                            },
-                            "playcount": "59226",
-                            "relinkingInformation": null,
-                            "saved": false,
-                            "trackNumber": 19,
-                            "uri": "spotify:track:0l5jzGciV99oanrOqyUtD7"
-                        },
-                        "uid": "207cbbae44dff3279a03"
-                    },
-                    {
-                        "track": {
-                            "artists": {
-                                "items": [
-                                    {
-                                        "profile": {
-                                            "name": "Be\u00edcoli"
-                                        },
-                                        "uri": "spotify:artist:3ZKXnMD4kamNQg3cqC0bVa"
-                                    }
-                                ]
-                            },
-                            "associationsV2": {
-                                "totalCount": 0
-                            },
-                            "contentRating": {
-                                "label": "NONE"
-                            },
-                            "discNumber": 1,
-                            "duration": {
-                                "totalMilliseconds": 188333
-                            },
-                            "name": "Through The Wind",
-                            "playability": {
-                                "playable": true
-                            },
-                            "playcount": "82814",
-                            "relinkingInformation": null,
-                            "saved": false,
-                            "trackNumber": 20,
-                            "uri": "spotify:track:4y8B3gPnpAiF9UyLvccMQQ"
-                        },
-                        "uid": "3314e2b52856ba482d1a"
-                    },
-                    {
-                        "track": {
-                            "artists": {
-                                "items": [
-                                    {
-                                        "profile": {
-                                            "name": "Be\u00edcoli"
-                                        },
-                                        "uri": "spotify:artist:3ZKXnMD4kamNQg3cqC0bVa"
-                                    }
-                                ]
-                            },
-                            "associationsV2": {
-                                "totalCount": 0
-                            },
-                            "contentRating": {
-                                "label": "NONE"
-                            },
-                            "discNumber": 1,
-                            "duration": {
-                                "totalMilliseconds": 137647
-                            },
-                            "name": "I'm Not Gone",
-                            "playability": {
-                                "playable": true
-                            },
-                            "playcount": "99309",
-                            "relinkingInformation": null,
-                            "saved": false,
-                            "trackNumber": 21,
-                            "uri": "spotify:track:2NFhoT7BNIR14SF1c3sdUJ"
-                        },
-                        "uid": "ea7170454ab1202ebf4a"
-                    }
-                ],
-                "totalCount": 21
-            },
-            "type": "ALBUM",
-            "uri": "spotify:album:3dQQAi7HumuMD2TL3Ky7t4",
-            "watchFeedEntrypoint": null,
-            "artists": {
-                "items": [
-                    {
-                        "id": "3ZKXnMD4kamNQg3cqC0bVa",
-                        "profile": {
-                            "name": "Be\u00edcoli"
-                        },
-                        "sharingInfo": {
-                            "shareUrl": "https://open.spotify.com/artist/3ZKXnMD4kamNQg3cqC0bVa?si=WovDy2sdRFy8Ag90mmw4FQ"
-                        },
-                        "uri": "spotify:artist:3ZKXnMD4kamNQg3cqC0bVa",
-                        "visuals": {
-                            "avatarImage": {
+                            "coverArt": {
                                 "sources": [
                                     {
+                                        "height": 300,
+                                        "url": "https://i.scdn.co/image/ab67616d00001e0263fc30ec8847dc950ad312d1",
+                                        "width": 300
+                                    },
+                                    {
+                                        "height": 64,
+                                        "url": "https://i.scdn.co/image/ab67616d0000485163fc30ec8847dc950ad312d1",
+                                        "width": 64
+                                    },
+                                    {
                                         "height": 640,
-                                        "url": "https://i.scdn.co/image/ab6761610000e5ebbd9b15f7684bd7b4a77adc5e",
+                                        "url": "https://i.scdn.co/image/ab67616d0000b27363fc30ec8847dc950ad312d1",
                                         "width": 640
+                                    }
+                                ]
+                            },
+                            "date": {
+                                "day": 3,
+                                "month": 1,
+                                "precision": "DAY",
+                                "year": 2025
+                            },
+                            "id": "0axoLO2Yhmb0Aw0uuG9xFO",
+                            "label": "2507353 Records DK2",
+                            "name": "BADDIE",
+                            "playability": {
+                                "playable": true,
+                                "reason": "PLAYABLE"
+                            },
+                            "sharingInfo": {
+                                "shareId": "OOq0Ole7QQGW4LeBixE66A",
+                                "shareUrl": "https://open.spotify.com/en/album/0axoLO2Yhmb0Aw0uuG9xFO?si=OOq0Ole7QQGW4LeBixE66A"
+                            },
+                            "tracks": {
+                                "totalCount": 1
+                            },
+                            "type": "SINGLE",
+                            "uri": "spotify:album:0axoLO2Yhmb0Aw0uuG9xFO"
+                        },
+                        {
+                            "copyright": {
+                                "items": [
+                                    {
+                                        "text": "2024 Mugen J",
+                                        "type": "C"
                                     },
                                     {
-                                        "height": 160,
-                                        "url": "https://i.scdn.co/image/ab6761610000f178bd9b15f7684bd7b4a77adc5e",
-                                        "width": 160
+                                        "text": "2024 Mugen J",
+                                        "type": "P"
+                                    }
+                                ]
+                            },
+                            "coverArt": {
+                                "sources": [
+                                    {
+                                        "height": 300,
+                                        "url": "https://i.scdn.co/image/ab67616d00001e02eec1c9fad7aaa30a92b37bf4",
+                                        "width": 300
                                     },
                                     {
-                                        "height": 320,
-                                        "url": "https://i.scdn.co/image/ab67616100005174bd9b15f7684bd7b4a77adc5e",
-                                        "width": 320
+                                        "height": 64,
+                                        "url": "https://i.scdn.co/image/ab67616d00004851eec1c9fad7aaa30a92b37bf4",
+                                        "width": 64
+                                    },
+                                    {
+                                        "height": 640,
+                                        "url": "https://i.scdn.co/image/ab67616d0000b273eec1c9fad7aaa30a92b37bf4",
+                                        "width": 640
+                                    }
+                                ]
+                            },
+                            "date": {
+                                "day": 26,
+                                "month": 10,
+                                "precision": "DAY",
+                                "year": 2024
+                            },
+                            "id": "1kRA1Ea5NZFNLRC2cT8UDo",
+                            "label": "2507353 Records DK2",
+                            "name": "ENFANT DU SUD",
+                            "playability": {
+                                "playable": true,
+                                "reason": "PLAYABLE"
+                            },
+                            "sharingInfo": {
+                                "shareId": "CXRS47djR5K4YEJXP1NApg",
+                                "shareUrl": "https://open.spotify.com/en/album/1kRA1Ea5NZFNLRC2cT8UDo?si=CXRS47djR5K4YEJXP1NApg"
+                            },
+                            "tracks": {
+                                "totalCount": 1
+                            },
+                            "type": "SINGLE",
+                            "uri": "spotify:album:1kRA1Ea5NZFNLRC2cT8UDo"
+                        },
+                        {
+                            "copyright": {
+                                "items": [
+                                    {
+                                        "text": "2023 Phalange Record",
+                                        "type": "C"
+                                    },
+                                    {
+                                        "text": "2023 Phalange Record",
+                                        "type": "P"
+                                    }
+                                ]
+                            },
+                            "coverArt": {
+                                "sources": [
+                                    {
+                                        "height": 300,
+                                        "url": "https://i.scdn.co/image/ab67616d00001e02825ddb29319df311a2f9f17e",
+                                        "width": 300
+                                    },
+                                    {
+                                        "height": 64,
+                                        "url": "https://i.scdn.co/image/ab67616d00004851825ddb29319df311a2f9f17e",
+                                        "width": 64
+                                    },
+                                    {
+                                        "height": 640,
+                                        "url": "https://i.scdn.co/image/ab67616d0000b273825ddb29319df311a2f9f17e",
+                                        "width": 640
+                                    }
+                                ]
+                            },
+                            "date": {
+                                "day": 31,
+                                "month": 3,
+                                "precision": "DAY",
+                                "year": 2023
+                            },
+                            "id": "1aA0y8GBP3gnIGeleXQbY2",
+                            "label": "Phalange Record",
+                            "name": "Gourmandise",
+                            "playability": {
+                                "playable": true,
+                                "reason": "PLAYABLE"
+                            },
+                            "sharingInfo": {
+                                "shareId": "AX-DnwqvQ4WUZU2eLuqtig",
+                                "shareUrl": "https://open.spotify.com/en/album/1aA0y8GBP3gnIGeleXQbY2?si=AX-DnwqvQ4WUZU2eLuqtig"
+                            },
+                            "tracks": {
+                                "totalCount": 1
+                            },
+                            "type": "SINGLE",
+                            "uri": "spotify:album:1aA0y8GBP3gnIGeleXQbY2"
+                        },
+                        {
+                            "copyright": {
+                                "items": [
+                                    {
+                                        "text": "2023 Phalange record",
+                                        "type": "C"
+                                    },
+                                    {
+                                        "text": "2023 Phalange record",
+                                        "type": "P"
+                                    }
+                                ]
+                            },
+                            "coverArt": {
+                                "sources": [
+                                    {
+                                        "height": 300,
+                                        "url": "https://i.scdn.co/image/ab67616d00001e028d56383b57e09c6f83c5e09e",
+                                        "width": 300
+                                    },
+                                    {
+                                        "height": 64,
+                                        "url": "https://i.scdn.co/image/ab67616d000048518d56383b57e09c6f83c5e09e",
+                                        "width": 64
+                                    },
+                                    {
+                                        "height": 640,
+                                        "url": "https://i.scdn.co/image/ab67616d0000b2738d56383b57e09c6f83c5e09e",
+                                        "width": 640
+                                    }
+                                ]
+                            },
+                            "date": {
+                                "day": 5,
+                                "month": 3,
+                                "precision": "DAY",
+                                "year": 2023
+                            },
+                            "id": "3cjouOGVXtEDeSRSyLGLqX",
+                            "label": "Phalange record",
+                            "name": "Mainstream",
+                            "playability": {
+                                "playable": true,
+                                "reason": "PLAYABLE"
+                            },
+                            "sharingInfo": {
+                                "shareId": "_sN_bic4Qv-1nMeHxsGDrA",
+                                "shareUrl": "https://open.spotify.com/en/album/3cjouOGVXtEDeSRSyLGLqX?si=_sN_bic4Qv-1nMeHxsGDrA"
+                            },
+                            "tracks": {
+                                "totalCount": 1
+                            },
+                            "type": "SINGLE",
+                            "uri": "spotify:album:3cjouOGVXtEDeSRSyLGLqX"
+                        },
+                        {
+                            "copyright": {
+                                "items": [
+                                    {
+                                        "text": "2023 Phalange Record",
+                                        "type": "C"
+                                    },
+                                    {
+                                        "text": "2023 Phalange Record",
+                                        "type": "P"
+                                    }
+                                ]
+                            },
+                            "coverArt": {
+                                "sources": [
+                                    {
+                                        "height": 300,
+                                        "url": "https://i.scdn.co/image/ab67616d00001e02eb62f5b529b26046e8fec5d4",
+                                        "width": 300
+                                    },
+                                    {
+                                        "height": 64,
+                                        "url": "https://i.scdn.co/image/ab67616d00004851eb62f5b529b26046e8fec5d4",
+                                        "width": 64
+                                    },
+                                    {
+                                        "height": 640,
+                                        "url": "https://i.scdn.co/image/ab67616d0000b273eb62f5b529b26046e8fec5d4",
+                                        "width": 640
+                                    }
+                                ]
+                            },
+                            "date": {
+                                "day": 25,
+                                "month": 5,
+                                "precision": "DAY",
+                                "year": 2023
+                            },
+                            "id": "2abeT8hpvt22Ei7sLYnUTq",
+                            "label": "Phalange Record",
+                            "name": "NEO TOKYO",
+                            "playability": {
+                                "playable": true,
+                                "reason": "PLAYABLE"
+                            },
+                            "sharingInfo": {
+                                "shareId": "bTx1cFzGTHut8kdzJfGKdg",
+                                "shareUrl": "https://open.spotify.com/en/album/2abeT8hpvt22Ei7sLYnUTq?si=bTx1cFzGTHut8kdzJfGKdg"
+                            },
+                            "tracks": {
+                                "totalCount": 5
+                            },
+                            "type": "EP",
+                            "uri": "spotify:album:2abeT8hpvt22Ei7sLYnUTq"
+                        },
+                        {
+                            "copyright": {
+                                "items": [
+                                    {
+                                        "text": "2023 Phalange Record",
+                                        "type": "C"
+                                    },
+                                    {
+                                        "text": "2023 Phalange Record",
+                                        "type": "P"
+                                    }
+                                ]
+                            },
+                            "coverArt": {
+                                "sources": [
+                                    {
+                                        "height": 300,
+                                        "url": "https://i.scdn.co/image/ab67616d00001e02fa7bc2036540b40d2104e838",
+                                        "width": 300
+                                    },
+                                    {
+                                        "height": 64,
+                                        "url": "https://i.scdn.co/image/ab67616d00004851fa7bc2036540b40d2104e838",
+                                        "width": 64
+                                    },
+                                    {
+                                        "height": 640,
+                                        "url": "https://i.scdn.co/image/ab67616d0000b273fa7bc2036540b40d2104e838",
+                                        "width": 640
+                                    }
+                                ]
+                            },
+                            "date": {
+                                "day": 28,
+                                "month": 4,
+                                "precision": "DAY",
+                                "year": 2023
+                            },
+                            "id": "1TbA31TuteQCRVBNfJWEp3",
+                            "label": "Phalange Record",
+                            "name": "Table de billard",
+                            "playability": {
+                                "playable": true,
+                                "reason": "PLAYABLE"
+                            },
+                            "sharingInfo": {
+                                "shareId": "4dXqERx0QWasGiVPvrY2Bg",
+                                "shareUrl": "https://open.spotify.com/en/album/1TbA31TuteQCRVBNfJWEp3?si=4dXqERx0QWasGiVPvrY2Bg"
+                            },
+                            "tracks": {
+                                "totalCount": 1
+                            },
+                            "type": "SINGLE",
+                            "uri": "spotify:album:1TbA31TuteQCRVBNfJWEp3"
+                        }
+                    ],
+                    "totalCount": 6
+                },
+                "singles": {
+                    "items": [
+                        {
+                            "releases": {
+                                "items": [
+                                    {
+                                        "copyright": {
+                                            "items": [
+                                                {
+                                                    "text": "2024 Mugen J",
+                                                    "type": "C"
+                                                },
+                                                {
+                                                    "text": "2024 Mugen J",
+                                                    "type": "P"
+                                                }
+                                            ]
+                                        },
+                                        "coverArt": {
+                                            "sources": [
+                                                {
+                                                    "height": 300,
+                                                    "url": "https://i.scdn.co/image/ab67616d00001e0263fc30ec8847dc950ad312d1",
+                                                    "width": 300
+                                                },
+                                                {
+                                                    "height": 64,
+                                                    "url": "https://i.scdn.co/image/ab67616d0000485163fc30ec8847dc950ad312d1",
+                                                    "width": 64
+                                                },
+                                                {
+                                                    "height": 640,
+                                                    "url": "https://i.scdn.co/image/ab67616d0000b27363fc30ec8847dc950ad312d1",
+                                                    "width": 640
+                                                }
+                                            ]
+                                        },
+                                        "date": {
+                                            "day": 3,
+                                            "month": 1,
+                                            "precision": "DAY",
+                                            "year": 2025
+                                        },
+                                        "id": "0axoLO2Yhmb0Aw0uuG9xFO",
+                                        "label": "2507353 Records DK2",
+                                        "name": "BADDIE",
+                                        "playability": {
+                                            "playable": true,
+                                            "reason": "PLAYABLE"
+                                        },
+                                        "sharingInfo": {
+                                            "shareId": "OOq0Ole7QQGW4LeBixE66A",
+                                            "shareUrl": "https://open.spotify.com/en/album/0axoLO2Yhmb0Aw0uuG9xFO?si=OOq0Ole7QQGW4LeBixE66A"
+                                        },
+                                        "tracks": {
+                                            "totalCount": 1
+                                        },
+                                        "type": "SINGLE",
+                                        "uri": "spotify:album:0axoLO2Yhmb0Aw0uuG9xFO"
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "releases": {
+                                "items": [
+                                    {
+                                        "copyright": {
+                                            "items": [
+                                                {
+                                                    "text": "2024 Mugen J",
+                                                    "type": "C"
+                                                },
+                                                {
+                                                    "text": "2024 Mugen J",
+                                                    "type": "P"
+                                                }
+                                            ]
+                                        },
+                                        "coverArt": {
+                                            "sources": [
+                                                {
+                                                    "height": 300,
+                                                    "url": "https://i.scdn.co/image/ab67616d00001e02eec1c9fad7aaa30a92b37bf4",
+                                                    "width": 300
+                                                },
+                                                {
+                                                    "height": 64,
+                                                    "url": "https://i.scdn.co/image/ab67616d00004851eec1c9fad7aaa30a92b37bf4",
+                                                    "width": 64
+                                                },
+                                                {
+                                                    "height": 640,
+                                                    "url": "https://i.scdn.co/image/ab67616d0000b273eec1c9fad7aaa30a92b37bf4",
+                                                    "width": 640
+                                                }
+                                            ]
+                                        },
+                                        "date": {
+                                            "day": 26,
+                                            "month": 10,
+                                            "precision": "DAY",
+                                            "year": 2024
+                                        },
+                                        "id": "1kRA1Ea5NZFNLRC2cT8UDo",
+                                        "label": "2507353 Records DK2",
+                                        "name": "ENFANT DU SUD",
+                                        "playability": {
+                                            "playable": true,
+                                            "reason": "PLAYABLE"
+                                        },
+                                        "sharingInfo": {
+                                            "shareId": "CXRS47djR5K4YEJXP1NApg",
+                                            "shareUrl": "https://open.spotify.com/en/album/1kRA1Ea5NZFNLRC2cT8UDo?si=CXRS47djR5K4YEJXP1NApg"
+                                        },
+                                        "tracks": {
+                                            "totalCount": 1
+                                        },
+                                        "type": "SINGLE",
+                                        "uri": "spotify:album:1kRA1Ea5NZFNLRC2cT8UDo"
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "releases": {
+                                "items": [
+                                    {
+                                        "copyright": {
+                                            "items": [
+                                                {
+                                                    "text": "2023 Phalange Record",
+                                                    "type": "C"
+                                                },
+                                                {
+                                                    "text": "2023 Phalange Record",
+                                                    "type": "P"
+                                                }
+                                            ]
+                                        },
+                                        "coverArt": {
+                                            "sources": [
+                                                {
+                                                    "height": 300,
+                                                    "url": "https://i.scdn.co/image/ab67616d00001e02eb62f5b529b26046e8fec5d4",
+                                                    "width": 300
+                                                },
+                                                {
+                                                    "height": 64,
+                                                    "url": "https://i.scdn.co/image/ab67616d00004851eb62f5b529b26046e8fec5d4",
+                                                    "width": 64
+                                                },
+                                                {
+                                                    "height": 640,
+                                                    "url": "https://i.scdn.co/image/ab67616d0000b273eb62f5b529b26046e8fec5d4",
+                                                    "width": 640
+                                                }
+                                            ]
+                                        },
+                                        "date": {
+                                            "day": 25,
+                                            "month": 5,
+                                            "precision": "DAY",
+                                            "year": 2023
+                                        },
+                                        "id": "2abeT8hpvt22Ei7sLYnUTq",
+                                        "label": "Phalange Record",
+                                        "name": "NEO TOKYO",
+                                        "playability": {
+                                            "playable": true,
+                                            "reason": "PLAYABLE"
+                                        },
+                                        "sharingInfo": {
+                                            "shareId": "bTx1cFzGTHut8kdzJfGKdg",
+                                            "shareUrl": "https://open.spotify.com/en/album/2abeT8hpvt22Ei7sLYnUTq?si=bTx1cFzGTHut8kdzJfGKdg"
+                                        },
+                                        "tracks": {
+                                            "totalCount": 5
+                                        },
+                                        "type": "EP",
+                                        "uri": "spotify:album:2abeT8hpvt22Ei7sLYnUTq"
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "releases": {
+                                "items": [
+                                    {
+                                        "copyright": {
+                                            "items": [
+                                                {
+                                                    "text": "2023 Phalange Record",
+                                                    "type": "C"
+                                                },
+                                                {
+                                                    "text": "2023 Phalange Record",
+                                                    "type": "P"
+                                                }
+                                            ]
+                                        },
+                                        "coverArt": {
+                                            "sources": [
+                                                {
+                                                    "height": 300,
+                                                    "url": "https://i.scdn.co/image/ab67616d00001e02fa7bc2036540b40d2104e838",
+                                                    "width": 300
+                                                },
+                                                {
+                                                    "height": 64,
+                                                    "url": "https://i.scdn.co/image/ab67616d00004851fa7bc2036540b40d2104e838",
+                                                    "width": 64
+                                                },
+                                                {
+                                                    "height": 640,
+                                                    "url": "https://i.scdn.co/image/ab67616d0000b273fa7bc2036540b40d2104e838",
+                                                    "width": 640
+                                                }
+                                            ]
+                                        },
+                                        "date": {
+                                            "day": 28,
+                                            "month": 4,
+                                            "precision": "DAY",
+                                            "year": 2023
+                                        },
+                                        "id": "1TbA31TuteQCRVBNfJWEp3",
+                                        "label": "Phalange Record",
+                                        "name": "Table de billard",
+                                        "playability": {
+                                            "playable": true,
+                                            "reason": "PLAYABLE"
+                                        },
+                                        "sharingInfo": {
+                                            "shareId": "4dXqERx0QWasGiVPvrY2Bg",
+                                            "shareUrl": "https://open.spotify.com/en/album/1TbA31TuteQCRVBNfJWEp3?si=4dXqERx0QWasGiVPvrY2Bg"
+                                        },
+                                        "tracks": {
+                                            "totalCount": 1
+                                        },
+                                        "type": "SINGLE",
+                                        "uri": "spotify:album:1TbA31TuteQCRVBNfJWEp3"
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "releases": {
+                                "items": [
+                                    {
+                                        "copyright": {
+                                            "items": [
+                                                {
+                                                    "text": "2023 Phalange Record",
+                                                    "type": "C"
+                                                },
+                                                {
+                                                    "text": "2023 Phalange Record",
+                                                    "type": "P"
+                                                }
+                                            ]
+                                        },
+                                        "coverArt": {
+                                            "sources": [
+                                                {
+                                                    "height": 300,
+                                                    "url": "https://i.scdn.co/image/ab67616d00001e02825ddb29319df311a2f9f17e",
+                                                    "width": 300
+                                                },
+                                                {
+                                                    "height": 64,
+                                                    "url": "https://i.scdn.co/image/ab67616d00004851825ddb29319df311a2f9f17e",
+                                                    "width": 64
+                                                },
+                                                {
+                                                    "height": 640,
+                                                    "url": "https://i.scdn.co/image/ab67616d0000b273825ddb29319df311a2f9f17e",
+                                                    "width": 640
+                                                }
+                                            ]
+                                        },
+                                        "date": {
+                                            "day": 31,
+                                            "month": 3,
+                                            "precision": "DAY",
+                                            "year": 2023
+                                        },
+                                        "id": "1aA0y8GBP3gnIGeleXQbY2",
+                                        "label": "Phalange Record",
+                                        "name": "Gourmandise",
+                                        "playability": {
+                                            "playable": true,
+                                            "reason": "PLAYABLE"
+                                        },
+                                        "sharingInfo": {
+                                            "shareId": "AX-DnwqvQ4WUZU2eLuqtig",
+                                            "shareUrl": "https://open.spotify.com/en/album/1aA0y8GBP3gnIGeleXQbY2?si=AX-DnwqvQ4WUZU2eLuqtig"
+                                        },
+                                        "tracks": {
+                                            "totalCount": 1
+                                        },
+                                        "type": "SINGLE",
+                                        "uri": "spotify:album:1aA0y8GBP3gnIGeleXQbY2"
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "releases": {
+                                "items": [
+                                    {
+                                        "copyright": {
+                                            "items": [
+                                                {
+                                                    "text": "2023 Phalange record",
+                                                    "type": "C"
+                                                },
+                                                {
+                                                    "text": "2023 Phalange record",
+                                                    "type": "P"
+                                                }
+                                            ]
+                                        },
+                                        "coverArt": {
+                                            "sources": [
+                                                {
+                                                    "height": 300,
+                                                    "url": "https://i.scdn.co/image/ab67616d00001e028d56383b57e09c6f83c5e09e",
+                                                    "width": 300
+                                                },
+                                                {
+                                                    "height": 64,
+                                                    "url": "https://i.scdn.co/image/ab67616d000048518d56383b57e09c6f83c5e09e",
+                                                    "width": 64
+                                                },
+                                                {
+                                                    "height": 640,
+                                                    "url": "https://i.scdn.co/image/ab67616d0000b2738d56383b57e09c6f83c5e09e",
+                                                    "width": 640
+                                                }
+                                            ]
+                                        },
+                                        "date": {
+                                            "day": 5,
+                                            "month": 3,
+                                            "precision": "DAY",
+                                            "year": 2023
+                                        },
+                                        "id": "3cjouOGVXtEDeSRSyLGLqX",
+                                        "label": "Phalange record",
+                                        "name": "Mainstream",
+                                        "playability": {
+                                            "playable": true,
+                                            "reason": "PLAYABLE"
+                                        },
+                                        "sharingInfo": {
+                                            "shareId": "_sN_bic4Qv-1nMeHxsGDrA",
+                                            "shareUrl": "https://open.spotify.com/en/album/3cjouOGVXtEDeSRSyLGLqX?si=_sN_bic4Qv-1nMeHxsGDrA"
+                                        },
+                                        "tracks": {
+                                            "totalCount": 1
+                                        },
+                                        "type": "SINGLE",
+                                        "uri": "spotify:album:3cjouOGVXtEDeSRSyLGLqX"
                                     }
                                 ]
                             }
                         }
-                    }
-                ],
-                "totalCount": 1
+                    ],
+                    "totalCount": 6
+                },
+                "topTracks": {
+                    "items": [
+                        {
+                            "track": {
+                                "albumOfTrack": {
+                                    "coverArt": {
+                                        "sources": [
+                                            {
+                                                "url": "https://i.scdn.co/image/ab67616d00001e0263fc30ec8847dc950ad312d1"
+                                            },
+                                            {
+                                                "url": "https://i.scdn.co/image/ab67616d0000485163fc30ec8847dc950ad312d1"
+                                            },
+                                            {
+                                                "url": "https://i.scdn.co/image/ab67616d0000b27363fc30ec8847dc950ad312d1"
+                                            }
+                                        ]
+                                    },
+                                    "uri": "spotify:album:0axoLO2Yhmb0Aw0uuG9xFO"
+                                },
+                                "artists": {
+                                    "items": [
+                                        {
+                                            "profile": {
+                                                "name": "Mugen J"
+                                            },
+                                            "uri": "spotify:artist:672zgt6YECMA7Om9h5V2HE"
+                                        }
+                                    ]
+                                },
+                                "associationsV2": {
+                                    "totalCount": 0
+                                },
+                                "contentRating": {
+                                    "label": "EXPLICIT"
+                                },
+                                "discNumber": 1,
+                                "duration": {
+                                    "totalMilliseconds": 151583
+                                },
+                                "id": "508jmRnvWMx4TLLJ12uidt",
+                                "name": "BADDIE",
+                                "playability": {
+                                    "playable": true,
+                                    "reason": "PLAYABLE"
+                                },
+                                "playcount": "0",
+                                "uri": "spotify:track:508jmRnvWMx4TLLJ12uidt"
+                            },
+                            "uid": "61426d457988c157a142"
+                        },
+                        {
+                            "track": {
+                                "albumOfTrack": {
+                                    "coverArt": {
+                                        "sources": [
+                                            {
+                                                "url": "https://i.scdn.co/image/ab67616d00001e02eb62f5b529b26046e8fec5d4"
+                                            },
+                                            {
+                                                "url": "https://i.scdn.co/image/ab67616d00004851eb62f5b529b26046e8fec5d4"
+                                            },
+                                            {
+                                                "url": "https://i.scdn.co/image/ab67616d0000b273eb62f5b529b26046e8fec5d4"
+                                            }
+                                        ]
+                                    },
+                                    "uri": "spotify:album:2abeT8hpvt22Ei7sLYnUTq"
+                                },
+                                "artists": {
+                                    "items": [
+                                        {
+                                            "profile": {
+                                                "name": "Mugen J"
+                                            },
+                                            "uri": "spotify:artist:672zgt6YECMA7Om9h5V2HE"
+                                        },
+                                        {
+                                            "profile": {
+                                                "name": "Nebz"
+                                            },
+                                            "uri": "spotify:artist:2hII333YmaHSnxufcgmpwh"
+                                        }
+                                    ]
+                                },
+                                "associationsV2": {
+                                    "totalCount": 0
+                                },
+                                "contentRating": {
+                                    "label": "EXPLICIT"
+                                },
+                                "discNumber": 1,
+                                "duration": {
+                                    "totalMilliseconds": 196216
+                                },
+                                "id": "4IyuxZGU7SR3QUf4umzGT9",
+                                "name": "La ville qui br\u00fble",
+                                "playability": {
+                                    "playable": true,
+                                    "reason": "PLAYABLE"
+                                },
+                                "playcount": "1325",
+                                "uri": "spotify:track:4IyuxZGU7SR3QUf4umzGT9"
+                            },
+                            "uid": "592072ab4a4f9261c0c2"
+                        },
+                        {
+                            "track": {
+                                "albumOfTrack": {
+                                    "coverArt": {
+                                        "sources": [
+                                            {
+                                                "url": "https://i.scdn.co/image/ab67616d00001e02fa7bc2036540b40d2104e838"
+                                            },
+                                            {
+                                                "url": "https://i.scdn.co/image/ab67616d00004851fa7bc2036540b40d2104e838"
+                                            },
+                                            {
+                                                "url": "https://i.scdn.co/image/ab67616d0000b273fa7bc2036540b40d2104e838"
+                                            }
+                                        ]
+                                    },
+                                    "uri": "spotify:album:1TbA31TuteQCRVBNfJWEp3"
+                                },
+                                "artists": {
+                                    "items": [
+                                        {
+                                            "profile": {
+                                                "name": "Mugen J"
+                                            },
+                                            "uri": "spotify:artist:672zgt6YECMA7Om9h5V2HE"
+                                        }
+                                    ]
+                                },
+                                "associationsV2": {
+                                    "totalCount": 0
+                                },
+                                "contentRating": {
+                                    "label": "EXPLICIT"
+                                },
+                                "discNumber": 1,
+                                "duration": {
+                                    "totalMilliseconds": 116225
+                                },
+                                "id": "7FGTeYV7wig8yYYI2dfHoc",
+                                "name": "Table de billard",
+                                "playability": {
+                                    "playable": true,
+                                    "reason": "PLAYABLE"
+                                },
+                                "playcount": "0",
+                                "uri": "spotify:track:7FGTeYV7wig8yYYI2dfHoc"
+                            },
+                            "uid": "b86999828d2fd1ab186d"
+                        },
+                        {
+                            "track": {
+                                "albumOfTrack": {
+                                    "coverArt": {
+                                        "sources": [
+                                            {
+                                                "url": "https://i.scdn.co/image/ab67616d00001e02825ddb29319df311a2f9f17e"
+                                            },
+                                            {
+                                                "url": "https://i.scdn.co/image/ab67616d00004851825ddb29319df311a2f9f17e"
+                                            },
+                                            {
+                                                "url": "https://i.scdn.co/image/ab67616d0000b273825ddb29319df311a2f9f17e"
+                                            }
+                                        ]
+                                    },
+                                    "uri": "spotify:album:1aA0y8GBP3gnIGeleXQbY2"
+                                },
+                                "artists": {
+                                    "items": [
+                                        {
+                                            "profile": {
+                                                "name": "Mugen J"
+                                            },
+                                            "uri": "spotify:artist:672zgt6YECMA7Om9h5V2HE"
+                                        }
+                                    ]
+                                },
+                                "associationsV2": {
+                                    "totalCount": 0
+                                },
+                                "contentRating": {
+                                    "label": "EXPLICIT"
+                                },
+                                "discNumber": 1,
+                                "duration": {
+                                    "totalMilliseconds": 200754
+                                },
+                                "id": "2zfSoPEtFqaAWgMVLDPN8s",
+                                "name": "Gourmandise",
+                                "playability": {
+                                    "playable": true,
+                                    "reason": "PLAYABLE"
+                                },
+                                "playcount": "0",
+                                "uri": "spotify:track:2zfSoPEtFqaAWgMVLDPN8s"
+                            },
+                            "uid": "ac43896ce1a97c6e1be2"
+                        },
+                        {
+                            "track": {
+                                "albumOfTrack": {
+                                    "coverArt": {
+                                        "sources": [
+                                            {
+                                                "url": "https://i.scdn.co/image/ab67616d00001e02eec1c9fad7aaa30a92b37bf4"
+                                            },
+                                            {
+                                                "url": "https://i.scdn.co/image/ab67616d00004851eec1c9fad7aaa30a92b37bf4"
+                                            },
+                                            {
+                                                "url": "https://i.scdn.co/image/ab67616d0000b273eec1c9fad7aaa30a92b37bf4"
+                                            }
+                                        ]
+                                    },
+                                    "uri": "spotify:album:1kRA1Ea5NZFNLRC2cT8UDo"
+                                },
+                                "artists": {
+                                    "items": [
+                                        {
+                                            "profile": {
+                                                "name": "Mugen J"
+                                            },
+                                            "uri": "spotify:artist:672zgt6YECMA7Om9h5V2HE"
+                                        }
+                                    ]
+                                },
+                                "associationsV2": {
+                                    "totalCount": 0
+                                },
+                                "contentRating": {
+                                    "label": "EXPLICIT"
+                                },
+                                "discNumber": 1,
+                                "duration": {
+                                    "totalMilliseconds": 155091
+                                },
+                                "id": "3vgNWZxAXr0HAkqD00zyHn",
+                                "name": "ENFANT DU SUD",
+                                "playability": {
+                                    "playable": true,
+                                    "reason": "PLAYABLE"
+                                },
+                                "playcount": "0",
+                                "uri": "spotify:track:3vgNWZxAXr0HAkqD00zyHn"
+                            },
+                            "uid": "212af5e6f349242ca4eb"
+                        },
+                        {
+                            "track": {
+                                "albumOfTrack": {
+                                    "coverArt": {
+                                        "sources": [
+                                            {
+                                                "url": "https://i.scdn.co/image/ab67616d00001e0278fbd3de43dbfbdf2d6357df"
+                                            },
+                                            {
+                                                "url": "https://i.scdn.co/image/ab67616d0000485178fbd3de43dbfbdf2d6357df"
+                                            },
+                                            {
+                                                "url": "https://i.scdn.co/image/ab67616d0000b27378fbd3de43dbfbdf2d6357df"
+                                            }
+                                        ]
+                                    },
+                                    "uri": "spotify:album:2boMJCMPpzRwsELIq6MBne"
+                                },
+                                "artists": {
+                                    "items": [
+                                        {
+                                            "profile": {
+                                                "name": "Pekoss"
+                                            },
+                                            "uri": "spotify:artist:4kFwTTze0Nnv90jXfNVqLJ"
+                                        },
+                                        {
+                                            "profile": {
+                                                "name": "Mugen J"
+                                            },
+                                            "uri": "spotify:artist:672zgt6YECMA7Om9h5V2HE"
+                                        }
+                                    ]
+                                },
+                                "associationsV2": {
+                                    "totalCount": 0
+                                },
+                                "contentRating": {
+                                    "label": "EXPLICIT"
+                                },
+                                "discNumber": 1,
+                                "duration": {
+                                    "totalMilliseconds": 210081
+                                },
+                                "id": "79lsTGJudOOPL8kiF1LImr",
+                                "name": "Pesos",
+                                "playability": {
+                                    "playable": true,
+                                    "reason": "PLAYABLE"
+                                },
+                                "playcount": "0",
+                                "uri": "spotify:track:79lsTGJudOOPL8kiF1LImr"
+                            },
+                            "uid": "96b26fa4a74226eae32d"
+                        },
+                        {
+                            "track": {
+                                "albumOfTrack": {
+                                    "coverArt": {
+                                        "sources": [
+                                            {
+                                                "url": "https://i.scdn.co/image/ab67616d00001e028d56383b57e09c6f83c5e09e"
+                                            },
+                                            {
+                                                "url": "https://i.scdn.co/image/ab67616d000048518d56383b57e09c6f83c5e09e"
+                                            },
+                                            {
+                                                "url": "https://i.scdn.co/image/ab67616d0000b2738d56383b57e09c6f83c5e09e"
+                                            }
+                                        ]
+                                    },
+                                    "uri": "spotify:album:3cjouOGVXtEDeSRSyLGLqX"
+                                },
+                                "artists": {
+                                    "items": [
+                                        {
+                                            "profile": {
+                                                "name": "Mugen J"
+                                            },
+                                            "uri": "spotify:artist:672zgt6YECMA7Om9h5V2HE"
+                                        }
+                                    ]
+                                },
+                                "associationsV2": {
+                                    "totalCount": 0
+                                },
+                                "contentRating": {
+                                    "label": "EXPLICIT"
+                                },
+                                "discNumber": 1,
+                                "duration": {
+                                    "totalMilliseconds": 170269
+                                },
+                                "id": "4R0eVw1crdTpuG7X1uGvFJ",
+                                "name": "Mainstream",
+                                "playability": {
+                                    "playable": true,
+                                    "reason": "PLAYABLE"
+                                },
+                                "playcount": "0",
+                                "uri": "spotify:track:4R0eVw1crdTpuG7X1uGvFJ"
+                            },
+                            "uid": "9b657cf5e1c93f59e845"
+                        },
+                        {
+                            "track": {
+                                "albumOfTrack": {
+                                    "coverArt": {
+                                        "sources": [
+                                            {
+                                                "url": "https://i.scdn.co/image/ab67616d00001e02eb62f5b529b26046e8fec5d4"
+                                            },
+                                            {
+                                                "url": "https://i.scdn.co/image/ab67616d00004851eb62f5b529b26046e8fec5d4"
+                                            },
+                                            {
+                                                "url": "https://i.scdn.co/image/ab67616d0000b273eb62f5b529b26046e8fec5d4"
+                                            }
+                                        ]
+                                    },
+                                    "uri": "spotify:album:2abeT8hpvt22Ei7sLYnUTq"
+                                },
+                                "artists": {
+                                    "items": [
+                                        {
+                                            "profile": {
+                                                "name": "Mugen J"
+                                            },
+                                            "uri": "spotify:artist:672zgt6YECMA7Om9h5V2HE"
+                                        },
+                                        {
+                                            "profile": {
+                                                "name": "Eydo.ad"
+                                            },
+                                            "uri": "spotify:artist:3rs8hNhR9eqt6frdUQj6l9"
+                                        }
+                                    ]
+                                },
+                                "associationsV2": {
+                                    "totalCount": 0
+                                },
+                                "contentRating": {
+                                    "label": "EXPLICIT"
+                                },
+                                "discNumber": 1,
+                                "duration": {
+                                    "totalMilliseconds": 170230
+                                },
+                                "id": "6NoHZZR3vwzLgRm4ed9uh1",
+                                "name": "Quand tu Brilles la Night",
+                                "playability": {
+                                    "playable": true,
+                                    "reason": "PLAYABLE"
+                                },
+                                "playcount": "0",
+                                "uri": "spotify:track:6NoHZZR3vwzLgRm4ed9uh1"
+                            },
+                            "uid": "b6f522aa40a98b183d8f"
+                        }
+                    ]
+                }
             },
-            "coverArt": {
-                "extractedColors": {
-                    "colorDark": {
-                        "hex": "#D82800"
+            "goods": {
+                "events": {
+                    "concerts": {
+                        "items": [],
+                        "pagingInfo": {
+                            "limit": 0
+                        },
+                        "totalCount": 0
                     },
-                    "colorLight": {
-                        "hex": "#E52A00"
-                    },
-                    "colorRaw": {
-                        "hex": "#D82800"
+                    "userLocation": {
+                        "name": "Besan\u00e7on"
                     }
                 },
-                "sources": [
-                    {
-                        "height": 300,
-                        "url": "https://i.scdn.co/image/ab67616d00001e02f2b7d3d186d76671b9b193f3",
-                        "width": 300
-                    },
-                    {
-                        "height": 64,
-                        "url": "https://i.scdn.co/image/ab67616d00004851f2b7d3d186d76671b9b193f3",
-                        "width": 64
-                    },
-                    {
-                        "height": 640,
-                        "url": "https://i.scdn.co/image/ab67616d0000b273f2b7d3d186d76671b9b193f3",
-                        "width": 640
-                    }
-                ]
+                "merch": {
+                    "items": []
+                }
             },
-            "discs": {
-                "items": [
-                    {
-                        "number": 1,
-                        "tracks": {
-                            "totalCount": 21
+            "id": "672zgt6YECMA7Om9h5V2HE",
+            "preRelease": null,
+            "profile": {
+                "biography": {
+                    "text": null,
+                    "type": "BIOGRAPHY"
+                },
+                "externalLinks": {
+                    "items": []
+                },
+                "name": "Mugen J",
+                "pinnedItem": {
+                    "backgroundImageV2": {
+                        "data": {
+                            "__typename": "ImageV2",
+                            "sources": [
+                                {
+                                    "url": "https://image-cdn-ak.spotifycdn.com/image/ab6761700000c52c29d92fb6d4b8cc454a78dd23"
+                                }
+                            ]
                         }
-                    }
-                ],
-                "totalCount": 1
+                    },
+                    "comment": "\u00c9couter le nouveau titre",
+                    "itemV2": {
+                        "__typename": "AlbumResponseWrapper",
+                        "data": {
+                            "__typename": "Album",
+                            "coverArt": {
+                                "sources": [
+                                    {
+                                        "height": 300,
+                                        "url": "https://i.scdn.co/image/ab67616d00001e02eec1c9fad7aaa30a92b37bf4",
+                                        "width": 300
+                                    },
+                                    {
+                                        "height": 64,
+                                        "url": "https://i.scdn.co/image/ab67616d00004851eec1c9fad7aaa30a92b37bf4",
+                                        "width": 64
+                                    },
+                                    {
+                                        "height": 640,
+                                        "url": "https://i.scdn.co/image/ab67616d0000b273eec1c9fad7aaa30a92b37bf4",
+                                        "width": 640
+                                    }
+                                ]
+                            },
+                            "name": "ENFANT DU SUD",
+                            "type": "SINGLE",
+                            "uri": "spotify:album:1kRA1Ea5NZFNLRC2cT8UDo"
+                        }
+                    },
+                    "subtitle": "Single",
+                    "thumbnailImage": {
+                        "data": {
+                            "sources": [
+                                {
+                                    "url": "https://image-cdn-ak.spotifycdn.com/image/ab67616d00001e02eec1c9fad7aaa30a92b37bf4"
+                                },
+                                {
+                                    "url": "https://image-cdn-ak.spotifycdn.com/image/ab67616d00004851eec1c9fad7aaa30a92b37bf4"
+                                },
+                                {
+                                    "url": "https://image-cdn-ak.spotifycdn.com/image/ab67616d0000b273eec1c9fad7aaa30a92b37bf4"
+                                }
+                            ]
+                        }
+                    },
+                    "title": "ENFANT DU SUD",
+                    "type": "ALBUM",
+                    "uri": "spotify:album:1kRA1Ea5NZFNLRC2cT8UDo"
+                },
+                "playlistsV2": {
+                    "items": [],
+                    "totalCount": 0
+                },
+                "verified": true
             },
-            "releases": {
-                "items": [],
-                "totalCount": 0
-            },
-            "moreAlbumsByArtist": {
-                "items": [
-                    {
-                        "discography": {
-                            "popularReleasesAlbums": {
+            "relatedContent": {
+                "appearsOn": {
+                    "items": [
+                        {
+                            "releases": {
                                 "items": [
                                     {
+                                        "artists": {
+                                            "items": [
+                                                {
+                                                    "profile": {
+                                                        "name": "Pekoss"
+                                                    },
+                                                    "uri": "spotify:artist:4kFwTTze0Nnv90jXfNVqLJ"
+                                                }
+                                            ]
+                                        },
                                         "coverArt": {
                                             "sources": [
                                                 {
                                                     "height": 300,
-                                                    "url": "https://i.scdn.co/image/ab67616d00001e02f2b7d3d186d76671b9b193f3",
+                                                    "url": "https://i.scdn.co/image/ab67616d00001e02ab350bae5f09a37a41b6c651",
                                                     "width": 300
                                                 },
                                                 {
                                                     "height": 64,
-                                                    "url": "https://i.scdn.co/image/ab67616d00004851f2b7d3d186d76671b9b193f3",
+                                                    "url": "https://i.scdn.co/image/ab67616d00004851ab350bae5f09a37a41b6c651",
                                                     "width": 64
                                                 },
                                                 {
                                                     "height": 640,
-                                                    "url": "https://i.scdn.co/image/ab67616d0000b273f2b7d3d186d76671b9b193f3",
+                                                    "url": "https://i.scdn.co/image/ab67616d0000b273ab350bae5f09a37a41b6c651",
                                                     "width": 640
                                                 }
                                             ]
@@ -863,179 +1320,48 @@
                                         "date": {
                                             "year": 2023
                                         },
-                                        "id": "3dQQAi7HumuMD2TL3Ky7t4",
-                                        "name": "LAIKA: Aged Through Blood (Original Soundtrack)",
-                                        "playability": {
-                                            "playable": true,
-                                            "reason": "PLAYABLE"
-                                        },
+                                        "id": "3nwcWCVSymSuzYmsYnljji",
+                                        "name": "Trompe L'\u0153il",
                                         "sharingInfo": {
-                                            "shareId": "Ig9h_LuNQvuL2eZ32qARMw",
-                                            "shareUrl": "https://open.spotify.com/album/3dQQAi7HumuMD2TL3Ky7t4?si=Ig9h_LuNQvuL2eZ32qARMw"
+                                            "shareId": "Nvm-M18SQyy27NLqOto10Q",
+                                            "shareUrl": "https://open.spotify.com/en/album/3nwcWCVSymSuzYmsYnljji?si=Nvm-M18SQyy27NLqOto10Q"
                                         },
                                         "type": "ALBUM",
-                                        "uri": "spotify:album:3dQQAi7HumuMD2TL3Ky7t4"
-                                    },
+                                        "uri": "spotify:album:3nwcWCVSymSuzYmsYnljji"
+                                    }
+                                ],
+                                "totalCount": 1
+                            }
+                        },
+                        {
+                            "releases": {
+                                "items": [
                                     {
-                                        "coverArt": {
-                                            "sources": [
+                                        "artists": {
+                                            "items": [
                                                 {
-                                                    "height": 300,
-                                                    "url": "https://i.scdn.co/image/ab67616d00001e02de39a1f9b539249260bd6266",
-                                                    "width": 300
-                                                },
-                                                {
-                                                    "height": 64,
-                                                    "url": "https://i.scdn.co/image/ab67616d00004851de39a1f9b539249260bd6266",
-                                                    "width": 64
-                                                },
-                                                {
-                                                    "height": 640,
-                                                    "url": "https://i.scdn.co/image/ab67616d0000b273de39a1f9b539249260bd6266",
-                                                    "width": 640
+                                                    "profile": {
+                                                        "name": "Na\u00efl 5Phal"
+                                                    },
+                                                    "uri": "spotify:artist:0fMOdVepQZ4t1OhUYGBrsK"
                                                 }
                                             ]
                                         },
-                                        "date": {
-                                            "year": 2023
-                                        },
-                                        "id": "6xaUzzwQP4qKyHMRuYZ6Gg",
-                                        "name": "Laika: Sounds From the Wasteland",
-                                        "playability": {
-                                            "playable": true,
-                                            "reason": "PLAYABLE"
-                                        },
-                                        "sharingInfo": {
-                                            "shareId": "DzPCP8QPSMWaK8Aridkqmg",
-                                            "shareUrl": "https://open.spotify.com/album/6xaUzzwQP4qKyHMRuYZ6Gg?si=DzPCP8QPSMWaK8Aridkqmg"
-                                        },
-                                        "type": "ALBUM",
-                                        "uri": "spotify:album:6xaUzzwQP4qKyHMRuYZ6Gg"
-                                    },
-                                    {
                                         "coverArt": {
                                             "sources": [
                                                 {
                                                     "height": 300,
-                                                    "url": "https://i.scdn.co/image/ab67616d00001e0249cb1f40d221263a6a9d9bc6",
+                                                    "url": "https://i.scdn.co/image/ab67616d00001e022ce19f8cc9ada5debb4e45f5",
                                                     "width": 300
                                                 },
                                                 {
                                                     "height": 64,
-                                                    "url": "https://i.scdn.co/image/ab67616d0000485149cb1f40d221263a6a9d9bc6",
+                                                    "url": "https://i.scdn.co/image/ab67616d000048512ce19f8cc9ada5debb4e45f5",
                                                     "width": 64
                                                 },
                                                 {
                                                     "height": 640,
-                                                    "url": "https://i.scdn.co/image/ab67616d0000b27349cb1f40d221263a6a9d9bc6",
-                                                    "width": 640
-                                                }
-                                            ]
-                                        },
-                                        "date": {
-                                            "year": 2021
-                                        },
-                                        "id": "6XdUnhMh6kcTqCf4WWgl2i",
-                                        "name": "The Longest Road on Earth (Original Video Game Soundtrack)",
-                                        "playability": {
-                                            "playable": true,
-                                            "reason": "PLAYABLE"
-                                        },
-                                        "sharingInfo": {
-                                            "shareId": "K9JMAYvvT66WBV-rZhC-oQ",
-                                            "shareUrl": "https://open.spotify.com/album/6XdUnhMh6kcTqCf4WWgl2i?si=K9JMAYvvT66WBV-rZhC-oQ"
-                                        },
-                                        "type": "ALBUM",
-                                        "uri": "spotify:album:6XdUnhMh6kcTqCf4WWgl2i"
-                                    },
-                                    {
-                                        "coverArt": {
-                                            "sources": [
-                                                {
-                                                    "height": 300,
-                                                    "url": "https://i.scdn.co/image/ab67616d00001e02a171b4b6ffb339386cad94ad",
-                                                    "width": 300
-                                                },
-                                                {
-                                                    "height": 64,
-                                                    "url": "https://i.scdn.co/image/ab67616d00004851a171b4b6ffb339386cad94ad",
-                                                    "width": 64
-                                                },
-                                                {
-                                                    "height": 640,
-                                                    "url": "https://i.scdn.co/image/ab67616d0000b273a171b4b6ffb339386cad94ad",
-                                                    "width": 640
-                                                }
-                                            ]
-                                        },
-                                        "date": {
-                                            "year": 2022
-                                        },
-                                        "id": "7jL4JlzMh9OSlDA1Mb15C6",
-                                        "name": "Friends vs Friends",
-                                        "playability": {
-                                            "playable": true,
-                                            "reason": "PLAYABLE"
-                                        },
-                                        "sharingInfo": {
-                                            "shareId": "xVFTH-q1RpWY_vLmwr4ptQ",
-                                            "shareUrl": "https://open.spotify.com/album/7jL4JlzMh9OSlDA1Mb15C6?si=xVFTH-q1RpWY_vLmwr4ptQ"
-                                        },
-                                        "type": "SINGLE",
-                                        "uri": "spotify:album:7jL4JlzMh9OSlDA1Mb15C6"
-                                    },
-                                    {
-                                        "coverArt": {
-                                            "sources": [
-                                                {
-                                                    "height": 300,
-                                                    "url": "https://i.scdn.co/image/ab67616d00001e029fb5201ba6fcb4f24a34b99a",
-                                                    "width": 300
-                                                },
-                                                {
-                                                    "height": 64,
-                                                    "url": "https://i.scdn.co/image/ab67616d000048519fb5201ba6fcb4f24a34b99a",
-                                                    "width": 64
-                                                },
-                                                {
-                                                    "height": 640,
-                                                    "url": "https://i.scdn.co/image/ab67616d0000b2739fb5201ba6fcb4f24a34b99a",
-                                                    "width": 640
-                                                }
-                                            ]
-                                        },
-                                        "date": {
-                                            "year": 2023
-                                        },
-                                        "id": "1YzO1g2nSWLUgjNr31Ry2k",
-                                        "name": "The Whisper",
-                                        "playability": {
-                                            "playable": true,
-                                            "reason": "PLAYABLE"
-                                        },
-                                        "sharingInfo": {
-                                            "shareId": "FQDpFihZTr2y8yW3tiBKZQ",
-                                            "shareUrl": "https://open.spotify.com/album/1YzO1g2nSWLUgjNr31Ry2k?si=FQDpFihZTr2y8yW3tiBKZQ"
-                                        },
-                                        "type": "SINGLE",
-                                        "uri": "spotify:album:1YzO1g2nSWLUgjNr31Ry2k"
-                                    },
-                                    {
-                                        "coverArt": {
-                                            "sources": [
-                                                {
-                                                    "height": 300,
-                                                    "url": "https://i.scdn.co/image/ab67616d00001e02cd4e951d3c2667307b67e104",
-                                                    "width": 300
-                                                },
-                                                {
-                                                    "height": 64,
-                                                    "url": "https://i.scdn.co/image/ab67616d00004851cd4e951d3c2667307b67e104",
-                                                    "width": 64
-                                                },
-                                                {
-                                                    "height": 640,
-                                                    "url": "https://i.scdn.co/image/ab67616d0000b273cd4e951d3c2667307b67e104",
+                                                    "url": "https://i.scdn.co/image/ab67616d0000b2732ce19f8cc9ada5debb4e45f5",
                                                     "width": 640
                                                 }
                                             ]
@@ -1043,133 +1369,348 @@
                                         "date": {
                                             "year": 2020
                                         },
-                                        "id": "7cymZAXANVVLqKSU3u6WJB",
-                                        "name": "Hold A to Drift",
-                                        "playability": {
-                                            "playable": true,
-                                            "reason": "PLAYABLE"
-                                        },
+                                        "id": "7FLZRA4Zp0rG6Dcen7jJMk",
+                                        "name": "Crash Test, Vol. 1",
                                         "sharingInfo": {
-                                            "shareId": "Vufbny2PQumM5IV8d9Nr7A",
-                                            "shareUrl": "https://open.spotify.com/album/7cymZAXANVVLqKSU3u6WJB?si=Vufbny2PQumM5IV8d9Nr7A"
+                                            "shareId": "1jVlJW8CReK4wluk3bN87g",
+                                            "shareUrl": "https://open.spotify.com/en/album/7FLZRA4Zp0rG6Dcen7jJMk?si=1jVlJW8CReK4wluk3bN87g"
                                         },
-                                        "type": "SINGLE",
-                                        "uri": "spotify:album:7cymZAXANVVLqKSU3u6WJB"
-                                    },
-                                    {
-                                        "coverArt": {
-                                            "sources": [
-                                                {
-                                                    "height": 300,
-                                                    "url": "https://i.scdn.co/image/ab67616d00001e0280af81834bdf8567e0263b99",
-                                                    "width": 300
-                                                },
-                                                {
-                                                    "height": 64,
-                                                    "url": "https://i.scdn.co/image/ab67616d0000485180af81834bdf8567e0263b99",
-                                                    "width": 64
-                                                },
-                                                {
-                                                    "height": 640,
-                                                    "url": "https://i.scdn.co/image/ab67616d0000b27380af81834bdf8567e0263b99",
-                                                    "width": 640
-                                                }
-                                            ]
-                                        },
-                                        "date": {
-                                            "year": 2023
-                                        },
-                                        "id": "7EuggHcYT2KN3TcQUqLnj7",
-                                        "name": "This is FvF",
-                                        "playability": {
-                                            "playable": true,
-                                            "reason": "PLAYABLE"
-                                        },
-                                        "sharingInfo": {
-                                            "shareId": "XghgaSX9S8K9oRaAxO44Lw",
-                                            "shareUrl": "https://open.spotify.com/album/7EuggHcYT2KN3TcQUqLnj7?si=XghgaSX9S8K9oRaAxO44Lw"
-                                        },
-                                        "type": "SINGLE",
-                                        "uri": "spotify:album:7EuggHcYT2KN3TcQUqLnj7"
-                                    },
-                                    {
-                                        "coverArt": {
-                                            "sources": [
-                                                {
-                                                    "height": 300,
-                                                    "url": "https://i.scdn.co/image/ab67616d00001e02b73e9a1154e39490552ef7a9",
-                                                    "width": 300
-                                                },
-                                                {
-                                                    "height": 64,
-                                                    "url": "https://i.scdn.co/image/ab67616d00004851b73e9a1154e39490552ef7a9",
-                                                    "width": 64
-                                                },
-                                                {
-                                                    "height": 640,
-                                                    "url": "https://i.scdn.co/image/ab67616d0000b273b73e9a1154e39490552ef7a9",
-                                                    "width": 640
-                                                }
-                                            ]
-                                        },
-                                        "date": {
-                                            "year": 2021
-                                        },
-                                        "id": "3DxdIMxKz1TxetaVQ50IdV",
-                                        "name": "Healing",
-                                        "playability": {
-                                            "playable": true,
-                                            "reason": "PLAYABLE"
-                                        },
-                                        "sharingInfo": {
-                                            "shareId": "H29ycQy_TuKagw0m1b1uWw",
-                                            "shareUrl": "https://open.spotify.com/album/3DxdIMxKz1TxetaVQ50IdV?si=H29ycQy_TuKagw0m1b1uWw"
-                                        },
-                                        "type": "SINGLE",
-                                        "uri": "spotify:album:3DxdIMxKz1TxetaVQ50IdV"
-                                    },
-                                    {
-                                        "coverArt": {
-                                            "sources": [
-                                                {
-                                                    "height": 300,
-                                                    "url": "https://i.scdn.co/image/ab67616d00001e0254603e39ca69eaefd3ec85e3",
-                                                    "width": 300
-                                                },
-                                                {
-                                                    "height": 64,
-                                                    "url": "https://i.scdn.co/image/ab67616d0000485154603e39ca69eaefd3ec85e3",
-                                                    "width": 64
-                                                },
-                                                {
-                                                    "height": 640,
-                                                    "url": "https://i.scdn.co/image/ab67616d0000b27354603e39ca69eaefd3ec85e3",
-                                                    "width": 640
-                                                }
-                                            ]
-                                        },
-                                        "date": {
-                                            "year": 2021
-                                        },
-                                        "id": "5fr5GNtFaNZ3d1o7lT34kC",
-                                        "name": "Trip to the lake",
-                                        "playability": {
-                                            "playable": true,
-                                            "reason": "PLAYABLE"
-                                        },
-                                        "sharingInfo": {
-                                            "shareId": "r44opSuZTrG_9WJqWtNLTA",
-                                            "shareUrl": "https://open.spotify.com/album/5fr5GNtFaNZ3d1o7lT34kC?si=r44opSuZTrG_9WJqWtNLTA"
-                                        },
-                                        "type": "SINGLE",
-                                        "uri": "spotify:album:5fr5GNtFaNZ3d1o7lT34kC"
+                                        "type": "ALBUM",
+                                        "uri": "spotify:album:7FLZRA4Zp0rG6Dcen7jJMk"
                                     }
-                                ]
+                                ],
+                                "totalCount": 1
+                            }
+                        },
+                        {
+                            "releases": {
+                                "items": [
+                                    {
+                                        "artists": {
+                                            "items": [
+                                                {
+                                                    "profile": {
+                                                        "name": "Pekoss"
+                                                    },
+                                                    "uri": "spotify:artist:4kFwTTze0Nnv90jXfNVqLJ"
+                                                }
+                                            ]
+                                        },
+                                        "coverArt": {
+                                            "sources": [
+                                                {
+                                                    "height": 300,
+                                                    "url": "https://i.scdn.co/image/ab67616d00001e0278fbd3de43dbfbdf2d6357df",
+                                                    "width": 300
+                                                },
+                                                {
+                                                    "height": 64,
+                                                    "url": "https://i.scdn.co/image/ab67616d0000485178fbd3de43dbfbdf2d6357df",
+                                                    "width": 64
+                                                },
+                                                {
+                                                    "height": 640,
+                                                    "url": "https://i.scdn.co/image/ab67616d0000b27378fbd3de43dbfbdf2d6357df",
+                                                    "width": 640
+                                                }
+                                            ]
+                                        },
+                                        "date": {
+                                            "year": 2022
+                                        },
+                                        "id": "2boMJCMPpzRwsELIq6MBne",
+                                        "name": "19/21",
+                                        "sharingInfo": {
+                                            "shareId": "VpVBKS1RQdu98SvXyXNWIg",
+                                            "shareUrl": "https://open.spotify.com/en/album/2boMJCMPpzRwsELIq6MBne?si=VpVBKS1RQdu98SvXyXNWIg"
+                                        },
+                                        "type": "EP",
+                                        "uri": "spotify:album:2boMJCMPpzRwsELIq6MBne"
+                                    }
+                                ],
+                                "totalCount": 1
+                            }
+                        },
+                        {
+                            "releases": {
+                                "items": [
+                                    {
+                                        "artists": {
+                                            "items": [
+                                                {
+                                                    "profile": {
+                                                        "name": "glocky"
+                                                    },
+                                                    "uri": "spotify:artist:2eb9Bbl3W2te2RPM8fRwlb"
+                                                }
+                                            ]
+                                        },
+                                        "coverArt": {
+                                            "sources": [
+                                                {
+                                                    "height": 300,
+                                                    "url": "https://i.scdn.co/image/ab67616d00001e02461ab43e25d682632bf14ea1",
+                                                    "width": 300
+                                                },
+                                                {
+                                                    "height": 64,
+                                                    "url": "https://i.scdn.co/image/ab67616d00004851461ab43e25d682632bf14ea1",
+                                                    "width": 64
+                                                },
+                                                {
+                                                    "height": 640,
+                                                    "url": "https://i.scdn.co/image/ab67616d0000b273461ab43e25d682632bf14ea1",
+                                                    "width": 640
+                                                }
+                                            ]
+                                        },
+                                        "date": {
+                                            "year": 2024
+                                        },
+                                        "id": "23DE7LDNev9dUDQiA9fINl",
+                                        "name": "Fume ce pack",
+                                        "sharingInfo": {
+                                            "shareId": "PJX1Ss31TnG2czrUF7Hkug",
+                                            "shareUrl": "https://open.spotify.com/en/album/23DE7LDNev9dUDQiA9fINl?si=PJX1Ss31TnG2czrUF7Hkug"
+                                        },
+                                        "type": "SINGLE",
+                                        "uri": "spotify:album:23DE7LDNev9dUDQiA9fINl"
+                                    }
+                                ],
+                                "totalCount": 1
+                            }
+                        },
+                        {
+                            "releases": {
+                                "items": [
+                                    {
+                                        "artists": {
+                                            "items": [
+                                                {
+                                                    "profile": {
+                                                        "name": "Na\u00efl"
+                                                    },
+                                                    "uri": "spotify:artist:2gdzGUCsMQK53aRirPHTBG"
+                                                }
+                                            ]
+                                        },
+                                        "coverArt": {
+                                            "sources": [
+                                                {
+                                                    "height": 300,
+                                                    "url": "https://i.scdn.co/image/ab67616d00001e02e975cedd9a379dcbc683903e",
+                                                    "width": 300
+                                                },
+                                                {
+                                                    "height": 64,
+                                                    "url": "https://i.scdn.co/image/ab67616d00004851e975cedd9a379dcbc683903e",
+                                                    "width": 64
+                                                },
+                                                {
+                                                    "height": 640,
+                                                    "url": "https://i.scdn.co/image/ab67616d0000b273e975cedd9a379dcbc683903e",
+                                                    "width": 640
+                                                }
+                                            ]
+                                        },
+                                        "date": {
+                                            "year": 2021
+                                        },
+                                        "id": "3XPMEgb90C4yLS2EOhIIeQ",
+                                        "name": "Roxxor",
+                                        "sharingInfo": {
+                                            "shareId": "0Y3sulv-QGCTJhz9eTrAQQ",
+                                            "shareUrl": "https://open.spotify.com/en/album/3XPMEgb90C4yLS2EOhIIeQ?si=0Y3sulv-QGCTJhz9eTrAQQ"
+                                        },
+                                        "type": "SINGLE",
+                                        "uri": "spotify:album:3XPMEgb90C4yLS2EOhIIeQ"
+                                    }
+                                ],
+                                "totalCount": 1
+                            }
+                        },
+                        {
+                            "releases": {
+                                "items": [
+                                    {
+                                        "artists": {
+                                            "items": [
+                                                {
+                                                    "profile": {
+                                                        "name": "Kappa 5Phal"
+                                                    },
+                                                    "uri": "spotify:artist:7qSRw7HeaMQzGcLoYJccFu"
+                                                }
+                                            ]
+                                        },
+                                        "coverArt": {
+                                            "sources": [
+                                                {
+                                                    "height": 300,
+                                                    "url": "https://i.scdn.co/image/ab67616d00001e02a1a14775df8ebb7f52bcf690",
+                                                    "width": 300
+                                                },
+                                                {
+                                                    "height": 64,
+                                                    "url": "https://i.scdn.co/image/ab67616d00004851a1a14775df8ebb7f52bcf690",
+                                                    "width": 64
+                                                },
+                                                {
+                                                    "height": 640,
+                                                    "url": "https://i.scdn.co/image/ab67616d0000b273a1a14775df8ebb7f52bcf690",
+                                                    "width": 640
+                                                }
+                                            ]
+                                        },
+                                        "date": {
+                                            "year": 2021
+                                        },
+                                        "id": "1UKaQ9qEBWdhfrPvjDFl5C",
+                                        "name": "GG EZ",
+                                        "sharingInfo": {
+                                            "shareId": "1Ce3_E7TRNmPDRJI6etF4g",
+                                            "shareUrl": "https://open.spotify.com/en/album/1UKaQ9qEBWdhfrPvjDFl5C?si=1Ce3_E7TRNmPDRJI6etF4g"
+                                        },
+                                        "type": "ALBUM",
+                                        "uri": "spotify:album:1UKaQ9qEBWdhfrPvjDFl5C"
+                                    }
+                                ],
+                                "totalCount": 1
                             }
                         }
-                    }
-                ]
-            }
+                    ],
+                    "totalCount": 6
+                },
+                "discoveredOnV2": {
+                    "items": [
+                        {
+                            "data": {
+                                "__typename": "GenericError"
+                            }
+                        }
+                    ],
+                    "totalCount": 1
+                },
+                "featuringV2": {
+                    "items": [
+                        {
+                            "data": {
+                                "__typename": "Playlist",
+                                "description": "With 2 M\u00e8tres, Luv Resval, Sa\u00eff and more",
+                                "id": "37i9dQZF1E4wY7Qe3Ti0PZ",
+                                "images": {
+                                    "items": [
+                                        {
+                                            "sources": [
+                                                {
+                                                    "height": null,
+                                                    "url": "https://pickasso.spotifycdn.com/image/ab67c0de0000deef/dt/v1/img/radio/artist/672zgt6YECMA7Om9h5V2HE/en",
+                                                    "width": null
+                                                }
+                                            ]
+                                        }
+                                    ],
+                                    "totalCount": 1
+                                },
+                                "name": "Mugen J Radio",
+                                "ownerV2": {
+                                    "data": {
+                                        "__typename": "User",
+                                        "name": "Spotify"
+                                    }
+                                },
+                                "uri": "spotify:playlist:37i9dQZF1E4wY7Qe3Ti0PZ"
+                            }
+                        }
+                    ],
+                    "totalCount": 1
+                },
+                "relatedArtists": {
+                    "items": [],
+                    "totalCount": 0
+                }
+            },
+            "relatedVideos": {
+                "__typename": "RelatedVideoPage",
+                "items": [],
+                "totalCount": 0
+            },
+            "saved": false,
+            "sharingInfo": {
+                "shareId": "wSGwLtbDRLibt7_ujE_kEQ",
+                "shareUrl": "https://open.spotify.com/en/artist/672zgt6YECMA7Om9h5V2HE?si=wSGwLtbDRLibt7_ujE_kEQ"
+            },
+            "stats": {
+                "followers": 92,
+                "monthlyListeners": 33,
+                "topCities": {
+                    "items": [
+                        {
+                            "city": "Montpellier",
+                            "country": "FR",
+                            "numberOfListeners": 3,
+                            "region": "OCC"
+                        },
+                        {
+                            "city": "Toulouse",
+                            "country": "FR",
+                            "numberOfListeners": 3,
+                            "region": "OCC"
+                        },
+                        {
+                            "city": "B\u00e9ziers",
+                            "country": "FR",
+                            "numberOfListeners": 2,
+                            "region": "OCC"
+                        },
+                        {
+                            "city": "N\u00eemes",
+                            "country": "FR",
+                            "numberOfListeners": 2,
+                            "region": "OCC"
+                        },
+                        {
+                            "city": "Lyon",
+                            "country": "FR",
+                            "numberOfListeners": 2,
+                            "region": "ARA"
+                        }
+                    ]
+                },
+                "worldRank": 0
+            },
+            "uri": "spotify:artist:672zgt6YECMA7Om9h5V2HE",
+            "visuals": {
+                "avatarImage": {
+                    "extractedColors": {
+                        "colorRaw": {
+                            "hex": "#487098"
+                        }
+                    },
+                    "sources": [
+                        {
+                            "height": 640,
+                            "url": "https://i.scdn.co/image/ab6761610000e5eb8d23c1bcff93da9b0f271b5d",
+                            "width": 640
+                        },
+                        {
+                            "height": 160,
+                            "url": "https://i.scdn.co/image/ab6761610000f1788d23c1bcff93da9b0f271b5d",
+                            "width": 160
+                        },
+                        {
+                            "height": 320,
+                            "url": "https://i.scdn.co/image/ab676161000051748d23c1bcff93da9b0f271b5d",
+                            "width": 320
+                        }
+                    ]
+                },
+                "gallery": {
+                    "items": []
+                },
+                "headerImage": null
+            },
+            "watchFeedEntrypoint": null
         }
     },
     "extensions": {}
