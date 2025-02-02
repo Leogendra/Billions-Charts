@@ -41,7 +41,8 @@ function add_scrolling_cards() {
         const containerWidth = container.clientWidth;
 
         if (textWidth > containerWidth) {
-            console.log(`Scrolling: ${el.textContent}`);
+            console.log("Scrolling needed");
+            console.log(textWidth, containerWidth);
             const scrollDistance = textWidth - containerWidth + 10; // Add a little margin
             el.style.setProperty("--scroll-distance", `${scrollDistance}px`);
             el.classList.add("auto-scroll");
@@ -54,24 +55,20 @@ function add_scrolling_cards() {
 
 async function main() {
     const report = await get_report("data/report.json");
-    update_counters(report);
-    update_playlist_infos(report);
-    update_new_entries(report);
-    update_trendings(report);
-    update_newest(report);
-    update_most_streamed(report);
-    update_least_streamed(report);
-    update_most_long(report);
-    update_most_short(report);
-
-    place_arrow();
-
-
-    // Caroussel
-    // window.addEventListener("mousemove", handleMouseMove);
-    // window.addEventListener("mousedown", handleMouseDown);
-    // window.addEventListener("mouseup", handleMouseUp);
-
+    await Promise.all([
+        update_counters(report),
+        update_playlist_infos(report),
+        update_new_entries(report),
+        update_trendings(report),
+        update_newest(report),
+        update_most_streamed(report),
+        update_least_streamed(report),
+        update_most_long(report),
+        update_most_short(report),
+        place_arrow()
+    ]);
+    
+    // await all
     add_scrolling_cards();
 }
 

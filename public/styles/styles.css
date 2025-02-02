@@ -87,8 +87,8 @@ a {
 
 
 @media (max-width: 800px) {
-    h2 {
-        font-size: 1.2rem;
+    body {
+        padding: 10px;
     }
     .title {
         margin-top: 10px;
@@ -99,6 +99,9 @@ a {
     }
 
     .intro {
+        font-size: 1.2rem;
+    }
+    h2 {
         font-size: 1.2rem;
     }
 }
