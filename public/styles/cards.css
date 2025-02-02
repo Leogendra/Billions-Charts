@@ -32,35 +32,41 @@
     border-radius: 8px;
     object-fit: cover;
     flex-shrink: 0;
-
 }
 
 .music-card-content {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    overflow: hidden;
     gap: 2px;
     flex-grow: 1;
     flex-shrink: 1;
     min-width: 0;
+    mask-image: linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 1%, rgba(0, 0, 0, 1) 90%, rgba(0, 0, 0, 0) 100%);
+    -webkit-mask-image: linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 1%, rgba(0, 0, 0, 1) 90%, rgba(0, 0, 0, 0) 100%);
 }
 
-.music-title {
+.music-title, .music-artist {
+    width: fit-content;
+    max-width: 100%;
     font-size: 1rem;
     font-weight: bold;
     color: #333;
     margin: 0;
-    text-overflow: ellipsis;
     white-space: nowrap;
-    overflow: hidden;
+    display: inline-block;
+    position: relative;
 }
 
-.music-artist {
-    font-size: 0.9rem;
-    color: #555;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    overflow: hidden;
+.music-title.auto-scroll, .music-artist.auto-scroll {
+    animation: scroll-text 7s linear infinite alternate;
+    padding-right: 20px;
+    --scroll-distance: 0px;
+}
+
+.music-title.auto-scroll:hover, .music-artist.auto-scroll:hover {
+    animation-play-state: paused;
 }
 
 .music-infos {
@@ -104,19 +110,6 @@
 
 
 @keyframes scroll-text {
-    0% {
-        transform: translateX(0);
-    }
-
-    30% {
-        transform: translateX(0);
-    }
-
-    85% {
-        transform: translateX(calc((250px - 30px) - 100%)); /* Minus the padding */
-    }
-
-    100% {
-        transform: translateX(calc((250px - 30px) - 100%));
-    }
+    0%, 20% { transform: translateX(0); }
+    90%, 100% { transform: translateX(calc(var(--scroll-distance, 0) * -1)); }
 }

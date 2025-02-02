@@ -34,6 +34,22 @@ function update_playlist_infos(report) {
 }
 
 
+function add_scrolling_cards() {
+    document.querySelectorAll(".music-title, .music-artist").forEach(el => {
+        const container = el.parentElement;
+        const textWidth = el.scrollWidth;
+        const containerWidth = container.clientWidth;
+
+        if (textWidth > containerWidth) {
+            console.log(`Scrolling: ${el.textContent}`);
+            const scrollDistance = textWidth - containerWidth + 10; // Add a little margin
+            el.style.setProperty("--scroll-distance", `${scrollDistance}px`);
+            el.classList.add("auto-scroll");
+        }
+    });
+}
+
+
 
 
 async function main() {
@@ -50,10 +66,13 @@ async function main() {
 
     place_arrow();
 
+
     // Caroussel
     // window.addEventListener("mousemove", handleMouseMove);
     // window.addEventListener("mousedown", handleMouseDown);
     // window.addEventListener("mouseup", handleMouseUp);
+
+    add_scrolling_cards();
 }
 
 
