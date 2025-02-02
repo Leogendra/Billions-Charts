@@ -27,10 +27,10 @@
     flex: 1;
 }
 
-.counter-container>h2 {
+.chart-title {
     margin: 0;
     font-size: 1.5rem;
-    color: #333;
+    color: var(--text-color);
 }
 
 .counter-addon {
@@ -126,13 +126,14 @@
         flex-direction: column;
         gap: 10px;
     }
-
     .counter-container {
         margin: 20px 0;
         width: 100%;
     }
-
     .charts-new-entries {
         grid-template-columns: repeat(1, 1fr);
+    }
+    .chart-title {
+        font-size: 1.2rem;
     }
 }

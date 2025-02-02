@@ -26,11 +26,10 @@
     <!-- Odometer -->
     <link rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/odometer.js/0.4.7/themes/odometer-theme-default.css" />
-    <!-- Slider -->
-    <link rel="stylesheet" href="styles/caroussel.css">
     <!-- Material Icons -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=help" />
     <!-- Styles -->
+    <link rel="stylesheet" href="styles/caroussel.css">
     <link rel="stylesheet" href="styles/styles.css">
     <link rel="stylesheet" href="styles/charts.css">
     <link rel="stylesheet" href="styles/decoration.css">
@@ -85,8 +84,7 @@
 
 
         <div class="chart-container">
-            <h2>Today's Cover</h2>
-
+            <h2 class="chart-title">Today's Cover</h2>
             <div class="counter-container">
                 <div class="cover-container">
                     <img src="" alt="Playlist Cover" id="playlist-cover">
@@ -95,40 +93,40 @@
             </div>
         </div>
 
-        <div class="chart-container">
-            <h2>🆕 Last entries: <span class="new-entries-date accent-color">January 2025</span></h2>
+        <details class="chart-container" open>
+            <summary class="chart-title">🆕 Last entries: <span class="new-entries-date accent-color">January 2025</span></summary>
             <div class="charts-new-entries" id="new-entries"></div>
-        </div>
+        </details>
         
-        <div class="chart-container">
-            <h2>🔥 Trending Tracks <span class="material-symbols-outlined">help</span></h2>
+        <details class="chart-container" open>
+            <summary class="chart-title">🔥 Trending Tracks <span class="material-symbols-outlined">help</span></summary>
             <div class="charts-new-entries" id="trendings"></div>
-        </div>
+        </details>
         
-        <div class="chart-container">
-            <h2>🌱 Newest Tracks</h2>
+        <details class="chart-container" open>
+            <summary class="chart-title">🌱 Newest Tracks</summary>
             <div class="charts-new-entries" id="newest"></div>
-        </div>
+        </details>
         
-        <div class="chart-container">
-            <h2>📈 Most streamed Tracks</h2>
+        <details class="chart-container" open>
+            <summary class="chart-title">📈 Most streamed Tracks</summary>
             <div class="charts-new-entries" id="most-streamed"></div>
-        </div>
+        </details>
         
-        <div class="chart-container">
-            <h2>👶 Least streamed Tracks</h2>
+        <details class="chart-container" open>
+            <summary class="chart-title">👶 Least streamed Tracks</summary>
             <div class="charts-new-entries" id="least-streamed"></div>
-        </div>
+        </details>
         
-        <div class="chart-container">
-            <h2>⏳ Most Longs Tracks</h2>
+        <details class="chart-container" open>
+            <summary class="chart-title">⏳ Most Longs Tracks</summary>
             <div class="charts-new-entries" id="most-long"></div>
-        </div>
+        </details>
         
-        <div class="chart-container">
-            <h2>⚡ Most Short Tracks</h2>
+        <details class="chart-container" open>
+            <summary class="chart-title">⚡ Most Short Tracks</summary>
             <div class="charts-new-entries" id="most-short"></div>
-        </div>
+        </details>
         
     </div>
 
