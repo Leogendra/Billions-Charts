@@ -37,6 +37,7 @@ body {
 .cover-container {
     margin-bottom: 10px;
 }
+
 h2 {
     margin: 0;
     font-size: 1.5rem;
@@ -102,12 +103,10 @@ a {
     .title {
         margin-top: 10px;
     }
-
     .title-text {
         font-size: 2rem;
     }
-
     .intro {
-        font-size: 1.2rem;
+        font-size: 0.9rem;
     }
 }

@@ -126,8 +126,15 @@
         gap: 10px;
     }
     .counter-container {
-        margin: 20px 0;
+        margin: 10px 0;
+        padding: 10px 0;
         width: 100%;
+    }
+    .counter-container h2 {
+        font-size: 1.5rem;
+    }
+    .counter-container span {
+        font-size: 1.8rem;
     }
     .charts-new-entries {
         grid-template-columns: repeat(1, 1fr);
