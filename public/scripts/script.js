@@ -1,9 +1,16 @@
+const div_title = document.querySelector(".title");
+
 // Playlist image and description
 const playlist_cover = document.querySelector("#playlist-cover");
 const playlist_description = document.querySelector("#playlist-description");
 
 const update_date_global = document.querySelector(".update-date");
 const cover_container = document.querySelector(".cover-container");
+
+// Details sections
+const details_sections = document.querySelectorAll("details");
+let all_details_open = true;
+
 
 
 async function get_report(reportPath) {
@@ -41,8 +48,6 @@ function add_scrolling_cards() {
         const containerWidth = container.clientWidth;
 
         if (textWidth > containerWidth) {
-            console.log("Scrolling needed");
-            console.log(textWidth, containerWidth);
             const scrollDistance = textWidth - containerWidth + 10; // Add a little margin
             el.style.setProperty("--scroll-distance", `${scrollDistance}px`);
             el.classList.add("auto-scroll");
@@ -51,7 +56,17 @@ function add_scrolling_cards() {
 }
 
 
+async function toggle_all_details() {
+    all_details_open = !all_details_open;
+    details_sections.forEach(details => {
+        details.open = all_details_open;
+    });
+}
 
+
+
+
+div_title.addEventListener("click", toggle_all_details);
 
 async function main() {
     const report = await get_report("data/report.json");

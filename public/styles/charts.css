@@ -28,8 +28,21 @@
 }
 
 .chart-title {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
     font-size: 1.5rem;
     color: var(--text-color);
+}
+
+.chart-title::before {
+    content: "▶";
+    transition: transform 0.2s;
+}
+
+details[open] .chart-title::before {
+    transform: rotate(90deg);
 }
 
 .counter-addon {
@@ -64,7 +77,7 @@
 
 
 /* New entries */
-.charts-new-entries {
+.div-cards-entries {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -136,10 +149,8 @@
     .counter-container span {
         font-size: 2.5rem;
     }
-    .charts-new-entries {
-        grid-template-columns: repeat(1, 1fr);
-    }
     .chart-title {
         font-size: 1.2rem;
+        gap: 5px;
     }
 }
