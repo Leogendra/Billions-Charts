@@ -3,21 +3,18 @@ const new_entries_date = document.querySelector(".new-entries-date");
 const new_entries_section = document.querySelector("#new-entries");
 
 // Trendings
-const trendings_section = document.querySelector("#trendings");
+const trendings_section = document.querySelector("#trending-tracks");
 
-// Newest
-const newest_section = document.querySelector("#newest");
+// Date
+const newest_section = document.querySelector("#newest-tracks");
+const oldest_section = document.querySelector("#oldest-tracks");
 
-// Most streamed
+// Number of streams
 const most_streamed_section = document.querySelector("#most-streamed");
-
-// Least streamed
 const least_streamed_section = document.querySelector("#least-streamed");
 
-// Most long
+// Track duration
 const most_long_section = document.querySelector("#most-long");
-
-// Most Short
 const most_short_section = document.querySelector("#most-short");
 
 
@@ -96,9 +93,18 @@ async function update_trendings(report) {
 
 async function update_newest(report) {
     for (let i = 0; i < report.newest_tracks.length; i++) {
-        const newest = report.newest_tracks[i];
-        const newest_entry = create_music_card(newest, i+1, `Release<br>${newest.release_date}`);
-        newest_section.appendChild(newest_entry);
+        const track = report.newest_tracks[i];
+        const track_entry = create_music_card(track, i+1, `Release<br>${track.release_date}`);
+        newest_section.appendChild(track_entry);
+    }
+}
+
+
+async function update_oldest(report) {
+    for (let i = 0; i < report.oldest_tracks.length; i++) {
+        const track = report.oldest_tracks[i];
+        const track_entry = create_music_card(track, i+1, `Release<br>${track.release_date}`);
+        oldest_section.appendChild(track_entry);
     }
 }
 
