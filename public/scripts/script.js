@@ -64,6 +64,46 @@ async function toggle_all_details() {
 }
 
 
+async function display_artists() {
+    const artists = [
+        { name: "The Weeknd", streams: 12000_000, image: "https://i.scdn.co/image/ab6761610000e5eb9e528993a2820267b97f6aae" },
+        { name: "Taylor Swift", streams: 100_000, image: "https://i.scdn.co/image/ab6761610000e5eb9e528993a2820267b97f6aae" },
+        { name: "Drake", streams: 80000, image: "https://i.scdn.co/image/ab6761610000e5eb9e528993a2820267b97f6aae" },
+        { name: "Ariana Grande", streams: 100, image: "https://i.scdn.co/image/ab6761610000e5eb9e528993a2820267b97f6aae" },
+    ];
+
+    const maxStreams = Math.max(...artists.map(artist => artist.streams)); // Trouve le plus grand nombre de streams
+    const container = document.getElementById("bar-container");
+
+    // Largeurs min et max
+    const minWidth = 120; // Largeur minimale pour les petites valeurs
+    const maxWidth = 100; // Largeur max en pourcentage du conteneur
+
+    // Génération dynamique des barres
+    artists.forEach(artist => {
+        const bar = document.createElement("div");
+        bar.classList.add("bar");
+
+        // Calcule la largeur proportionnelle avec un minimum
+        let calculatedWidth = (artist.streams / maxStreams) * maxWidth;
+        let finalWidth = Math.max(calculatedWidth, (minWidth / container.offsetWidth) * 100); // Min 120px converti en %
+
+        bar.style.width = `${finalWidth}%`;
+
+        const text = document.createElement("span");
+        text.textContent = artist.name;
+        bar.appendChild(text);
+
+        const img = document.createElement("img");
+        img.src = artist.image;
+        img.classList.add("artist-image");
+        bar.appendChild(img);
+
+        container.appendChild(bar);
+    });
+}
+
+
 
 
 div_title.addEventListener("click", toggle_all_details);
@@ -83,9 +123,11 @@ async function main() {
         update_most_short(report),
         place_arrow()
     ]);
-    
+
     // await all
     add_scrolling_cards();
+
+    // display_artists();
 }
 
 

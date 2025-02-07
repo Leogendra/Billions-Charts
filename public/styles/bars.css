@@ -1,0 +1,26 @@
+.bar-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.bar {
+    background-color: #d3d3d3;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    padding: 8px 12px;
+    font-size: 1rem;
+    font-weight: bold;
+    position: relative;
+    transition: width 0.5s ease-in-out;
+}
+
+.artist-image {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    position: absolute;
+    right: 5px;
+}
