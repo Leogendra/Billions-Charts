@@ -64,6 +64,7 @@ def aggregate_dates(tracks):
             release_date += "-01-01"
 
         normalized_tracks.append({
+            "id": track['id'],
             "name": track['name'],
             "artists": [{
                     "id": artist.get('id'),
