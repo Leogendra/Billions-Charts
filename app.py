@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, send_file
+from flask import Flask, jsonify, send_file, request
 from backend.scrapper import fetch_playlist_infos
 from backend.utils import create_folder
 from backend.report import (
@@ -12,6 +12,7 @@ import os
 load_dotenv()
 app = Flask(__name__, static_folder="public", static_url_path="/")
 PORT = os.getenv("PORT") or 3434
+PASSWORD = os.getenv("PASSWORD") or 1234
 BASE_URL = f"http://localhost:{PORT}"
 WRITE_TO_DATABASE = True # If False, will write to json files instead of database
 
@@ -20,6 +21,14 @@ WRITE_TO_DATABASE = True # If False, will write to json files instead of databas
 
 @app.route("/search/", methods=["GET"])
 def search():
+    password = request.args.get("password", "")
+    if password != PASSWORD:
+        return jsonify(
+            {
+                "message": "Access denied!",
+                "output": "You don't have access to this resource.",
+            }
+        )
     dateKey = datetime.datetime.now().strftime("%Y-%m-%d")
     dataPath = f"data/tracks/tracks_{dateKey}.json"
     reportPublicPath = f"public/data/report.json"
@@ -42,8 +51,16 @@ def search():
         )
     
 
-@app.route("/report/<dateKey>", methods=["GET"])
+@app.route("/report/<dateKey>/", methods=["GET"])
 def report(dateKey):
+    password = request.args.get("password", "")
+    if password != PASSWORD:
+        return jsonify(
+            {
+                "message": "Access denied!",
+                "output": "You don't have access to this resource.",
+            }
+        )
     dataPath = f"data/tracks/tracks_{dateKey}.json"
     reportPublicPath = f"public/data/report.json"
 
@@ -60,8 +77,16 @@ def report(dateKey):
         })
 
 
-@app.route("/leaderboard/<dateKey>", methods=["GET"])
+@app.route("/leaderboard/<dateKey>/", methods=["GET"])
 def leaderboard(dateKey):
+    password = request.args.get("password", "")
+    if password != PASSWORD:
+        return jsonify(
+            {
+                "message": "Access denied!",
+                "output": "You don't have access to this resource.",
+            }
+        )
     create_folder("data/reports")
     dataPath = f"data/tracks/tracks_{dateKey}.json"
 
