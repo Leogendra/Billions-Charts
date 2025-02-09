@@ -128,6 +128,64 @@ async function main() {
     add_scrolling_cards();
 
     // display_artists();
+
+    // POC
+    const songs = [
+        { name: "Have you ever see the rain", date: "1971-01-05" }
+    ];
+    report.oldest_tracks.forEach(song => {
+        songs.push({ name: song.name, date: song.release_date });
+    });
+    report.newest_tracks.forEach(song => {
+        songs.push({ name: song.name, date: song.release_date });
+    });
+
+    const dataPoints = songs.map(song => {
+        const date = new Date(song.date);
+        const year = date.getFullYear();
+        const dayOfYear = (Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()) - Date.UTC(date.getFullYear(), 0, 0)) / (1000 * 60 * 60 * 24);
+        return { x: year, y: dayOfYear };
+    });
+
+    const ctx = document.getElementById('scatterChart').getContext('2d');
+    new Chart(ctx, {
+        type: 'scatter',
+        data: {
+            datasets: [{
+                label: 'Songs',
+                data: dataPoints,
+                backgroundColor: 'rgba(148, 75, 211, 0.8)'
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                x: {
+                    type: 'linear',
+                    position: 'bottom',
+                    title: { display: true, text: 'Year of release' },
+                    ticks: {
+                        callback: (val) => parseInt(val)
+                    }
+                },
+                y: {
+                    ticks: {
+                        display: false
+                    }
+                }
+            },
+            plugins: {
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            const song = songs[context.dataIndex];
+                            return `${song.name} - ${song.date}`;
+                        }
+                    }
+                }
+            }
+        }
+    });
 }
 
 
