@@ -93,6 +93,37 @@
 }
 
 
+
+/* BARS */
+.div-bar-entries {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    margin-top: 15px;
+}
+
+.bar-artist {
+    display: flex;
+    align-items: center;
+    position: relative;
+    padding: 8px 12px;
+    color: #333;
+    background-color: var(--primary-color);
+    border-radius: 20px;
+    font-size: 1rem;
+    font-weight: bold;
+    transition: width 0.5s ease-in-out;
+}
+
+.bar-artist-image {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    position: absolute;
+    right: 3px;
+}
+
+
 /* Responsive design */
 @media (max-width: 768px) {
     .music-card {
@@ -117,4 +148,13 @@
     .music-infos {
         font-size: 0.6rem;
     }
+
+    .bar-artist {
+        font-size: 0.8rem;
+    }
+    .bar-artist-image {
+        width: 30px;
+        height: 30px;
+    }
+
 }

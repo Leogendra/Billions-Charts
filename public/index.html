@@ -37,7 +37,6 @@
     <link rel="stylesheet" href="styles/charts.css">
     <link rel="stylesheet" href="styles/decoration.css">
     <link rel="stylesheet" href="styles/cards.css">
-    <link rel="stylesheet" href="styles/bars.css">
     <link rel="stylesheet" href="styles/footer.css">
 </head>
 
@@ -100,13 +99,26 @@
                     <div>Coming soon...</div>
         </div>
 
-        <!-- <div class="container">
-            <div class="title">
-                📈 Trending Artists
+        <details class="chart-container" open>
+            <summary class="chart-title">🔊 Most streamed artists<span class="new-entries-date accent-color"></span>
+            </summary>
+            <div class="div-bar-entries" id="artists-most-streamed">
             </div>
-            <div class="bar-container" id="bar-container">
+        </details>
+
+        <details class="chart-container" open>
+            <summary class="chart-title"> 🎼 Artists with more songs<span class="new-entries-date accent-color"></span>
+            </summary>
+            <div class="div-bar-entries" id="artists-most-songs">
             </div>
-        </div> -->
+        </details>
+
+        <details class="chart-container" open>
+            <summary class="chart-title">⏳ Artists with more time<span class="new-entries-date accent-color"></span>
+            </summary>
+            <div class="div-bar-entries" id="artists-most-time">
+            </div>
+        </details>
 
         <details class="chart-container" open>
             <summary class="chart-title">🆕 Last entries: <span class="new-entries-date accent-color"></span></summary>
@@ -169,8 +181,6 @@
 
     <script src="scripts/caroussel.js"></script>
 
-
 </body>
-
 
 </html>
