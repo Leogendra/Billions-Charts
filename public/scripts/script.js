@@ -173,12 +173,13 @@ async function main() {
         update_artists_most_songs(report),
         update_artists_most_time(report),
 
-        place_arrow()
+        create_point_graph(report),
+
+        place_arrow(),
     ]);
 
     // await all
     add_scrolling_cards();
-
 }
 
 
