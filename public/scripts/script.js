@@ -173,7 +173,9 @@ async function main() {
         update_artists_most_songs(report),
         update_artists_most_time(report),
 
-        create_point_graph(report),
+        // create_point_graph(report),
+        create_histogram_month(report),
+        create_histogram_year(report),
 
         place_arrow(),
     ]);

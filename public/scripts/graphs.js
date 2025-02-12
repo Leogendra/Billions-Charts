@@ -1,5 +1,6 @@
 const primaryColor = getComputedStyle(document.documentElement).getPropertyValue('--primary-color').trim();
 const backgroundDark = getComputedStyle(document.documentElement).getPropertyValue('--color-darker').trim();
+const accentColor = getComputedStyle(document.documentElement).getPropertyValue('--accent-color').trim();
 
 // POC
 async function create_point_graph(report) {
@@ -39,7 +40,11 @@ async function create_point_graph(report) {
                 x: {
                     type: 'linear',
                     position: 'bottom',
-                    title: { display: true, text: 'Year of release', color: primaryColor }, // 🟡 Correction
+                    title: {
+                        display: true,
+                        text: 'Year of release',
+                        color: primaryColor
+                    },
                     ticks: {
                         callback: (val) => parseInt(val),
                         color: primaryColor
@@ -83,3 +88,131 @@ async function create_point_graph(report) {
     <canvas class="scatter-plot" id="scatter-plot-tracks"></canvas>
 </details>
 */
+
+
+function getMonthName(monthNumber) {
+    return new Date(2000, monthNumber - 1).toLocaleString("en-US", { month: "long" });
+}
+
+
+async function create_histogram_month(report) {
+    const monthCount = report.month_count;
+
+    const months = Object.keys(monthCount).sort((a, b) => a - b);
+    const values = months.map(month => monthCount[month]);
+
+    const ctx = document.querySelector("#histo-plot-month").getContext("2d");
+    new Chart(ctx, {
+        type: "bar",
+        data: {
+            labels: months.map(m => getMonthName(m)),
+            datasets: [{
+                label: "Number of tracks",
+                data: values,
+                backgroundColor: accentColor,
+                borderColor: accentColor,
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: "Number of tracks",
+                        color: primaryColor
+                    },
+                    ticks: {
+                        color: primaryColor
+                    },
+                },
+                x: {
+                    title: {
+                        display: true,
+                        text: "Month",
+                        color: primaryColor
+                    },
+                    ticks: {
+                        color: primaryColor
+                    },
+                }
+            },
+            plugins: {
+                legend: {
+                    display: false
+                }
+            }
+        }
+    });
+}
+
+async function create_histogram_year(report) {
+    const monthCount = report.year_count;
+
+    let months = Object.keys(monthCount).map(Number);
+    let values = months.map(year => monthCount[year] || 0);
+
+    const minYear = Math.min(...months);
+    const maxYear = Math.max(...months);
+    for (let year = minYear; year <= maxYear; year++) {
+        if (!months.includes(year)) {
+            months.push(year);
+            values.push(0);
+        }
+    }
+
+    const sortedData = months
+        .map((year, index) => ({ year, value: values[index] }))
+        .sort((a, b) => a.year - b.year);
+
+    months = sortedData.map(item => item.year);
+    values = sortedData.map(item => item.value);
+
+    const ctx = document.querySelector("#histo-plot-year").getContext("2d");
+    new Chart(ctx, {
+        type: "bar",
+        data: {
+            labels: months.map(m => m),
+            datasets: [{
+                label: "Number of tracks",
+                data: values,
+                backgroundColor: accentColor,
+                borderColor: accentColor,
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: "Number of tracks",
+                        color: primaryColor
+                    },
+                    ticks: {
+                        color: primaryColor
+                    },
+                },
+                x: {
+                    title: {
+                        display: true,
+                        text: "Years",
+                        color: primaryColor
+                    },
+                    ticks: {
+                        color: primaryColor
+                    },
+                }
+            },
+            plugins: {
+                legend: {
+                    display: false
+                }
+            }
+        }
+    });
+}

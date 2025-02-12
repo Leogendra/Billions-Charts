@@ -121,6 +121,7 @@ details[open] .chart-title::before {
     -webkit-box-orient: vertical;
     overflow: hidden;
     -webkit-line-clamp: 2;
+    line-clamp: 2;
 }
 
 
@@ -130,6 +131,14 @@ details[open] .chart-title::before {
     flex-direction: column;
     gap: 20px;
 }
+
+
+
+/* Plot, scatters, bars */
+.scatter-plot {
+    margin-top: 50px;
+}
+
 
 
 /* Media query */

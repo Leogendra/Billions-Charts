@@ -35,7 +35,6 @@
     <link rel="stylesheet" href="styles/caroussel.css">
     <link rel="stylesheet" href="styles/styles.css">
     <link rel="stylesheet" href="styles/charts.css">
-    <link rel="stylesheet" href="styles/graphs.css">
     <link rel="stylesheet" href="styles/decoration.css">
     <link rel="stylesheet" href="styles/cards.css">
     <link rel="stylesheet" href="styles/footer.css">
@@ -101,6 +100,17 @@
         </div>
 
         <details class="chart-container" open>
+            <summary class="chart-title">🆕 Last entries: <span class="new-entries-date accent-color"></span></summary>
+            <div class="div-cards-entries" id="new-entries"></div>
+        </details>
+
+        <details class="chart-container" open>
+            <summary class="chart-title">🔥 Trending Tracks <span class="material-symbols-outlined">help</span>
+            </summary>
+            <div class="div-cards-entries" id="trending-tracks"></div>
+        </details>
+
+        <details class="chart-container" open>
             <summary class="chart-title">🔊 Most streamed artists<span class="new-entries-date accent-color"></span>
             </summary>
             <div class="div-bar-entries" id="artists-most-streamed">
@@ -122,14 +132,15 @@
         </details>
 
         <details class="chart-container" open>
-            <summary class="chart-title">🆕 Last entries: <span class="new-entries-date accent-color"></span></summary>
-            <div class="div-cards-entries" id="new-entries"></div>
+            <summary class="chart-title">Track release by year</span>
+            </summary>
+            <canvas class="scatter-plot" id="histo-plot-year"></canvas>
         </details>
 
         <details class="chart-container" open>
-            <summary class="chart-title">🔥 Trending Tracks <span class="material-symbols-outlined">help</span>
+            <summary class="chart-title">Track release by months</span>
             </summary>
-            <div class="div-cards-entries" id="trending-tracks"></div>
+            <canvas class="scatter-plot" id="histo-plot-month"></canvas>
         </details>
 
         <details class="chart-container" open>
