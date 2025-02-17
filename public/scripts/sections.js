@@ -1,6 +1,7 @@
 // New entries
 const new_entries_date = document.querySelector(".new-entries-date");
 const new_entries_section = document.querySelector("#new-entries");
+const fastest_section = document.querySelector("#fastest-tracks");
 
 // Trendings
 const trendings_section = document.querySelector("#trending-tracks");
@@ -105,6 +106,15 @@ async function update_oldest(report) {
         const track = report.oldest_tracks[i];
         const track_entry = create_music_card(track, i+1, `Release<br>${track.release_date}`);
         oldest_section.appendChild(track_entry);
+    }
+}
+
+
+async function update_fastest(report) {
+    for (let i = 0; i < report.fastest_billions.length; i++) {
+        const track = report.fastest_billions[i];
+        const track_entry = create_music_card(track, i+1, `Days took<br>${track.billion_time}`);
+        fastest_section.appendChild(track_entry);
     }
 }
 

@@ -164,6 +164,7 @@ async function main() {
         update_trendings(report),
         update_newest(report),
         update_oldest(report),
+        update_fastest(report),
         update_most_streamed(report),
         update_least_streamed(report),
         update_most_long(report),
