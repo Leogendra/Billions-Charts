@@ -1,0 +1,75 @@
+/* Automatic slider */
+
+main {
+    width: min(1200px, 90vw);
+    margin: auto;
+}
+
+.slider {
+    width: 100%;
+    height: var(--height);
+    overflow: hidden;
+    mask-image: linear-gradient(to right,
+            transparent,
+            #000 10% 90%,
+            transparent);
+}
+
+.slider .list {
+    display: flex;
+    width: 100%;
+    height: auto;
+    min-width: calc(var(--width) * var(--quantity));
+    position: relative;
+}
+
+.slider .list .item {
+    width: var(--width);
+    height: var(--height);
+    position: absolute;
+    left: 100%;
+    animation: autoRun var(--speed) linear infinite;
+    transition: filter 0.5s;
+    animation-delay: calc((var(--speed) / var(--quantity)) * (var(--position) - 1) - var(--speed)) !important;
+}
+
+.slider .list .item img {
+    width: 100%;
+}
+
+@keyframes autoRun {
+    from {
+        left: 100%;
+    }
+
+    to {
+        left: calc(var(--width) * -1);
+    }
+}
+
+.slider:hover .item {
+    animation-play-state: paused !important;
+    filter: grayscale(1);
+}
+
+.slider .item:hover {
+    filter: grayscale(0);
+}
+
+
+/* Manual slider */
+
+#image-track {
+    display: flex;
+    flex-direction: row;
+    width: fit-content;
+    gap: 20px;
+    user-select: none;
+}
+
+#image-track > .image {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    object-position: 100% center;
+}

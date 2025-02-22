@@ -1,0 +1,11 @@
+# Modules
+__*/
+
+# Environment
+.vscode/
+*env*/
+.env
+
+# Data
+**/data/
+tests/

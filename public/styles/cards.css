@@ -1,0 +1,200 @@
+.music-card {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    width: 100%;
+    max-width: 500px;
+    padding: 10px;
+    background-color: var(--primary-color);
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+}
+
+.card-color-1 {
+    background-color: var(--primary-color-darker);
+}
+
+.music-card:hover {
+    animation: pulse 0.3s ease-in-out;
+}
+
+.music-card img {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 70px;
+    aspect-ratio: 1;
+    border-radius: 8px;
+    object-fit: cover;
+    flex-shrink: 0;
+}
+
+.music-card-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    overflow: hidden;
+    gap: 2px;
+    flex-grow: 1;
+    flex-shrink: 1;
+    min-width: 0;
+    padding: 5px;
+    mask-image: linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 1%, rgba(0, 0, 0, 1) 90%, rgba(0, 0, 0, 0) 100%);
+    -webkit-mask-image: linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 1%, rgba(0, 0, 0, 1) 90%, rgba(0, 0, 0, 0) 100%);
+}
+
+.music-title, .music-artist {
+    width: fit-content;
+    max-width: 100%;
+    font-size: 1rem;
+    font-weight: bold;
+    color: #333;
+    margin: 0;
+    white-space: nowrap;
+    display: inline-block;
+    position: relative;
+}
+
+.music-title.auto-scroll, .music-artist.auto-scroll {
+    animation: scroll-text 7s linear infinite alternate;
+    padding-right: 20px;
+    --scroll-distance: 0px;
+}
+
+.music-card:hover .music-title.auto-scroll, .music-card:hover .music-artist.auto-scroll {
+    animation-play-state: paused;
+}
+
+.music-infos {
+    width: fit-content;
+    color: var(--primary-color);
+    background-color: var(--dark-bg-color);
+    font-size: 0.8rem;
+    font-weight: 600;
+    padding: 6px 8px;
+    border-radius: 12px;
+    text-align: center;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+@keyframes scroll-text {
+    0%, 20% { transform: translateX(0); }
+    90%, 100% { transform: translateX(calc(var(--scroll-distance, 0) * -1)); }
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.01); }
+    100% { transform: scale(1); }
+}
+
+
+/* Key features */
+.div-key-features {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+
+.div-scrollable {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    padding: 10px;
+    overflow-x: scroll;
+    scrollbar-width: none;
+    scrollbar-color: var(--primary-color) var(--dark-bg-color);
+    pointer-events: none;
+    white-space: nowrap;
+}
+
+.key-feature-card {
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 10px;
+    padding: 20px;
+    width: 250px;
+    min-height: 150px;
+    color: white;
+    font-size: 16px;
+    text-align: center;
+    transition: all 0.2s ease-in-out;
+}
+
+.key-feature-card:hover {
+    background-color: rgba(255, 255, 255, 0.07);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+
+/* BARS */
+.div-bar-entries {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    margin-top: 15px;
+}
+
+.bar-artist {
+    display: flex;
+    align-items: center;
+    position: relative;
+    padding: 8px 12px;
+    color: #333;
+    background-color: var(--primary-color);
+    border-radius: 20px;
+    font-size: 1rem;
+    font-weight: bold;
+    transition: width 0.5s ease-in-out;
+}
+
+.bar-artist-image {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    position: absolute;
+    right: 3px;
+}
+
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .music-card {
+        max-width: 100%;
+        gap: 8px;
+        padding: 6px;
+    }
+
+    .music-card img {
+        width: 60px;
+        height: 60px;
+    }
+
+    .music-title {
+        font-size: 0.8rem;
+    }
+
+    .music-artist {
+        font-size: 0.7rem;
+    }
+
+    .music-infos {
+        font-size: 0.6rem;
+    }
+
+    .bar-artist {
+        font-size: 0.8rem;
+    }
+    .bar-artist-image {
+        width: 30px;
+        height: 30px;
+    }
+
+}

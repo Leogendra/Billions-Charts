@@ -1,0 +1,23 @@
+.next-arrow-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.next-arrow {
+    height: 200px;
+    width: 200px;
+    margin-bottom: 3rem;
+    -webkit-animation: anim-arrow 5s linear infinite;
+    animation: anim-arrow 5s linear infinite;
+}
+
+@keyframes anim-arrow {
+    0% {
+        stroke-dashoffset: 300
+
+    }
+    100% {
+        stroke-dashoffset: 0
+    }
+}
