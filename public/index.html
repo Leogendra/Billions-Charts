@@ -32,7 +32,7 @@
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=help" />
     <!-- Styles -->
-    <link rel="stylesheet" href="styles/caroussel.css">
+    <link rel="stylesheet" href="styles/sliders.css">
     <link rel="stylesheet" href="styles/styles.css">
     <link rel="stylesheet" href="styles/charts.css">
     <link rel="stylesheet" href="styles/decoration.css">
@@ -94,8 +94,12 @@
         <div class="chart-container" open>
             <div class="div-key-features">
                 <h3>✨ Key infos ✨<h3>
-                    <div class="div-scrollable" id="div-scrollable">
-                            <div>Coming soon...</div>
+                    <div class="div-slider" style="--width: 100px; --height: 100px; --quantity: 3;">
+                        <div class="slider" id="slider-features">
+                            <div class="slider-item" style="--position: 1">Coming soon 1</div>
+                            <div class="slider-item" style="--position: 2">Coming soon 2</div>
+                            <div class="slider-item" style="--position: 3">Coming soon 3</div>
+                        </div>
                     </div>
             </div>
         </div>
@@ -106,41 +110,35 @@
         </details>
 
         <details class="chart-container" open>
-            <summary class="chart-title">🔥 Trending Tracks <span class="material-symbols-outlined">help</span>
-            </summary>
+            <summary class="chart-title">🔥 Trending Tracks <span class="material-symbols-outlined">help</span></summary>
             <div class="div-cards-entries" id="trending-tracks"></div>
         </details>
 
         <details class="chart-container" open>
-            <summary class="chart-title">🔊 Most streamed artists
-            </summary>
+            <summary class="chart-title">🔊 Most streamed artists</summary>
             <div class="div-bar-entries" id="artists-most-streamed">
             </div>
         </details>
 
         <details class="chart-container" open>
-            <summary class="chart-title"> 🎼 Artists with more songs
-            </summary>
+            <summary class="chart-title">🎼 Artists with more songs</summary>
             <div class="div-bar-entries" id="artists-most-songs">
             </div>
         </details>
 
         <details class="chart-container" open>
-            <summary class="chart-title">⏳ Artists with more time
-            </summary>
+            <summary class="chart-title">⏳ Artists with more time</summary>
             <div class="div-bar-entries" id="artists-most-time">
             </div>
         </details>
 
         <details class="chart-container" open>
-            <summary class="chart-title">Track release by year
-            </summary>
+            <summary class="chart-title">Track release by year</summary>
             <canvas class="scatter-plot" id="histo-plot-year"></canvas>
         </details>
 
         <details class="chart-container" open>
-            <summary class="chart-title">Track release by months
-            </summary>
+            <summary class="chart-title">Track release by months</summary>
             <canvas class="scatter-plot" id="histo-plot-month"></canvas>
         </details>
 
@@ -195,7 +193,7 @@
     <script src="scripts/features.js"></script>
     <script src="scripts/sections.js"></script>
     <script src="scripts/graphs.js"></script>
-    <script src="scripts/caroussel.js"></script>
+    <script src="scripts/sliders.js"></script>
     <script src="scripts/decoration.js"></script>
     <script src="scripts/script.js"></script>
 </body>
