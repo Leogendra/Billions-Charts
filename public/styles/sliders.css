@@ -6,7 +6,7 @@
     overflow: hidden;
     mask-image: linear-gradient(to right,
             transparent,
-            #000 10% 90%,
+            var(--main-bg-color) 5% 95%,
             transparent);
 }
 
@@ -18,17 +18,19 @@
 }
 
 .slider-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: red;
+    border-radius: 15px;
     width: var(--width);
     height: var(--height);
     position: absolute;
     left: 100%;
-    animation: autoRun 10s linear infinite;
+    animation: autoRun var(--duration) linear infinite;
     transition: filter 0.5s;
-    animation-delay: calc((10s / var(--quantity)) * (var(--position) - 1) - 10s) !important;
-}
-
-.slider-item img {
-    width: 100%;
+    animation-delay: calc((var(--duration) / var(--quantity)) * (var(--position) - 1) - var(--duration)) !important;
 }
 
 @keyframes autoRun {
@@ -41,27 +43,13 @@
     }
 }
 
-.slider:hover .slider-item {
+.div-slider:hover .slider-item {
     animation-play-state: paused !important;
-    filter: grayscale(1);
+    filter: grayscale(0.8);
 }
 
 .slider-item:hover {
-    filter: grayscale(0);
-}
-
-.slider[reverse="true"] .slider-item {
-    animation: reversePlay 10s linear infinite;
-}
-
-@keyframes reversePlay {
-    from {
-        left: calc(var(--width) * -1);
-    }
-
-    to {
-        left: 100%;
-    }
+    filter: grayscale(0) !important;
 }
 
 

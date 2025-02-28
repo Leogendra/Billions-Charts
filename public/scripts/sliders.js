@@ -1,34 +1,52 @@
-const scrollable_section = document.querySelector("#div-scrollable");
+const div_key_features = document.querySelector(".div-key-features");-1
+
+const key_feature_templates = [
+    "There is {two_billion_count} songs that have been streamed over 2 billion times, that's {two_billion_percentage}% of all songs.",
+    "This number goes down to {three_billion_percentage}% for songs over 3 billion streams.",
+    "Only {four_billion_count} songs have been streamed over 4 billion times! The last one is {four_billion_song} by {four_billion_artist}.",
+    "The latest song to receive over a billion streams is {latest_song} by {latest_artist}, released on {latest_date}.",
+    "The oldest song to receive over a billion streams is {oldest_song} by {oldest_artist}, released in {oldest_date}.",
+    "The shortest song is {shortest_song} by {shortest_artist}, at {shortest_duration}.",
+    "The longest song is {longest_song} by {longest_artist}, at {longest_duration}.",
+];
 
 
 
 
-const handleMouseMove = (e) => {
-    if (scrollable_section.dataset.mouseDownAt === "0") { return; };
-    const mouseDelta = parseFloat(track.dataset.mouseDownAt) - e.clientX;
-    const maxDelta = window.innerWidth / 2;
-
-    const percentage = (mouseDelta / maxDelta) * -100;
-    const nextPercentageUnconstrained = parseFloat(scrollable_section.dataset.prevPercentage || "0") + percentage;
-
-    // Allows the first and the last element to be scrolled to the center
-    const nextPercentage = Math.max(Math.min(nextPercentageUnconstrained, 30), -65);
-    scrollable_section.dataset.percentage = nextPercentage;
-    scrollable_section.style.transform = `translate(${nextPercentage}%, 0%)`;
-};
+function formatKeyFeature(template, data) {
+    return template.replace(/\{(\w+)\}/g, (_, key) => data[key] ?? "N/A");
+}
 
 
-const handleMouseDown = (e) => {
-    scrollable_section.dataset.mouseDownAt = e.clientX;
-};
+async function get_key_features(max_elements) {
+    const data = key_feature_templates;
+    let animation_duration = max_elements * 3 + "s";
 
-const handleMouseUp = () => {
-    scrollable_section.dataset.mouseDownAt = "0";
-    scrollable_section.dataset.prevPercentage = scrollable_section.dataset.percentage;
-};
+    let slider_element = document.createElement("div");
+    slider_element.classList.add("div-slider");
+    slider_element.style.setProperty("--width", "300px");
+    slider_element.style.setProperty("--height", "200px");
+    slider_element.style.setProperty("--duration", animation_duration);
+    slider_element.style.setProperty("--quantity", max_elements);
 
-// add events
-scrollable_section.addEventListener("mousedown", handleMouseDown);
-scrollable_section.addEventListener("mousemove", handleMouseMove);
-scrollable_section.addEventListener("mouseup", handleMouseUp);
-scrollable_section.addEventListener("mouseleave", handleMouseUp);
+    // Create the slider list
+    const slider_list = document.createElement("div");
+    slider_list.classList.add("slider");
+    slider_list.id = "slider-features";
+
+    // Generate the cards with the data
+    for (let i = 0; i < max_elements; i++) {
+        const template = key_feature_templates[i] || "Coming soon...";
+        const formattedText = formatKeyFeature(template, data);
+
+        const slider_item = document.createElement("div");
+        slider_item.classList.add("slider-item");
+        slider_item.style.setProperty("--position", i + 1);
+        slider_item.textContent = formattedText;
+
+        slider_list.appendChild(slider_item);
+    }
+
+    slider_element.appendChild(slider_list);
+    div_key_features.appendChild(slider_element);
+}
