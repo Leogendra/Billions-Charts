@@ -13,19 +13,18 @@ const key_feature_templates = [
 
 
 
-function formatKeyFeature(template, data) {
+function format_key_feature(template, data) {
     return template.replace(/\{(\w+)\}/g, (_, key) => data[key] ?? "N/A");
 }
 
 
-async function get_key_features(max_elements) {
+async function get_key_features() {
+    const max_elements = key_feature_templates.length;
     const data = key_feature_templates;
     let animation_duration = max_elements * 3 + "s";
 
     let slider_element = document.createElement("div");
     slider_element.classList.add("div-slider");
-    slider_element.style.setProperty("--width", "300px");
-    slider_element.style.setProperty("--height", "200px");
     slider_element.style.setProperty("--duration", animation_duration);
     slider_element.style.setProperty("--quantity", max_elements);
 
@@ -36,8 +35,8 @@ async function get_key_features(max_elements) {
 
     // Generate the cards with the data
     for (let i = 0; i < max_elements; i++) {
-        const template = key_feature_templates[i] || "Coming soon...";
-        const formattedText = formatKeyFeature(template, data);
+        const template = key_feature_templates[i];
+        const formattedText = format_key_feature(template, data);
 
         const slider_item = document.createElement("div");
         slider_item.classList.add("slider-item");

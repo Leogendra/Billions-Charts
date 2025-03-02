@@ -1,4 +1,10 @@
 /* Automatic slider */
+:root {
+    --width: 150px;
+    --height: 200px;
+    /* --duration: 20s; */
+    /* --quantity: 5; */
+}
 
 .div-slider {
     width: 100%;
@@ -22,7 +28,11 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background-color: red;
+    background-color: var(--primary-color-darker);
+    color: black;
+    padding: 20px 10px;
+    font-size: 0.9rem;
+    text-align: center;
     border-radius: 15px;
     width: var(--width);
     height: var(--height);
@@ -34,22 +44,17 @@
 }
 
 @keyframes autoRun {
-    from {
-        left: 100%;
-    }
-
-    to {
-        left: calc(var(--width) * -1);
-    }
+    from { left: 100%; }
+    to { left: calc(var(--width) * -1); }
 }
 
 .div-slider:hover .slider-item {
     animation-play-state: paused !important;
-    filter: grayscale(0.8);
+    /* background-color: var(--primary-color-darker); */
 }
 
 .slider-item:hover {
-    filter: grayscale(0) !important;
+    background-color: var(--primary-color) !important;
 }
 
 
