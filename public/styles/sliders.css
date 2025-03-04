@@ -1,7 +1,7 @@
 /* Automatic slider */
 :root {
-    --width: 150px;
-    --height: 200px;
+    --width: 250px;
+    --height: 300px;
     /* --duration: 20s; */
     /* --quantity: 5; */
 }
@@ -11,13 +11,12 @@
     height: var(--height);
     overflow: hidden;
     mask-image: linear-gradient(to right,
-            transparent,
-            var(--main-bg-color) 5% 95%,
-            transparent);
+                transparent,
+                var(--main-bg-color) 5% 95%,
+                transparent);
 }
 
 .slider {
-    display: flex;
     width: 100%;
     min-width: calc(var(--width) * var(--quantity));
     position: relative;
@@ -43,6 +42,10 @@
     animation-delay: calc((var(--duration) / var(--quantity)) * (var(--position) - 1) - var(--duration)) !important;
 }
 
+.slider-text {
+    font-size: 1.1rem;
+}
+
 @keyframes autoRun {
     from { left: 100%; }
     to { left: calc(var(--width) * -1); }
@@ -57,20 +60,10 @@
     background-color: var(--primary-color) !important;
 }
 
-
-/* Manual slider */
-
-#image-track {
-    display: flex;
-    flex-direction: row;
-    width: fit-content;
-    gap: 20px;
-    user-select: none;
-}
-
-#image-track>.image {
-    width: 100px;
-    height: 100px;
-    object-fit: cover;
-    object-position: 100% center;
+/* media queries */
+@media screen and (max-width: 768px) {
+    :root {
+        --width: 180px;
+        --height: 250px;
+    }
 }

@@ -14,13 +14,14 @@ const key_feature_templates = [
 
 
 function format_key_feature(template, data) {
-    return template.replace(/\{(\w+)\}/g, (_, key) => data[key] ?? "N/A");
+    return template.replace(/\{(\w+)\}/g, (_, key) => `<span class="important-link">${data[key]}</span>` || "???");
 }
 
 
-async function get_key_features() {
+async function get_key_features(report) {
+    template_data = report.template_data;
+
     const max_elements = key_feature_templates.length;
-    const data = key_feature_templates;
     let animation_duration = max_elements * 3 + "s";
 
     let slider_element = document.createElement("div");
@@ -36,12 +37,16 @@ async function get_key_features() {
     // Generate the cards with the data
     for (let i = 0; i < max_elements; i++) {
         const template = key_feature_templates[i];
-        const formattedText = format_key_feature(template, data);
+        const formattedText = format_key_feature(template, template_data);
+
+        const slider_text = document.createElement("div");
+        slider_text.classList.add("slider-text");
+        slider_text.innerHTML = formattedText;
 
         const slider_item = document.createElement("div");
         slider_item.classList.add("slider-item");
         slider_item.style.setProperty("--position", i + 1);
-        slider_item.textContent = formattedText;
+        slider_item.appendChild(slider_text);
 
         slider_list.appendChild(slider_item);
     }

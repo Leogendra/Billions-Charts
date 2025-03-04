@@ -163,6 +163,46 @@ def aggregate_periods(tracks):
     return dict(year_count), dict(month_count)
 
 
+def get_template_data(tracks, report):
+    total_tracks = report["total_tracks"]
+    
+    two_billion_count = sum(1 for track in tracks if (track["playcount"] >= 2_000_000_000))
+    three_billion_count = sum(1 for track in tracks if (track["playcount"] >= 3_000_000_000))
+    four_billion_count = sum(1 for track in tracks if (track["playcount"] >= 4_000_000_000))
+
+    two_billion_percentage = round((two_billion_count / total_tracks) * 100, 2)
+    three_billion_percentage = round((three_billion_count / total_tracks) * 100, 2)
+    
+    latest_billion = report["newest_billions"][0]
+    oldest_billion = report["fastest_billions"][-1]
+    shortest_song = report["most_short_tracks"][0]
+    longest_song = report["most_long_tracks"][0]
+
+    data = {
+        "two_billion_count": two_billion_count,
+        "two_billion_percentage": two_billion_percentage,
+        "three_billion_percentage": three_billion_percentage,
+        "four_billion_count": four_billion_count,
+        "four_billion_song": four_billion_count and report["most_streamed_tracks"][0]["name"] or "N/A",
+        "four_billion_artist": four_billion_count and report["most_streamed_tracks"][0]["artists"][0]["name"] or "N/A",
+        "latest_song": latest_billion["name"],
+        "latest_artist": latest_billion["artists"][0]["name"],
+        "latest_date": latest_billion["added_at"],
+        "oldest_song": oldest_billion["name"],
+        "oldest_artist": oldest_billion["artists"][0]["name"],
+        "oldest_date": oldest_billion["added_at"],
+        "shortest_song": shortest_song["name"],
+        "shortest_artist": shortest_song["artists"][0]["name"],
+        "shortest_duration": f"{shortest_song['duration_ms'] // 60000}:{(shortest_song['duration_ms'] // 1000) % 60:02d}",
+        "longest_song": longest_song["name"],
+        "longest_artist": longest_song["artists"][0]["name"],
+        "longest_duration": f"{longest_song['duration_ms'] // 60000}:{(longest_song['duration_ms'] // 1000) % 60:02d}"
+    }
+
+    return data
+
+
+
 def generate_report(dataPath, outputReportPath, WRITE_TO_DATABASE):
     if WRITE_TO_DATABASE:
         dateKey = dataPath.split("_")[-1].split(".")[0]
@@ -211,8 +251,9 @@ def generate_report(dataPath, outputReportPath, WRITE_TO_DATABASE):
         "most_long_tracks": most_long_tracks,
         "most_short_tracks": most_short_tracks,
         "year_count": year_count,
-        "month_count": month_count
+        "month_count": month_count,
     }
+    final_report["template_data"] = get_template_data(tracks, final_report)
 
     with open(outputReportPath, 'w', encoding='utf-8') as f:
         json.dump(final_report, f, ensure_ascii=False, indent=4)

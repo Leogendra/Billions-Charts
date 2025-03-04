@@ -204,7 +204,7 @@ async function main() {
 
     // await all
     add_scrolling_cards();
-    get_key_features(10);
+    get_key_features(report);
 }
 
 
