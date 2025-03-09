@@ -166,12 +166,12 @@ def aggregate_periods(tracks):
 def get_template_data(tracks, report):
     total_tracks = report["total_tracks"]
     
-    two_billion_count = sum(1 for track in tracks if (track["playcount"] >= 2_000_000_000))
-    three_billion_count = sum(1 for track in tracks if (track["playcount"] >= 3_000_000_000))
-    four_billion_count = sum(1 for track in tracks if (track["playcount"] >= 4_000_000_000))
+    two_billion_count = int(sum(1 for track in tracks if (track["playcount"] >= 2_000_000_000)))
+    three_billion_count = int(sum(1 for track in tracks if (track["playcount"] >= 3_000_000_000)))
+    four_billion_count = int(sum(1 for track in tracks if (track["playcount"] >= 4_000_000_000)))
 
-    two_billion_percentage = round((two_billion_count / total_tracks) * 100, 2)
-    three_billion_percentage = round((three_billion_count / total_tracks) * 100, 2)
+    two_billion_percentage = round(100*(two_billion_count / total_tracks), 2)
+    three_billion_percentage = round(100*(three_billion_count / total_tracks), 2)
     
     latest_billion = report["newest_billions"][0]
     oldest_billion = report["fastest_billions"][-1]
@@ -181,6 +181,7 @@ def get_template_data(tracks, report):
     data = {
         "two_billion_count": two_billion_count,
         "two_billion_percentage": two_billion_percentage,
+        "three_billion_count": three_billion_count,
         "three_billion_percentage": three_billion_percentage,
         "four_billion_count": four_billion_count,
         "four_billion_song": four_billion_count and report["most_streamed_tracks"][0]["name"] or "N/A",
