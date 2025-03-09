@@ -15,22 +15,18 @@
     <meta property="og:url" content="https://billions-charts.gatienh.fr/" />
     <meta property="og:title" content="Billions Charts" />
     <meta property="og:image" content="assets/meta_tags_image.png" />
-    <meta property="og:description"
-        content="Get ready to explore charts about the songs with over one billion streams 📈" />
+    <meta property="og:description" content="Get ready to explore charts about the songs with over one billion streams 📈" />
     <!-- Twitter  -->
     <meta property="twitter:card" content="summary_large_image" />
     <meta property="twitter:image" content="assets/meta_tags_image.png" />
     <meta property="twitter:url" content="https://billions-charts.gatienh.fr/" />
     <meta property="twitter:title" content="Billions Charts" />
-    <meta property="twitter:description"
-        content="Get ready to explore charts about the songs with over one billion streams 📈" />
+    <meta property="twitter:description" content="Get ready to explore charts about the songs with over one billion streams 📈" />
 
-    <!-- Odometer -->
-    <link rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/odometer.js/0.4.7/themes/odometer-theme-default.css" />
     <!-- Material Icons -->
-    <link rel="stylesheet"
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=help" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=help" />
+    <!-- Odometer -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/odometer.js/0.4.7/themes/odometer-theme-default.css" />
     <!-- Styles -->
     <link rel="stylesheet" href="styles/sliders.css">
     <link rel="stylesheet" href="styles/styles.css">
@@ -50,8 +46,8 @@
         <div class="intro">
             <p class="intro-text">
                 Discover the hits of the
-                <a class="important-link" href='https://open.spotify.com/playlist/37i9dQZF1DX7iB3RCnBnN4'
-                    target="_blank">Billions Club</a>: songs with more than one billion streams on Spotify.
+                <a class="important-link" href='https://open.spotify.com/playlist/37i9dQZF1DX7iB3RCnBnN4' target="_blank">
+                    Billions Club</a>: songs with more than one billion streams on Spotify.
             </p>
             <p class="intro-text">Discover statistics, trends, and much more.</p>
 
@@ -82,11 +78,13 @@
 
 
         <div class="chart-container additional-infos">
-            <p>📅 This page uses the data available at the date of <span class="update-date accent-color">January
-                    2025</span>.</p>
-            <p>📊 The data was collected using the <a class="important-link"
-                    href="https://developer.spotify.com/documentation/web-api">Spotify
-                    Web API</a></p>
+            <p>📅 This page uses the data available at the date of 
+                <span class="update-date accent-color">January 2025</span>.</p>
+            <p>📊 The data was collected using the
+                <a class="important-link" href="https://developer.spotify.com/documentation/web-api" target="_blank">
+                    Spotify Web API
+                </a>
+            </p>
         </div>
 
         <div class="next-arrow-container"></div>
@@ -126,12 +124,12 @@
         </details>
 
         <details class="chart-container" open>
-            <summary class="chart-title">Track release by year</summary>
+            <summary class="chart-title">📅 Track release by year</summary>
             <canvas class="scatter-plot" id="histo-plot-year"></canvas>
         </details>
 
         <details class="chart-container" open>
-            <summary class="chart-title">Track release by months</summary>
+            <summary class="chart-title">🗓️ Track release by months</summary>
             <canvas class="scatter-plot" id="histo-plot-month"></canvas>
         </details>
 
@@ -183,6 +181,7 @@
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="scripts/_odometer.js"></script>
+
     <script src="scripts/features.js"></script>
     <script src="scripts/sections.js"></script>
     <script src="scripts/graphs.js"></script>

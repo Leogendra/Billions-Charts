@@ -27,10 +27,9 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background-color: var(--primary-color-darker);
+    background-color: var(--primary-color);
     color: black;
     padding: 20px 10px;
-    font-size: 0.9rem;
     text-align: center;
     border-radius: 15px;
     width: var(--width);
@@ -38,32 +37,23 @@
     position: absolute;
     left: 100%;
     animation: autoRun var(--duration) linear infinite;
-    transition: filter 0.5s;
     animation-delay: calc((var(--duration) / var(--quantity)) * (var(--position) - 1) - var(--duration)) !important;
+    transition: all 0.5s;
+}
+
+.div-slider:hover .slider-item {
+    animation-play-state: paused !important;
+}
+
+.slider-item:hover {
+    background-color: var(--primary-color-darker) !important;
 }
 
 .slider-text {
-    font-size: 1.1rem;
+    font-size: 1.2rem;
 }
 
 @keyframes autoRun {
     from { left: 100%; }
     to { left: calc(var(--width) * -1); }
-}
-
-.div-slider:hover .slider-item {
-    animation-play-state: paused !important;
-    /* background-color: var(--primary-color-darker); */
-}
-
-.slider-item:hover {
-    background-color: var(--primary-color) !important;
-}
-
-/* media queries */
-@media screen and (max-width: 768px) {
-    :root {
-        --width: 180px;
-        --height: 250px;
-    }
 }
