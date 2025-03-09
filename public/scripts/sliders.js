@@ -3,7 +3,7 @@ const div_key_features = document.querySelector(".div-key-features");-1
 const KEY_FEATURES_TEMPLATE = [
     "There is {two_billion_count} songs that have been streamed over 2 billion times, that's {two_billion_percentage}% of all songs.",
     "This number goes down to {three_billion_count} for songs over 3 billion streams ({three_billion_percentage}%).",
-    "Only {four_billion_count} songs have been streamed over 4 billion times! The higher one is {four_billion_song} by {four_billion_artist}.",
+    "Only {four_billion_count} songs have been streamed over 4 billion times! The most streamed is is {four_billion_song} by {four_billion_artist}.",
     "The latest song to receive over a billion streams is {latest_song} by {latest_artist}, released on {latest_date}.",
     "The oldest song to receive over a billion streams is {oldest_song} by {oldest_artist}, released in {oldest_date}.",
     "The shortest song is {shortest_song} by {shortest_artist}, at {shortest_duration}.",
