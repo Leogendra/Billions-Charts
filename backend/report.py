@@ -4,7 +4,7 @@ from collections import defaultdict
 from datetime import datetime
 import json
 
-MAX_TOP_SONGS = 10
+MAX_TOP_SONGS = 10 # TODO: Dynamic backend limit for top songs
 
 
 
@@ -161,6 +161,66 @@ def aggregate_periods(tracks):
                 month_count[month] += 1
 
     return dict(year_count), dict(month_count)
+
+
+def get_template_data(tracks, report):
+    total_tracks = report["total_tracks"]
+    
+    two_billion_count = int(sum(1 for track in tracks if (track["playcount"] >= 2_000_000_000)))
+    three_billion_count = int(sum(1 for track in tracks if (track["playcount"] >= 3_000_000_000)))
+    four_billion_count = int(sum(1 for track in tracks if (track["playcount"] >= 4_000_000_000)))
+
+    two_billion_percentage = round(100*(two_billion_count / total_tracks), 2)
+    three_billion_percentage = round(100*(three_billion_count / total_tracks), 2)
+    
+    latest_billion = report["newest_billions"][0]
+    fastest_billion = report["fastest_billions"][0]
+    shortest_song = report["most_short_tracks"][0]
+    longest_song = report["most_long_tracks"][0]
+
+    current_year = datetime.now().year
+    year_count = sum(1 for track in tracks if (track["release_date"].startswith(str(current_year))))
+
+    most_popular_song = report["most_popular_tracks"][0]
+    most_popular_artist = most_popular_song["artists"][0]["name"]
+
+    return {
+        "two_billion_count": two_billion_count,
+        "two_billion_percentage": two_billion_percentage,
+        "three_billion_count": three_billion_count,
+        "three_billion_percentage": three_billion_percentage,
+        "four_billion_count": four_billion_count,
+        "four_billion_song": report["most_streamed_tracks"][0]["name"],
+        "four_billion_song_link": f"https://open.spotify.com/track/{report['most_streamed_tracks'][0]['id']}",
+        "four_billion_artist": report["most_streamed_tracks"][0]["artists"][0]["name"],
+        "four_billion_artist_link": f"https://open.spotify.com/artist/{report['most_streamed_tracks'][0]['artists'][0]['id']}",
+        "latest_song": latest_billion["name"],
+        "latest_song_link": f"https://open.spotify.com/track/{latest_billion['id']}",
+        "latest_artist": latest_billion["artists"][0]["name"],
+        "latest_artist_link": f"https://open.spotify.com/artist/{latest_billion['artists'][0]['id']}",
+        "latest_date": datetime.strptime(latest_billion["added_at"], "%Y-%m-%d").strftime("%B %d, %Y"),
+        "this_year_count": year_count,
+        "most_popular_song": most_popular_song["name"],
+        "most_popular_song_link": f"https://open.spotify.com/track/{most_popular_song['id']}",
+        "most_popular_artist": most_popular_artist,
+        "most_popular_artist_link": f"https://open.spotify.com/artist/{most_popular_song['artists'][0]['id']}",
+        "most_popular_streams": f"{most_popular_song['playcount'] // 1_000_000_000:.2f}B",
+        "fastest_song": fastest_billion["name"],
+        "fastest_song_link": f"https://open.spotify.com/track/{fastest_billion['id']}",
+        "fastest_artist": fastest_billion["artists"][0]["name"],
+        "fastest_artist_link": f"https://open.spotify.com/artist/{fastest_billion['artists'][0]['id']}",
+        "fastest_days": fastest_billion["billion_time"],
+        "shortest_song": shortest_song["name"],
+        "shortest_song_link": f"https://open.spotify.com/track/{shortest_song['id']}",
+        "shortest_artist": shortest_song["artists"][0]["name"],
+        "shortest_artist_link": f"https://open.spotify.com/artist/{shortest_song['artists'][0]['id']}",
+        "shortest_duration": f"{shortest_song['duration_ms'] // 60000}:{(shortest_song['duration_ms'] // 1000) % 60:02d}",
+        "longest_song": longest_song["name"],
+        "longest_song_link": f"https://open.spotify.com/track/{longest_song['id']}",
+        "longest_artist": longest_song["artists"][0]["name"],
+        "longest_artist_link": f"https://open.spotify.com/artist/{longest_song['artists'][0]['id']}",
+        "longest_duration": f"{longest_song['duration_ms'] // 60000}:{(longest_song['duration_ms'] // 1000) % 60:02d}"
+    }
 
 
 def generate_report(dataPath, outputReportPath, WRITE_TO_DATABASE):
