@@ -179,7 +179,7 @@ def get_template_data(tracks, report):
     longest_song = report["most_long_tracks"][0]
 
     current_year = datetime.now().year
-    year_count = sum(1 for track in tracks if (track["release_date"].startswith(str(current_year))))
+    year_count = sum(1 for track in tracks if (track["added_at"].startswith(str(current_year))))
 
     most_popular_song = report["most_popular_tracks"][0]
     most_popular_artist = most_popular_song["artists"][0]["name"]
