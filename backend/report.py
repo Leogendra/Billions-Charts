@@ -271,8 +271,9 @@ def generate_report(dataPath, outputReportPath, WRITE_TO_DATABASE):
         "most_long_tracks": most_long_tracks,
         "most_short_tracks": most_short_tracks,
         "year_count": year_count,
-        "month_count": month_count
+        "month_count": month_count,
     }
+    final_report["template_data"] = get_template_data(tracks, final_report)
 
     with open(outputReportPath, 'w', encoding='utf-8') as f:
         json.dump(final_report, f, ensure_ascii=False, indent=4)

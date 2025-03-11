@@ -138,4 +138,7 @@ details[open] .chart-title::before {
     #playlist-description {
         font-size: 1.1rem;
     }
+    .div-cards-entries {
+        gap: 5px;
+    }
 }

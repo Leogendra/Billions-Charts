@@ -7,6 +7,7 @@ from backend.report import (
 )
 from dotenv import load_dotenv
 import datetime
+import time
 import os
 
 load_dotenv()
@@ -23,6 +24,7 @@ WRITE_TO_DATABASE = True # If False, will write to json files instead of databas
 def search():
     password = request.args.get("password", "")
     if password != PASSWORD:
+        time.sleep(2)
         return jsonify(
             {
                 "message": "Access denied!",
@@ -55,6 +57,7 @@ def search():
 def report(dateKey):
     password = request.args.get("password", "")
     if password != PASSWORD:
+        time.sleep(2)
         return jsonify(
             {
                 "message": "Access denied!",
@@ -81,6 +84,7 @@ def report(dateKey):
 def leaderboard(dateKey):
     password = request.args.get("password", "")
     if password != PASSWORD:
+        time.sleep(2)
         return jsonify(
             {
                 "message": "Access denied!",
