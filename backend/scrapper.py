@@ -20,9 +20,12 @@ def get_access_token():
     url = "https://accounts.spotify.com/api/token"
     headers = {"Content-Type": "application/x-www-form-urlencoded"}
     data = {"grant_type": "client_credentials"}
-    response = requests.post(url, headers=headers, data=data, auth=(CLIENT_ID, CLIENT_SECRET))
-    response.raise_for_status()
-    return response.json()["access_token"]
+    try:
+        response = requests.post(url, headers=headers, data=data, auth=(CLIENT_ID, CLIENT_SECRET))
+        response.raise_for_status()
+        return response.json()["access_token"]
+    except Exception as e:
+        raise Exception("Error in while fetching access token:", e)
 
 
 def fetch_playlist_infos(dataPath, WRITE_TO_DATABASE):
@@ -39,12 +42,18 @@ def fetch_playlist_infos(dataPath, WRITE_TO_DATABASE):
         
     # Fetch playlist infos from Spotify
     create_folder("data/tracks/")
-    playlist = PublicPlaylist(PLAYLIST_ID)
+    try:
+        playlist = PublicPlaylist(PLAYLIST_ID)
+    except Exception as e:
+        raise Exception("Error while creating PublicPlaylist:", e)
 
     print("Fetching playlist infos...")
-    playlist_info = playlist.get_playlist_info(limit=1000)
-    if not(playlist_info["data"]):
-        raise Exception("Critical Error while fetching playlist infos:", playlist_info["errors"])
+    try:
+        playlist_info = playlist.get_playlist_info(limit=5000)
+        if not(playlist_info["data"]):
+            raise Exception("Error while fetching playlist infos:", playlist_info["errors"] if playlist_info["errors"] else "No data returned")
+    except Exception as e:
+        raise Exception("Critical Error while fetching playlist infos:", e)
     
     raw_data = playlist_info["data"]["playlistV2"]
 
