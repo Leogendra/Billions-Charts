@@ -180,6 +180,7 @@ async function main() {
     await Promise.all([
         update_counters(report),
         update_playlist_infos(report),
+        update_pills(),
 
         update_new_entries(report),
         update_trendings(report),
