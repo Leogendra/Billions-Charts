@@ -80,18 +80,6 @@ details[open] .chart-title::before {
     text-align: center;
 }
 
-
-/* Cards entries */
-.div-cards-entries {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
-    margin-top: 20px;
-}
-
-
 /* Trending */
 .charts-trending {
     display: flex;
