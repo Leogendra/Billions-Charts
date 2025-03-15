@@ -181,6 +181,7 @@ async function main() {
         update_counters(report),
         update_playlist_infos(report),
 
+        // Tracks sections
         update_new_entries(report),
         update_trendings(report),
         update_newest(report),
@@ -191,19 +192,22 @@ async function main() {
         update_most_long(report),
         update_most_short(report),
 
+        // Artists sections
         update_artists_most_streamed(report),
         update_artists_most_songs(report),
         update_artists_most_time(report),
 
-        // create_point_graph(report),
+        // Charts sections
         create_histogram_month(report),
         create_histogram_year(report),
-
+    ]);
+    
+    await Promise.all([
+        add_scrolling_cards(),
         place_arrow(),
     ]);
 
-    // await all
-    add_scrolling_cards();
+    update_pills(),
     get_key_features(report);
 }
 

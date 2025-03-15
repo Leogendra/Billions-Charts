@@ -17,7 +17,7 @@
     <meta property="og:image" content="assets/meta_tags_image.png" />
     <meta property="og:description" content="Get ready to explore charts about the songs with over one billion streams 📈" />
     <!-- Twitter  -->
-    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:card" content="div_large_image" />
     <meta property="twitter:image" content="assets/meta_tags_image.png" />
     <meta property="twitter:url" content="https://billions-charts.gatienh.fr/" />
     <meta property="twitter:title" content="Billions Charts" />
@@ -42,7 +42,6 @@
     </div>
 
     <div class="main-container">
-
         <div class="intro">
             <p class="intro-text">
                 Discover the hits of the
@@ -76,7 +75,6 @@
             </div>
         </div>
 
-
         <div class="chart-container additional-infos">
             <p>📅 This page uses the data available at the date of 
                 <span class="update-date accent-color">January 2025</span>.</p>
@@ -91,7 +89,7 @@
 
         <div class="chart-container" open>
             <div class="div-key-features">
-                <h3>✨ Key infos ✨</h3>
+                <div class="key-feature-text">✨ Key infos ✨</div>
                 <div class="div-slider">
                     <button class="slider-button slider-button-left">&lt;</button>
                     <div class="slider-features" id="slider-features"></div>
@@ -100,79 +98,95 @@
             </div>
         </div>
 
-        <details class="chart-container" open>
-            <summary class="chart-title">🆕 Last entries: <span class="new-entries-date accent-color"></span></summary>
+        <div class="pill-section">
+            <div class="pill-name">Hall of streams</div>
+            <div class="pill-container" id="pills-tracks"></div>
+        </div>
+
+        <div class="chart-container section-tracks" id="container-new-entries" open>
+            <div class="chart-title">🆕 Last entries: <span class="new-entries-date accent-color"></span></div>
             <div class="div-cards-entries" id="new-entries"></div>
-        </details>
+        </div>
 
-        <details class="chart-container" open>
-            <summary class="chart-title">🔥 Trending Tracks <span class="material-symbols-outlined">help</span></summary>
+        <div class="chart-container section-tracks" id="container-trending-tracks" open>
+            <div class="chart-title">🔥 Trending Tracks <span class="material-symbols-outlined">help</span></div>
             <div class="div-cards-entries" id="trending-tracks"></div>
-        </details>
+        </div>
 
-        <details class="chart-container" open>
-            <summary class="chart-title">🔊 Most streamed artists</summary>
+        <div class="chart-container section-tracks" id="container-newest-tracks" open>
+            <div class="chart-title">👶 Newest Tracks</div>
+            <div class="div-cards-entries" id="newest-tracks"></div>
+        </div>
+
+        <div class="chart-container section-tracks" id="container-oldest-tracks" open>
+            <div class="chart-title">👴 Oldest Tracks</div>
+            <div class="div-cards-entries" id="oldest-tracks"></div>
+        </div>
+
+        <div class="chart-container section-tracks" id="container-fastest-tracks" open>
+            <div class="chart-title">🏁 Fastest Billionaires <span class="material-symbols-outlined">help</span></div>
+            <div class="div-cards-entries" id="fastest-tracks"></div>
+        </div>
+
+        <div class="chart-container section-tracks" id="container-most-streamed" open>
+            <div class="chart-title">📈 Most streamed Tracks</div>
+            <div class="div-cards-entries" id="most-streamed"></div>
+        </div>
+
+        <div class="chart-container section-tracks" id="container-least-streamed" open>
+            <div class="chart-title">🌱 Least streamed Tracks</div>
+            <div class="div-cards-entries" id="least-streamed"></div>
+        </div>
+
+        <div class="chart-container section-tracks" id="container-most-long" open>
+            <div class="chart-title">⏳ Longests Tracks</div>
+            <div class="div-cards-entries" id="most-long"></div>
+        </div>
+
+        <div class="chart-container section-tracks" id="container-most-short" open>
+            <div class="chart-title">⚡ Shortest Tracks</div>
+            <div class="div-cards-entries" id="most-short"></div>
+        </div>
+
+
+        <div class="pill-section">
+            <div class="pill-name">Who's at the top</div>
+            <div class="pill-container" id="pills-artists"></div>
+        </div>
+
+        <div class="chart-container section-artists" id="container-artists-most-streamed" open>
+            <div class="chart-title">🔊 Most streamed artists</div>
             <div class="div-bar-entries" id="artists-most-streamed">
             </div>
-        </details>
+        </div>
 
-        <details class="chart-container" open>
-            <summary class="chart-title">🎼 Artists with more songs</summary>
+        <div class="chart-container section-artists" id="container-artists-most-songs" open>
+            <div class="chart-title">🎼 Artists with more songs</div>
             <div class="div-bar-entries" id="artists-most-songs">
             </div>
-        </details>
+        </div>
 
-        <details class="chart-container" open>
-            <summary class="chart-title">⏳ Artists with more time</summary>
+        <div class="chart-container section-artists" id="container-artists-most-time" open>
+            <div class="chart-title">⏳ Artists with more time <span class="material-symbols-outlined">help</span></div>
             <div class="div-bar-entries" id="artists-most-time">
             </div>
-        </details>
+        </div>
 
-        <details class="chart-container" open>
-            <summary class="chart-title">📅 Track release by year</summary>
+
+        <div class="pill-section">
+            <div class="pill-name">Billions over time</div>
+            <div class="pill-container" id="pills-graphs"></div>
+        </div>
+
+        <div class="chart-container section-graphs" id="container-histo-plot-year" open>
+            <div class="chart-title">📅 Track release by year <span class="material-symbols-outlined">help</span></div>
             <canvas class="scatter-plot" id="histo-plot-year"></canvas>
-        </details>
+        </div>
 
-        <details class="chart-container" open>
-            <summary class="chart-title">🗓️ Track release by months</summary>
+        <div class="chart-container section-graphs" id="container-histo-plot-month" open>
+            <div class="chart-title">🗓️ Track release by months</div>
             <canvas class="scatter-plot" id="histo-plot-month"></canvas>
-        </details>
-
-        <details class="chart-container" open>
-            <summary class="chart-title">👶 Newest Tracks</summary>
-            <div class="div-cards-entries" id="newest-tracks"></div>
-        </details>
-
-        <details class="chart-container" open>
-            <summary class="chart-title">👴 Oldest Tracks</summary>
-            <div class="div-cards-entries" id="oldest-tracks"></div>
-        </details>
-
-        <details class="chart-container" open>
-            <summary class="chart-title">🏁 Fastest Billionaires</summary>
-            <div class="div-cards-entries" id="fastest-tracks"></div>
-        </details>
-
-        <details class="chart-container" open>
-            <summary class="chart-title">📈 Most streamed Tracks</summary>
-            <div class="div-cards-entries" id="most-streamed"></div>
-        </details>
-
-        <details class="chart-container" open>
-            <summary class="chart-title">🌱 Least streamed Tracks</summary>
-            <div class="div-cards-entries" id="least-streamed"></div>
-        </details>
-
-        <details class="chart-container" open>
-            <summary class="chart-title">⏳ Longests Tracks</summary>
-            <div class="div-cards-entries" id="most-long"></div>
-        </details>
-
-        <details class="chart-container" open>
-            <summary class="chart-title">⚡ Shortest Tracks</summary>
-            <div class="div-cards-entries" id="most-short"></div>
-        </details>
-
+        </div>
     </div>
 
     <footer>
@@ -187,7 +201,6 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="scripts/_odometer.js"></script>
 
-    <script src="scripts/features.js"></script>
     <script src="scripts/sections.js"></script>
     <script src="scripts/graphs.js"></script>
     <script src="scripts/sliders.js"></script>
