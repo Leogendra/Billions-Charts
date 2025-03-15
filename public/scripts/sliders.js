@@ -8,7 +8,7 @@ const KEY_FEATURES_TEMPLATE = [
     "There is {two_billion_count} songs that have been streamed over 2 billion times, that's %{two_billion_percentage}% of all Billions songs 🎵",
     "This number goes down to {three_billion_count} for songs over 3 billion streams (%{three_billion_percentage}%) 🎶",
     "Only {four_billion_count} songs have been streamed over 4 billion times! The most streamed one is {{four_billion_song}} by {{four_billion_artist}} 🏆",
-    "The latest song to receive over a billion streams is {{latest_song}} by {{latest_artist}}, released on {latest_date} 🆕",
+    "The latest song to receive over a billion streams is {{latest_song}} by {{latest_artist}}, reaching the milestone on {latest_date} 🆕",
     "This year, {this_year_count} songs have already become Billion songs 🚀",
     "The current most popular song is {{most_popular_song}} by {{most_popular_artist}}, with {most_popular_streams} streams 🔥",
     "The fastest song to receive over a billion streams is {{fastest_song}} by {{fastest_artist}}, in only {fastest_days} days! ⚡",
@@ -25,11 +25,11 @@ function format_key_features(data) {
             .replace(/\{\{(\w+)\}\}/g, (_, key) => // Double curly braces for links
                 `<a class="important-link" href="${data[key + "_link"] || key}" target="_blank">${data[key] || "#"}</a>`
             )
-            .replace(/\%\{(\w+)\}\%/g, (_, key) => // Percentages for numbers to be highlighted
-                `<span class="important-link">${data[key] || "0"}%</span>`
+            .replace(/\%\{(\w+)\}\%/g, (_, key) => // Percentages for '%' to be highlighted
+                `<span class="important-text">${data[key] || "0"}%</span>`
             )
             .replace(/\{(\w+)\}/g, (_, key) => // Single curly braces for regular text
-                `<span>${data[key] || "0"}</span>`
+                `<span class="important-text">${data[key] || "0"}</span>`
             )
     );
 }

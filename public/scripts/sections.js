@@ -111,7 +111,6 @@ async function display_pill_section(sections, all_pills, active_pill, scrollToTo
 
 
 async function update_pills() {
-
     // for tracks, artists and graph sections
     pills_containers.forEach(pills_container => {
         // Get the sections that needs to be in the pills
@@ -131,17 +130,15 @@ async function update_pills() {
             }
             pill.setAttribute("data-target", section.id);
             let sectionText = section.firstElementChild.textContent;
-            sectionText = sectionText.replace(/:/g, "").replace(/"/g, "");
+            sectionText = sectionText.split(":")[0];
+            sectionText = sectionText.replace(/:/g, "").replace(/"/g, "").replace(/help/g, "").trim();
             pill.textContent = sectionText;
             pills_container.appendChild(pill);
         });
     
         const all_pills = document.querySelectorAll(`.pill-${sectionName}`);
-        // Add first item after 1s to let the page load
-        setTimeout(() => {
-            firstPill.classList.add("active");
-            display_pill_section(all_sections, all_pills, firstPill, scrollToTop = false);
-        }, 1000);
+        firstPill.classList.add("active");
+        display_pill_section(all_sections, all_pills, firstPill, scrollToTop = false);
     
         // Add event listeners to all pills
         all_pills.forEach(pill => {

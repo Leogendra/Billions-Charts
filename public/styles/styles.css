@@ -71,6 +71,10 @@ a {
     text-decoration-color: initial;
 }
 
+.important-text {
+    color: var(--accent-color);
+}
+
 
 /* CONTAINER */
 .main-container {

@@ -1,10 +1,3 @@
-.chart-container {
-    margin-top: 20px;
-    padding: 20px;
-    border-radius: 10px;
-    background-color: var(--secondary-color);
-}
-
 .charts-hero {
     display: flex;
     flex-direction: row;
@@ -32,15 +25,46 @@
     width: fit-content;
 }
 
+.chart-container {
+    margin-top: 20px;
+    padding: 20px;
+    border-radius: 10px;
+    background-color: var(--secondary-color);
+}
+
 
 /* Pills */
+.pill-section {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 100px;
+}
+
+.pill-section::before {
+    content: "";
+    display: block;
+    position: relative;
+    width: 90%;
+    height: 2px;
+    background-color: var(--primary-color);
+}
+
+.pill-name {
+    font-size: 2rem;
+    color: var(--text-color);
+    font-weight: bold;
+    text-align: center;
+    margin: 20px 0;
+}
+
 .pill-container {
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
     gap: 10px;
-    margin: 50px 0 20px;
     flex-wrap: wrap;
 }
 
@@ -51,7 +75,7 @@
     padding: 5px 15px;
     border-radius: 20px;
     cursor: pointer;
-    font-size: 14px;
+    font-size: 0.85rem;
     font-weight: bold;
     transition: background-color 0.3s, transform 0.2s;
 }
@@ -74,15 +98,6 @@
     gap: 10px;
     font-size: 1.5rem;
     color: var(--text-color);
-}
-
-.chart-title::before {
-    content: "▶";
-    transition: transform 0.2s;
-}
-
-details[open] .chart-title::before {
-    transform: rotate(90deg);
 }
 
 .counter-addon {
@@ -144,6 +159,7 @@ details[open] .chart-title::before {
     .hero-title {
         font-size: 1rem;
     }
+
     .counter-container span {
         font-size: 2rem;
     }
@@ -162,7 +178,20 @@ details[open] .chart-title::before {
     #playlist-description {
         font-size: 1.1rem;
     }
+
     .div-cards-entries {
         gap: 5px;
+    }
+
+    .pill-section {
+        margin-top: 50px;
+    }
+    .pill-name {
+        font-size: 1.5rem;
+        margin: 10px 0;
+    }
+    .pill {
+        font-size: 0.7rem;
+        padding: 3px 10px;
     }
 }

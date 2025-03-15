@@ -112,6 +112,14 @@
     gap: 20px;
 }
 
+.key-feature-text {
+    font-size: 1.8rem;
+    color: var(--text-color);
+    font-weight: bold;
+    text-align: center;
+    margin: 20px 0;
+}
+
 .div-scrollable {
     display: flex;
     flex-direction: row;
