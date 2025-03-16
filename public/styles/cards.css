@@ -68,13 +68,13 @@
     position: relative;
 }
 
-.music-title.auto-scroll, .music-artist.auto-scroll {
+.auto-scroll {
     animation: scroll-text 7s linear infinite alternate;
     padding-right: 20px;
     --scroll-distance: 0px;
 }
 
-.music-card:hover .music-title.auto-scroll, .music-card:hover .music-artist.auto-scroll {
+.music-card:hover .auto-scroll, .bar-artist:hover .auto-scroll {
     animation-play-state: paused;
 }
 
@@ -161,9 +161,11 @@
 
 .bar-artist {
     display: flex;
+    flex-direction: row;
     align-items: center;
-    position: relative;
-    padding: 8px 12px;
+    justify-content: space-between;
+    gap: 5px;
+    padding: 2px 0px 2px 10px;
     color: #333;
     background-color: var(--primary-color);
     border-radius: 20px;
@@ -172,12 +174,27 @@
     transition: width 0.5s ease-in-out;
 }
 
+.bar-artist-content {
+    width: 100%;
+    overflow: hidden;
+    mask-image: linear-gradient(to right, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 1) 95%, rgba(0, 0, 0, 0) 100%);
+    -webkit-mask-image: linear-gradient(to right, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 1) 95%, rgba(0, 0, 0, 0) 100%);
+}
+
+.bar-artist-text {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    white-space: nowrap;
+    font-size: 1rem;
+}
+
 .bar-artist-image {
+    position: relative;
+    right: 3px;
     width: 35px;
     height: 35px;
     border-radius: 50%;
-    position: absolute;
-    right: 3px;
 }
 
 
