@@ -1,5 +1,3 @@
-const div_title = document.querySelector(".title");
-
 // Counters
 const steams_counter = document.querySelector("#total-streams");
 const artists_counter = document.querySelector("#total-artists");
@@ -65,9 +63,9 @@ function update_playlist_infos(report) {
 
 
 function add_scrolling_cards() {
-    document.querySelectorAll(".music-title, .music-artist").forEach(el => {
+    async function check_scrolling(el, margin=0) {
         const container = el.parentElement;
-        const textWidth = el.scrollWidth + 10; // Add margin to not cut the text in the shadow
+        const textWidth = el.scrollWidth + margin; // Add margin to not cut the text in the shadow
         const containerWidth = container.clientWidth;
 
         if (textWidth > containerWidth) {
@@ -75,14 +73,12 @@ function add_scrolling_cards() {
             el.style.setProperty("--scroll-distance", `${scrollDistance}px`);
             el.classList.add("auto-scroll");
         }
+    }
+    document.querySelectorAll(".music-title, .music-artist").forEach(el => {
+        check_scrolling(el, 10);
     });
-}
-
-
-async function toggle_all_details() {
-    all_details_open = !all_details_open;
-    details_sections.forEach(details => {
-        details.open = all_details_open;
+    document.querySelectorAll(".bar-artist-text").forEach(el => {
+        check_scrolling(el, 0);
     });
 }
 
@@ -97,15 +93,20 @@ function display_artists_bars(artists_infos, containerId) {
     artists_infos.forEach(artist => {
         const bar = document.createElement("div");
         bar.classList.add("bar-artist");
-
+        
         let calculatedWidth = (artist.data / maxStreams) * maxWidth;
         let finalWidth = Math.max(calculatedWidth, (minWidth / container.offsetWidth) * 100); // Convert minWidth to percentage
-
+        
         bar.style.width = `${finalWidth}%`;
+        
+        const barContent = document.createElement("div");
+        barContent.classList.add("bar-artist-content");
+        bar.appendChild(barContent);
 
-        const text = document.createElement("span");
-        text.innerHTML = `<a class="cta-link" href="${artist.url}" target="_blank">${artist.name}</a> (${artist.data_dislay})`;
-        bar.appendChild(text);
+        const divArtistName = document.createElement("div");
+        divArtistName.classList.add("bar-artist-text");
+        divArtistName.innerHTML = `<a class="cta-link" href="${artist.url}" target="_blank">${artist.name}</a>&nbsp;(${artist.data_dislay})`;
+        barContent.appendChild(divArtistName);
 
         const img = document.createElement("img");
         img.src = artist.image;
@@ -128,14 +129,6 @@ async function update_artists_most_streamed(report) {
             image: artist[3]
         });
     });
-
-    // Fake data
-    // artists.push({
-    //     name: "Ariana Grande (fake)",
-    //     data: 1_000_000_000,
-    //     url: `https://open.spotify.com/`,
-    //     image: "https://i.scdn.co/image/ab6761610000e5eb9e528993a2820267b97f6aae",
-    // });
 
     display_artists_bars(artists, "artists-most-streamed");
 }
@@ -172,8 +165,6 @@ async function update_artists_most_time(report) {
 
 
 
-
-div_title.addEventListener("click", toggle_all_details);
 
 async function main() {
     const report = await get_report("data/report.json");
