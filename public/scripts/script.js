@@ -189,8 +189,10 @@ async function main() {
         update_artists_most_time(report),
 
         // Charts sections
-        create_histogram_month(report),
-        create_histogram_year(report),
+        create_histogram_release_month(report),
+        create_histogram_release_year(report),
+        create_histogram_billion_month(report),
+        create_histogram_billion_year(report),
     ]);
     
     await Promise.all([

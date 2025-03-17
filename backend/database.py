@@ -103,12 +103,12 @@ def insert_or_update_artists(playlist_data):
 
 
 def add_to_database(playlist_data):
-    insert_or_update_playlist_header(playlist_data)
-    print("Playlist header added to the database")
     insert_or_update_tracks(playlist_data)
     print("Tracks added to the database")
     insert_or_update_artists(playlist_data)
     print("Artists added to the database")
+    insert_or_update_playlist_header(playlist_data)
+    print("Playlist header added to the database")
 
 
 ### Retrieve data from the database ###
