@@ -95,13 +95,13 @@ function getMonthName(monthNumber) {
 }
 
 
-async function create_histogram_month(report) {
-    const monthCount = report.month_count;
+async function create_histogram_release_month(report) {
+    const monthCount = report.month_release_count;
 
     const months = Object.keys(monthCount).sort((a, b) => a - b);
     const values = months.map(month => monthCount[month]);
 
-    const ctx = document.querySelector("#histo-plot-month").getContext("2d");
+    const ctx = document.querySelector("#histo-plot-release-month").getContext("2d");
     new Chart(ctx, {
         type: "bar",
         data: {
@@ -148,8 +148,8 @@ async function create_histogram_month(report) {
     });
 }
 
-async function create_histogram_year(report) {
-    const monthCount = report.year_count;
+async function create_histogram_release_year(report) {
+    const monthCount = report.year_release_count;
 
     let months = Object.keys(monthCount).map(Number);
     let values = months.map(year => monthCount[year] || 0);
@@ -170,7 +170,130 @@ async function create_histogram_year(report) {
     months = sortedData.map(item => item.year);
     values = sortedData.map(item => item.value);
 
-    const ctx = document.querySelector("#histo-plot-year").getContext("2d");
+    const ctx = document.querySelector("#histo-plot-release-year").getContext("2d");
+    new Chart(ctx, {
+        type: "bar",
+        data: {
+            labels: months.map(m => m),
+            datasets: [{
+                label: "Number of tracks",
+                data: values,
+                backgroundColor: accentColor,
+                borderColor: accentColor,
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: "Number of tracks",
+                        color: primaryColor
+                    },
+                    ticks: {
+                        color: primaryColor
+                    },
+                },
+                x: {
+                    title: {
+                        display: true,
+                        text: "Years",
+                        color: primaryColor
+                    },
+                    ticks: {
+                        color: primaryColor
+                    },
+                }
+            },
+            plugins: {
+                legend: {
+                    display: false
+                }
+            }
+        }
+    });
+}
+
+
+async function create_histogram_billion_month(report) {
+    const monthCount = report.month_billion_count;
+
+    const months = Object.keys(monthCount).sort((a, b) => a - b);
+    const values = months.map(month => monthCount[month]);
+
+    const ctx = document.querySelector("#histo-plot-billion-month").getContext("2d");
+    new Chart(ctx, {
+        type: "bar",
+        data: {
+            labels: months.map(m => getMonthName(m)),
+            datasets: [{
+                label: "Number of tracks",
+                data: values,
+                backgroundColor: accentColor,
+                borderColor: accentColor,
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: "Number of tracks",
+                        color: primaryColor
+                    },
+                    ticks: {
+                        color: primaryColor
+                    },
+                },
+                x: {
+                    title: {
+                        display: true,
+                        text: "Month",
+                        color: primaryColor
+                    },
+                    ticks: {
+                        color: primaryColor
+                    },
+                }
+            },
+            plugins: {
+                legend: {
+                    display: false
+                }
+            }
+        }
+    });
+}
+
+async function create_histogram_billion_year(report) {
+    const monthCount = report.year_billion_count;
+
+    let months = Object.keys(monthCount).map(Number);
+    let values = months.map(year => monthCount[year] || 0);
+
+    const minYear = Math.min(...months);
+    const maxYear = Math.max(...months);
+    for (let year = minYear; year <= maxYear; year++) {
+        if (!months.includes(year)) {
+            months.push(year);
+            values.push(0);
+        }
+    }
+
+    const sortedData = months
+        .map((year, index) => ({ year, value: values[index] }))
+        .sort((a, b) => a.year - b.year);
+
+    months = sortedData.map(item => item.year);
+    values = sortedData.map(item => item.value);
+
+    const ctx = document.querySelector("#histo-plot-billion-year").getContext("2d");
     new Chart(ctx, {
         type: "bar",
         data: {
