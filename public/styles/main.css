@@ -23,26 +23,6 @@ body {
     overflow-x: hidden;
 }
 
-
-/* TITLE */
-.title {
-    margin: 20px 0 10px;
-    text-align: center;
-}
-
-.intro-text {
-    padding: 0 10%;
-}
-
-.title-text {
-    color: var(--accent-color);
-    font-size: 3rem;
-}
-
-.cover-container {
-    margin-bottom: 10px;
-}
-
 h2 {
     margin: 0;
     font-size: 1.5rem;
