@@ -113,7 +113,7 @@
             <div class="chart-title">🔥 Trending Tracks
                 <div class="tooltip-container">
                     <span class="material-symbols-outlined tooltip-icon">help</span>
-                    <div class="tooltip-info">This section reflects "Popularity", a metric calculated by spotify in an obscure way...</div>
+                    <div class="tooltip-info">This section shows the "Popularity" score: a metric calculated by Spotify using a not-so-clear method</div>
                 </div>
             </div>
             <div class="div-cards-entries" id="trending-tracks"></div>
@@ -130,7 +130,12 @@
         </div>
 
         <div class="chart-container section-tracks" id="container-fastest-tracks" open>
-            <div class="chart-title">🏁 Fastest Billionaires <span class="material-symbols-outlined">help</span></div>
+            <div class="chart-title">🏁 Fastest Billionaires
+                <div class="tooltip-container">
+                    <span class="material-symbols-outlined tooltip-icon">help</span>
+                    <div class="tooltip-info">This section shows the number of days it took to reach 1 billion streams</div>
+                </div>
+            </div>
             <div class="div-cards-entries" id="fastest-tracks"></div>
         </div>
 
@@ -144,14 +149,14 @@
             <div class="div-cards-entries" id="least-streamed"></div>
         </div>
 
-        <div class="chart-container section-tracks" id="container-most-long" open>
-            <div class="chart-title">⏳ Longests Tracks</div>
-            <div class="div-cards-entries" id="most-long"></div>
-        </div>
-
         <div class="chart-container section-tracks" id="container-most-short" open>
             <div class="chart-title">⚡ Shortest Tracks</div>
             <div class="div-cards-entries" id="most-short"></div>
+        </div>
+
+        <div class="chart-container section-tracks" id="container-most-long" open>
+            <div class="chart-title">⏳ Longests Tracks</div>
+            <div class="div-cards-entries" id="most-long"></div>
         </div>
 
 
@@ -161,19 +166,34 @@
         </div>
 
         <div class="chart-container section-artists" id="container-artists-most-streamed" open>
-            <div class="chart-title">🔊 Most streamed artists</div>
+            <div class="chart-title">🔊 Most streamed artists
+                <div class="tooltip-container">
+                    <span class="material-symbols-outlined tooltip-icon">help</span>
+                    <div class="tooltip-info">The stream count reflects the total streams of all the artist's songs in the Billions Club</div>
+                </div>
+            </div>
             <div class="div-bar-entries" id="artists-most-streamed">
             </div>
         </div>
 
         <div class="chart-container section-artists" id="container-artists-most-songs" open>
-            <div class="chart-title">🎼 Artists with more songs</div>
+            <div class="chart-title">🎼 Artists with more songs
+                <div class="tooltip-container">
+                    <span class="material-symbols-outlined tooltip-icon">help</span>
+                    <div class="tooltip-info">This section shows how many of the artist's songs have reached a billion streams</div>
+                </div>
+            </div>
             <div class="div-bar-entries" id="artists-most-songs">
             </div>
         </div>
 
         <div class="chart-container section-artists" id="container-artists-most-time" open>
-            <div class="chart-title">⏳ Artists with more time <span class="material-symbols-outlined">help</span></div>
+            <div class="chart-title">⏳ Artists with more time
+                <div class="tooltip-container">
+                    <span class="material-symbols-outlined tooltip-icon">help</span>
+                    <div class="tooltip-info">The time is calculated by the sum of the duration of all the Billion songs of the artist</div>
+                </div>
+            </div>
             <div class="div-bar-entries" id="artists-most-time">
             </div>
         </div>
@@ -185,22 +205,42 @@
         </div>
 
         <div class="chart-container section-graphs" id="container-histo-plot-release-year" open>
-            <div class="chart-title">🏗️ Track release by year <span class="material-symbols-outlined">help</span></div>
+            <div class="chart-title">🏗️ Track release by year
+                <div class="tooltip-container">
+                    <span class="material-symbols-outlined tooltip-icon">help</span>
+                    <div class="tooltip-info">This shows which year the tracks were released</div>
+                </div>
+            </div>
             <canvas class="scatter-plot" id="histo-plot-release-year"></canvas>
         </div>
 
         <div class="chart-container section-graphs" id="container-histo-plot-release-month" open>
-            <div class="chart-title">🗓️ Track release by months</div>
+            <div class="chart-title">🗓️ Track release by months
+                <div class="tooltip-container">
+                    <span class="material-symbols-outlined tooltip-icon">help</span>
+                    <div class="tooltip-info">This shows which month the tracks were released</div>
+                </div>
+            </div>
             <canvas class="scatter-plot" id="histo-plot-release-month"></canvas>
         </div>
 
         <div class="chart-container section-graphs" id="container-histo-plot-billion-year" open>
-            <div class="chart-title">💥 Track billions by year <span class="material-symbols-outlined">help</span></div>
+            <div class="chart-title">💥 Track billions by year
+                <div class="tooltip-container">
+                    <span class="material-symbols-outlined tooltip-icon">help</span>
+                    <div class="tooltip-info">This section show the number of tracks that joined the Billions Club each year. As the playlist has been created in June 2021, some songs may not have a release date</div>
+                </div>
+            </div>
             <canvas class="scatter-plot" id="histo-plot-billion-year"></canvas>
         </div>
 
         <div class="chart-container section-graphs" id="container-histo-plot-billion-month" open>
-            <div class="chart-title">🍂 Track billions by months <span class="material-symbols-outlined">help</span></div>
+            <div class="chart-title">🍂 Track billions by months
+                <div class="tooltip-container">
+                    <span class="material-symbols-outlined tooltip-icon">help</span>
+                    <div class="tooltip-info">This section shows the number of tracks that joined the Billions Club each month</div>
+                </div>
+            </div>
             <canvas class="scatter-plot" id="histo-plot-billion-month"></canvas>
         </div>
     </div>

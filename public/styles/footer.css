@@ -16,7 +16,7 @@ footer::before {
     max-width: 90%;
     height: 1px;
     margin-bottom: 20px;
-    background-color: var(--dark-bg-color);
+    background-color: var(--primary-color);
 }
 
 footer img {
