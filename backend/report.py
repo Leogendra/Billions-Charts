@@ -149,11 +149,13 @@ def aggregate_periods(tracks):
     month_release_count = defaultdict(int)
     year_billion_count = defaultdict(int)
     month_billion_count = defaultdict(int)
+    stream_count = defaultdict(int)
 
     for track in tracks:
         release_date = track["release_date"]
         precision = track["release_date_precision"]
         added_at = track["added_at"]
+        playcount = track["playcount"]
 
         if precision == "year":
             year_release_count[release_date] += 1
@@ -164,13 +166,14 @@ def aggregate_periods(tracks):
                 month_release_count[month] += 1
 
         billion_date = added_at.split("T")[0] # format : "2022-07-27T16:32:16.167Z"
-        if (billion_date == "2021-07-21"): # Billions Club creation date
-            continue
-        billion_year, billion_month, *_ = billion_date.split("-")
-        year_billion_count[billion_year] += 1
-        month_billion_count[billion_month] += 1
+        if (billion_date != "2021-07-21"): # Billions Club creation date
+            billion_year, billion_month, *_ = billion_date.split("-")
+            year_billion_count[billion_year] += 1
+            month_billion_count[billion_month] += 1
 
-    return dict(year_release_count), dict(month_release_count), dict(year_billion_count), dict(month_billion_count)
+        stream_count[f"{playcount/1_000_000_000:.1f}"] += 1
+
+    return dict(year_release_count), dict(month_release_count), dict(year_billion_count), dict(month_billion_count), dict(stream_count)
 
 
 def get_template_data(tracks, report):
@@ -255,7 +258,7 @@ def generate_report(dataPath, outputReportPath, WRITE_TO_DATABASE):
     most_streamed_tracks, least_streamed_tracks = aggregate_by_key(tracks, "playcount")
     most_popular_tracks, least_popular_tracks = aggregate_by_key(tracks, "popularity")
     most_long_tracks, most_short_tracks = aggregate_by_key(tracks, "duration_ms")
-    year_release_count, month_release_count, year_billion_count, month_billion_count = aggregate_periods(tracks)
+    year_release_count, month_release_count, year_billion_count, month_billion_count, stream_count = aggregate_periods(tracks)
 
     final_report = {
         "name": playlist["name"],
@@ -284,6 +287,7 @@ def generate_report(dataPath, outputReportPath, WRITE_TO_DATABASE):
         "month_release_count": month_release_count,
         "year_billion_count": year_billion_count,
         "month_billion_count": month_billion_count,
+        "streams_count": stream_count,
     }
     final_report["template_data"] = get_template_data(tracks, final_report)
 

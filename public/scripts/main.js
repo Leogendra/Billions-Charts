@@ -193,6 +193,7 @@ async function main() {
         create_histogram_release_year(report),
         create_histogram_billion_month(report),
         create_histogram_billion_year(report),
+        create_histogram_streams_count(report),
     ]);
     
     await Promise.all([
