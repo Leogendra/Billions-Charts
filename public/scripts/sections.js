@@ -180,7 +180,7 @@ async function update_oldest(report) {
 async function update_fastest(report) {
     for (let i = 0; i < report.fastest_billions.length; i++) {
         const track = report.fastest_billions[i];
-        const track_entry = create_music_card(track, i + 1, `Days took<br>${track.billion_time}`);
+        const track_entry = create_music_card(track, i + 1, `Days taken<br>${track.billion_time}`);
         fastest_section.appendChild(track_entry);
     }
 }
