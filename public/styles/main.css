@@ -6,6 +6,8 @@
     --secondary-color: #1B263B;
     --main-bg-color: #0D1B2A;
     --dark-bg-color: #010b17;
+
+    --main-font: 'Arial', sans-serif;
 }
 
 * {
@@ -15,32 +17,12 @@
 }
 
 body {
-    font-family: 'Arial', sans-serif;
+    font-family: var(--main-font);
     background-color: var(--main-bg-color);
     color: var(--primary-color);
     line-height: 1.6;
     padding: 20px;
     overflow-x: hidden;
-}
-
-
-/* TITLE */
-.title {
-    margin: 20px 0 10px;
-    text-align: center;
-}
-
-.intro-text {
-    padding: 0 10%;
-}
-
-.title-text {
-    color: var(--accent-color);
-    font-size: 3rem;
-}
-
-.cover-container {
-    margin-bottom: 10px;
 }
 
 h2 {

@@ -110,6 +110,35 @@ async function display_pill_section(sections, all_pills, active_pill, scrollToTo
 }
 
 
+function get_and_clean_direct_text_content(element) {
+    let text = Array.from(element.childNodes)
+        .filter(node => node.nodeType === Node.TEXT_NODE)
+        .map(node => node.textContent.trim())
+        .join(" ");
+
+    text = text.split(":")[0];
+    text = text.replace(/:/g, "").replace(/"/g, "").trim();
+    
+    const bannedWords = ["track", "tracks", "artist", "artists"];
+    const match = text.match(/^(\p{Emoji_Presentation}|\p{Emoji}\uFE0F?)\s*(.*)$/u);
+    if (!match) return text;
+
+    const emoji = match[1];
+    const content = match[2];
+
+    let filteredWords = content
+        .split(" ")
+        .filter(word => !bannedWords.includes(word.toLowerCase()));
+
+    // Capitalize the first word
+    if (filteredWords.length > 0) {
+        filteredWords[0] = filteredWords[0][0].toUpperCase() + filteredWords[0].slice(1);
+    }
+
+    return `${emoji} ${filteredWords.join(" ")}`;
+}
+
+
 async function update_pills() {
     // for tracks, artists and graph sections
     pills_containers.forEach(pills_container => {
@@ -129,10 +158,7 @@ async function update_pills() {
                 isFirstPill = false;
             }
             pill.setAttribute("data-target", section.id);
-            let sectionText = section.firstElementChild.textContent;
-            sectionText = sectionText.split(":")[0];
-            sectionText = sectionText.replace(/:/g, "").replace(/"/g, "").replace(/help/g, "").trim();
-            pill.textContent = sectionText;
+            pill.textContent = get_and_clean_direct_text_content(section.firstElementChild);
             pills_container.appendChild(pill);
         });
     
@@ -180,7 +206,7 @@ async function update_oldest(report) {
 async function update_fastest(report) {
     for (let i = 0; i < report.fastest_billions.length; i++) {
         const track = report.fastest_billions[i];
-        const track_entry = create_music_card(track, i + 1, `Days took<br>${track.billion_time}`);
+        const track_entry = create_music_card(track, i + 1, `Days taken<br>${track.billion_time}`);
         fastest_section.appendChild(track_entry);
     }
 }
