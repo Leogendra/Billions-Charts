@@ -51,3 +51,10 @@
 .odometer-digit > * {
     width: fit-content;
 }
+
+
+@media screen and (max-width: 800px) {
+    #playlist-description {
+        margin-bottom: 10px;
+    }
+}

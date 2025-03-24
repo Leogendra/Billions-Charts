@@ -87,16 +87,22 @@ function display_artists_bars(artists_infos, containerId) {
     const maxStreams = Math.max(...artists_infos.map(artists_infos => artists_infos.data));
     const container = document.getElementById(containerId);
 
-    const minWidth = 250; // Min width in pixels
-    const maxWidth = 100; // Max width in percentage
+    // Width in percentage
+    const basePx = window.matchMedia("(max-width: 800px)").matches ? 220 : 270;
+    const minWidth = (basePx / container.offsetWidth) * 100;
+    const maxWidth = 100; 
+
+    const minItemValue = Math.min(...artists_infos.map(artist => artist.data));
+    const maxItemValue = Math.max(...artists_infos.map(artist => artist.data));
 
     artists_infos.forEach(artist => {
+
+        // Ratio between min and max
+        const ratio = (artist.data - minItemValue) / (maxItemValue - minItemValue);
+        const finalWidth = minWidth + (maxWidth - minWidth) * ratio;
+        
         const bar = document.createElement("div");
         bar.classList.add("bar-artist");
-        
-        let calculatedWidth = (artist.data / maxStreams) * maxWidth;
-        let finalWidth = Math.max(calculatedWidth, (minWidth / container.offsetWidth) * 100); // Convert minWidth to percentage
-        
         bar.style.width = `${finalWidth}%`;
         
         const barContent = document.createElement("div");

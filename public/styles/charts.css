@@ -184,7 +184,6 @@
 }
 
 
-/* Media query */
 @media screen and (max-width: 800px) {
     .charts-hero {
         flex-direction: column;
@@ -232,5 +231,10 @@
     .pill {
         font-size: 0.8rem;
         padding: 3px 10px;
+    }
+
+
+    .section-graphs {
+        padding: 0;
     }
 }
