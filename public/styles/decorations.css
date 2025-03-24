@@ -7,17 +7,25 @@
 .next-arrow {
     height: 200px;
     width: 200px;
-    margin-bottom: 3rem;
-    -webkit-animation: anim-arrow 5s linear infinite;
-    animation: anim-arrow 5s linear infinite;
+    margin-bottom: 1rem;
+    -webkit-animation: anim-arrow 100s linear infinite;
+    animation: anim-arrow 100s linear infinite;
 }
 
 @keyframes anim-arrow {
     0% {
-        stroke-dashoffset: 300
+        stroke-dashoffset: 800
 
     }
     100% {
         stroke-dashoffset: 0
+    }
+}
+
+
+@media screen and (max-width: 800px) {
+    .next-arrow {
+        height: 150px;
+        width: 150px;
     }
 }

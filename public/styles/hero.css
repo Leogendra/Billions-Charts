@@ -1,5 +1,5 @@
 .title {
-    margin: 20px 0 10px;
+    margin: 15px 0;
     text-align: center;
 }
 
@@ -50,4 +50,11 @@
 
 .odometer-digit > * {
     width: fit-content;
+}
+
+
+@media screen and (max-width: 800px) {
+    #playlist-description {
+        margin-bottom: 10px;
+    }
 }

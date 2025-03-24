@@ -199,7 +199,7 @@
 
 
 /* Responsive design */
-@media (max-width: 768px) {
+@media (max-width: 800px) {
     .music-card {
         max-width: 100%;
         gap: 8px;
@@ -223,7 +223,7 @@
         font-size: 0.6rem;
     }
 
-    .bar-artist {
+    .bar-artist-text {
         font-size: 0.8rem;
     }
     .bar-artist-image {
