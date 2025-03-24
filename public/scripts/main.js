@@ -88,7 +88,7 @@ function display_artists_bars(artists_infos, containerId) {
     const container = document.getElementById(containerId);
 
     // Width in percentage
-    const basePx = window.matchMedia("(max-width: 800px)").matches ? 220 : 270;
+    const basePx = window.matchMedia("(max-width: 800px)").matches ? 190 : 270;
     const minWidth = (basePx / container.offsetWidth) * 100;
     const maxWidth = 100; 
 
@@ -203,12 +203,12 @@ async function main() {
     ]);
     
     await Promise.all([
+        get_key_features(report),
         add_scrolling_cards(),
         place_arrow(),
     ]);
 
-    update_pills(),
-    get_key_features(report);
+    update_pills();
 }
 
 
