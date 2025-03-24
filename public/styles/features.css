@@ -69,6 +69,17 @@
     background: rgba(0, 0, 0, 0.8);
 }
 
+/* button hitbox */
+.slider-button::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 300%;
+    height: 600%;
+}
+
 /* media query */
 @media screen and (max-width: 800px) {
     :root {
