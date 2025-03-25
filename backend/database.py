@@ -115,12 +115,12 @@ def add_to_database(playlist_data):
 
 def retrieve_playlist_infos_from_mongo(date):
     # Retrieve the playlists headers data where the field "date" matches the input date
-    playlist_data = playlists_collection.find({"date": date})
-    if (playlist_data.count() == 0):
+    data_count = playlists_collection.count_documents({"date": date})
+    if (data_count == 0):
         print(f"No playlist data found for the date {date}")
         return None
     
-    playlist_data = list(playlist_data)[0]
+    playlist_data = list(playlists_collection.find({"date": date}))[0]
     del playlist_data["_id"]
 
     # Retrieve the details of the tracks from the tracks collection

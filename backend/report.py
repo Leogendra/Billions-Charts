@@ -13,7 +13,8 @@ def aggregate_general(tracks):
     total_tracks = len(tracks)
     total_artists = len(set(artist["name"] for track in tracks for artist in track["artists"]))
     total_streams = sum(track["playcount"] for track in tracks)
-    return total_tracks, total_artists, total_streams
+    total_time = sum(track["duration_ms"] for track in tracks) // 1000 # in seconds
+    return total_tracks, total_artists, total_streams, total_time
 
 
 def aggregate_artists(tracks):
@@ -50,7 +51,11 @@ def aggregate_artists(tracks):
         reverse=True
     )[:MAX_TOP_SONGS]
 
-    return artists_count_array, artists_playcount_array, artists_length_array
+    tracks_count_distribution = defaultdict(int)
+    for artist, data in artists_data.items():
+        tracks_count_distribution[data["count"]] += 1
+
+    return artists_count_array, artists_playcount_array, artists_length_array, tracks_count_distribution
 
 
 def aggregate_dates(tracks):
@@ -197,6 +202,11 @@ def get_template_data(tracks, report):
     most_popular_song = report["most_popular_tracks"][0]
     most_popular_artist = most_popular_song["artists"][0]["name"]
 
+    count_artists_2plus_tracks = sum(1 for artist in report["artists_counts"] if artist[1] >= 2)
+    count_artists_5plus_tracks = sum(1 for artist in report["artists_counts"] if artist[1] >= 3)
+    percent_artists_2plus_tracks = round(100*(count_artists_2plus_tracks / report["total_artists"]), 2)
+    percent_artists_5plus_tracks = round(100*(count_artists_5plus_tracks / report["total_artists"]), 2)
+
     return {
         "two_billion_count": two_billion_count,
         "two_billion_percentage": two_billion_percentage,
@@ -232,7 +242,13 @@ def get_template_data(tracks, report):
         "longest_song_link": f"https://open.spotify.com/track/{longest_song["id"]}",
         "longest_artist": longest_song["artists"][0]["name"],
         "longest_artist_link": f"https://open.spotify.com/artist/{longest_song["artists"][0]["id"]}",
-        "longest_duration": f"{longest_song["duration_ms"] // 60000}:{(longest_song["duration_ms"] // 1000) % 60:02d}"
+        "longest_duration": f"{longest_song["duration_ms"] // 60000}:{(longest_song["duration_ms"] // 1000) % 60:02d}",
+        "total_time": f"{report["total_time"] // 3600}:{(report["total_time"] // 60) % 60:02d}:{report["total_time"] % 60:02d}",
+        "count_artists_2plus_tracks": count_artists_2plus_tracks,
+        "percent_artists_2plus_tracks": percent_artists_2plus_tracks,
+        "count_artists_3plus_tracks": count_artists_5plus_tracks,
+        "percent_artists_3plus_tracks": percent_artists_5plus_tracks,
+        "average_track_lenght": f"{report["total_time"] // total_tracks // 60}:{(report["total_time"] // total_tracks) % 60:02d}",
     }
 
 
@@ -251,8 +267,8 @@ def generate_report(dataPath, outputReportPath, WRITE_TO_DATABASE):
 
     tracks = playlist["items"]
 
-    total_tracks, total_artists, total_streams = aggregate_general(tracks)
-    artists_counts, artists_playcounts, artists_length = aggregate_artists(tracks)
+    total_tracks, total_artists, total_streams, total_time = aggregate_general(tracks)
+    artists_counts, artists_playcounts, artists_length, count_distribution = aggregate_artists(tracks)
     oldest_tracks, newest_tracks = aggregate_dates(tracks)
     newest_billions, fastest_billions = agregate_billions(tracks)
     most_streamed_tracks, least_streamed_tracks = aggregate_by_key(tracks, "playcount")
@@ -270,6 +286,7 @@ def generate_report(dataPath, outputReportPath, WRITE_TO_DATABASE):
         "total_tracks": total_tracks,
         "total_artists": total_artists,
         "total_streams": total_streams,
+        "total_time": total_time,
         "artists_counts": artists_counts,
         "artists_playcounts": artists_playcounts,
         "artists_length": artists_length,
@@ -283,11 +300,12 @@ def generate_report(dataPath, outputReportPath, WRITE_TO_DATABASE):
         "least_popular_tracks": least_popular_tracks,
         "most_long_tracks": most_long_tracks,
         "most_short_tracks": most_short_tracks,
-        "year_release_count": year_release_count,
-        "month_release_count": month_release_count,
-        "year_billion_count": year_billion_count,
-        "month_billion_count": month_billion_count,
-        "streams_count": stream_count,
+        "distribution_year_release_count": year_release_count,
+        "distribution_month_release_count": month_release_count,
+        "distribution_year_billion_count": year_billion_count,
+        "distribution_month_billion_count": month_billion_count,
+        "distribution_streams_count": stream_count,
+        "distribution_track_count": count_distribution,
     }
     final_report["template_data"] = get_template_data(tracks, final_report)
 

@@ -205,10 +205,10 @@
 
         <div class="pill-section">
             <div class="pill-name">Billions over time</div>
-            <div class="pill-container" id="pills-graphs"></div>
+            <div class="pill-container" id="pills-times"></div>
         </div>
 
-        <div class="chart-container section-graphs" id="container-histo-plot-release-year" open>
+        <div class="chart-container section-times" id="container-histo-plot-release-year" open>
             <div class="chart-title">🏗️ Track release by year
                 <div class="tooltip-container">
                     <span class="material-symbols-outlined tooltip-icon">help</span>
@@ -218,7 +218,7 @@
             <canvas class="scatter-plot" id="histo-plot-release-year"></canvas>
         </div>
 
-        <div class="chart-container section-graphs" id="container-histo-plot-release-month" open>
+        <div class="chart-container section-times" id="container-histo-plot-release-month" open>
             <div class="chart-title">🗓️ Track release by months
                 <div class="tooltip-container">
                     <span class="material-symbols-outlined tooltip-icon">help</span>
@@ -228,7 +228,7 @@
             <canvas class="scatter-plot" id="histo-plot-release-month"></canvas>
         </div>
 
-        <div class="chart-container section-graphs" id="container-histo-plot-billion-year" open>
+        <div class="chart-container section-times" id="container-histo-plot-billion-year" open>
             <div class="chart-title">💥 Track billions by year
                 <div class="tooltip-container">
                     <span class="material-symbols-outlined tooltip-icon">help</span>
@@ -238,7 +238,7 @@
             <canvas class="scatter-plot" id="histo-plot-billion-year"></canvas>
         </div>
 
-        <div class="chart-container section-graphs" id="container-histo-plot-billion-month" open>
+        <div class="chart-container section-times" id="container-histo-plot-billion-month" open>
             <div class="chart-title">🍂 Track billions by months
                 <div class="tooltip-container">
                     <span class="material-symbols-outlined tooltip-icon">help</span>
@@ -248,14 +248,31 @@
             <canvas class="scatter-plot" id="histo-plot-billion-month"></canvas>
         </div>
 
+
+
+        <div class="pill-section">
+            <div class="pill-name">Extra data visualizations</div>
+            <div class="pill-container" id="pills-graphs"></div>
+        </div>
+
         <div class="chart-container section-graphs" id="container-histo-plot-streams-count" open>
-            <div class="chart-title">🔢 Track streams distrbution
+            <div class="chart-title">🔢 Streams distrbution
                 <div class="tooltip-container">
                     <span class="material-symbols-outlined tooltip-icon">help</span>
                     <div class="tooltip-info">This chart shows how many songs have surpassed each streaming threshold</div>
                 </div>
             </div>
             <canvas class="scatter-plot" id="histo-plot-streams-count"></canvas>
+        </div>
+
+        <div class="chart-container section-graphs" id="container-histo-plot-tracks-count" open>
+            <div class="chart-title">🌟 Track count distrbution
+                <div class="tooltip-container">
+                    <span class="material-symbols-outlined tooltip-icon">help</span>
+                    <div class="tooltip-info">Here's how many artists have more than 1 billion streams (spoilers: not that much)</div>
+                </div>
+            </div>
+            <canvas class="scatter-plot" id="histo-plot-tracks-count"></canvas>
         </div>
     </div>
 

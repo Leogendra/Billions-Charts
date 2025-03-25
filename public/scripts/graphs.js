@@ -11,7 +11,7 @@ function getMonthName(monthNumber) {
 
 
 async function create_histogram_release_month(report) {
-    const monthCount = report.month_release_count;
+    const monthCount = report.distribution_month_release_count;
 
     const months = Object.keys(monthCount).sort((a, b) => a - b);
     const values = months.map(month => monthCount[month]);
@@ -60,7 +60,7 @@ async function create_histogram_release_month(report) {
 
 
 async function create_histogram_release_year(report) {
-    const monthCount = report.year_release_count;
+    const monthCount = report.distribution_year_release_count;
 
     let months = Object.keys(monthCount).map(Number);
     let values = months.map(year => monthCount[year] || 0);
@@ -125,7 +125,7 @@ async function create_histogram_release_year(report) {
 
 
 async function create_histogram_billion_month(report) {
-    const monthCount = report.month_billion_count;
+    const monthCount = report.distribution_month_billion_count;
 
     const months = Object.keys(monthCount).sort((a, b) => a - b);
     const values = months.map(month => monthCount[month]);
@@ -174,7 +174,7 @@ async function create_histogram_billion_month(report) {
 
 
 async function create_histogram_billion_year(report) {
-    const monthCount = report.year_billion_count;
+    const monthCount = report.distribution_year_billion_count;
 
     let months = Object.keys(monthCount).map(Number);
     let values = months.map(year => monthCount[year] || 0);
@@ -239,7 +239,7 @@ async function create_histogram_billion_year(report) {
 
 
 async function create_histogram_streams_count(report) {
-    const rawStreams = report.streams_count;
+    const rawStreams = report.distribution_streams_count;
 
     let streams = Object.keys(rawStreams).map(k => Number(Number(k).toFixed(1)));
     let values = streams.map(stream => rawStreams[stream.toFixed(1)] || 0);
@@ -292,6 +292,81 @@ async function create_histogram_streams_count(report) {
                     title: {
                         display: true,
                         text: "Streams count (in billions)",
+                        color: primaryColor
+                    },
+                    ticks: {
+                        color: primaryColor
+                    },
+                }
+            },
+            plugins: {
+                legend: {
+                    display: false
+                }
+            }
+        }
+    });
+}
+
+
+async function create_histogram_track_count(report) {
+    const rawStreams = report.distribution_track_count;
+
+    let trackCount = Object.keys(rawStreams).map(Number);
+    let values = trackCount.map(stream => rawStreams[stream] || 0);
+    const minStreams = 1;
+    const maxStreams = Math.max(...trackCount);
+    
+    for (let s = minStreams; s < maxStreams; s += 1) {
+        const rounded = Number(s.toFixed(1));
+        if (!trackCount.includes(rounded)) {
+            trackCount.push(rounded);
+            values.push(0);
+        }
+    }
+    
+    const sortedData = trackCount
+        .map((stream, index) => ({ stream: Number(stream), value: values[index] }))
+        .sort((a, b) => a.stream - b.stream);
+    
+        trackCount = sortedData.map(d => d.stream);
+    values = sortedData.map(d => d.value);
+
+    const ctx = document.querySelector("#histo-plot-tracks-count").getContext("2d");
+    new Chart(ctx, {
+        type: "bar",
+        data: {
+            labels: trackCount.map(m => m),
+            datasets: [{
+                label: "Number of tracks",
+                data: values,
+                backgroundColor: accentColor,
+                borderColor: accentColor,
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: "Number of artists",
+                        color: primaryColor
+                    },
+                    ticks: {
+                        color: primaryColor,
+                        // callback: function(value) {
+                        //     return Number.isInteger(value) ? value : '';
+                        // }
+                    },
+                    // type: "logarithmic",
+                },
+                x: {
+                    title: {
+                        display: true,
+                        text: "Number of tracks",
                         color: primaryColor
                     },
                     ticks: {
