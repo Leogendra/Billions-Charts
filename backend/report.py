@@ -202,8 +202,8 @@ def get_template_data(tracks, report):
     most_popular_song = report["most_popular_tracks"][0]
     most_popular_artist = most_popular_song["artists"][0]["name"]
 
-    count_artists_2plus_tracks = sum(1 for artist in report["artists_counts"] if artist[1] >= 2)
-    count_artists_5plus_tracks = sum(1 for artist in report["artists_counts"] if artist[1] >= 3)
+    count_artists_2plus_tracks = sum(artistsNb for count, artistsNb in report["distribution_track_count"].items() if (int(count) >= 2))
+    count_artists_5plus_tracks = sum(artistsNb for count, artistsNb in report["distribution_track_count"].items() if (int(count) >= 5))
     percent_artists_2plus_tracks = round(100*(count_artists_2plus_tracks / report["total_artists"]), 2)
     percent_artists_5plus_tracks = round(100*(count_artists_5plus_tracks / report["total_artists"]), 2)
 
@@ -246,8 +246,8 @@ def get_template_data(tracks, report):
         "total_time": f"{report["total_time"] // 3600}:{(report["total_time"] // 60) % 60:02d}:{report["total_time"] % 60:02d}",
         "count_artists_2plus_tracks": count_artists_2plus_tracks,
         "percent_artists_2plus_tracks": percent_artists_2plus_tracks,
-        "count_artists_3plus_tracks": count_artists_5plus_tracks,
-        "percent_artists_3plus_tracks": percent_artists_5plus_tracks,
+        "count_artists_5plus_tracks": count_artists_5plus_tracks,
+        "percent_artists_5plus_tracks": percent_artists_5plus_tracks,
         "average_track_lenght": f"{report["total_time"] // total_tracks // 60}:{(report["total_time"] // total_tracks) % 60:02d}",
     }
 
