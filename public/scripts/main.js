@@ -201,6 +201,7 @@ async function main() {
         create_histogram_billion_year(report),
         create_histogram_streams_count(report),
         create_histogram_track_count(report),
+        create_histogram_time_count(report),
     ]);
     
     await Promise.all([

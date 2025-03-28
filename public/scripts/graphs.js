@@ -5,11 +5,23 @@ const accentColor = getComputedStyle(document.documentElement).getPropertyValue(
 
 
 
-function getMonthName(monthNumber) {
+// Utils
+function get_month_name(monthNumber) {
     return new Date(2000, monthNumber - 1).toLocaleString("en-US", { month: "long" });
 }
 
 
+function format_time_label(unit) {
+    const totalSeconds = unit * 10;
+    const minutes = Math.floor(totalSeconds / 60);
+    const seconds = totalSeconds % 60;
+    return `${minutes}:${seconds.toString().padStart(2, '0')}`;
+}
+
+
+
+
+// Histograms
 async function create_histogram_release_month(report) {
     const monthCount = report.distribution_month_release_count;
 
@@ -20,7 +32,7 @@ async function create_histogram_release_month(report) {
     new Chart(ctx, {
         type: "bar",
         data: {
-            labels: months.map(m => getMonthName(m)),
+            labels: months.map(m => get_month_name(m)),
             datasets: [{
                 label: "Number of tracks",
                 data: values,
@@ -134,7 +146,7 @@ async function create_histogram_billion_month(report) {
     new Chart(ctx, {
         type: "bar",
         data: {
-            labels: months.map(m => getMonthName(m)),
+            labels: months.map(m => get_month_name(m)),
             datasets: [{
                 label: "Number of tracks",
                 data: values,
@@ -377,6 +389,91 @@ async function create_histogram_track_count(report) {
             plugins: {
                 legend: {
                     display: false
+                }
+            }
+        }
+    });
+}
+
+
+async function create_histogram_time_count(report) {
+    const rawTimes = report.distribution_time_count;
+
+    let timeCount = Object.keys(rawTimes).map(Number);
+    let values = timeCount.map(time => rawTimes[time] || 0);
+    const minTime = Math.min(...timeCount);
+    const maxTime = Math.max(...timeCount);
+    
+    for (let s = minTime; s < maxTime; s += 1) {
+        const rounded = Number(s.toFixed(1));
+        if (!timeCount.includes(rounded)) {
+            timeCount.push(rounded);
+            values.push(0);
+        }
+    }
+    
+    const sortedData = timeCount
+        .map((time, index) => ({ time: Number(time), value: values[index] }))
+        .sort((a, b) => a.time - b.time);
+    
+        timeCount = sortedData.map(d => d.time);
+    values = sortedData.map(d => d.value);
+
+    const ctx = document.querySelector("#histo-plot-times-count").getContext("2d");
+    new Chart(ctx, {
+        type: "bar",
+        data: {
+            labels: timeCount.map(m => m),
+            datasets: [{
+                label: "Number of tracks",
+                data: values,
+                backgroundColor: accentColor,
+                borderColor: accentColor,
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: "Number of tracks",
+                        color: primaryColor
+                    },
+                    ticks: {
+                        color: primaryColor,
+                    },
+                },
+                x: {
+                    title: {
+                        display: true,
+                        text: "Track duration",
+                        color: primaryColor
+                    },
+                    ticks: {
+                        color: primaryColor,
+                        callback: function(value, index) {
+                            return format_time_label(this.getLabelForValue(value));
+                        }
+                    },
+                }
+            },
+            plugins: {
+                legend: {
+                    display: false
+                },
+                tooltip: {
+                    callbacks: {
+                        title: function(tooltipItems) {
+                            const val = tooltipItems[0].parsed.x + minTime;
+                            return format_time_label(val);
+                        },
+                        label: function(tooltipItem) {
+                            return `Number of tracks: ${tooltipItem.parsed.y}`;
+                        }
+                    }
                 }
             }
         }

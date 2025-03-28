@@ -192,7 +192,7 @@
         </div>
 
         <div class="chart-container section-artists" id="container-artists-most-time" open>
-            <div class="chart-title">⏳ Artists with more time
+            <div class="chart-title">⏱️ Artists with more time
                 <div class="tooltip-container">
                     <span class="material-symbols-outlined tooltip-icon">help</span>
                     <div class="tooltip-info">The time is calculated by the sum of the duration of all the Billion songs of the artist</div>
@@ -259,20 +259,30 @@
             <div class="chart-title">🔢 Streams distrbution
                 <div class="tooltip-container">
                     <span class="material-symbols-outlined tooltip-icon">help</span>
-                    <div class="tooltip-info">This chart shows how many songs have surpassed each streaming threshold</div>
+                    <div class="tooltip-info">Here's how many songs have surpassed each streaming threshold</div>
                 </div>
             </div>
             <canvas class="scatter-plot" id="histo-plot-streams-count"></canvas>
         </div>
 
         <div class="chart-container section-graphs" id="container-histo-plot-tracks-count" open>
-            <div class="chart-title">🌟 Track count distrbution
+            <div class="chart-title">🌟 Artist track count distrbution
                 <div class="tooltip-container">
                     <span class="material-symbols-outlined tooltip-icon">help</span>
-                    <div class="tooltip-info">Here's how many artists have more than 1 billion streams (spoilers: not that much)</div>
+                    <div class="tooltip-info">This chart shows how many artists have a certain number of tracks in the Billions Club</div>
                 </div>
             </div>
             <canvas class="scatter-plot" id="histo-plot-tracks-count"></canvas>
+        </div>
+
+        <div class="chart-container section-graphs" id="container-histo-plot-times-count" open>
+            <div class="chart-title">⌚ Track lenght distrbution
+                <div class="tooltip-container">
+                    <span class="material-symbols-outlined tooltip-icon">help</span>
+                    <div class="tooltip-info">This is the distribution of track lengths across the Billions Club</div>
+                </div>
+            </div>
+            <canvas class="scatter-plot" id="histo-plot-times-count"></canvas>
         </div>
     </div>
 
