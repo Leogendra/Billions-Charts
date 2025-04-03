@@ -139,17 +139,52 @@ async function create_histogram_release_year(report) {
 async function create_histogram_billion_month(report) {
     const monthCount = report.distribution_month_billion_count;
 
-    const months = Object.keys(monthCount).sort((a, b) => a - b);
-    const values = months.map(month => monthCount[month]);
+    // Sort the YYYY-MM keys
+    let sortedMonths = Object.keys(monthCount).sort((a, b) => {
+        const [yearA, monthA] = a.split("-");
+        const [yearB, monthB] = b.split("-");
+        return (yearA - yearB) || (monthA - monthB);
+    });
+    let sortedValues = sortedMonths.map(key => monthCount[key]);
+
+    const [startYear, startMonth] = sortedMonths[0].split("-");
+    const [endYear, endMonth] = sortedMonths[sortedMonths.length - 1].split("-");
+
+    // Fill in missing months
+    const startDate = new Date(startYear, startMonth - 1);
+    const endDate = new Date(endYear, endMonth - 1);
+    const allMonths = [];
+    for (let d = new Date(startDate); d <= endDate; d.setMonth(d.getMonth() + 1)) {
+        const year = d.getFullYear();
+        const month = String(d.getMonth() + 1).padStart(2, '0');
+        const key = `${year}-${month}`;
+        if (!sortedMonths.includes(key)) {
+            sortedMonths.push(key);
+            sortedValues.push(0);
+        }
+    }
+    // Sort again
+    const sortedData = sortedMonths
+        .map((month, index) => ({ month, value: sortedValues[index] }))
+        .sort((a, b) => {
+            const [yearA, monthA] = a.month.split("-");
+            const [yearB, monthB] = b.month.split("-");
+            return (yearA - yearB) || (monthA - monthB);
+        });
+    sortedMonths = sortedData.map(item => item.month);
+    sortedValues = sortedData.map(item => item.value);
 
     const ctx = document.querySelector("#histo-plot-billion-month").getContext("2d");
     new Chart(ctx, {
         type: "bar",
         data: {
-            labels: months.map(m => get_month_name(m)),
+            labels: sortedMonths.map(m => {
+                const [year, month] = m.split("-");
+                return `${get_month_name(Number(month))} ${year}`;
+            }),
             datasets: [{
                 label: "Number of tracks",
-                data: values,
+                data: sortedValues,
                 backgroundColor: accentColor,
                 borderColor: accentColor,
                 borderWidth: 1

@@ -176,7 +176,7 @@ def aggregate_periods(tracks):
         if (billion_date != "2021-07-21"): # Billions Club creation date
             billion_year, billion_month, *_ = billion_date.split("-")
             year_billion_count[billion_year] += 1
-            month_billion_count[billion_month] += 1
+            month_billion_count[f"{billion_year}-{billion_month}"] += 1
 
         stream_count[f"{playcount/1_000_000_000:.1f}"] += 1
         time_count[f"{duration//10}"] += 1
