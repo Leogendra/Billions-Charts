@@ -20,17 +20,24 @@ WRITE_TO_DATABASE = True # If False, will write to json files instead of databas
 
 
 
-@app.route("/search/", methods=["GET"])
-def search():
-    password = request.args.get("password", "")
-    if password != PASSWORD:
-        time.sleep(2)
+def check_password(password=""):
+    time.sleep(1)
+    if (password != PASSWORD):
+        time.sleep(3)
         return jsonify(
             {
                 "message": "Access denied!",
                 "output": "You don't have access to this resource.",
             }
         )
+    return None
+
+
+@app.route("/search/", methods=["GET"])
+def search():
+    auth = check_password(request.args.get("password", ""))
+    if auth:
+        return auth
     dateKey = datetime.datetime.now().strftime("%Y-%m-%d")
     dataPath = f"data/tracks/tracks_{dateKey}.json"
     reportPublicPath = f"public/data/report.json"
@@ -55,15 +62,9 @@ def search():
 
 @app.route("/report/<dateKey>/", methods=["GET"])
 def report(dateKey):
-    password = request.args.get("password", "")
-    if password != PASSWORD:
-        time.sleep(2)
-        return jsonify(
-            {
-                "message": "Access denied!",
-                "output": "You don't have access to this resource.",
-            }
-        )
+    auth = check_password(request.args.get("password", ""))
+    if auth:
+        return auth
     dataPath = f"data/tracks/tracks_{dateKey}.json"
     reportPublicPath = f"public/data/report.json"
 
@@ -82,15 +83,9 @@ def report(dateKey):
 
 @app.route("/leaderboard/<dateKey>/", methods=["GET"])
 def leaderboard(dateKey):
-    password = request.args.get("password", "")
-    if password != PASSWORD:
-        time.sleep(2)
-        return jsonify(
-            {
-                "message": "Access denied!",
-                "output": "You don't have access to this resource.",
-            }
-        )
+    auth = check_password(request.args.get("password", ""))
+    if auth:
+        return auth
     create_folder("data/reports")
     dataPath = f"data/tracks/tracks_{dateKey}.json"
 
