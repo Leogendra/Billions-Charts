@@ -95,13 +95,13 @@
     position: absolute;
     bottom: 120%;
     left: 50%;
-    width: 250px;
-    max-width: 300px;
+    width: 200px;
+    max-width: 250px;
     padding: 8px 12px;
     color: var(--main-bg-color);
     background-color: var(--primary-color);
     font-family: var(--main-font);
-    font-size: 1rem;
+    font-size: 0.85rem;
     text-align: center;
     white-space: normal;
     overflow-wrap: break-word;
@@ -233,10 +233,10 @@
         padding: 3px 10px;
     }
 
-    .section-graphs {
+    .graphs {
         padding: 5px;
     }
-    .section-graphs > .chart-title {
+    .graphs > .chart-title {
         padding: 15px;
     }
 }

@@ -55,24 +55,29 @@
             <div class="charts-hero">
                 <div class="counter-container">
                     <h2 class="hero-title">Total Tracks</h2>
-                    <div id="total-tracks" class="counter">0</div>
+                    <div id="total-tracks" class="counter odometer">
+                        <span class="odometer-value">0</span>
+                    </div>
                 </div>
                 <div class="counter-container">
                     <h2 class="hero-title">Total Streams</h2>
                     <div class="counter-addon">
-                        <div id="total-streams" class="counter">0</div>
+                        <div id="total-streams" class="counter">
+                            <span class="odometer-value">0</span>
+                        </div>
                     </div>
                 </div>
                 <div class="counter-container">
+
                     <h2 class="hero-title">Total Artists</h2>
-                    <div id="total-artists" class="counter">0</div>
+                    <div id="total-artists" class="counter odometer">
+                        <span class="odometer-value">0</span>
+                    </div>
                 </div>
             </div>
 
             <div class="counter-container">
-                <div class="cover-container">
-                    <img src="" alt="Playlist Cover" id="playlist-cover">
-                </div>
+                <div class="cover-container"></div>
                 <h2 id="playlist-description"></h2>
             </div>
         </div>
@@ -208,7 +213,7 @@
             <div class="pill-container" id="pills-times"></div>
         </div>
 
-        <div class="chart-container section-times" id="container-histo-plot-release-year" open>
+        <div class="chart-container section-times graphs" id="container-histo-plot-release-year" open>
             <div class="chart-title">🏗️ Track release by year
                 <div class="tooltip-container">
                     <span class="material-symbols-outlined tooltip-icon">help</span>
@@ -218,7 +223,7 @@
             <canvas class="scatter-plot" id="histo-plot-release-year"></canvas>
         </div>
 
-        <div class="chart-container section-times" id="container-histo-plot-release-month" open>
+        <div class="chart-container section-times graphs" id="container-histo-plot-release-month" open>
             <div class="chart-title">🗓️ Track release by months
                 <div class="tooltip-container">
                     <span class="material-symbols-outlined tooltip-icon">help</span>
@@ -228,7 +233,7 @@
             <canvas class="scatter-plot" id="histo-plot-release-month"></canvas>
         </div>
 
-        <div class="chart-container section-times" id="container-histo-plot-billion-year" open>
+        <div class="chart-container section-times graphs" id="container-histo-plot-billion-year" open>
             <div class="chart-title">💥 Track billions by year
                 <div class="tooltip-container">
                     <span class="material-symbols-outlined tooltip-icon">help</span>
@@ -238,7 +243,7 @@
             <canvas class="scatter-plot" id="histo-plot-billion-year"></canvas>
         </div>
 
-        <div class="chart-container section-times" id="container-histo-plot-billion-month" open>
+        <div class="chart-container section-times graphs" id="container-histo-plot-billion-month" open>
             <div class="chart-title">🍂 Track billions by months
                 <div class="tooltip-container">
                     <span class="material-symbols-outlined tooltip-icon">help</span>
@@ -255,7 +260,7 @@
             <div class="pill-container" id="pills-graphs"></div>
         </div>
 
-        <div class="chart-container section-graphs" id="container-histo-plot-streams-count" open>
+        <div class="chart-container section-graphs graphs" id="container-histo-plot-streams-count" open>
             <div class="chart-title">🔢 Streams distrbution
                 <div class="tooltip-container">
                     <span class="material-symbols-outlined tooltip-icon">help</span>
@@ -265,7 +270,7 @@
             <canvas class="scatter-plot" id="histo-plot-streams-count"></canvas>
         </div>
 
-        <div class="chart-container section-graphs" id="container-histo-plot-tracks-count" open>
+        <div class="chart-container section-graphs graphs" id="container-histo-plot-tracks-count" open>
             <div class="chart-title">🌟 Artist track count distrbution
                 <div class="tooltip-container">
                     <span class="material-symbols-outlined tooltip-icon">help</span>
@@ -275,7 +280,7 @@
             <canvas class="scatter-plot" id="histo-plot-tracks-count"></canvas>
         </div>
 
-        <div class="chart-container section-graphs" id="container-histo-plot-times-count" open>
+        <div class="chart-container section-graphs graphs" id="container-histo-plot-times-count" open>
             <div class="chart-title">⌚ Track lenght distrbution
                 <div class="tooltip-container">
                     <span class="material-symbols-outlined tooltip-icon">help</span>

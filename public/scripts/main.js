@@ -37,13 +37,14 @@ function createOdometer(el, value, suffix="") {
         el: el,
         value: 0,
         suffix: suffix,
+        format: '(ddd).dd',
     });
     odometer.update(value);
 }
 
 
 function update_counters(report) {
-    createOdometer(steams_counter, Math.round(report.total_streams / 1_000_000_000), "B");
+    createOdometer(steams_counter, Math.round(report.total_streams / 1_000_000_000), suffix="B");
     createOdometer(artists_counter, report.total_artists);
     createOdometer(tracks_counter, report.total_tracks);
 }
@@ -56,9 +57,14 @@ function update_playlist_infos(report) {
     update_date_global.textContent = lastUpdateDate;
 
     // playlist image and description
+    const playlist_cover = document.createElement("img");
     playlist_cover.src = report.coverUrl;
-    playlist_description.textContent = report.description.replace(/<[^>]*>|{[^}]*}/g, '');
+    playlist_cover.id = "playlist-cover";
+    playlist_cover.alt = "Playlist Cover";
+
+    cover_container.appendChild(playlist_cover);
     cover_container.style.boxShadow = report.coverHex;
+    playlist_description.textContent = report.description.replace(/<[^>]*>|{[^}]*}/g, '');
 }
 
 

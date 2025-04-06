@@ -385,7 +385,7 @@ async function create_histogram_track_count(report) {
         data: {
             labels: trackCount.map(m => m),
             datasets: [{
-                label: "Number of tracks",
+                label: "Number of artists",
                 data: values,
                 backgroundColor: accentColor,
                 borderColor: accentColor,
@@ -397,6 +397,8 @@ async function create_histogram_track_count(report) {
             scales: {
                 y: {
                     beginAtZero: true,
+                    min: 0,
+                    max: 100,
                     title: {
                         display: true,
                         text: "Number of artists",
@@ -404,11 +406,7 @@ async function create_histogram_track_count(report) {
                     },
                     ticks: {
                         color: primaryColor,
-                        // callback: function(value) {
-                        //     return Number.isInteger(value) ? value : '';
-                        // }
                     },
-                    // type: "logarithmic",
                 },
                 x: {
                     title: {
