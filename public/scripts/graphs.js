@@ -5,11 +5,23 @@ const accentColor = getComputedStyle(document.documentElement).getPropertyValue(
 
 
 
-function getMonthName(monthNumber) {
+// Utils
+function get_month_name(monthNumber) {
     return new Date(2000, monthNumber - 1).toLocaleString("en-US", { month: "long" });
 }
 
 
+function format_time_label(unit) {
+    const totalSeconds = unit * 10;
+    const minutes = Math.floor(totalSeconds / 60);
+    const seconds = totalSeconds % 60;
+    return `${minutes}:${seconds.toString().padStart(2, '0')}`;
+}
+
+
+
+
+// Histograms
 async function create_histogram_release_month(report) {
     const monthCount = report.distribution_month_release_count;
 
@@ -20,7 +32,7 @@ async function create_histogram_release_month(report) {
     new Chart(ctx, {
         type: "bar",
         data: {
-            labels: months.map(m => getMonthName(m)),
+            labels: months.map(m => get_month_name(m)),
             datasets: [{
                 label: "Number of tracks",
                 data: values,
@@ -127,17 +139,52 @@ async function create_histogram_release_year(report) {
 async function create_histogram_billion_month(report) {
     const monthCount = report.distribution_month_billion_count;
 
-    const months = Object.keys(monthCount).sort((a, b) => a - b);
-    const values = months.map(month => monthCount[month]);
+    // Sort the YYYY-MM keys
+    let sortedMonths = Object.keys(monthCount).sort((a, b) => {
+        const [yearA, monthA] = a.split("-");
+        const [yearB, monthB] = b.split("-");
+        return (yearA - yearB) || (monthA - monthB);
+    });
+    let sortedValues = sortedMonths.map(key => monthCount[key]);
+
+    const [startYear, startMonth] = sortedMonths[0].split("-");
+    const [endYear, endMonth] = sortedMonths[sortedMonths.length - 1].split("-");
+
+    // Fill in missing months
+    const startDate = new Date(startYear, startMonth - 1);
+    const endDate = new Date(endYear, endMonth - 1);
+    const allMonths = [];
+    for (let d = new Date(startDate); d <= endDate; d.setMonth(d.getMonth() + 1)) {
+        const year = d.getFullYear();
+        const month = String(d.getMonth() + 1).padStart(2, '0');
+        const key = `${year}-${month}`;
+        if (!sortedMonths.includes(key)) {
+            sortedMonths.push(key);
+            sortedValues.push(0);
+        }
+    }
+    // Sort again
+    const sortedData = sortedMonths
+        .map((month, index) => ({ month, value: sortedValues[index] }))
+        .sort((a, b) => {
+            const [yearA, monthA] = a.month.split("-");
+            const [yearB, monthB] = b.month.split("-");
+            return (yearA - yearB) || (monthA - monthB);
+        });
+    sortedMonths = sortedData.map(item => item.month);
+    sortedValues = sortedData.map(item => item.value);
 
     const ctx = document.querySelector("#histo-plot-billion-month").getContext("2d");
     new Chart(ctx, {
         type: "bar",
         data: {
-            labels: months.map(m => getMonthName(m)),
+            labels: sortedMonths.map(m => {
+                const [year, month] = m.split("-");
+                return `${get_month_name(Number(month))} ${year}`;
+            }),
             datasets: [{
                 label: "Number of tracks",
-                data: values,
+                data: sortedValues,
                 backgroundColor: accentColor,
                 borderColor: accentColor,
                 borderWidth: 1
@@ -338,7 +385,7 @@ async function create_histogram_track_count(report) {
         data: {
             labels: trackCount.map(m => m),
             datasets: [{
-                label: "Number of tracks",
+                label: "Number of artists",
                 data: values,
                 backgroundColor: accentColor,
                 borderColor: accentColor,
@@ -350,6 +397,8 @@ async function create_histogram_track_count(report) {
             scales: {
                 y: {
                     beginAtZero: true,
+                    min: 0,
+                    max: 100,
                     title: {
                         display: true,
                         text: "Number of artists",
@@ -357,11 +406,7 @@ async function create_histogram_track_count(report) {
                     },
                     ticks: {
                         color: primaryColor,
-                        // callback: function(value) {
-                        //     return Number.isInteger(value) ? value : '';
-                        // }
                     },
-                    // type: "logarithmic",
                 },
                 x: {
                     title: {
@@ -377,6 +422,91 @@ async function create_histogram_track_count(report) {
             plugins: {
                 legend: {
                     display: false
+                }
+            }
+        }
+    });
+}
+
+
+async function create_histogram_time_count(report) {
+    const rawTimes = report.distribution_time_count;
+
+    let timeCount = Object.keys(rawTimes).map(Number);
+    let values = timeCount.map(time => rawTimes[time] || 0);
+    const minTime = Math.min(...timeCount);
+    const maxTime = Math.max(...timeCount);
+    
+    for (let s = minTime; s < maxTime; s += 1) {
+        const rounded = Number(s.toFixed(1));
+        if (!timeCount.includes(rounded)) {
+            timeCount.push(rounded);
+            values.push(0);
+        }
+    }
+    
+    const sortedData = timeCount
+        .map((time, index) => ({ time: Number(time), value: values[index] }))
+        .sort((a, b) => a.time - b.time);
+    
+        timeCount = sortedData.map(d => d.time);
+    values = sortedData.map(d => d.value);
+
+    const ctx = document.querySelector("#histo-plot-times-count").getContext("2d");
+    new Chart(ctx, {
+        type: "bar",
+        data: {
+            labels: timeCount.map(m => m),
+            datasets: [{
+                label: "Number of tracks",
+                data: values,
+                backgroundColor: accentColor,
+                borderColor: accentColor,
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: "Number of tracks",
+                        color: primaryColor
+                    },
+                    ticks: {
+                        color: primaryColor,
+                    },
+                },
+                x: {
+                    title: {
+                        display: true,
+                        text: "Track duration",
+                        color: primaryColor
+                    },
+                    ticks: {
+                        color: primaryColor,
+                        callback: function(value, index) {
+                            return format_time_label(this.getLabelForValue(value));
+                        }
+                    },
+                }
+            },
+            plugins: {
+                legend: {
+                    display: false
+                },
+                tooltip: {
+                    callbacks: {
+                        title: function(tooltipItems) {
+                            const val = tooltipItems[0].parsed.x + minTime;
+                            return format_time_label(val);
+                        },
+                        label: function(tooltipItem) {
+                            return `Number of tracks: ${tooltipItem.parsed.y}`;
+                        }
+                    }
                 }
             }
         }

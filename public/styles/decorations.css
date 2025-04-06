@@ -7,7 +7,6 @@
 .next-arrow {
     height: 200px;
     width: 200px;
-    margin-bottom: 1rem;
     -webkit-animation: anim-arrow 100s linear infinite;
     animation: anim-arrow 100s linear infinite;
 }
@@ -19,13 +18,5 @@
     }
     100% {
         stroke-dashoffset: 0
-    }
-}
-
-
-@media screen and (max-width: 800px) {
-    .next-arrow {
-        height: 150px;
-        width: 150px;
     }
 }
