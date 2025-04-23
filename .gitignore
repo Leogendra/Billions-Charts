@@ -1,11 +1,10 @@
-# Modules
-__*/
-
 # Environment
+**/__*/
 .vscode/
 *env*/
 .env
 
 # Data
 **/data/
-tests/
+**/tests/
+sitemap.xml
