@@ -19,7 +19,7 @@ def aggregate_general(tracks):
 
 
 def aggregate_artists(tracks):
-    artists_data = defaultdict(lambda: {"count": 0, "playcount": 0, "length": 0, "id": None, "image": None})
+    artists_data = defaultdict(lambda: {"count": 0, "playcount": 0, "length": 0, "id": None, "image": None, "popularity": 0})
 
     # Aggregate data for each artist
     for track in tracks:
@@ -28,6 +28,7 @@ def aggregate_artists(tracks):
             artists_data[artist_name]["count"] += 1
             artists_data[artist_name]["playcount"] += track["playcount"]
             artists_data[artist_name]["length"] += track["duration_ms"]
+            artists_data[artist_name]["popularity"] += artist["popularity"]
             # Get the first artist id and image if still None
             if (not(artists_data[artist_name]["id"]) or not(artists_data[artist_name]["image"])):
                 artists_data[artist_name]["id"] = artist.get("id")
@@ -52,11 +53,21 @@ def aggregate_artists(tracks):
         reverse=True
     )[:MAX_TOP_SONGS]
 
+    # Divide popularity by the number of tracks to get an average
+    for artist, data in artists_data.items():
+        artists_data[artist]["popularity"] = round(data["popularity"] / data["count"], 2)
+
+    artists_popularity_array = sorted(
+        ((artist, data["popularity"], data["id"], data["image"]) for artist, data in artists_data.items()),
+        key=lambda x: x[1],
+        reverse=True
+    )[:MAX_TOP_SONGS]
+
     tracks_count_distribution = defaultdict(int)
     for artist, data in artists_data.items():
         tracks_count_distribution[data["count"]] += 1
 
-    return artists_count_array, artists_playcount_array, artists_length_array, tracks_count_distribution
+    return artists_count_array, artists_playcount_array, artists_length_array, artists_popularity_array, tracks_count_distribution
 
 
 def aggregate_dates(tracks):
@@ -273,7 +284,7 @@ def generate_report(dataPath, outputReportPath, WRITE_TO_DATABASE):
     tracks = playlist["items"]
 
     total_tracks, total_artists, total_streams, total_time, total_explicits = aggregate_general(tracks)
-    artists_counts, artists_playcounts, artists_length, count_distribution = aggregate_artists(tracks)
+    artists_counts, artists_playcounts, artists_length, artists_popularity, count_distribution = aggregate_artists(tracks)
     oldest_tracks, newest_tracks = aggregate_dates(tracks)
     newest_billions, fastest_billions = agregate_billions(tracks)
     most_streamed_tracks, least_streamed_tracks = aggregate_by_key(tracks, "playcount")
@@ -296,6 +307,7 @@ def generate_report(dataPath, outputReportPath, WRITE_TO_DATABASE):
         "artists_counts": artists_counts,
         "artists_playcounts": artists_playcounts,
         "artists_length": artists_length,
+        "artists_popularity": artists_popularity,
         "oldest_tracks": oldest_tracks,
         "newest_tracks": newest_tracks,
         "newest_billions": newest_billions,

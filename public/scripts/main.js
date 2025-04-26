@@ -161,6 +161,21 @@ async function update_artists_most_songs(report) {
 }
 
 
+async function update_artists_most_popular(report) {
+    const artists = [];
+    report.artists_popularity.forEach(artist => {
+        artists.push({
+            name: artist[0],
+            data: artist[1],
+            data_dislay: artist[1],
+            url: `https://open.spotify.com/artist/${artist[2]}`,
+            image: artist[3]
+        });
+    });
+    display_artists_bars(artists, "artists-most-popular");
+}
+
+
 async function update_artists_most_time(report) {
     const artists = [];
     report.artists_length.forEach(artist => {
@@ -198,6 +213,7 @@ async function main() {
         // Artists sections
         update_artists_most_streamed(report),
         update_artists_most_songs(report),
+        update_artists_most_popular(report),
         update_artists_most_time(report),
 
         // Charts sections
