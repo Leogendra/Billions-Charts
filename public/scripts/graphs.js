@@ -1,7 +1,9 @@
 const primaryColor = getComputedStyle(document.documentElement).getPropertyValue('--primary-color').trim();
+const primaryColorDarker = getComputedStyle(document.documentElement).getPropertyValue('--primary-color-darker').trim();
 const backgroundDark = getComputedStyle(document.documentElement).getPropertyValue('--color-darker').trim();
 const accentColor = getComputedStyle(document.documentElement).getPropertyValue('--accent-color').trim();
 
+const main_colors = [accentColor, "#214583", "#6a9b2f", "#f5d443", "#e52f18", "#000000"];
 
 
 
@@ -16,6 +18,15 @@ function format_time_label(unit) {
     const minutes = Math.floor(totalSeconds / 60);
     const seconds = totalSeconds % 60;
     return `${minutes}:${seconds.toString().padStart(2, '0')}`;
+}
+
+
+function generate_colors(count) {
+    const colors = [];
+    for (let i = 0; i < count; i++) {
+        colors.push(main_colors[i % main_colors.length]);
+    }
+    return colors;
 }
 
 
@@ -97,7 +108,7 @@ async function create_histogram_release_year(report) {
     new Chart(ctx, {
         type: "bar",
         data: {
-            labels: months.map(m => m),
+            labels: months,
             datasets: [{
                 label: "Number of tracks",
                 data: values,
@@ -246,7 +257,7 @@ async function create_histogram_billion_year(report) {
     new Chart(ctx, {
         type: "bar",
         data: {
-            labels: months.map(m => m),
+            labels: months,
             datasets: [{
                 label: "Number of tracks",
                 data: values,
@@ -292,7 +303,7 @@ async function create_histogram_streams_count(report) {
     let values = streams.map(stream => rawStreams[stream.toFixed(1)] || 0);
     const minStreams = 1.0;
     const maxStreams = Math.max(...streams);
-    
+
     for (let s = minStreams; s < maxStreams; s += 0.1) {
         const rounded = Number(s.toFixed(1));
         if (!streams.includes(rounded)) {
@@ -300,11 +311,11 @@ async function create_histogram_streams_count(report) {
             values.push(0);
         }
     }
-    
+
     const sortedData = streams
         .map((stream, index) => ({ stream: Number(stream), value: values[index] }))
         .sort((a, b) => a.stream - b.stream);
-    
+
     streams = sortedData.map(d => d.stream.toFixed(1));
     values = sortedData.map(d => d.value);
 
@@ -312,7 +323,7 @@ async function create_histogram_streams_count(report) {
     new Chart(ctx, {
         type: "bar",
         data: {
-            labels: streams.map(m => m),
+            labels: streams,
             datasets: [{
                 label: "Number of tracks",
                 data: values,
@@ -363,7 +374,7 @@ async function create_histogram_track_count(report) {
     let values = trackCount.map(stream => rawStreams[stream] || 0);
     const minStreams = 1;
     const maxStreams = Math.max(...trackCount);
-    
+
     for (let s = minStreams; s < maxStreams; s += 1) {
         const rounded = Number(s.toFixed(1));
         if (!trackCount.includes(rounded)) {
@@ -371,19 +382,19 @@ async function create_histogram_track_count(report) {
             values.push(0);
         }
     }
-    
+
     const sortedData = trackCount
         .map((stream, index) => ({ stream: Number(stream), value: values[index] }))
         .sort((a, b) => a.stream - b.stream);
-    
-        trackCount = sortedData.map(d => d.stream);
+
+    trackCount = sortedData.map(d => d.stream);
     values = sortedData.map(d => d.value);
 
     const ctx = document.querySelector("#histo-plot-tracks-count").getContext("2d");
     new Chart(ctx, {
         type: "bar",
         data: {
-            labels: trackCount.map(m => m),
+            labels: trackCount,
             datasets: [{
                 label: "Number of artists",
                 data: values,
@@ -436,7 +447,7 @@ async function create_histogram_time_count(report) {
     let values = timeCount.map(time => rawTimes[time] || 0);
     const minTime = Math.min(...timeCount);
     const maxTime = Math.max(...timeCount);
-    
+
     for (let s = minTime; s < maxTime; s += 1) {
         const rounded = Number(s.toFixed(1));
         if (!timeCount.includes(rounded)) {
@@ -444,19 +455,19 @@ async function create_histogram_time_count(report) {
             values.push(0);
         }
     }
-    
+
     const sortedData = timeCount
         .map((time, index) => ({ time: Number(time), value: values[index] }))
         .sort((a, b) => a.time - b.time);
-    
-        timeCount = sortedData.map(d => d.time);
+
+    timeCount = sortedData.map(d => d.time);
     values = sortedData.map(d => d.value);
 
     const ctx = document.querySelector("#histo-plot-times-count").getContext("2d");
     new Chart(ctx, {
         type: "bar",
         data: {
-            labels: timeCount.map(m => m),
+            labels: timeCount,
             datasets: [{
                 label: "Number of tracks",
                 data: values,
@@ -487,7 +498,7 @@ async function create_histogram_time_count(report) {
                     },
                     ticks: {
                         color: primaryColor,
-                        callback: function(value, index) {
+                        callback: function (value, index) {
                             return format_time_label(this.getLabelForValue(value));
                         }
                     },
@@ -499,14 +510,70 @@ async function create_histogram_time_count(report) {
                 },
                 tooltip: {
                     callbacks: {
-                        title: function(tooltipItems) {
+                        title: function (tooltipItems) {
                             const val = tooltipItems[0].parsed.x + minTime;
                             return format_time_label(val);
                         },
-                        label: function(tooltipItem) {
+                        label: function (tooltipItem) {
                             return `Number of tracks: ${tooltipItem.parsed.y}`;
                         }
                     }
+                }
+            }
+        }
+    });
+}
+
+
+async function create_histogram_featuring(report) {
+    const rawFeats = report.distribution_featuring_count;
+
+    const featCount = Object.keys(rawFeats).map(Number);
+    const values = featCount.map(feat => rawFeats[feat] || 0);
+
+    const ctx = document.querySelector("#histo-plot-featuring").getContext("2d");
+    new Chart(ctx, {
+        type: "pie",
+        data: {
+            labels: featCount,
+            datasets: [{
+                label: "Number of artists",
+                data: values,
+                backgroundColor: generate_colors(featCount.length),
+                borderColor: accentColor,
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            // scales: {
+            //     y: {
+            //         beginAtZero: true,
+            //         min: 0,
+            //         max: 500,
+            //         title: {
+            //             display: true,
+            //             text: "Number of tracks",
+            //             color: primaryColor
+            //         },
+            //         ticks: {
+            //             color: primaryColor,
+            //         },
+            //     },
+            //     x: {
+            //         title: {
+            //             display: true,
+            //             text: "Number of artists featured",
+            //             color: primaryColor
+            //         },
+            //         ticks: {
+            //             color: primaryColor
+            //         },
+            //     }
+            // },
+            plugins: {
+                legend: {
+                    display: false
                 }
             }
         }

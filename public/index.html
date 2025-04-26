@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/x-icon" href="assets/favicon.png">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
 
     <!-- Primary Meta Tags  -->
     <title>Billions Charts</title>
@@ -196,6 +196,17 @@
             </div>
         </div>
 
+        <div class="chart-container section-artists" id="container-artists-most-popular" open>
+            <div class="chart-title">🧡 More popular artists
+                <div class="tooltip-container">
+                    <span class="material-symbols-outlined tooltip-icon">help</span>
+                    <div class="tooltip-info">The popularity of each artist is calculated by Spotify, without further details</div>
+                </div>
+            </div>
+            <div class="div-bar-entries" id="artists-most-popular">
+            </div>
+        </div>
+
         <div class="chart-container section-artists" id="container-artists-most-time" open>
             <div class="chart-title">⏱️ Artists with more time
                 <div class="tooltip-container">
@@ -268,6 +279,16 @@
                 </div>
             </div>
             <canvas class="scatter-plot" id="histo-plot-streams-count"></canvas>
+        </div>
+
+        <div class="chart-container section-graphs graphs" id="container-histo-plot-featuring" open>
+            <div class="chart-title">👦 Featuring distribution
+                <div class="tooltip-container">
+                    <span class="material-symbols-outlined tooltip-icon">help</span>
+                    <div class="tooltip-info">Here's the distribution of the number of artists per tracks</div>
+                </div>
+            </div>
+            <canvas class="scatter-plot" id="histo-plot-featuring"></canvas>
         </div>
 
         <div class="chart-container section-graphs graphs" id="container-histo-plot-tracks-count" open>

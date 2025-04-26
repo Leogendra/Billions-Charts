@@ -17,6 +17,8 @@ const KEY_FEATURES_TEMPLATE = [
     "But only %{percent_artists_5plus_tracks}% of artists can claim the ultimate bragging rights with 5 songs or more in the Billions Club, props to all {count_artists_5plus_tracks} of them! 🏆",
     "The shortest song is {{shortest_song}} by {{shortest_artist}}, with a duration of {shortest_duration} ⏳",
     "{{longest_artist}} have the longest song with {{longest_song}}, running for {longest_duration} 🥵",
+    "Among all these songs, %{percent_explicit}% contain explicit lyrics 🙉",
+    "%{percent_solo_tracks}% of the tracks are made by solo artists, while the rest are shared by multiple collaborators, with the highest number of artists on a single track being {highest_featuring_count}! 🤝"
 ];
 
 

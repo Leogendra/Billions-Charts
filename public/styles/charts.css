@@ -181,6 +181,8 @@
 /* Plot, scatters, bars */
 .scatter-plot {
     margin-top: 50px;
+    max-height: 400px;
+    /* max-width: 300px; */
 }
 
 
