@@ -21,17 +21,10 @@ function format_time_label(unit) {
 }
 
 
-function seeded_random(seed) {
-    let x = Math.sin(seed++) * 10000;
-    return x - Math.floor(x);
-}
-
 function generate_colors(count) {
     const colors = [];
     for (let i = 0; i < count; i++) {
-        let color = main_colors[i % main_colors.length];
-        console.log(color);
-        colors.push(color);
+        colors.push(main_colors[i % main_colors.length]);
     }
     return colors;
 }

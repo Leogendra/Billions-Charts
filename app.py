@@ -44,7 +44,7 @@ def generate_sitemap(dateKey):
     </url>
 </urlset>"""
     
-    with open("sitemap.xml", "w") as f:
+    with open("public/sitemap.xml", "w") as f:
         f.write(sitemap)
 
 
