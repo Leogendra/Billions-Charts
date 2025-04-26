@@ -14,7 +14,8 @@ def aggregate_general(tracks):
     total_artists = len(set(artist["name"] for track in tracks for artist in track["artists"]))
     total_streams = sum(track["playcount"] for track in tracks)
     total_time = sum(track["duration_ms"] for track in tracks) // 1000 # in seconds
-    return total_tracks, total_artists, total_streams, total_time
+    total_explicits = sum(1 for track in tracks if (track["contentRating"] == "EXPLICIT"))
+    return total_tracks, total_artists, total_streams, total_time, total_explicits
 
 
 def aggregate_artists(tracks):
@@ -184,7 +185,7 @@ def aggregate_periods(tracks):
     return dict(year_release_count), dict(month_release_count), dict(year_billion_count), dict(month_billion_count), dict(stream_count), dict(time_count)
 
 
-def get_template_data(tracks, report):
+def get_key_features_data(tracks, report):
     total_tracks = report["total_tracks"]
     
     two_billion_count = int(sum(1 for track in tracks if (track["playcount"] >= 2_000_000_000)))
@@ -252,6 +253,7 @@ def get_template_data(tracks, report):
         "count_artists_5plus_tracks": count_artists_5plus_tracks,
         "percent_artists_5plus_tracks": percent_artists_5plus_tracks,
         "average_track_lenght": f"{report["total_time"] // total_tracks // 60}:{(report["total_time"] // total_tracks) % 60:02d}",
+        "percent_explicit": f"{100 * report["total_explicits"] / total_tracks:.2f}",
     }
 
 
@@ -270,7 +272,7 @@ def generate_report(dataPath, outputReportPath, WRITE_TO_DATABASE):
 
     tracks = playlist["items"]
 
-    total_tracks, total_artists, total_streams, total_time = aggregate_general(tracks)
+    total_tracks, total_artists, total_streams, total_time, total_explicits = aggregate_general(tracks)
     artists_counts, artists_playcounts, artists_length, count_distribution = aggregate_artists(tracks)
     oldest_tracks, newest_tracks = aggregate_dates(tracks)
     newest_billions, fastest_billions = agregate_billions(tracks)
@@ -290,6 +292,7 @@ def generate_report(dataPath, outputReportPath, WRITE_TO_DATABASE):
         "total_artists": total_artists,
         "total_streams": total_streams,
         "total_time": total_time,
+        "total_explicits": total_explicits,
         "artists_counts": artists_counts,
         "artists_playcounts": artists_playcounts,
         "artists_length": artists_length,
@@ -311,7 +314,7 @@ def generate_report(dataPath, outputReportPath, WRITE_TO_DATABASE):
         "distribution_time_count": time_count,
         "distribution_track_count": count_distribution,
     }
-    final_report["template_data"] = get_template_data(tracks, final_report)
+    final_report["template_data"] = get_key_features_data(tracks, final_report)
 
     with open(outputReportPath, "w", encoding="utf-8") as f:
         json.dump(final_report, f, ensure_ascii=False, indent=4)
