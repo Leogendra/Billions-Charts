@@ -168,6 +168,7 @@ def aggregate_periods(tracks):
     month_billion_count = defaultdict(int)
     stream_count = defaultdict(int)
     time_count = defaultdict(int)
+    featuring_count = defaultdict(int)
 
     for track in tracks:
         release_date = track["release_date"]
@@ -192,8 +193,9 @@ def aggregate_periods(tracks):
 
         stream_count[f"{playcount/1_000_000_000:.1f}"] += 1
         time_count[f"{duration//10}"] += 1
+        featuring_count[f"{len(track['artists'])}"] += 1
 
-    return dict(year_release_count), dict(month_release_count), dict(year_billion_count), dict(month_billion_count), dict(stream_count), dict(time_count)
+    return dict(year_release_count), dict(month_release_count), dict(year_billion_count), dict(month_billion_count), dict(stream_count), dict(time_count), dict(featuring_count)
 
 
 def get_key_features_data(tracks, report):
@@ -290,7 +292,7 @@ def generate_report(dataPath, outputReportPath, WRITE_TO_DATABASE):
     most_streamed_tracks, least_streamed_tracks = aggregate_by_key(tracks, "playcount")
     most_popular_tracks, least_popular_tracks = aggregate_by_key(tracks, "popularity")
     most_long_tracks, most_short_tracks = aggregate_by_key(tracks, "duration_ms")
-    year_release_count, month_release_count, year_billion_count, month_billion_count, stream_count, time_count = aggregate_periods(tracks)
+    year_release_count, month_release_count, year_billion_count, month_billion_count, stream_count, time_count, featuring_count = aggregate_periods(tracks)
 
     final_report = {
         "name": playlist["name"],
@@ -324,6 +326,7 @@ def generate_report(dataPath, outputReportPath, WRITE_TO_DATABASE):
         "distribution_month_billion_count": month_billion_count,
         "distribution_streams_count": stream_count,
         "distribution_time_count": time_count,
+        "distribution_featuring_count": featuring_count,
         "distribution_track_count": count_distribution,
     }
     final_report["template_data"] = get_key_features_data(tracks, final_report)
