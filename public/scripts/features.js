@@ -18,6 +18,7 @@ const KEY_FEATURES_TEMPLATE = [
     "The shortest song is {{shortest_song}} by {{shortest_artist}}, with a duration of {shortest_duration} ⏳",
     "{{longest_artist}} have the longest song with {{longest_song}}, running for {longest_duration} 🥵",
     "Among all these songs, %{percent_explicit}% contain explicit lyrics 🙉",
+    "%{percent_solo_tracks}% of the tracks are made by solo artists, while the rest are shared by multiple collaborators, with the highest number of artists on a single track being {highest_featuring_count}! 🤝"
 ];
 
 
