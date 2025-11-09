@@ -48,12 +48,17 @@ def fetch_playlist_infos(dataPath, WRITE_TO_DATABASE):
         raise Exception("Error while creating PublicPlaylist:", e)
 
     print("Fetching playlist infos...")
-    try:
-        playlist_info = playlist.get_playlist_info(limit=5000)
-        if not(playlist_info["data"]):
-            raise Exception("Error while fetching playlist infos:", playlist_info["errors"] if playlist_info["errors"] else "No data returned")
-    except Exception as e:
-        raise Exception("Critical Error while fetching playlist infos:", e)
+    max_retries = 3 # handmade retry mechanism
+    for attempt in range(max_retries):
+        try:
+            playlist_info = playlist.get_playlist_info(limit=5000)
+            if not(playlist_info["data"]):
+                raise Exception("Error while fetching playlist infos:", playlist_info["errors"] if playlist_info["errors"] else "No data returned")
+        except Exception as e:
+            print(f"Attempt {attempt+1}/{max_retries} failed: {e}")
+            if ((attempt+1) == max_retries):
+                raise Exception("Critical Error while fetching playlist infos:", e)
+            time.sleep(3)
     
     raw_data = playlist_info["data"]["playlistV2"]
 
