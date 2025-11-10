@@ -119,7 +119,7 @@ function get_and_clean_direct_text_content(element) {
     text = text.split(":")[0];
     text = text.replace(/:/g, "").replace(/"/g, "").trim();
     
-    const bannedWords = ["track", "tracks", "artist", "artists"];
+    const bannedWords = ["track", "tracks", "artist", "artists", "with", "the"];
     const match = text.match(/^(\p{Emoji_Presentation}|\p{Emoji}\uFE0F?)\s*(.*)$/u);
     if (!match) return text;
 
