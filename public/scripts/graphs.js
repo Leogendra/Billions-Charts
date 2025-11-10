@@ -3,7 +3,7 @@ const primaryColorDarker = getComputedStyle(document.documentElement).getPropert
 const backgroundDark = getComputedStyle(document.documentElement).getPropertyValue('--color-darker').trim();
 const accentColor = getComputedStyle(document.documentElement).getPropertyValue('--accent-color').trim();
 
-const main_colors = [accentColor, "#214583", "#6a9b2f", "#f5d443", "#e52f18", "#000000"];
+const main_colors = [accentColor, "#215783ff", "#6a9b2f", "#f5d443", "#e52f18"];
 
 
 
@@ -407,9 +407,10 @@ async function create_histogram_track_count(report) {
             responsive: true,
             scales: {
                 y: {
+                    type: "linear",
                     beginAtZero: true,
                     min: 0,
-                    max: 100,
+                    max: 140,
                     title: {
                         display: true,
                         text: "Number of artists",
@@ -417,6 +418,13 @@ async function create_histogram_track_count(report) {
                     },
                     ticks: {
                         color: primaryColor,
+                        callback: function(value, index) {
+                            const intVal = Math.round(value);
+                            if (value >= 140) {
+                                return "140+";
+                            }
+                            return intVal;
+                        }
                     },
                 },
                 x: {
@@ -433,6 +441,13 @@ async function create_histogram_track_count(report) {
             plugins: {
                 legend: {
                     display: false
+                },
+                tooltip: {
+                    callbacks: {
+                        title: function(context) {
+                            return context[0].label + " tracks in the Billions Club";
+                        }
+                    }
                 }
             }
         }
@@ -533,137 +548,57 @@ async function create_histogram_featuring(report) {
 
     const ctx = document.querySelector("#histo-plot-featuring").getContext("2d");
     new Chart(ctx, {
-        type: "pie",
+        type: "bar",
         data: {
             labels: featCount,
             datasets: [{
-                label: "Number of artists",
+                label: "Number of tracks",
                 data: values,
                 backgroundColor: generate_colors(featCount.length),
                 borderColor: accentColor,
-                borderWidth: 1
-            }]
-        },
-        options: {
-            responsive: true,
-            // scales: {
-            //     y: {
-            //         beginAtZero: true,
-            //         min: 0,
-            //         max: 500,
-            //         title: {
-            //             display: true,
-            //             text: "Number of tracks",
-            //             color: primaryColor
-            //         },
-            //         ticks: {
-            //             color: primaryColor,
-            //         },
-            //     },
-            //     x: {
-            //         title: {
-            //             display: true,
-            //             text: "Number of artists featured",
-            //             color: primaryColor
-            //         },
-            //         ticks: {
-            //             color: primaryColor
-            //         },
-            //     }
-            // },
-            plugins: {
-                legend: {
-                    display: false
-                }
-            }
-        }
-    });
-}
-
-
-
-
-/*
-async function create_point_graph(report) {
-    const songs = [
-        { name: "Have you ever seen the rain", date: "1971-01-05" }
-    ];
-    report.oldest_tracks.forEach(song => {
-        songs.push({ name: song.name, date: song.release_date });
-    });
-    report.newest_tracks.forEach(song => {
-        songs.push({ name: song.name, date: song.release_date });
-    });
-
-    const dataPoints = songs.map(song => {
-        const date = new Date(song.date);
-        const year = date.getFullYear();
-        const dayOfYear = (Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()) - Date.UTC(date.getFullYear(), 0, 0)) / (1000 * 60 * 60 * 24);
-        return { x: year, y: dayOfYear };
-    });
-
-    const ctx = document.querySelector('#scatter-plot-tracks').getContext('2d');
-    new Chart(ctx, {
-        type: 'scatter',
-        data: {
-            datasets: [{
-                label: 'Songs',
-                data: dataPoints,
-                backgroundColor: 'rgba(255, 99, 132, 0.8)',
-                borderColor: 'rgba(255, 255, 255, 1)',
-                pointRadius: 3,
-                pointHoverRadius: 6
+                borderWidth: 0
             }]
         },
         options: {
             responsive: true,
             scales: {
-                x: {
-                    type: 'linear',
-                    position: 'bottom',
+                y: {
+                    min: 0.8,
+                    type: 'logarithmic',
                     title: {
                         display: true,
-                        text: 'Year of release',
+                        text: "Number of tracks",
                         color: primaryColor
                     },
                     ticks: {
-                        callback: (val) => parseInt(val),
-                        color: primaryColor
+                        color: primaryColor,
+                        autoSkip: false,
+                        callback: function (value) {
+                            if (([1, 10, 100, 800].includes(value)) || ((value % 300) == 0)) { // manually keeping only some labels, may need adjustment if too many tracks
+                                return value;
+                            }
+                            else {
+                                return null;
+                            }
+                        }
                     },
-                    grid: {
-                        color: backgroundDark,
-                    }
                 },
-                y: {
-                    ticks: {
-                        display: false,
+                x: {
+                    title: {
+                        display: true,
+                        text: "Number of artists featured",
                         color: primaryColor
                     },
-                    grid: {
-                        color: backgroundDark,
-                    }
+                    ticks: {
+                        color: primaryColor
+                    },
                 }
             },
             plugins: {
                 legend: {
                     display: false
                 },
-                tooltip: {
-                    callbacks: {
-                        label: function (context) {
-                            const song = songs[context.dataIndex];
-                            return `${song.name} - ${song.date}`;
-                        }
-                    }
-                }
             }
         }
     });
 }
-
-<details class="chart-container" open>
-    <summary class="chart-title">Tracks streamcount by release date</span>
-    </summary>
-    <canvas class="scatter-plot" id="scatter-plot-tracks"></canvas>
-</details>
-*/
