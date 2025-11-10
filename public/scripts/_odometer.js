@@ -34,7 +34,7 @@
 
     transitionCheckStyles = document.createElement('div').style;
 
-    TRANSITION_SUPPORT = (transitionCheckStyles.transition != null) || (transitionCheckStyles.webkitTransition != null) || (transitionCheckStyles.mozTransition != null) || (transitionCheckStyles.oTransition != null);
+    TRANSITION_SUPPORT = (transitionCheckStyles.transition != null) || (transitionCheckStyles.transition != null) || (transitionCheckStyles.mozTransition != null) || (transitionCheckStyles.oTransition != null);
 
     requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
 
