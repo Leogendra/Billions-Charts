@@ -265,7 +265,7 @@ def get_key_features_data(tracks, report):
         "percent_artists_2plus_tracks": percent_artists_2plus_tracks,
         "count_artists_5plus_tracks": count_artists_5plus_tracks,
         "percent_artists_5plus_tracks": percent_artists_5plus_tracks,
-        "average_track_lenght": f"{report["total_time"] // total_tracks // 60}:{(report["total_time"] // total_tracks) % 60:02d}",
+        "average_track_length": f"{report["total_time"] // total_tracks // 60}:{(report["total_time"] // total_tracks) % 60:02d}",
         "percent_explicit": f"{100 * report["total_explicits"] / total_tracks:.2f}",
         "percent_solo_tracks": f"{100 * (report["distribution_featuring_count"]["1"]) / total_tracks:.2f}",
         "highest_featuring_count": max(report["distribution_featuring_count"].keys()),

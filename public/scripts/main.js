@@ -37,16 +37,16 @@ function createOdometer(el, value, suffix="") {
         el: el,
         value: 0,
         suffix: suffix,
-        format: '(ddd).dd',
+        format: "( ddd).dd",
     });
     odometer.update(value);
 }
 
 
 function update_counters(report) {
+    createOdometer(tracks_counter, report.total_tracks);
     createOdometer(steams_counter, Math.round(report.total_streams / 1_000_000_000), suffix="B");
     createOdometer(artists_counter, report.total_artists);
-    createOdometer(tracks_counter, report.total_tracks);
 }
 
 
