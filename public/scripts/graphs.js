@@ -598,6 +598,13 @@ async function create_histogram_featuring(report) {
                 legend: {
                     display: false
                 },
+                tooltip: {
+                    callbacks: {
+                        title: function(context) {
+                            return context[0].label + " artists";
+                        }
+                    }
+                }
             }
         }
     });
