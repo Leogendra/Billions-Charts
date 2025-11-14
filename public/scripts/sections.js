@@ -23,6 +23,9 @@ const least_streamed_section = document.querySelector("#least-streamed");
 const most_long_section = document.querySelector("#most-long");
 const most_short_section = document.querySelector("#most-short");
 
+// Streams per day
+const streams_per_day_section = document.querySelector("#streams-day");
+
 
 
 function format_milliseconds(ms) {
@@ -244,5 +247,14 @@ async function update_most_short(report) {
         const track = report.most_short_tracks[i];
         const track_entry = create_music_card(track, i + 1, `Duration<br>${format_milliseconds(track.duration_ms)}`);
         most_short_section.appendChild(track_entry);
+    }
+}
+
+
+async function update_streams_per_day(report) {
+    for (let i = 0; i < report.streams_per_day.length; i++) {
+        const track = report.streams_per_day[i];
+        const track_entry = create_music_card(track, i + 1, `Streams<br>${(track.streams_per_day / 1_000_000).toFixed(2)}M/day`);
+        streams_per_day_section.appendChild(track_entry);
     }
 }
