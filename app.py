@@ -84,11 +84,11 @@ def report(dateKey):
     reportPublicPath = f"public/data/report.json"
 
     try:
-        generate_report(dataPath, reportPublicPath, WRITE_TO_DATABASE)
+        reportVersion = generate_report(dataPath, reportPublicPath, WRITE_TO_DATABASE)
         generate_sitemap(dateKey)
         return jsonify( {
             "message": "Report generated!",
-            "output": "The report has been generated successfully.",
+            "output": f"The report has been generated successfully. Version: {reportVersion}",
         })
     except Exception as error:
         return jsonify( {
