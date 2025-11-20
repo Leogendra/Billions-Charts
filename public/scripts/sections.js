@@ -4,7 +4,6 @@ const pill_artists = document.querySelector("#pills-artists");
 const pills_graphs = document.querySelector("#pills-graphs");
 
 // New entries
-const new_entries_date = document.querySelector(".new-entries-date");
 const new_entries_section = document.querySelector("#new-entries");
 const fastest_section = document.querySelector("#fastest-tracks");
 
@@ -69,23 +68,10 @@ function create_music_card(track, position, additionalInfo = "") {
 
 
 function update_new_entries(report) {
-    let lastEntryDate = "";
-    let cardColor = 0;
     for (let i = 0; i < report.newest_billions.length; i++) {
         const entry = report.newest_billions[i];
-        if (lastEntryDate === "") {
-            // Update the date of the last entries
-            lastEntryDate = entry.added_at;
-            new_entries_date.textContent = new Date(lastEntryDate).toLocaleDateString('en-US', { month: 'long', day: 'numeric' });
-        }
-        else if (lastEntryDate !== entry.added_at) {
-            cardColor = (cardColor + 1) % 2;
-            lastEntryDate = entry.added_at;
-            // break; // Only if display the last entries
-        }
         const nb_days_ago = Math.floor((new Date() - new Date(entry.added_at)) / (1000 * 60 * 60 * 24));
         const new_entry = create_music_card(entry, i + 1, `Added<br>${nb_days_ago} days ago`);
-        if (cardColor) { new_entry.classList.add(`card-color-${cardColor}`); }
         new_entries_section.appendChild(new_entry);
     }
 }
