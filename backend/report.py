@@ -194,8 +194,44 @@ def aggregate_periods(tracks):
         stream_count[f"{playcount/1_000_000_000:.1f}"] += 1
         time_count[f"{duration//10}"] += 1
         featuring_count[f"{len(track['artists'])}"] += 1
+        numberOfDaysSinceRelease = (max((datetime.now() - datetime.strptime(added_at.split("T")[0], "%Y-%m-%d")).days, 1))
 
     return dict(year_release_count), dict(month_release_count), dict(year_billion_count), dict(month_billion_count), dict(stream_count), dict(time_count), dict(featuring_count)
+
+
+def get_streams_per_day(tracks):
+    streams_per_day = []
+
+    for track in tracks:
+        release_date = track["release_date"]
+        precision = track["release_date_precision"]
+        playcount = track["playcount"]
+
+        if precision == "year":
+            release_date += "-01-01"
+        elif precision == "month":
+            release_date += "-01"
+
+        numberOfDaysSinceRelease = (max((datetime.now() - datetime.strptime(release_date.split("T")[0], "%Y-%m-%d")).days, 1))
+        streamsPerDay = playcount // numberOfDaysSinceRelease
+        streams_per_day.append({
+            "id": track["id"],
+            "name": track["name"],
+            "artists": [{
+                    "id": artist.get("id"),
+                    "name": artist["name"],
+                    "image": artist.get("image")
+                } 
+                for artist in track["artists"]
+            ],
+            "image": track["image"],
+            "streams_per_day": streamsPerDay
+        })
+
+    streams_per_day = sorted(streams_per_day, key=lambda x: x["streams_per_day"], reverse=True)[:MAX_TOP_SONGS]
+    flop_per_day = sorted(streams_per_day, key=lambda x: x["streams_per_day"], reverse=False)[:MAX_TOP_SONGS]
+
+    return streams_per_day
 
 
 def get_key_features_data(tracks, report):
@@ -273,6 +309,9 @@ def get_key_features_data(tracks, report):
 
 
 def generate_report(dataPath, outputReportPath, WRITE_TO_DATABASE):
+
+    REPORT_VERSION = "1.2.1"
+
     if WRITE_TO_DATABASE:
         dateKey = dataPath.split("_")[-1].split(".")[0]
         playlist = retrieve_playlist_infos_from_mongo(dateKey)
@@ -295,6 +334,7 @@ def generate_report(dataPath, outputReportPath, WRITE_TO_DATABASE):
     most_popular_tracks, least_popular_tracks = aggregate_by_key(tracks, "popularity")
     most_long_tracks, most_short_tracks = aggregate_by_key(tracks, "duration_ms")
     year_release_count, month_release_count, year_billion_count, month_billion_count, stream_count, time_count, featuring_count = aggregate_periods(tracks)
+    streams_per_day = get_streams_per_day(tracks)
 
     final_report = {
         "name": playlist["name"],
@@ -322,6 +362,7 @@ def generate_report(dataPath, outputReportPath, WRITE_TO_DATABASE):
         "least_popular_tracks": least_popular_tracks,
         "most_long_tracks": most_long_tracks,
         "most_short_tracks": most_short_tracks,
+        "streams_per_day": streams_per_day,
         "distribution_year_release_count": year_release_count,
         "distribution_month_release_count": month_release_count,
         "distribution_year_billion_count": year_billion_count,
@@ -337,6 +378,7 @@ def generate_report(dataPath, outputReportPath, WRITE_TO_DATABASE):
         json.dump(final_report, f, ensure_ascii=False, indent=4)
 
     print(f"Report successfully generated in {outputReportPath}.")
+    return REPORT_VERSION
 
 
 def generate_leaderboard(dataPath, WRITE_TO_DATABASE):

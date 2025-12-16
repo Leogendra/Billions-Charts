@@ -4,7 +4,6 @@ const pill_artists = document.querySelector("#pills-artists");
 const pills_graphs = document.querySelector("#pills-graphs");
 
 // New entries
-const new_entries_date = document.querySelector(".new-entries-date");
 const new_entries_section = document.querySelector("#new-entries");
 const fastest_section = document.querySelector("#fastest-tracks");
 
@@ -22,6 +21,9 @@ const least_streamed_section = document.querySelector("#least-streamed");
 // Track duration
 const most_long_section = document.querySelector("#most-long");
 const most_short_section = document.querySelector("#most-short");
+
+// Streams per day
+const streams_per_day_section = document.querySelector("#streams-day");
 
 
 
@@ -66,23 +68,10 @@ function create_music_card(track, position, additionalInfo = "") {
 
 
 function update_new_entries(report) {
-    let lastEntryDate = "";
-    let cardColor = 0;
     for (let i = 0; i < report.newest_billions.length; i++) {
         const entry = report.newest_billions[i];
-        if (lastEntryDate === "") {
-            // Update the date of the last entries
-            lastEntryDate = entry.added_at;
-            new_entries_date.textContent = new Date(lastEntryDate).toLocaleDateString('en-US', { month: 'long', day: 'numeric' });
-        }
-        else if (lastEntryDate !== entry.added_at) {
-            cardColor = (cardColor + 1) % 2;
-            lastEntryDate = entry.added_at;
-            // break; // Only if display the last entries
-        }
         const nb_days_ago = Math.floor((new Date() - new Date(entry.added_at)) / (1000 * 60 * 60 * 24));
         const new_entry = create_music_card(entry, i + 1, `Added<br>${nb_days_ago} days ago`);
-        if (cardColor) { new_entry.classList.add(`card-color-${cardColor}`); }
         new_entries_section.appendChild(new_entry);
     }
 }
@@ -244,5 +233,14 @@ async function update_most_short(report) {
         const track = report.most_short_tracks[i];
         const track_entry = create_music_card(track, i + 1, `Duration<br>${format_milliseconds(track.duration_ms)}`);
         most_short_section.appendChild(track_entry);
+    }
+}
+
+
+async function update_streams_per_day(report) {
+    for (let i = 0; i < report.streams_per_day.length; i++) {
+        const track = report.streams_per_day[i];
+        const track_entry = create_music_card(track, i + 1, `Streams<br>${(track.streams_per_day / 1_000_000).toFixed(2)}M/day`);
+        streams_per_day_section.appendChild(track_entry);
     }
 }

@@ -209,6 +209,7 @@ async function main() {
         update_least_streamed(report),
         update_most_long(report),
         update_most_short(report),
+        update_streams_per_day(report),
 
         // Artists sections
         update_artists_most_streamed(report),

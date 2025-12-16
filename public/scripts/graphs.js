@@ -554,7 +554,7 @@ async function create_histogram_featuring(report) {
             datasets: [{
                 label: "Number of tracks",
                 data: values,
-                backgroundColor: generate_colors(featCount.length),
+                backgroundColor: accentColor,
                 borderColor: accentColor,
                 borderWidth: 0
             }]
@@ -567,7 +567,7 @@ async function create_histogram_featuring(report) {
                     type: 'logarithmic',
                     title: {
                         display: true,
-                        text: "Number of tracks",
+                        text: "Number of tracks (logarithmic scale)",
                         color: primaryColor
                     },
                     ticks: {
