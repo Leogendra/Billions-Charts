@@ -1,5 +1,6 @@
 from backend.database import add_to_database, retrieve_playlist_infos_from_mongo
 from backend.utils import create_folder
+from backend.track_enricher import enrich_tracks_with_correct_release_dates, fetch_artists_batch
 from spotapi import PublicPlaylist, Artist
 from dotenv import load_dotenv
 import datetime
@@ -28,7 +29,7 @@ def get_access_token():
         raise Exception("Error in while fetching access token:", e)
 
 
-def fetch_playlist_infos(dataPath, WRITE_TO_DATABASE):
+def fetch_playlist_infos(dataPath, WRITE_TO_DATABASE, overwrite=False):
     if WRITE_TO_DATABASE:
         dateKey = dataPath.split("_")[-1].split(".")[0]
         playlist = retrieve_playlist_infos_from_mongo(dateKey)
@@ -104,84 +105,36 @@ def fetch_playlist_infos(dataPath, WRITE_TO_DATABASE):
         })
 
 
-    # Fetch missing track infos
+    # Fetch missing track infos with correct release dates using ISRC-based lookup
     access_token = get_access_token()
     track_ids = [track["id"] for track in playlist_infos["items"]]
 
     headers = {"Authorization": f"Bearer {access_token}"}
-    track_infos = []
     
-    # Fetch track infos in chunks of 50 (max limit)
-    for i in range(0, len(track_ids), 50):
-        print(f"Fetching tracks {i}/{len(track_ids)}...   ", end="\r")
-        chunk = track_ids[i:i + 50]
-        params = {"ids": ",".join(chunk)}
-
-        try:
-            response = requests.get(
-                "https://api.spotify.com/v1/tracks", 
-                headers=headers, 
-                params=params
-            )
-            response.raise_for_status()
-            tracks_fetched = response.json()["tracks"]
-        except:
-            print("Error while fetching track info:", track)
-        
-        for track in tracks_fetched:                
-            if track:
-                track_infos.append({
-                    "id": track["id"],
-                    "popularity": track["popularity"],
-                    "release_date": track["album"]["release_date"],
-                    "release_date_precision": track["album"]["release_date_precision"]
-                })
-            else:
-                print("Corrupted track info:", track)
-
-    print(f"Fetching tracks {len(track_ids)}/{len(track_ids)} done!")
-                
-    # Merge track infos
-    for i, track in enumerate(playlist_infos["items"]):
-        for info in track_infos:
-            if (track["id"] == info["id"]):
-                playlist_infos["items"][i]["popularity"] = info["popularity"]
-                playlist_infos["items"][i]["release_date"] = info["release_date"]
-                playlist_infos["items"][i]["release_date_precision"] = info["release_date_precision"]
-                break
+    # Enrich tracks with correct release dates (via ISRC search for singles)
+    # This replaces the old batch fetch method and ensures we get the single's release date, not the album's
+    if WRITE_TO_DATABASE:
+        # If writing to database, pass the collection for caching logic
+        from backend.database import tracks_collection
+        playlist_infos["items"] = enrich_tracks_with_correct_release_dates(
+            playlist_infos["items"],
+            headers,
+            tracks_collection=tracks_collection,
+            overwrite=overwrite
+        )
+    else:
+        # If saving to JSON file, no caching
+        playlist_infos["items"] = enrich_tracks_with_correct_release_dates(
+            playlist_infos["items"],
+            headers,
+            tracks_collection=None,
+            overwrite=overwrite
+        )
 
     # Fetch Artists infos: genres, followers, popularity, images
     artist_ids = list({artist["id"] for track in playlist_infos["items"] for artist in track["artists"]})
 
-    artists_infos = {}
-    for i in range(0, len(artist_ids), 50):
-        print(f"Fetching artists {i}/{len(artist_ids)}...   ", end="\r")
-        batch = artist_ids[i:i + 50]
-        params = {"ids": ",".join(batch)}
-
-        try:
-            response = requests.get(
-                "https://api.spotify.com/v1/artists", 
-                headers=headers, 
-                params=params
-            )
-            response.raise_for_status()
-            artists_batch = response.json()["artists"]
-            
-            for artist in artists_batch:
-                artists_infos[artist["id"]] = {
-                    "id": artist["id"],
-                    "name": artist["name"],
-                    "genres": artist["genres"],
-                    "followers": artist["followers"]["total"],
-                    "popularity": artist["popularity"],
-                    "image": max(artist["images"], key=lambda x: x["width"]) if artist["images"] else None
-                }
-
-        except Exception as e:
-            print(f"Error fetching batch {i}: {e}")
-
-    print(f"Fetching artists {len(artist_ids)}/{len(artist_ids)} done!")
+    artists_infos = fetch_artists_batch(artist_ids, headers)
 
     # Merge artists infos
     for i, track in enumerate(playlist_infos["items"]):

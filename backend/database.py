@@ -61,7 +61,12 @@ def insert_or_update_tracks(playlist_data):
             "image_size": track["image_size"],
             "release_date": track["release_date"],
             "release_date_precision": track["release_date_precision"],
+            "corrected_release_date": track.get("corrected_release_date", False),
         }
+        
+        # Store ISRC if available (for audit trail)
+        if "isrc" in track:
+            track_data["isrc"] = track["isrc"]
 
         # Prepare the bulk write operations
         operations.append(
