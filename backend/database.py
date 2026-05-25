@@ -4,6 +4,7 @@ import os
 
 load_dotenv()
 MONGO_URI = os.getenv("MONGO_URI")
+DRY_RUN = True
 
 client = MongoClient(MONGO_URI)
 db = client.billions
@@ -36,12 +37,15 @@ def insert_or_update_playlist_header(playlist_data):
         ],
     }
 
-    # Upsert based on the date
-    playlists_collection.update_one(
-        {"date": playlist_data["date"]},
-        {"$set": header_data},
-        upsert=True,
-    )
+    if (DRY_RUN):        
+        print(f"Dry run mode - not writing {len(playlist_data['items'])} tracks to the database")
+    else:
+        # Upsert based on the date
+        playlists_collection.update_one(
+            {"date": playlist_data["date"]},
+            {"$set": header_data},
+            upsert=True,
+        )
 
 
 def insert_or_update_tracks(playlist_data):
@@ -72,7 +76,9 @@ def insert_or_update_tracks(playlist_data):
             )
         )
 
-    if operations:
+    if (DRY_RUN):        
+        print(f"Dry run mode - not writing {len(operations)} tracks to the database")
+    elif operations:
         tracks_collection.bulk_write(operations)
 
 
@@ -102,7 +108,9 @@ def insert_or_update_artists(playlist_data):
                 )
             )
 
-    if operations:
+    if (DRY_RUN):
+        print(f"Dry run mode - not writing {len(operations)} artists to the database")
+    elif operations:
         artists_collection.bulk_write(operations)
 
 
