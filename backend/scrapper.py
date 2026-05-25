@@ -155,6 +155,8 @@ def fetch_playlist_infos(dataPath, WRITE_TO_DATABASE, overwrite=False):
         for j, artist in enumerate(track["artists"]):
             playlist_infos["items"][i]["artists"][j] = artists_infos[artist["id"]]
 
+    print("Playlist infos fetched and enriched successfully! Writing to database..." if WRITE_TO_DATABASE else "Playlist infos fetched and enriched successfully! Saving to file...")
+
     # Save or insert in database
     if WRITE_TO_DATABASE:
         add_to_database(playlist_infos)

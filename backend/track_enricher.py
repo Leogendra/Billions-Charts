@@ -1,13 +1,13 @@
 from typing import Dict, List, Optional
 import datetime
 import requests
+import json
 import time
 
 
 
 
 def fetch_track_via_isrc(
-    track_id: str,
     isrc: Optional[str],
     headers: Dict[str, str],
 ) -> Dict:
@@ -20,7 +20,7 @@ def fetch_track_via_isrc(
         results = response.json().get("tracks", {}).get("items", [])
 
         if not(results):
-            # No results found, return original data
+            print(f"No search results found for ISRC {isrc}.")
             return None
 
         # Find the result with the earliest release date across all matches
@@ -32,6 +32,9 @@ def fetch_track_via_isrc(
             release_date = album.get("release_date", "")
             release_date_precision = album.get("release_date_precision", "")
 
+            if not(release_date):
+                continue
+
             if release_date_precision == "month":
                 release_date = release_date + "-01"
             elif release_date_precision == "year":
@@ -40,6 +43,7 @@ def fetch_track_via_isrc(
             try:
                 release_date = datetime.date.fromisoformat(release_date)
             except ValueError:
+                print(f"Result for ISRC {isrc} and track has invalid release date. Skipping.")
                 continue
 
             if ((best_date is None) or (release_date < best_date)):
@@ -47,21 +51,17 @@ def fetch_track_via_isrc(
                 best_result = result
 
         if (best_result is None):
+            print(f"No results with valid release date found for ISRC {isrc}.")
             return None
 
         album = best_result.get("album", {})
         return {
-            "id": best_result["id"],
-            "name": best_result["name"],
-            "popularity": best_result["popularity"],
             "release_date": album["release_date"],
             "release_date_precision": album["release_date_precision"],
-            "isrc": isrc,
-            "corrected_release_date": True,
         }
 
     except Exception as e:
-        print(f"Error fetching ISRC {isrc} for track {track_id}: {e}")
+        print(f"Error fetching track with ISRC {isrc}: {e}")
         return None
 
 
@@ -82,83 +82,69 @@ def enrich_tracks_with_correct_release_dates(
     tracks_collection=None,
     overwrite: bool = False,
 ) -> List[Dict]:
-    print("\n=== Starting track enrichment via ISRC search ===")
+    print("\n=== Starting track enrichment via API search ===")
 
     track_ids = [track["id"] for track in playlist_items]
 
+    # Tracks already corrected skip the ISRC date search but still get popularity updated
     already_corrected = set()
     if (tracks_collection is not None and not overwrite):
         already_corrected = get_tracks_already_corrected(track_ids, tracks_collection)
+        # DEBUG: FORCE ALL TO BE CORRECTED
+        already_corrected = set()
 
-    tracks_to_enrich = [
-        track for track 
-        in playlist_items 
-        if track["id"] not in already_corrected
-    ]
+    # fetch API data for all tracks
+    print(f"Fetching API data for {len(track_ids)} tracks...")
+    tracks_data = fetch_tracks_infos_batch(track_ids, headers)
 
-    if not tracks_to_enrich:
-        print("All tracks already corrected. Skipping ISRC enrichment.")
-        return playlist_items
-
-    print(f"Enriching {len(tracks_to_enrich)}/{len(playlist_items)} tracks via ISRC search...")
-
-    track_lookup = {track["id"]: track["name"] for track in tracks_to_enrich}
-
-    isrc_data = fetch_isrc_codes_batch(track_ids, headers)
-
-    # enrich each track with ISRC search
     enriched_count = 0
-    for i, track in enumerate(tracks_to_enrich):
-        print(f"Enriching track {i+1}/{len(tracks_to_enrich)}: {track.get('name', 'Unknown')}...   ", end="\r")
+    isrc_search_count = len(track_ids) - len(already_corrected)
+    print(f"ISRC date correction needed for {isrc_search_count} tracks ({len(already_corrected)} already corrected)...")
+
+    for i, track in enumerate(playlist_items):
+        print(f"Enriching track {i+1}/{len(playlist_items)}...   ", end="\r")
 
         track_id = track["id"]
-        track_name = track_lookup.get(track_id)
+        api_data = tracks_data.get(track_id, {})
 
-        isrc = isrc_data.get(track_id)
+        playlist_items[i]["popularity"] = api_data.get("popularity")
+        playlist_items[i]["release_date"] = api_data.get("release_date")
+        playlist_items[i]["release_date_precision"] = api_data.get("release_date_precision")
+        playlist_items[i]["corrected_release_date"] = False
+        if api_data.get("isrc"):
+            playlist_items[i]["isrc"] = api_data["isrc"]
 
-        # Create original track data dict (fallback)
-        original_data = {
-            "id": track_id,
-            "name": track_name,
-            "popularity": track.get("popularity"),
-            "release_date": track.get("release_date"),
-            "release_date_precision": track.get("release_date_precision"),
-            "isrc": isrc,
-        }
+        # skip ISRC release date correction for already-corrected tracks
+        if ((track_id in already_corrected) or (api_data.get("album_type")) == "single"):
+            playlist_items[i]["corrected_release_date"] = True
+            continue
 
-        corrected_data = fetch_track_via_isrc(track_id, isrc, headers)
+        isrc = api_data.get("isrc")
+
+        corrected_data = fetch_track_via_isrc(isrc, headers)
         if (corrected_data is None):
-            corrected_data = original_data
-        if corrected_data.get("corrected_release_date"):
+            print(f"No ISRC enrichment found for track ID {track_id}.")
+
+        else:
             enriched_count += 1
+            playlist_items[i]["release_date"] = corrected_data["release_date"]
+            playlist_items[i]["release_date_precision"] = corrected_data["release_date_precision"]
+            playlist_items[i]["corrected_release_date"] = True
 
-        track_idx = next(
-            (j for j, item in enumerate(playlist_items) if item["id"] == track_id), None
-        )
-        if (track_idx is not None):
-            playlist_items[track_idx]["popularity"] = corrected_data["popularity"]
-            playlist_items[track_idx]["release_date"] = corrected_data["release_date"]
-            playlist_items[track_idx]["release_date_precision"] = corrected_data["release_date_precision"]
-            playlist_items[track_idx]["corrected_release_date"] = corrected_data.get("corrected_release_date", False)
-            if "isrc" in corrected_data:
-                playlist_items[track_idx]["isrc"] = corrected_data["isrc"]
-
-        # Rate limiting: add small delay to avoid hitting Spotify rate limits
         if (i > 50):
             time.sleep(0.1)
 
     print(f"\nSuccessfully found {enriched_count} singles with correct release dates")
-
     return playlist_items
 
 
-def fetch_isrc_codes_batch(
+def fetch_tracks_infos_batch(
     track_ids: List[str], headers: Dict[str, str]
-) -> Dict[str, str]:
-    isrc_data = {}
+) -> Dict[str, Dict]:
+    track_data = {}
 
-    print("Fetching ISRC codes for tracks...")
     for i in range(0, len(track_ids), 50):
+        print(f"Fetching tracks {i}/{len(track_ids)}...   ", end="\r")
         chunk = track_ids[i : i + 50]
         params = {"ids": ",".join(chunk)}
 
@@ -172,15 +158,25 @@ def fetch_isrc_codes_batch(
             for track in tracks_data:
                 if track:
                     track_id = track.get("id")
-                    isrc = track.get("external_ids", {}).get("isrc")
-                    if (track_id and isrc):
-                        isrc_data[track_id] = isrc
+                    if not(track_id):
+                        continue
+
+                    album = track.get("album", {})
+                    track_data[track_id] = {
+                        "isrc": track.get("external_ids", {}).get("isrc"),
+                        "name": track.get("name"),
+                        "popularity": track.get("popularity"),
+                        "album_type": album.get("album_type"),
+                        "release_date": album.get("release_date"),
+                        "release_date_precision": album.get("release_date_precision"),
+                    }
 
         except Exception as e:
-            print(f"Error fetching ISRC batch at {i}: {e}")
+            print(f"Error fetching tracks infos batch at {i}: {e}")
 
-    print(f"Retrieved ISRC codes for {len(isrc_data)} tracks")
-    return isrc_data
+    isrc_count = sum(1 for v in track_data.values() if v.get("isrc"))
+    print(f"Retrieved tracks infos for {isrc_count}/{len(track_data)} tracks")
+    return track_data
 
 
 def fetch_artists_batch(artist_ids: List[str], headers: Dict[str, str]) -> Dict:
@@ -188,7 +184,7 @@ def fetch_artists_batch(artist_ids: List[str], headers: Dict[str, str]) -> Dict:
 
     print(f"Fetching {len(artist_ids)} artists...")
     for i in range(0, len(artist_ids), 50):
-        print(f"Fetching artists {i}/{len(artist_ids)}...", end="\r")
+        print(f"Fetching artists {i}/{len(artist_ids)}...   ", end="\r")
         batch = artist_ids[i : i + 50]
         params = {"ids": ",".join(batch)}
 
@@ -217,5 +213,5 @@ def fetch_artists_batch(artist_ids: List[str], headers: Dict[str, str]) -> Dict:
         except Exception as e:
             print(f"Error fetching artist batch {i}: {e}")
 
-    print(f"Fetching artists {len(artist_ids)}/{len(artist_ids)} done!")
+    print(f"Fetching {len(artist_ids)} artists done!")
     return artists_infos
