@@ -4,7 +4,7 @@ import os
 
 load_dotenv()
 MONGO_URI = os.getenv("MONGO_URI")
-DRY_RUN = True
+DRY_RUN = False
 
 client = MongoClient(MONGO_URI)
 db = client.billions
@@ -54,27 +54,40 @@ def insert_or_update_tracks(playlist_data):
         track_data = {
             "id": track["id"],
             "name": track["name"],
-            "added_at": track["added_at"],
             "contentRating": track["contentRating"],
             "duration_ms": track["duration_ms"],
             "artists": [{"id": artist["id"]} for artist in track["artists"]],
             "image": track["image"],
             "image_size": track["image_size"],
-            "release_date": track["release_date"],
-            "release_date_precision": track["release_date_precision"],
-            "corrected_release_date": track.get("corrected_release_date", False),
         }
 
         if ("isrc" in track):
             track_data["isrc"] = track["isrc"]
 
-        operations.append(
-            UpdateOne(
-                {"id": track["id"]},  # Match the track id
-                {"$set": track_data},  # Update or insert
-                upsert=True,
-            )
-        )
+        if track.get("corrected_release_date"):
+            # overwrite release_date
+            update = {"$set": track_data | {
+                "release_date": track["release_date"],
+                "release_date_precision": track["release_date_precision"],
+                "corrected_release_date": True,
+                },
+                "$setOnInsert": {
+                    "added_at": track["added_at"],
+                }
+            }
+        else:
+            # only write on creation
+            update = {
+                "$set": track_data,
+                "$setOnInsert": {
+                    "added_at": track["added_at"],
+                    "release_date": track["release_date"],
+                    "release_date_precision": track["release_date_precision"],
+                    "corrected_release_date": False,
+                }
+            }
+
+        operations.append(UpdateOne({"id": track["id"]}, update, upsert=True))
 
     if (DRY_RUN):        
         print(f"Dry run mode - not writing {len(operations)} tracks to the database")
@@ -123,8 +136,13 @@ def add_to_database(playlist_data):
     print("Playlist header added to the database")
 
 
-def retrieve_playlist_infos_from_mongo(date):
-    # Retrieve the playlists headers data where the field "date" matches the input date
+def check_playlist_header_from_mongo(date: str) -> bool:
+    # check a playlists headers where the field "date" matches the input date
+    return playlists_collection.count_documents({"date": date}) > 0
+
+
+def retrieve_playlist_infos_from_mongo(date: str) -> dict:
+    # retrieve the playlists headers data where the field "date" matches the input date
     data_count = playlists_collection.count_documents({"date": date})
     if data_count == 0:
         print(f"No playlist data found for the date {date}")

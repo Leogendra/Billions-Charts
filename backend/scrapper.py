@@ -1,8 +1,5 @@
-from backend.track_enricher import (
-    enrich_tracks_with_correct_release_dates,
-    fetch_artists_batch,
-)
-from backend.database import add_to_database, retrieve_playlist_infos_from_mongo
+from backend.track_enricher import enrich_tracks_with_correct_release_dates, fetch_artists_batch
+from backend.database import add_to_database, check_playlist_header_from_mongo
 from backend.database import tracks_collection
 from backend.utils import create_folder
 from spotapi import PublicPlaylist
@@ -38,8 +35,7 @@ def get_access_token():
 def fetch_playlist_infos(dataPath, WRITE_TO_DATABASE, overwrite=False):
     if WRITE_TO_DATABASE:
         dateKey = dataPath.split("_")[-1].split(".")[0]
-        playlist = retrieve_playlist_infos_from_mongo(dateKey)
-        if playlist:
+        if check_playlist_header_from_mongo(dateKey):
             print(f"Playlist infos already fetched in database")
             return
     else:

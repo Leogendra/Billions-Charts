@@ -1,16 +1,15 @@
 from typing import Dict, List, Optional
 import datetime
 import requests
-import json
 import time
 
 
 
 
-def fetch_track_via_isrc(
+def fetch_release_date_via_isrc(
     isrc: Optional[str],
     headers: Dict[str, str],
-) -> Dict:
+) -> Optional[str]:
     try:
         params = {"q": f"isrc:{isrc}", "type": "track", "limit": 10}
         response = requests.get(
@@ -23,9 +22,7 @@ def fetch_track_via_isrc(
             print(f"No search results found for ISRC {isrc}.")
             return None
 
-        # Find the result with the earliest release date across all matches
         best_date = None
-        best_result = None
 
         for result in results:
             album = result.get("album", {})
@@ -48,17 +45,12 @@ def fetch_track_via_isrc(
 
             if ((best_date is None) or (release_date < best_date)):
                 best_date = release_date
-                best_result = result
 
-        if (best_result is None):
+        if (best_date is None):
             print(f"No results with valid release date found for ISRC {isrc}.")
             return None
 
-        album = best_result.get("album", {})
-        return {
-            "release_date": album["release_date"],
-            "release_date_precision": album["release_date_precision"],
-        }
+        return best_date.isoformat()
 
     except Exception as e:
         print(f"Error fetching track with ISRC {isrc}: {e}")
@@ -90,8 +82,6 @@ def enrich_tracks_with_correct_release_dates(
     already_corrected = set()
     if (tracks_collection is not None and not overwrite):
         already_corrected = get_tracks_already_corrected(track_ids, tracks_collection)
-        # DEBUG: FORCE ALL TO BE CORRECTED
-        already_corrected = set()
 
     # fetch API data for all tracks
     print(f"Fetching API data for {len(track_ids)} tracks...")
@@ -114,22 +104,40 @@ def enrich_tracks_with_correct_release_dates(
         if api_data.get("isrc"):
             playlist_items[i]["isrc"] = api_data["isrc"]
 
-        # skip ISRC release date correction for already-corrected tracks
+        # skip ISRC release date correction for tracks already corrected 
         if ((track_id in already_corrected) or (api_data.get("album_type")) == "single"):
             playlist_items[i]["corrected_release_date"] = True
             continue
 
         isrc = api_data.get("isrc")
 
-        corrected_data = fetch_track_via_isrc(isrc, headers)
-        if (corrected_data is None):
-            print(f"No ISRC enrichment found for track ID {track_id}.")
+        corrected_release_date = fetch_release_date_via_isrc(isrc, headers)
+        if (corrected_release_date is None):
+            print(f"No ISRC enrichment found for track ID {track_id} ({api_data.get("name")}).")
 
         else:
             enriched_count += 1
-            playlist_items[i]["release_date"] = corrected_data["release_date"]
-            playlist_items[i]["release_date_precision"] = corrected_data["release_date_precision"]
-            playlist_items[i]["corrected_release_date"] = True
+
+            # comapre old and new release dates and keep the earliest one
+            old_date = playlist_items[i].get("release_date")
+            old_precision = playlist_items[i].get("release_date_precision")
+
+            if (old_date and old_precision):
+                if old_precision == "month":
+                    old_date = old_date + "-01"
+                elif old_precision == "year":
+                    old_date = old_date + "-01-01"
+
+                old_date = datetime.date.fromisoformat(old_date)
+                corrected_release_date = datetime.date.fromisoformat(corrected_release_date)
+
+                playlist_items[i]["release_date_precision"] = "day"
+                playlist_items[i]["corrected_release_date"] = True
+                
+                if (old_date < corrected_release_date):
+                    playlist_items[i]["release_date"] = old_date.isoformat()
+                else:
+                    playlist_items[i]["release_date"] = corrected_release_date.isoformat()
 
         if (i > 50):
             time.sleep(0.1)
