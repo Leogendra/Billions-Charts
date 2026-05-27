@@ -1,6 +1,8 @@
-from backend.database import add_to_database, retrieve_playlist_infos_from_mongo
+from backend.track_enricher import enrich_tracks_with_correct_release_dates, fetch_artists_batch
+from backend.database import add_to_database, check_playlist_header_from_mongo
+from backend.database import tracks_collection
 from backend.utils import create_folder
-from spotapi import PublicPlaylist, Artist
+from spotapi import PublicPlaylist
 from dotenv import load_dotenv
 import datetime
 import requests
@@ -21,25 +23,26 @@ def get_access_token():
     headers = {"Content-Type": "application/x-www-form-urlencoded"}
     data = {"grant_type": "client_credentials"}
     try:
-        response = requests.post(url, headers=headers, data=data, auth=(CLIENT_ID, CLIENT_SECRET))
+        response = requests.post(
+            url, headers=headers, data=data, auth=(CLIENT_ID, CLIENT_SECRET)
+        )
         response.raise_for_status()
         return response.json()["access_token"]
     except Exception as e:
         raise Exception("Error in while fetching access token:", e)
 
 
-def fetch_playlist_infos(dataPath, WRITE_TO_DATABASE):
+def fetch_playlist_infos(dataPath, WRITE_TO_DATABASE, overwrite=False):
     if WRITE_TO_DATABASE:
         dateKey = dataPath.split("_")[-1].split(".")[0]
-        playlist = retrieve_playlist_infos_from_mongo(dateKey)
-        if playlist:
+        if check_playlist_header_from_mongo(dateKey):
             print(f"Playlist infos already fetched in database")
             return
     else:
         if os.path.exists(dataPath):
             print(f"Playlist infos already fetched in {dataPath}")
             return
-        
+
     # Fetch playlist infos from Spotify
     create_folder("data/tracks/")
     try:
@@ -48,18 +51,25 @@ def fetch_playlist_infos(dataPath, WRITE_TO_DATABASE):
         raise Exception("Error while creating PublicPlaylist:", e)
 
     print("Fetching playlist infos...")
-    max_retries = 3 # handmade retry mechanism
+    max_retries = 3  # handmade retry mechanism
     for attempt in range(max_retries):
         try:
             playlist_info = playlist.get_playlist_info(limit=5000)
-            if not(playlist_info["data"]):
-                raise Exception("Error while fetching playlist infos:", playlist_info["errors"] if playlist_info["errors"] else "No data returned")
+            if not (playlist_info["data"]):
+                raise Exception(
+                    "Error while fetching playlist infos:",
+                    (
+                        playlist_info["errors"]
+                        if playlist_info["errors"]
+                        else "No data returned"
+                    ),
+                )
         except Exception as e:
             print(f"Attempt {attempt+1}/{max_retries} failed: {e}")
-            if ((attempt+1) == max_retries):
+            if (attempt + 1) == max_retries:
                 raise Exception("Critical Error while fetching playlist infos:", e)
             time.sleep(3)
-    
+
     raw_data = playlist_info["data"]["playlistV2"]
 
     # Clean playlist infos
@@ -75,118 +85,73 @@ def fetch_playlist_infos(dataPath, WRITE_TO_DATABASE):
     try:
         playlist_infos["coverUrl"] = raw_data["images"]["items"][0]["sources"][0]["url"]
     except:
-        playlist_infos["coverUrl"] = None # TODO: Add default image
+        playlist_infos["coverUrl"] = None  # TODO: Add default image
 
     try:
-        playlist_infos["coverHex"] = raw_data["images"]["items"][0]["extractedColors"]["colorRaw"]["hex"]
+        playlist_infos["coverHex"] = raw_data["images"]["items"][0]["extractedColors"][
+            "colorRaw"
+        ]["hex"]
     except:
         playlist_infos["coverHex"] = "#000000"
 
     # Clean track infos
     playlist_infos["items"] = []
     for item in raw_data["content"]["items"]:
-        playlist_infos["items"].append({
-            "added_at": item["addedAt"]["isoString"],
-            "id": item["itemV2"]["data"]["uri"].split(":")[-1],
-            "name": item["itemV2"]["data"]["name"],
-            "playcount": int(item["itemV2"]["data"]["playcount"]),
-            "contentRating": item["itemV2"]["data"]["contentRating"]["label"],
-            "duration_ms": item["itemV2"]["data"]["trackDuration"]["totalMilliseconds"],
-            "artists": [
-                {
-                    "name": artist["profile"]["name"],
-                    "id": artist["uri"].split(":")[-1]
-                }
-                for artist in item["itemV2"]["data"]["artists"]["items"]
-            ],
-            "image": max(item["itemV2"]["data"]["albumOfTrack"]["coverArt"]["sources"], key=lambda x: x["width"])["url"],
-            "image_size": max(item["itemV2"]["data"]["albumOfTrack"]["coverArt"]["sources"], key=lambda x: x["width"])["width"]
-        })
+        playlist_infos["items"].append(
+            {
+                "added_at": item["addedAt"]["isoString"],
+                "id": item["itemV2"]["data"]["uri"].split(":")[-1],
+                "name": item["itemV2"]["data"]["name"],
+                "playcount": int(item["itemV2"]["data"]["playcount"]),
+                "contentRating": item["itemV2"]["data"]["contentRating"]["label"],
+                "duration_ms": item["itemV2"]["data"]["trackDuration"][
+                    "totalMilliseconds"
+                ],
+                "artists": [
+                    {
+                        "name": artist["profile"]["name"],
+                        "id": artist["uri"].split(":")[-1],
+                    }
+                    for artist in item["itemV2"]["data"]["artists"]["items"]
+                ],
+                "image": max(
+                    item["itemV2"]["data"]["albumOfTrack"]["coverArt"]["sources"],
+                    key=lambda x: x["width"],
+                )["url"],
+                "image_size": max(
+                    item["itemV2"]["data"]["albumOfTrack"]["coverArt"]["sources"],
+                    key=lambda x: x["width"],
+                )["width"],
+            }
+        )
 
-
-    # Fetch missing track infos
     access_token = get_access_token()
-    track_ids = [track["id"] for track in playlist_infos["items"]]
-
     headers = {"Authorization": f"Bearer {access_token}"}
-    track_infos = []
-    
-    # Fetch track infos in chunks of 50 (max limit)
-    for i in range(0, len(track_ids), 50):
-        print(f"Fetching tracks {i}/{len(track_ids)}...   ", end="\r")
-        chunk = track_ids[i:i + 50]
-        params = {"ids": ",".join(chunk)}
 
-        try:
-            response = requests.get(
-                "https://api.spotify.com/v1/tracks", 
-                headers=headers, 
-                params=params
-            )
-            response.raise_for_status()
-            tracks_fetched = response.json()["tracks"]
-        except:
-            print("Error while fetching track info:", track)
-        
-        for track in tracks_fetched:                
-            if track:
-                track_infos.append({
-                    "id": track["id"],
-                    "popularity": track["popularity"],
-                    "release_date": track["album"]["release_date"],
-                    "release_date_precision": track["album"]["release_date_precision"]
-                })
-            else:
-                print("Corrupted track info:", track)
-
-    print(f"Fetching tracks {len(track_ids)}/{len(track_ids)} done!")
-                
-    # Merge track infos
-    for i, track in enumerate(playlist_infos["items"]):
-        for info in track_infos:
-            if (track["id"] == info["id"]):
-                playlist_infos["items"][i]["popularity"] = info["popularity"]
-                playlist_infos["items"][i]["release_date"] = info["release_date"]
-                playlist_infos["items"][i]["release_date_precision"] = info["release_date_precision"]
-                break
+    # Fetch missing track infos with correct release dates using ISRC-based lookup
+    playlist_infos["items"] = enrich_tracks_with_correct_release_dates(
+        playlist_infos["items"],
+        headers,
+        tracks_collection=tracks_collection if WRITE_TO_DATABASE else None,
+        overwrite=overwrite,
+    )
 
     # Fetch Artists infos: genres, followers, popularity, images
-    artist_ids = list({artist["id"] for track in playlist_infos["items"] for artist in track["artists"]})
-
-    artists_infos = {}
-    for i in range(0, len(artist_ids), 50):
-        print(f"Fetching artists {i}/{len(artist_ids)}...   ", end="\r")
-        batch = artist_ids[i:i + 50]
-        params = {"ids": ",".join(batch)}
-
-        try:
-            response = requests.get(
-                "https://api.spotify.com/v1/artists", 
-                headers=headers, 
-                params=params
-            )
-            response.raise_for_status()
-            artists_batch = response.json()["artists"]
-            
-            for artist in artists_batch:
-                artists_infos[artist["id"]] = {
-                    "id": artist["id"],
-                    "name": artist["name"],
-                    "genres": artist["genres"],
-                    "followers": artist["followers"]["total"],
-                    "popularity": artist["popularity"],
-                    "image": max(artist["images"], key=lambda x: x["width"]) if artist["images"] else None
-                }
-
-        except Exception as e:
-            print(f"Error fetching batch {i}: {e}")
-
-    print(f"Fetching artists {len(artist_ids)}/{len(artist_ids)} done!")
+    artist_ids = list(
+        {
+            artist["id"]
+            for track in playlist_infos["items"]
+            for artist in track["artists"]
+        }
+    )
+    artists_infos = fetch_artists_batch(artist_ids, headers)
 
     # Merge artists infos
     for i, track in enumerate(playlist_infos["items"]):
         for j, artist in enumerate(track["artists"]):
             playlist_infos["items"][i]["artists"][j] = artists_infos[artist["id"]]
+
+    print("Playlist infos fetched and enriched successfully! Writing to database..." if WRITE_TO_DATABASE else "Playlist infos fetched and enriched successfully! Saving to file...")
 
     # Save or insert in database
     if WRITE_TO_DATABASE:

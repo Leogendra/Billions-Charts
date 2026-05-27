@@ -4,18 +4,16 @@ import os
 
 load_dotenv()
 MONGO_URI = os.getenv("MONGO_URI")
+DRY_RUN = False
 
 client = MongoClient(MONGO_URI)
 db = client.billions
-global_collections = db.spotify_data # to remove after migration
 playlists_collection = db.playlists_headers
 tracks_collection = db.playlist_tracks
 artists_collection = db.playlist_artists
 
 
 
-
-### Insert data into the database ###
 
 def insert_or_update_playlist_header(playlist_data):
     header_data = {
@@ -31,20 +29,23 @@ def insert_or_update_playlist_header(playlist_data):
         # Include only the track ids and playcounts
         "items": [
             {
-                "id": track["id"], 
+                "id": track["id"],
                 "playcount": track["playcount"],
                 "popularity": track["popularity"],
-            } 
+            }
             for track in playlist_data["items"]
-        ]
+        ],
     }
 
-    # Upsert based on the date
-    playlists_collection.update_one(
-        {"date": playlist_data["date"]},
-        {"$set": header_data},
-        upsert=True,
-    )
+    if (DRY_RUN):        
+        print(f"Dry run mode - not writing {len(playlist_data['items'])} tracks to the database")
+    else:
+        # Upsert based on the date
+        playlists_collection.update_one(
+            {"date": playlist_data["date"]},
+            {"$set": header_data},
+            upsert=True,
+        )
 
 
 def insert_or_update_tracks(playlist_data):
@@ -53,26 +54,44 @@ def insert_or_update_tracks(playlist_data):
         track_data = {
             "id": track["id"],
             "name": track["name"],
-            "added_at": track["added_at"],
             "contentRating": track["contentRating"],
             "duration_ms": track["duration_ms"],
             "artists": [{"id": artist["id"]} for artist in track["artists"]],
             "image": track["image"],
             "image_size": track["image_size"],
-            "release_date": track["release_date"],
-            "release_date_precision": track["release_date_precision"],
         }
 
-        # Prepare the bulk write operations
-        operations.append(
-            UpdateOne(
-                {"id": track["id"]},  # Match the track id
-                {"$set": track_data},  # Update or insert
-                upsert=True,
-            )
-        )
+        if ("isrc" in track):
+            track_data["isrc"] = track["isrc"]
 
-    if operations:
+        if track.get("corrected_release_date"):
+            # overwrite release_date
+            update = {"$set": track_data | {
+                "release_date": track["release_date"],
+                "release_date_precision": track["release_date_precision"],
+                "corrected_release_date": True,
+                },
+                "$setOnInsert": {
+                    "added_at": track["added_at"],
+                }
+            }
+        else:
+            # only write on creation
+            update = {
+                "$set": track_data,
+                "$setOnInsert": {
+                    "added_at": track["added_at"],
+                    "release_date": track["release_date"],
+                    "release_date_precision": track["release_date_precision"],
+                    "corrected_release_date": False,
+                }
+            }
+
+        operations.append(UpdateOne({"id": track["id"]}, update, upsert=True))
+
+    if (DRY_RUN):        
+        print(f"Dry run mode - not writing {len(operations)} tracks to the database")
+    elif operations:
         tracks_collection.bulk_write(operations)
 
 
@@ -86,8 +105,12 @@ def insert_or_update_artists(playlist_data):
                 "genres": artist.get("genres", []),
                 "followers": artist.get("followers", -1),
                 "popularity": artist.get("popularity", -1),
-                "image": artist.get("image").get("url") if artist.get("image") else None,
-                "image_size": artist.get("image").get("width") if artist.get("image") else None,
+                "image": (
+                    artist.get("image").get("url") if artist.get("image") else None
+                ),
+                "image_size": (
+                    artist.get("image").get("width") if artist.get("image") else None
+                ),
             }
 
             operations.append(
@@ -98,7 +121,9 @@ def insert_or_update_artists(playlist_data):
                 )
             )
 
-    if operations:
+    if (DRY_RUN):
+        print(f"Dry run mode - not writing {len(operations)} artists to the database")
+    elif operations:
         artists_collection.bulk_write(operations)
 
 
@@ -111,15 +136,18 @@ def add_to_database(playlist_data):
     print("Playlist header added to the database")
 
 
-### Retrieve data from the database ###
+def check_playlist_header_from_mongo(date: str) -> bool:
+    # check a playlists headers where the field "date" matches the input date
+    return playlists_collection.count_documents({"date": date}) > 0
 
-def retrieve_playlist_infos_from_mongo(date):
-    # Retrieve the playlists headers data where the field "date" matches the input date
+
+def retrieve_playlist_infos_from_mongo(date: str) -> dict:
+    # retrieve the playlists headers data where the field "date" matches the input date
     data_count = playlists_collection.count_documents({"date": date})
-    if (data_count == 0):
+    if data_count == 0:
         print(f"No playlist data found for the date {date}")
         return None
-    
+
     playlist_data = list(playlists_collection.find({"date": date}))[0]
     del playlist_data["_id"]
 
@@ -130,19 +158,25 @@ def retrieve_playlist_infos_from_mongo(date):
 
     for track in playlist_data["items"]:
         track_id = track["id"]
-        if (track_id in track_details_dict):
+        if track_id in track_details_dict:
             track.update(track_details_dict[track_id])
         del track["_id"]
 
     # Retrieve the artists details from the artists collection
-    artist_ids = list({artist["id"] for track in playlist_data["items"] for artist in track["artists"]})
+    artist_ids = list(
+        {
+            artist["id"]
+            for track in playlist_data["items"]
+            for artist in track["artists"]
+        }
+    )
     artists_details = list(artists_collection.find({"id": {"$in": artist_ids}}))
     artist_details_dict = {artist["id"]: artist for artist in artists_details}
 
     for track in playlist_data["items"]:
         for artist in track["artists"]:
             artist_id = artist["id"]
-            if (artist_id in artist_details_dict):
+            if artist_id in artist_details_dict:
                 artist.update(artist_details_dict[artist_id])
             del artist["_id"]
 

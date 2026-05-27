@@ -4,22 +4,35 @@ from collections import defaultdict
 from datetime import datetime
 import json
 
-MAX_TOP_SONGS = 10 # TODO: Dynamic backend limit for top songs
+MAX_TOP_SONGS = 10  # TODO: Dynamic backend limit for top songs
 
 
 
 
 def aggregate_general(tracks):
     total_tracks = len(tracks)
-    total_artists = len(set(artist["name"] for track in tracks for artist in track["artists"]))
+    total_artists = len(
+        set(artist["name"] for track in tracks for artist in track["artists"])
+    )
     total_streams = sum(track["playcount"] for track in tracks)
-    total_time = sum(track["duration_ms"] for track in tracks) // 1000 # in seconds
-    total_explicits = sum(1 for track in tracks if (track["contentRating"] == "EXPLICIT"))
+    total_time = sum(track["duration_ms"] for track in tracks) // 1000  # in seconds
+    total_explicits = sum(
+        1 for track in tracks if (track["contentRating"] == "EXPLICIT")
+    )
     return total_tracks, total_artists, total_streams, total_time, total_explicits
 
 
 def aggregate_artists(tracks):
-    artists_data = defaultdict(lambda: {"count": 0, "playcount": 0, "length": 0, "id": None, "image": None, "popularity": 0})
+    artists_data = defaultdict(
+        lambda: {
+            "count": 0,
+            "playcount": 0,
+            "length": 0,
+            "id": None,
+            "image": None,
+            "popularity": 0,
+        }
+    )
 
     # Aggregate data for each artist
     for track in tracks:
@@ -30,44 +43,66 @@ def aggregate_artists(tracks):
             artists_data[artist_name]["length"] += track["duration_ms"]
             artists_data[artist_name]["popularity"] += artist["popularity"]
             # Get the first artist id and image if still None
-            if (not(artists_data[artist_name]["id"]) or not(artists_data[artist_name]["image"])):
+            if not (artists_data[artist_name]["id"]) or not (
+                artists_data[artist_name]["image"]
+            ):
                 artists_data[artist_name]["id"] = artist.get("id")
                 artists_data[artist_name]["image"] = artist.get("image")
 
     # Sort artists by count, playcount and length
     artists_count_array = sorted(
-        ((artist, data["count"], data["id"], data["image"]) for artist, data in artists_data.items()),
+        (
+            (artist, data["count"], data["id"], data["image"])
+            for artist, data in artists_data.items()
+        ),
         key=lambda x: x[1],
-        reverse=True
+        reverse=True,
     )[:MAX_TOP_SONGS]
 
     artists_playcount_array = sorted(
-        ((artist, data["playcount"], data["id"], data["image"]) for artist, data in artists_data.items()),
+        (
+            (artist, data["playcount"], data["id"], data["image"])
+            for artist, data in artists_data.items()
+        ),
         key=lambda x: x[1],
-        reverse=True
+        reverse=True,
     )[:MAX_TOP_SONGS]
 
     artists_length_array = sorted(
-        ((artist, data["length"], data["id"], data["image"]) for artist, data in artists_data.items()),
+        (
+            (artist, data["length"], data["id"], data["image"])
+            for artist, data in artists_data.items()
+        ),
         key=lambda x: x[1],
-        reverse=True
+        reverse=True,
     )[:MAX_TOP_SONGS]
 
     # Divide popularity by the number of tracks to get an average
     for artist, data in artists_data.items():
-        artists_data[artist]["popularity"] = round(data["popularity"] / data["count"], 2)
+        artists_data[artist]["popularity"] = round(
+            data["popularity"] / data["count"], 2
+        )
 
     artists_popularity_array = sorted(
-        ((artist, data["popularity"], data["id"], data["image"]) for artist, data in artists_data.items()),
+        (
+            (artist, data["popularity"], data["id"], data["image"])
+            for artist, data in artists_data.items()
+        ),
         key=lambda x: x[1],
-        reverse=True
+        reverse=True,
     )[:MAX_TOP_SONGS]
 
     tracks_count_distribution = defaultdict(int)
     for artist, data in artists_data.items():
         tracks_count_distribution[data["count"]] += 1
 
-    return artists_count_array, artists_playcount_array, artists_length_array, artists_popularity_array, tracks_count_distribution
+    return (
+        artists_count_array,
+        artists_playcount_array,
+        artists_length_array,
+        artists_popularity_array,
+        tracks_count_distribution,
+    )
 
 
 def aggregate_dates(tracks):
@@ -81,19 +116,22 @@ def aggregate_dates(tracks):
         elif precision == "year":
             release_date += "-01-01"
 
-        normalized_tracks.append({
-            "id": track["id"],
-            "name": track["name"],
-            "artists": [{
-                    "id": artist.get("id"),
-                    "name": artist["name"],
-                    "image": artist.get("image")
-                } 
-                for artist in track["artists"]
-            ],
-            "image": track["image"],
-            "release_date": release_date
-        })
+        normalized_tracks.append(
+            {
+                "id": track["id"],
+                "name": track["name"],
+                "artists": [
+                    {
+                        "id": artist.get("id"),
+                        "name": artist["name"],
+                        "image": artist.get("image"),
+                    }
+                    for artist in track["artists"]
+                ],
+                "image": track["image"],
+                "release_date": release_date,
+            }
+        )
 
     sorted_tracks = sorted(normalized_tracks, key=lambda x: x["release_date"])
     oldest_tracks = sorted_tracks[:MAX_TOP_SONGS]
@@ -105,30 +143,42 @@ def aggregate_dates(tracks):
 def agregate_billions(tracks):
     normalized_tracks = []
     for track in tracks:
-        release_date = track["release_date"] 
+        release_date = track["release_date"]
         if track["release_date_precision"] == "year":
             release_date += "-01-01"
         elif track["release_date_precision"] == "month":
             release_date += "-01"
-        billion_date = track["added_at"].split("T")[0] # format : "2022-07-27T16:32:16.167Z"
-        normalized_tracks.append({
-            "id": track["id"],
-            "name": track["name"],
-            "artists": [{
-                    "id": artist.get("id"),
-                    "name": artist["name"],
-                    "image": artist.get("image")
-                } 
-                for artist in track["artists"]
-            ],
-            "popularity": track["popularity"],
-            "image": track["image"],
-            "added_at": billion_date,
-            "billion_time": (datetime.strptime(billion_date, "%Y-%m-%d") - datetime.strptime(release_date, "%Y-%m-%d")).days
-        })
+        billion_date = track["added_at"].split("T")[
+            0
+        ]  # format : "2022-07-27T16:32:16.167Z"
+        normalized_tracks.append(
+            {
+                "id": track["id"],
+                "name": track["name"],
+                "artists": [
+                    {
+                        "id": artist.get("id"),
+                        "name": artist["name"],
+                        "image": artist.get("image"),
+                    }
+                    for artist in track["artists"]
+                ],
+                "popularity": track["popularity"],
+                "image": track["image"],
+                "added_at": billion_date,
+                "billion_time": (
+                    datetime.strptime(billion_date, "%Y-%m-%d")
+                    - datetime.strptime(release_date, "%Y-%m-%d")
+                ).days,
+            }
+        )
 
-    newest_billions = sorted(normalized_tracks, key=lambda x: x["added_at"], reverse=True)[:MAX_TOP_SONGS]
-    fastest_billions = sorted(normalized_tracks, key=lambda x: x["billion_time"], reverse=False)[:MAX_TOP_SONGS]
+    newest_billions = sorted(
+        normalized_tracks, key=lambda x: x["added_at"], reverse=True
+    )[:MAX_TOP_SONGS]
+    fastest_billions = sorted(
+        normalized_tracks, key=lambda x: x["billion_time"], reverse=False
+    )[:MAX_TOP_SONGS]
 
     return newest_billions, fastest_billions
 
@@ -140,17 +190,18 @@ def aggregate_by_key(tracks, agregateKey):
         {
             "id": track["id"],
             "name": track["name"],
-            "artists": [{
-                    "id": artist.get("id"), 
-                    "name": artist["name"], 
-                    "image": artist.get("image")
-                } 
+            "artists": [
+                {
+                    "id": artist.get("id"),
+                    "name": artist["name"],
+                    "image": artist.get("image"),
+                }
                 for artist in track["artists"]
             ],
             "playcount": track["playcount"],
             "popularity": track["popularity"],
             "duration_ms": track["duration_ms"],
-            "image": track["image"]
+            "image": track["image"],
         }
         for track in sorted_tracks
     ]
@@ -175,7 +226,7 @@ def aggregate_periods(tracks):
         precision = track["release_date_precision"]
         added_at = track["added_at"]
         playcount = track["playcount"]
-        duration = track["duration_ms"] // 1000 # in seconds
+        duration = track["duration_ms"] // 1000  # in seconds
 
         if precision == "year":
             year_release_count[release_date] += 1
@@ -185,8 +236,8 @@ def aggregate_periods(tracks):
             if month:
                 month_release_count[month] += 1
 
-        billion_date = added_at.split("T")[0] # format : "2022-07-27T16:32:16.167Z"
-        if (billion_date != "2021-07-21"): # Billions Club creation date
+        billion_date = added_at.split("T")[0]  # format : "2022-07-27T16:32:16.167Z"
+        if billion_date != "2021-07-21":  # Billions Club creation date
             billion_year, billion_month, *_ = billion_date.split("-")
             year_billion_count[billion_year] += 1
             month_billion_count[f"{billion_year}-{billion_month}"] += 1
@@ -194,9 +245,22 @@ def aggregate_periods(tracks):
         stream_count[f"{playcount/1_000_000_000:.1f}"] += 1
         time_count[f"{duration//10}"] += 1
         featuring_count[f"{len(track['artists'])}"] += 1
-        numberOfDaysSinceRelease = (max((datetime.now() - datetime.strptime(added_at.split("T")[0], "%Y-%m-%d")).days, 1))
+        numberOfDaysSinceRelease = max(
+            (
+                datetime.now() - datetime.strptime(added_at.split("T")[0], "%Y-%m-%d")
+            ).days,
+            1,
+        )
 
-    return dict(year_release_count), dict(month_release_count), dict(year_billion_count), dict(month_billion_count), dict(stream_count), dict(time_count), dict(featuring_count)
+    return (
+        dict(year_release_count),
+        dict(month_release_count),
+        dict(year_billion_count),
+        dict(month_billion_count),
+        dict(stream_count),
+        dict(time_count),
+        dict(featuring_count),
+    )
 
 
 def get_streams_per_day(tracks):
@@ -212,53 +276,86 @@ def get_streams_per_day(tracks):
         elif precision == "month":
             release_date += "-01"
 
-        numberOfDaysSinceRelease = (max((datetime.now() - datetime.strptime(release_date.split("T")[0], "%Y-%m-%d")).days, 1))
+        numberOfDaysSinceRelease = max(
+            (
+                datetime.now()
+                - datetime.strptime(release_date.split("T")[0], "%Y-%m-%d")
+            ).days,
+            1,
+        )
         streamsPerDay = playcount // numberOfDaysSinceRelease
-        streams_per_day.append({
-            "id": track["id"],
-            "name": track["name"],
-            "artists": [{
-                    "id": artist.get("id"),
-                    "name": artist["name"],
-                    "image": artist.get("image")
-                } 
-                for artist in track["artists"]
-            ],
-            "image": track["image"],
-            "streams_per_day": streamsPerDay
-        })
+        streams_per_day.append(
+            {
+                "id": track["id"],
+                "name": track["name"],
+                "artists": [
+                    {
+                        "id": artist.get("id"),
+                        "name": artist["name"],
+                        "image": artist.get("image"),
+                    }
+                    for artist in track["artists"]
+                ],
+                "image": track["image"],
+                "streams_per_day": streamsPerDay,
+            }
+        )
 
-    streams_per_day = sorted(streams_per_day, key=lambda x: x["streams_per_day"], reverse=True)[:MAX_TOP_SONGS]
-    flop_per_day = sorted(streams_per_day, key=lambda x: x["streams_per_day"], reverse=False)[:MAX_TOP_SONGS]
+    streams_per_day = sorted(
+        streams_per_day, key=lambda x: x["streams_per_day"], reverse=True
+    )[:MAX_TOP_SONGS]
+    flop_per_day = sorted(
+        streams_per_day, key=lambda x: x["streams_per_day"], reverse=False
+    )[:MAX_TOP_SONGS]
 
     return streams_per_day
 
 
 def get_key_features_data(tracks, report):
     total_tracks = report["total_tracks"]
-    
-    two_billion_count = int(sum(1 for track in tracks if (track["playcount"] >= 2_000_000_000)))
-    three_billion_count = int(sum(1 for track in tracks if (track["playcount"] >= 3_000_000_000)))
-    four_billion_count = int(sum(1 for track in tracks if (track["playcount"] >= 4_000_000_000)))
 
-    two_billion_percentage = round(100*(two_billion_count / total_tracks), 2)
-    three_billion_percentage = round(100*(three_billion_count / total_tracks), 2)
-    
+    two_billion_count = int(
+        sum(1 for track in tracks if (track["playcount"] >= 2_000_000_000))
+    )
+    three_billion_count = int(
+        sum(1 for track in tracks if (track["playcount"] >= 3_000_000_000))
+    )
+    four_billion_count = int(
+        sum(1 for track in tracks if (track["playcount"] >= 4_000_000_000))
+    )
+
+    two_billion_percentage = round(100 * (two_billion_count / total_tracks), 2)
+    three_billion_percentage = round(100 * (three_billion_count / total_tracks), 2)
+
     latest_billion = report["newest_billions"][0]
     fastest_billion = report["fastest_billions"][0]
     shortest_song = report["most_short_tracks"][0]
     longest_song = report["most_long_tracks"][0]
 
     current_year = datetime.now().year
-    year_count = sum(1 for track in tracks if (track["added_at"].startswith(str(current_year))))
+    year_count = sum(
+        1 for track in tracks if (track["added_at"].startswith(str(current_year)))
+    )
 
     most_popular_song = report["most_popular_tracks"][0]
     most_popular_artist = most_popular_song["artists"][0]["name"]
 
-    count_artists_2plus_tracks = sum(artistsNb for count, artistsNb in report["distribution_track_count"].items() if (int(count) >= 2))
-    count_artists_5plus_tracks = sum(artistsNb for count, artistsNb in report["distribution_track_count"].items() if (int(count) >= 5))
-    percent_artists_2plus_tracks = round(100*(count_artists_2plus_tracks / report["total_artists"]), 2)
-    percent_artists_5plus_tracks = round(100*(count_artists_5plus_tracks / report["total_artists"]), 2)
+    count_artists_2plus_tracks = sum(
+        artistsNb
+        for count, artistsNb in report["distribution_track_count"].items()
+        if (int(count) >= 2)
+    )
+    count_artists_5plus_tracks = sum(
+        artistsNb
+        for count, artistsNb in report["distribution_track_count"].items()
+        if (int(count) >= 5)
+    )
+    percent_artists_2plus_tracks = round(
+        100 * (count_artists_2plus_tracks / report["total_artists"]), 2
+    )
+    percent_artists_5plus_tracks = round(
+        100 * (count_artists_5plus_tracks / report["total_artists"]), 2
+    )
 
     return {
         "two_billion_count": two_billion_count,
@@ -274,7 +371,9 @@ def get_key_features_data(tracks, report):
         "latest_song_link": f"https://open.spotify.com/track/{latest_billion["id"]}",
         "latest_artist": latest_billion["artists"][0]["name"],
         "latest_artist_link": f"https://open.spotify.com/artist/{latest_billion["artists"][0]["id"]}",
-        "latest_date": datetime.strptime(latest_billion["added_at"], "%Y-%m-%d").strftime("%B %d, %Y"),
+        "latest_date": datetime.strptime(
+            latest_billion["added_at"], "%Y-%m-%d"
+        ).strftime("%B %d, %Y"),
         "this_year_count": year_count,
         "most_popular_song": most_popular_song["name"],
         "most_popular_song_link": f"https://open.spotify.com/track/{most_popular_song["id"]}",
@@ -311,11 +410,12 @@ def get_key_features_data(tracks, report):
 def generate_report(dataPath, outputReportPath, WRITE_TO_DATABASE):
 
     REPORT_VERSION = "1.2.1"
+    print(f"Generating report version {REPORT_VERSION}...")
 
     if WRITE_TO_DATABASE:
         dateKey = dataPath.split("_")[-1].split(".")[0]
         playlist = retrieve_playlist_infos_from_mongo(dateKey)
-        if not(playlist):
+        if not (playlist):
             raise Exception(f"No data found for {dateKey} in database.")
     else:
         with open(dataPath, "r", encoding="utf-8") as f:
@@ -325,17 +425,51 @@ def generate_report(dataPath, outputReportPath, WRITE_TO_DATABASE):
     create_folder("public/data/")
 
     tracks = playlist["items"]
+    print(f"Loaded {len(tracks)} tracks.")
 
-    total_tracks, total_artists, total_streams, total_time, total_explicits = aggregate_general(tracks)
-    artists_counts, artists_playcounts, artists_length, artists_popularity, count_distribution = aggregate_artists(tracks)
+    print("Aggregating general stats...")
+    total_tracks, total_artists, total_streams, total_time, total_explicits = (
+        aggregate_general(tracks)
+    )
+    print(f"  {total_tracks} tracks, {total_artists} artists, {total_streams:,} streams.")
+
+    print("Aggregating artists...")
+    (
+        artists_counts,
+        artists_playcounts,
+        artists_length,
+        artists_popularity,
+        count_distribution,
+    ) = aggregate_artists(tracks)
+
+    print("Aggregating dates...")
     oldest_tracks, newest_tracks = aggregate_dates(tracks)
+
+    print("Aggregating billions...")
     newest_billions, fastest_billions = agregate_billions(tracks)
+
+    print("Aggregating by playcount...")
     most_streamed_tracks, least_streamed_tracks = aggregate_by_key(tracks, "playcount")
+    print("Aggregating by popularity...")
     most_popular_tracks, least_popular_tracks = aggregate_by_key(tracks, "popularity")
+    print("Aggregating by duration...")
     most_long_tracks, most_short_tracks = aggregate_by_key(tracks, "duration_ms")
-    year_release_count, month_release_count, year_billion_count, month_billion_count, stream_count, time_count, featuring_count = aggregate_periods(tracks)
+
+    print("Aggregating periods...")
+    (
+        year_release_count,
+        month_release_count,
+        year_billion_count,
+        month_billion_count,
+        stream_count,
+        time_count,
+        featuring_count,
+    ) = aggregate_periods(tracks)
+
+    print("Computing streams per day...")
     streams_per_day = get_streams_per_day(tracks)
 
+    print("Building final report...")
     final_report = {
         "name": playlist["name"],
         "description": playlist["description"],
@@ -372,8 +506,10 @@ def generate_report(dataPath, outputReportPath, WRITE_TO_DATABASE):
         "distribution_featuring_count": featuring_count,
         "distribution_track_count": count_distribution,
     }
+    print("Computing template data...")
     final_report["template_data"] = get_key_features_data(tracks, final_report)
 
+    print("Writing report to disk...")
     with open(outputReportPath, "w", encoding="utf-8") as f:
         json.dump(final_report, f, ensure_ascii=False, indent=4)
 
@@ -397,7 +533,9 @@ def generate_leaderboard(dataPath, WRITE_TO_DATABASE):
     for track in tracks_data["items"]:
         for artist in track["artists"]:
             artists[artist["name"]] = artists.get(artist["name"], 0) + 1
-            streams[artist["name"]] = streams.get(artist["name"], 0) + track["playcount"]
+            streams[artist["name"]] = (
+                streams.get(artist["name"], 0) + track["playcount"]
+            )
         tracks[track["name"]] = track["playcount"]
 
     leaderboard_artists = sorted(artists.items(), key=lambda x: x[1], reverse=True)
