@@ -1,5 +1,5 @@
-spotapi
-Flask==3.1.1
+spotapi==1.2.7
+Flask==3.1.3
 redis==5.2.1
 pymongo==4.11.3
 websockets==14.1
