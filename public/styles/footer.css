@@ -4,7 +4,7 @@ footer {
     justify-content: center;
     align-items: center;
     text-align: center;
-    margin-top: 100px;
+    margin: 100px 0 20px;
     color: var(--primary-color);
     
     &::before {
@@ -16,6 +16,14 @@ footer {
         height: 1px;
         margin-bottom: 20px;
         background-color: var(--primary-color);
+    }
+
+    .footer-link-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 20px;
     }
 
     img {
