@@ -108,6 +108,8 @@ def aggregate_artists(tracks):
 def aggregate_dates(tracks):
     normalized_tracks = []
     for track in tracks:
+        if not(track.get("corrected_release_date", False)):
+            continue
         release_date = track["release_date"]
         precision = track["release_date_precision"]
 
@@ -142,43 +144,39 @@ def aggregate_dates(tracks):
 
 def agregate_billions(tracks):
     normalized_tracks = []
+    fastest_candidates = []
     for track in tracks:
         release_date = track["release_date"]
         if track["release_date_precision"] == "year":
             release_date += "-01-01"
         elif track["release_date_precision"] == "month":
             release_date += "-01"
-        billion_date = track["added_at"].split("T")[
-            0
-        ]  # format : "2022-07-27T16:32:16.167Z"
-        normalized_tracks.append(
-            {
-                "id": track["id"],
-                "name": track["name"],
-                "artists": [
-                    {
-                        "id": artist.get("id"),
-                        "name": artist["name"],
-                        "image": artist.get("image"),
-                    }
-                    for artist in track["artists"]
-                ],
-                "popularity": track["popularity"],
-                "image": track["image"],
-                "added_at": billion_date,
-                "billion_time": (
-                    datetime.strptime(billion_date, "%Y-%m-%d")
-                    - datetime.strptime(release_date, "%Y-%m-%d")
-                ).days,
-            }
-        )
+        billion_date = track["added_at"].split("T")[0]  # format : "2022-07-27T16:32:16.167Z"
+        entry = {
+            "id": track["id"],
+            "name": track["name"],
+            "artists": [
+                {
+                    "id": artist.get("id"),
+                    "name": artist["name"],
+                    "image": artist.get("image"),
+                }
+                for artist in track["artists"]
+            ],
+            "popularity": track["popularity"],
+            "image": track["image"],
+            "added_at": billion_date,
+            "billion_time": (
+                datetime.strptime(billion_date, "%Y-%m-%d")
+                - datetime.strptime(release_date, "%Y-%m-%d")
+            ).days,
+        }
+        normalized_tracks.append(entry)
+        if track.get("corrected_release_date", False):
+            fastest_candidates.append(entry)
 
-    newest_billions = sorted(
-        normalized_tracks, key=lambda x: x["added_at"], reverse=True
-    )[:MAX_TOP_SONGS]
-    fastest_billions = sorted(
-        normalized_tracks, key=lambda x: x["billion_time"], reverse=False
-    )[:MAX_TOP_SONGS]
+    newest_billions = sorted(normalized_tracks, key=lambda x: x["added_at"], reverse=True)[:MAX_TOP_SONGS]
+    fastest_billions = sorted(fastest_candidates, key=lambda x: x["billion_time"], reverse=False)[:MAX_TOP_SONGS]
 
     return newest_billions, fastest_billions
 
@@ -228,16 +226,16 @@ def aggregate_periods(tracks):
         playcount = track["playcount"]
         duration = track["duration_ms"] // 1000  # in seconds
 
-        if precision == "year":
-            year_release_count[release_date] += 1
-        else:
-            year, month, *_ = release_date.split("-")
-            year_release_count[year] += 1
-            if month:
+        if (track.get("corrected_release_date", False)):
+            if precision == "year":
+                year_release_count[release_date] += 1
+            else:
+                year, month, *_ = release_date.split("-")
+                year_release_count[year] += 1
                 month_release_count[month] += 1
 
         billion_date = added_at.split("T")[0]  # format : "2022-07-27T16:32:16.167Z"
-        if billion_date != "2021-07-21":  # Billions Club creation date
+        if (billion_date != "2021-07-21"):  # Billions Club creation date
             billion_year, billion_month, *_ = billion_date.split("-")
             year_billion_count[billion_year] += 1
             month_billion_count[f"{billion_year}-{billion_month}"] += 1
@@ -245,12 +243,6 @@ def aggregate_periods(tracks):
         stream_count[f"{playcount/1_000_000_000:.1f}"] += 1
         time_count[f"{duration//10}"] += 1
         featuring_count[f"{len(track['artists'])}"] += 1
-        numberOfDaysSinceRelease = max(
-            (
-                datetime.now() - datetime.strptime(added_at.split("T")[0], "%Y-%m-%d")
-            ).days,
-            1,
-        )
 
     return (
         dict(year_release_count),
@@ -267,6 +259,8 @@ def get_streams_per_day(tracks):
     streams_per_day = []
 
     for track in tracks:
+        if track.get("corrected_release_date") is False:
+            continue
         release_date = track["release_date"]
         precision = track["release_date_precision"]
         playcount = track["playcount"]
