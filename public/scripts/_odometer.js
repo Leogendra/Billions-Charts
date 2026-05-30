@@ -10,6 +10,8 @@
 
     DIGIT_HTML = '<span class="odometer-digit"><span class="odometer-digit-spacer">8</span><span class="odometer-digit-inner">' + RIBBON_HTML + '</span></span>';
 
+    SUFFIX_HTML = '<span class="odometer-digit odometer-digit-suffix"><span class="odometer-digit-spacer"></span><span class="odometer-digit-inner"><span class="odometer-suffix"></span></span></span>';
+
     FORMAT_MARK_HTML = '<span class="odometer-formatting-mark"></span>';
 
     DIGIT_FORMAT = "('ddd),dd";
@@ -320,16 +322,7 @@
             this.el.className = newClasses.join(' ');
             this.ribbons = {};
             this.formatDigits(value);
-
-            if (this.suffix) {
-                var lastDigit = this.inside.querySelector('.odometer-digit:last-child');
-                if (lastDigit) {
-                    var suffixSpan = document.createElement('span');
-                    suffixSpan.className = 'odometer-suffix';
-                    suffixSpan.innerText = this.suffix;
-                    lastDigit.appendChild(suffixSpan);
-                }
-            }
+            this.renderSuffix();
             return this.startWatchingMutations();
         };
 
@@ -381,13 +374,6 @@
             this.stopWatchingMutations();
             this.animate(newValue);
             this.startWatchingMutations();
-
-            if (this.suffix) {
-                var suffixDigit = this.inside.querySelector('.odometer-digit:last-child');
-                if (suffixDigit) {
-                    suffixDigit.querySelector('.odometer-value').innerText = this.suffix;
-                }
-            }
             setTimeout(function () {
                 _this.el.offsetHeight;
                 return addClass(_this.el, 'odometer-animating');
@@ -397,6 +383,16 @@
 
         Odometer.prototype.renderDigit = function () {
             return createFromHTML(DIGIT_HTML);
+        };
+
+        Odometer.prototype.renderSuffix = function () {
+            if (!this.suffix) {
+                return;
+            }
+            var suffixEl = createFromHTML(SUFFIX_HTML);
+            suffixEl.querySelector('.odometer-digit-spacer').innerText = this.suffix;
+            suffixEl.querySelector('.odometer-suffix').innerText = this.suffix;
+            this.inside.appendChild(suffixEl);
         };
 
         Odometer.prototype.insertDigit = function (digit, before) {
@@ -610,17 +606,9 @@
                 mark.parent.removeChild(mark);
             }
             if (fractionalCount) {
-                return this.addSpacer(this.format.radix, this.digits[fractionalCount - 1], 'odometer-radix-mark');
+                this.addSpacer(this.format.radix, this.digits[fractionalCount - 1], 'odometer-radix-mark');
             }
-            if (this.suffix) {
-                var lastDigit = this.inside.querySelector('.odometer-digit:last-child');
-                if (lastDigit) {
-                    var suffixSpan = document.createElement('span');
-                    suffixSpan.className = 'odometer-suffix';
-                    suffixSpan.innerText = this.suffix;
-                    lastDigit.appendChild(suffixSpan);
-                }
-            }
+            return this.renderSuffix();
         };
 
         return Odometer;
