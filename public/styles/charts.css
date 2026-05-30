@@ -156,20 +156,6 @@
 }
 
 
-/* Playlist cover and description */
-.cover-container {
-    box-shadow: #000000 0px 0px 20px;
-    border-radius: 10px;
-    width: 300px;
-    height: 300px;
-    overflow: hidden;
-}
-
-#playlist-description {
-    text-align: center;
-}
-
-
 /* Trending */
 .charts-trending {
     display: flex;
@@ -187,36 +173,9 @@
 
 
 @media screen and (max-width: 800px) {
-    .charts-hero {
-        flex-direction: column;
-        gap: 0px;
-    }
-    .counter-container {
-        margin: 10px 0;
-        padding: 10px 0 0;
-        min-width: 50%;
-    }
-    .hero-title {
-        font-size: 1rem;
-    }
-
-    .counter-container span {
-        font-size: 2rem;
-    }
     .chart-title {
         font-size: 1.2rem;
         gap: 5px;
-    }
-    .cover-container {
-        width: 200px;
-        height: 200px;
-    }
-    .cover-container img {
-        width: 100%;
-        height: 100%;
-    }
-    #playlist-description {
-        font-size: 1.1rem;
     }
 
     .div-cards-entries {
