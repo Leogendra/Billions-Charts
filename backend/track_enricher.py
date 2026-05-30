@@ -96,20 +96,23 @@ def enrich_tracks_with_correct_release_dates(
 
         track_id = track["id"]
         api_data = tracks_data.get(track_id, {})
+        isrc = api_data.get("isrc")
 
         playlist_items[i]["popularity"] = api_data.get("popularity")
         playlist_items[i]["release_date"] = api_data.get("release_date")
         playlist_items[i]["release_date_precision"] = api_data.get("release_date_precision")
         playlist_items[i]["corrected_release_date"] = False
-        if api_data.get("isrc"):
-            playlist_items[i]["isrc"] = api_data["isrc"]
+        playlist_items[i]["isrc"] = isrc
 
-        # skip ISRC release date correction for tracks already corrected 
-        if ((track_id in already_corrected) or (api_data.get("album_type")) == "single"):
-            playlist_items[i]["corrected_release_date"] = True
+        # already in DB with a corrected date: don't overwrite it
+        if (track_id in already_corrected):
+            playlist_items[i]["corrected_release_date"] = "already_corrected"
             continue
 
-        isrc = api_data.get("isrc")
+        # API release date is already the right one with singles
+        if (api_data.get("album_type") == "single"):
+            playlist_items[i]["corrected_release_date"] = True
+            continue
 
         corrected_release_date = fetch_release_date_via_isrc(isrc, headers)
         if (corrected_release_date is None):

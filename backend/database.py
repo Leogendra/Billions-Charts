@@ -64,28 +64,28 @@ def insert_or_update_tracks(playlist_data):
         if ("isrc" in track):
             track_data["isrc"] = track["isrc"]
 
-        if track.get("corrected_release_date"):
-            # overwrite release_date
-            update = {"$set": track_data | {
+        correctedFlag = track.get("corrected_release_date")
+        if (correctedFlag == "already_corrected"): # Date was corrected in a previous run
+            continue
+        elif (correctedFlag == True): # Date was corrected in this run
+            set_fields = {
                 "release_date": track["release_date"],
                 "release_date_precision": track["release_date_precision"],
                 "corrected_release_date": True,
-                },
-                "$setOnInsert": {
-                    "added_at": track["added_at"],
-                }
             }
+            set_on_insert_fields = {"added_at": track["added_at"]}
         else:
-            # only write on creation
-            update = {
-                "$set": track_data,
-                "$setOnInsert": {
-                    "added_at": track["added_at"],
-                    "release_date": track["release_date"],
-                    "release_date_precision": track["release_date_precision"],
-                    "corrected_release_date": False,
-                }
+            set_fields = {"corrected_release_date": False}
+            set_on_insert_fields = {
+                "added_at": track["added_at"],
+                "release_date": track["release_date"],
+                "release_date_precision": track["release_date_precision"],
             }
+
+        update = {
+            "$set": set_fields,
+            "$setOnInsert": track_data | set_on_insert_fields,
+        }
 
         operations.append(UpdateOne({"id": track["id"]}, update, upsert=True))
 
