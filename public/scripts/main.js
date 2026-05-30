@@ -57,12 +57,7 @@ function update_playlist_infos(report) {
     update_date_global.textContent = lastUpdateDate;
 
     // playlist image and description
-    const playlist_cover = document.createElement("img");
     playlist_cover.src = report.coverUrl;
-    playlist_cover.id = "playlist-cover";
-    playlist_cover.alt = "Playlist Cover";
-
-    cover_container.appendChild(playlist_cover);
     cover_container.style.boxShadow = report.coverHex;
     playlist_description.textContent = report.description.replace(/<[^>]*>|{[^}]*}/g, '');
 }

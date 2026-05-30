@@ -35,6 +35,17 @@
     flex: 1;
 }
 
+.odometer-digit > * {
+    width: fit-content;
+    font-size: 2.8rem;
+}
+
+.odometer-formatting-mark {
+    font-size: 2rem !important;
+}
+
+
+/* Playlist cover and description */
 .cover-container {
     box-shadow: #000000 0px 0px 20px;
     border-radius: 10px;
@@ -48,13 +59,45 @@
     text-align: center;
 }
 
-.odometer-digit > * {
-    width: fit-content;
-}
-
 
 @media screen and (max-width: 800px) {
+    .charts-hero {
+        flex-direction: column;
+        gap: 0px;
+    }
+    .counter-container {
+        margin: 10px 0;
+        padding: 10px 0 0;
+        min-width: 60%;
+
+        & span {
+            font-size: 2rem;
+        }
+
+        &.playlist-info {
+            width: 100%;
+        }
+
+        & .hero-title {
+            font-size: 1rem;
+        }
+    }
+    .cover-container {
+        width: 200px;
+        height: 200px;
+
+        & img {
+            width: 100%;
+            height: 100%;
+        }
+    }
+
     #playlist-description {
+        font-size: 1.1rem;
         margin-bottom: 10px;
+    }
+
+    .odometer-digit > * {
+        font-size: 0.1rem;
     }
 }
