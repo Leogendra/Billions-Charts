@@ -27,51 +27,12 @@ const streams_per_day_section = document.querySelector("#streams-day");
 
 
 
-function format_milliseconds(ms) {
-    const seconds = Math.floor(ms / 1000);
-    const minutes = Math.floor(seconds / 60);
-    const remaining_seconds = seconds % 60;
-    return `${minutes}:${remaining_seconds.toString().padStart(2, '0')}`;
-}
-
-
-function create_music_card(track, position, additionalInfo = "") {
-    const trackName = track.name.replace(/\([^)]*\)/g, "").trim()
-    const music_card = document.createElement("div");
-    music_card.classList.add("music-card");
-    music_card.classList.add("item");
-    music_card.style.setProperty("--position", position);
-
-    // Generate artists links
-    const artistsLinks = track.artists
-        .map(artist => `<a class="cta-link" href="https://open.spotify.com/artist/${artist.id}" target="_blank">${artist.name}</a>`)
-        .join(", ");
-
-    const additionalInfoDiv = additionalInfo === "" ? "" : `<div class="music-infos">${additionalInfo}</div>`;
-
-    music_card.innerHTML = `
-    <a href="https://open.spotify.com/track/${track.id}" target="_blank">
-        <img src="${track.image}" alt="${trackName}">
-    </a>
-    <div class="music-card-content">
-        <div class="music-title">
-            <a class="cta-link" href="https://open.spotify.com/track/${track.id}" target="_blank">${trackName}</a>
-        </div>
-        <div class="music-artist">
-            ${artistsLinks}
-        </div>
-    </div>
-    ${additionalInfoDiv}
-    `;
-    return music_card;
-}
-
 
 function update_new_entries(report) {
     for (let i = 0; i < report.newest_billions.length; i++) {
         const entry = report.newest_billions[i];
         const nb_days_ago = Math.floor((new Date() - new Date(entry.added_at)) / (1000 * 60 * 60 * 24));
-        const new_entry = create_music_card(entry, i + 1, `Added<br>${nb_days_ago} days ago`);
+        const new_entry = create_row_card(entry, i + 1, `Added<br>${nb_days_ago} days ago`);
         new_entries_section.appendChild(new_entry);
     }
 }
@@ -107,7 +68,7 @@ function get_and_clean_direct_text_content(element) {
 
     text = text.split(":")[0];
     text = text.replace(/:/g, "").replace(/"/g, "").trim();
-    
+
     const bannedWords = ["track", "tracks", "artist", "artists", "with", "the"];
     const match = text.match(/^(\p{Emoji_Presentation}|\p{Emoji}\uFE0F?)\s*(.*)$/u);
     if (!match) return text;
@@ -150,11 +111,11 @@ async function update_pills() {
             pill.textContent = get_and_clean_direct_text_content(section.firstElementChild);
             pills_container.appendChild(pill);
         });
-    
+
         const all_pills = document.querySelectorAll(`.pill-${sectionName}`);
         firstPill.classList.add("active");
         display_pill_section(all_sections, all_pills, firstPill, scrollToTop = false);
-    
+
         // Add event listeners to all pills
         all_pills.forEach(pill => {
             pill.addEventListener("click", function () {
@@ -168,7 +129,7 @@ async function update_pills() {
 async function update_trendings(report) {
     for (let i = 0; i < report.most_popular_tracks.length; i++) {
         const trending = report.most_popular_tracks[i];
-        const trending_entry = create_music_card(trending, i + 1, `Popularity<br>${trending.popularity}`);
+        const trending_entry = create_row_card(trending, i + 1, `Popularity<br>${trending.popularity}`);
         trendings_section.appendChild(trending_entry);
     }
 }
@@ -177,7 +138,7 @@ async function update_trendings(report) {
 async function update_newest(report) {
     for (let i = 0; i < report.newest_tracks.length; i++) {
         const track = report.newest_tracks[i];
-        const track_entry = create_music_card(track, i + 1, `Release<br>${track.release_date}`);
+        const track_entry = create_row_card(track, i + 1, `Release<br>${track.release_date}`);
         newest_section.appendChild(track_entry);
     }
 }
@@ -186,7 +147,7 @@ async function update_newest(report) {
 async function update_oldest(report) {
     for (let i = 0; i < report.oldest_tracks.length; i++) {
         const track = report.oldest_tracks[i];
-        const track_entry = create_music_card(track, i + 1, `Release<br>${track.release_date}`);
+        const track_entry = create_row_card(track, i + 1, `Release<br>${track.release_date}`);
         oldest_section.appendChild(track_entry);
     }
 }
@@ -195,7 +156,7 @@ async function update_oldest(report) {
 async function update_fastest(report) {
     for (let i = 0; i < report.fastest_billions.length; i++) {
         const track = report.fastest_billions[i];
-        const track_entry = create_music_card(track, i + 1, `Days taken<br>${track.billion_time}`);
+        const track_entry = create_row_card(track, i + 1, `Days taken<br>${track.billion_time}`);
         fastest_section.appendChild(track_entry);
     }
 }
@@ -204,7 +165,7 @@ async function update_fastest(report) {
 async function update_most_streamed(report) {
     for (let i = 0; i < report.most_streamed_tracks.length; i++) {
         const track = report.most_streamed_tracks[i];
-        const track_entry = create_music_card(track, i + 1, `Streams<br>${(track.playcount / 1_000_000_000).toFixed(2)}B`);
+        const track_entry = create_row_card(track, i + 1, `Streams<br>${(track.playcount / 1_000_000_000).toFixed(2)}B`);
         most_streamed_section.appendChild(track_entry);
     }
 }
@@ -213,7 +174,7 @@ async function update_most_streamed(report) {
 async function update_least_streamed(report) {
     for (let i = 0; i < report.least_streamed_tracks.length; i++) {
         const track = report.least_streamed_tracks[i];
-        const track_entry = create_music_card(track, i + 1, `Streams<br>${(track.playcount / 1_000_000_000).toFixed(4)}B`);
+        const track_entry = create_row_card(track, i + 1, `Streams<br>${(track.playcount / 1_000_000_000).toFixed(4)}B`);
         least_streamed_section.appendChild(track_entry);
     }
 }
@@ -222,7 +183,7 @@ async function update_least_streamed(report) {
 async function update_most_long(report) {
     for (let i = 0; i < report.most_long_tracks.length; i++) {
         const track = report.most_long_tracks[i];
-        const track_entry = create_music_card(track, i + 1, `Duration<br>${format_milliseconds(track.duration_ms)}`);
+        const track_entry = create_row_card(track, i + 1, `Duration<br>${format_milliseconds(track.duration_ms)}`);
         most_long_section.appendChild(track_entry);
     }
 }
@@ -231,7 +192,7 @@ async function update_most_long(report) {
 async function update_most_short(report) {
     for (let i = 0; i < report.most_short_tracks.length; i++) {
         const track = report.most_short_tracks[i];
-        const track_entry = create_music_card(track, i + 1, `Duration<br>${format_milliseconds(track.duration_ms)}`);
+        const track_entry = create_row_card(track, i + 1, `Duration<br>${format_milliseconds(track.duration_ms)}`);
         most_short_section.appendChild(track_entry);
     }
 }
@@ -240,7 +201,7 @@ async function update_most_short(report) {
 async function update_streams_per_day(report) {
     for (let i = 0; i < report.streams_per_day.length; i++) {
         const track = report.streams_per_day[i];
-        const track_entry = create_music_card(track, i + 1, `Streams<br>${(track.streams_per_day / 1_000_000).toFixed(2)}M/day`);
+        const track_entry = create_row_card(track, i + 1, `Streams<br>${(track.streams_per_day / 1_000_000).toFixed(2)}M/day`);
         streams_per_day_section.appendChild(track_entry);
     }
 }
