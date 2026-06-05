@@ -1,6 +1,8 @@
 from flask import Flask, jsonify, send_file, request
+from flask_limiter.util import get_remote_address
 from backend.scrapper import fetch_playlist_infos
 from backend.utils import create_folder
+from flask_limiter import Limiter
 from backend.report import (
     generate_report,
     generate_leaderboard
@@ -13,12 +15,20 @@ import os
 
 load_dotenv()
 app = Flask(__name__, static_folder="public", static_url_path="/")
+limiter = Limiter(
+    get_remote_address,
+    app=app,
+    storage_uri="memory://",
+    default_limits=[],
+)
 PORT = os.getenv("PORT") or 3434
 BASE_URL = f"http://localhost:{PORT}"
+
 WRITE_TO_DATABASE = os.getenv("WRITE_TO_DATABASE", "true").lower() == "true"
 PASSWORD = os.getenv("PASSWORD", "")
-if not PASSWORD:
+if not(PASSWORD):
     raise RuntimeError("PASSWORD environment variable is not set")
+
 
 
 
@@ -52,6 +62,7 @@ def generate_sitemap(dateKey):
 
 
 @app.route("/search/", methods=["GET"])
+@limiter.limit("5 per minute")
 @require_password
 def search():
     dateKey = datetime.datetime.now().strftime("%Y-%m-%d")
@@ -77,6 +88,7 @@ def search():
     
 
 @app.route("/report/<dateKey>/", methods=["GET"])
+@limiter.limit("5 per minute")
 @require_password
 def report(dateKey):
     dataPath = f"data/tracks/tracks_{dateKey}.json"
@@ -97,6 +109,7 @@ def report(dateKey):
 
 
 @app.route("/leaderboard/<dateKey>/", methods=["GET"])
+@limiter.limit("5 per minute")
 @require_password
 def leaderboard(dateKey):
     create_folder("data/reports")

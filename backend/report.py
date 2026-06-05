@@ -12,7 +12,7 @@ MAX_TOP_SONGS = 10  # TODO: Dynamic backend limit for top songs
 def aggregate_general(tracks):
     total_tracks = len(tracks)
     total_artists = len(
-        set(artist["name"] for track in tracks for artist in track["artists"])
+        set(artist["id"] for track in tracks for artist in track["artists"])
     )
     total_streams = sum(track["playcount"] for track in tracks)
     total_time = sum(track["duration_ms"] for track in tracks) // 1000  # in seconds
@@ -295,14 +295,11 @@ def get_streams_per_day(tracks):
             }
         )
 
-    streams_per_day = sorted(
+    most_streams_per_day = sorted(
         streams_per_day, key=lambda x: x["streams_per_day"], reverse=True
     )[:MAX_TOP_SONGS]
-    flop_per_day = sorted(
-        streams_per_day, key=lambda x: x["streams_per_day"], reverse=False
-    )[:MAX_TOP_SONGS]
 
-    return streams_per_day
+    return most_streams_per_day
 
 
 def get_key_features_data(tracks, report):
