@@ -36,7 +36,9 @@ def require_password(f):
     @wraps(f)
     def decorated(*args, **kwargs):
         time.sleep(1)
-        if (request.args.get("password", "") != PASSWORD):
+        auth_header = request.headers.get("Authorization", "")
+        token = auth_header.removeprefix("Bearer ") if auth_header.startswith("Bearer ") else ""
+        if (token != PASSWORD):
             time.sleep(3)
             return jsonify({
                 "message": "Access denied!",
