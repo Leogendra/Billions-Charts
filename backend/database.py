@@ -12,6 +12,11 @@ playlists_collection = db.playlists_headers
 tracks_collection = db.playlist_tracks
 artists_collection = db.playlist_artists
 
+# one-time index creation
+playlists_collection.create_index("date", unique=True)
+tracks_collection.create_index("id", unique=True)
+artists_collection.create_index("id", unique=True)
+
 
 
 
