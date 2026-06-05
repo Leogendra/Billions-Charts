@@ -126,5 +126,6 @@ def read_root():
 
 
 if __name__ == "__main__":
-    app.run(debug=True, port=PORT)
+    debug = os.getenv("FLASK_DEBUG", "false").lower() == "true"
+    app.run(debug=debug, port=PORT)
     print(f"Server is running on http://localhost:{PORT}")
