@@ -38,14 +38,16 @@ If you want to contribute or use the project for another playlist, you can run t
    pip install -r requirements.txt
    ```
 3. Setup a [Spotify developer account](https://developer.spotify.com/dashboard/) and create a new application to get your `CLIENT_ID` and `CLIENT_SECRET`.
-4. Setup a [MongoDB](https://www.mongodb.com/) account and create a new database to get your `MONGO_URI` (update the variable `WRITE_TO_DATABASE = False` in `app.py` if you want to write in local file instead of MongoDB).
+4. Setup a [MongoDB](https://www.mongodb.com/) account and create a new database to get your `MONGO_URI` (set `WRITE_TO_DATABASE=false` in `.env` to write to local files instead of MongoDB).
 5. Create a `.env` file in the root directory and add your Spotify API and MongoDB credentials, the playlist ID you want to analyze, and a password for the `search/` and `report/` routes:
    ```bash
     CLIENT_ID=your_client_id
     CLIENT_SECRET=your_client_secret
     MONGO_URI=mongodb_uri
-    PLAYLIST_ID=spotify_playlisyt_id
-    PASSWORD=1234
+    PLAYLIST_ID=spotify_playlist_id
+    PASSWORD=your_password
+    WRITE_TO_DATABASE=true
+    FLASK_DEBUG=false
    ```
 6. Launch the application:
    ```bash
