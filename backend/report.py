@@ -398,13 +398,12 @@ def get_key_features_data(tracks, report):
     }
 
 
-def generate_report(dataPath, outputReportPath, WRITE_TO_DATABASE):
+def generate_report(dataPath, outputReportPath, WRITE_TO_DATABASE, dateKey=None):
 
     REPORT_VERSION = "1.2.1"
     print(f"Generating report version {REPORT_VERSION}...")
 
     if WRITE_TO_DATABASE:
-        dateKey = dataPath.split("_")[-1].split(".")[0]
         playlist = retrieve_playlist_infos_from_mongo(dateKey)
         if not (playlist):
             raise Exception(f"No data found for {dateKey} in database.")
@@ -508,11 +507,10 @@ def generate_report(dataPath, outputReportPath, WRITE_TO_DATABASE):
     return REPORT_VERSION
 
 
-def generate_leaderboard(dataPath, WRITE_TO_DATABASE):
+def generate_leaderboard(dataPath, WRITE_TO_DATABASE, dateKey=None):
     create_folder("data/analysis/")
 
     if WRITE_TO_DATABASE:
-        dateKey = dataPath.split("_")[-1].split(".")[0]
         tracks_data = retrieve_playlist_infos_from_mongo(dateKey)
     else:
         with open(dataPath, "r", encoding="utf-8") as f:

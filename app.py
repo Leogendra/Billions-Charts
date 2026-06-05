@@ -1,17 +1,16 @@
-from flask import Flask, jsonify, send_file, request
+from backend.report import generate_report, generate_leaderboard
+from flask import Flask, request, jsonify, send_file, abort
 from flask_limiter.util import get_remote_address
 from backend.scrapper import fetch_playlist_infos
 from backend.utils import create_folder
 from flask_limiter import Limiter
-from backend.report import (
-    generate_report,
-    generate_leaderboard
-)
 from dotenv import load_dotenv
 from functools import wraps
 import datetime
 import time
 import os
+import re
+
 
 load_dotenv()
 app = Flask(__name__, static_folder="public", static_url_path="/")
@@ -30,6 +29,14 @@ if not(PASSWORD):
     raise RuntimeError("PASSWORD environment variable is not set")
 
 
+
+
+def validate_date_key(dateKey):
+    if not re.fullmatch(r"\d{4}-\d{2}-\d{2}", dateKey):
+        print(f"[ERROR] dateKey: {dateKey} is invalid.")
+        abort(400, description="Invalid dateKey format.")
+    else:
+        print(f"[INFO] dateKey: {dateKey} is valid.")
 
 
 def require_password(f):
@@ -72,8 +79,8 @@ def search():
     reportPublicPath = f"public/data/report.json"
 
     try:
-        fetch_playlist_infos(dataPath, WRITE_TO_DATABASE)
-        generate_report(dataPath, reportPublicPath, WRITE_TO_DATABASE) # Static update
+        fetch_playlist_infos(dataPath, WRITE_TO_DATABASE, dateKey)
+        generate_report(dataPath, reportPublicPath, WRITE_TO_DATABASE, dateKey)
         generate_sitemap(dateKey)
         return jsonify({
             "message": "Search completed!",
@@ -93,11 +100,12 @@ def search():
 @limiter.limit("5 per minute")
 @require_password
 def report(dateKey):
+    validate_date_key(dateKey)
     dataPath = f"data/tracks/tracks_{dateKey}.json"
     reportPublicPath = f"public/data/report.json"
 
     try:
-        reportVersion = generate_report(dataPath, reportPublicPath, WRITE_TO_DATABASE)
+        reportVersion = generate_report(dataPath, reportPublicPath, WRITE_TO_DATABASE, dateKey)
         generate_sitemap(dateKey)
         return jsonify( {
             "message": "Report generated!",
@@ -114,11 +122,12 @@ def report(dateKey):
 @limiter.limit("5 per minute")
 @require_password
 def leaderboard(dateKey):
+    validate_date_key(dateKey)
     create_folder("data/reports")
     dataPath = f"data/tracks/tracks_{dateKey}.json"
 
     try:
-        generate_leaderboard(dataPath, WRITE_TO_DATABASE)
+        generate_leaderboard(dataPath, WRITE_TO_DATABASE, dateKey)
         return jsonify({
             "message": "Leaderboard updated!",
             "output": "The leaderboard has been generated successfully.",

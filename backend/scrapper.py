@@ -32,9 +32,8 @@ def get_access_token():
         raise Exception("Error in while fetching access token:", e)
 
 
-def fetch_playlist_infos(dataPath, WRITE_TO_DATABASE, overwrite=False):
+def fetch_playlist_infos(dataPath, WRITE_TO_DATABASE, dateKey, overwrite=False):
     if WRITE_TO_DATABASE:
-        dateKey = dataPath.split("_")[-1].split(".")[0]
         if check_playlist_header_from_mongo(dateKey):
             print(f"Playlist infos already fetched in database")
             return
