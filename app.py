@@ -7,12 +7,27 @@ from flask_limiter import Limiter
 from dotenv import load_dotenv
 from functools import wraps
 import datetime
+import logging
 import time
 import os
 import re
 
 
 load_dotenv()
+
+class _StripAnsi(logging.Formatter):
+    _ansi_re = re.compile(r"\x1b\[[0-9;]*m")
+
+    def format(self, record):
+        msg = super().format(record)
+        return self._ansi_re.sub("", msg)
+
+os.makedirs("logs", exist_ok=True)
+_handler = logging.FileHandler("logs/app.log")
+_handler.setFormatter(_StripAnsi("%(asctime)s %(levelname)s %(message)s"))
+logging.getLogger().setLevel(logging.ERROR)
+logging.getLogger().addHandler(_handler)
+
 app = Flask(__name__, static_folder="public", static_url_path="/")
 limiter = Limiter(
     get_remote_address,
@@ -87,11 +102,11 @@ def search():
             "output": "The search of the playlist has been completed successfully.",
         })
     except Exception as error:
-        print(f"[ERROR] {error}")
+        logging.exception(error)
         return jsonify(
             {
                 "message": "Search failed!",
-                "output": error.__str__(),
+                "output": "An internal error occurred.",
             }
         )
     
@@ -112,9 +127,10 @@ def report(dateKey):
             "output": f"The report has been generated successfully. Version: {reportVersion}",
         })
     except Exception as error:
+        logging.exception(error)
         return jsonify( {
             "message": "Report failed!",
-            "output": error.__str__(),
+            "output": "An internal error occurred.",
         })
 
 
@@ -133,9 +149,10 @@ def leaderboard(dateKey):
             "output": "The leaderboard has been generated successfully.",
         })
     except Exception as error:
+        logging.exception(error)
         return jsonify({
             "message": "Leaderboard failed!",
-            "output": error.__str__(),
+            "output": "An internal error occurred.",
         })
 
 
