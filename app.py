@@ -14,10 +14,11 @@ import os
 load_dotenv()
 app = Flask(__name__, static_folder="public", static_url_path="/")
 PORT = os.getenv("PORT") or 3434
-PASSWORD = os.getenv("PASSWORD") or 1234
 BASE_URL = f"http://localhost:{PORT}"
-WRITE_TO_DATABASE = True # If False, will write to json files instead of database
-
+WRITE_TO_DATABASE = os.getenv("WRITE_TO_DATABASE", "true").lower() == "true"
+PASSWORD = os.getenv("PASSWORD", "")
+if not PASSWORD:
+    raise RuntimeError("PASSWORD environment variable is not set")
 
 
 
