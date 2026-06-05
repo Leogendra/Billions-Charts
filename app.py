@@ -6,6 +6,7 @@ from backend.report import (
     generate_leaderboard
 )
 from dotenv import load_dotenv
+from functools import wraps
 import datetime
 import time
 import os
@@ -20,17 +21,18 @@ WRITE_TO_DATABASE = True # If False, will write to json files instead of databas
 
 
 
-def check_password(password=""):
-    time.sleep(1)
-    if (password != PASSWORD):
-        time.sleep(3)
-        return jsonify(
-            {
+def require_password(f):
+    @wraps(f)
+    def decorated(*args, **kwargs):
+        time.sleep(1)
+        if (request.args.get("password", "") != PASSWORD):
+            time.sleep(3)
+            return jsonify({
                 "message": "Access denied!",
                 "output": "You don't have access to this resource.",
-            }
-        )
-    return None
+            })
+        return f(*args, **kwargs)
+    return decorated
 
 
 def generate_sitemap(dateKey):
@@ -49,10 +51,8 @@ def generate_sitemap(dateKey):
 
 
 @app.route("/search/", methods=["GET"])
+@require_password
 def search():
-    auth = check_password(request.args.get("password", ""))
-    if auth:
-        return auth
     dateKey = datetime.datetime.now().strftime("%Y-%m-%d")
     dataPath = f"data/tracks/tracks_{dateKey}.json"
     reportPublicPath = f"public/data/report.json"
@@ -76,10 +76,8 @@ def search():
     
 
 @app.route("/report/<dateKey>/", methods=["GET"])
+@require_password
 def report(dateKey):
-    auth = check_password(request.args.get("password", ""))
-    if auth:
-        return auth
     dataPath = f"data/tracks/tracks_{dateKey}.json"
     reportPublicPath = f"public/data/report.json"
 
@@ -98,10 +96,8 @@ def report(dateKey):
 
 
 @app.route("/leaderboard/<dateKey>/", methods=["GET"])
+@require_password
 def leaderboard(dateKey):
-    auth = check_password(request.args.get("password", ""))
-    if auth:
-        return auth
     create_folder("data/reports")
     dataPath = f"data/tracks/tracks_{dateKey}.json"
 
