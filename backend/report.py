@@ -142,7 +142,7 @@ def aggregate_dates(tracks):
     return oldest_tracks, newest_tracks
 
 
-def agregate_billions(tracks):
+def aggregate_billions(tracks):
     normalized_tracks = []
     fastest_candidates = []
     for track in tracks:
@@ -440,7 +440,7 @@ def generate_report(dataPath, outputReportPath, WRITE_TO_DATABASE):
     oldest_tracks, newest_tracks = aggregate_dates(tracks)
 
     print("Aggregating billions...")
-    newest_billions, fastest_billions = agregate_billions(tracks)
+    newest_billions, fastest_billions = aggregate_billions(tracks)
 
     print("Aggregating by playcount...")
     most_streamed_tracks, least_streamed_tracks = aggregate_by_key(tracks, "playcount")
@@ -505,7 +505,7 @@ def generate_report(dataPath, outputReportPath, WRITE_TO_DATABASE):
 
     print("Writing report to disk...")
     with open(outputReportPath, "w", encoding="utf-8") as f:
-        json.dump(final_report, f, ensure_ascii=False, indent=4)
+        json.dump(final_report, f, ensure_ascii=False)
 
     print(f"Report successfully generated in {outputReportPath}.")
     return REPORT_VERSION
