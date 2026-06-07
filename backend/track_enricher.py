@@ -153,11 +153,14 @@ def fetch_tracks_infos_batch(
     track_ids: List[str], headers: Dict[str, str]
 ) -> Dict[str, Dict]:
     track_data = {}
+    error_count = 0
+    total_batches = 0
 
     for i in range(0, len(track_ids), 50):
         print(f"Fetching tracks {i}/{len(track_ids)}...   ", end="\r")
         chunk = track_ids[i : i + 50]
         params = {"ids": ",".join(chunk)}
+        total_batches += 1
 
         try:
             response = requests.get(
@@ -183,7 +186,15 @@ def fetch_tracks_infos_batch(
                     }
 
         except Exception as e:
+            error_count += 1
             print(f"Error fetching tracks infos batch at {i}: {e}")
+
+    if (error_count > 0):
+        print(f"WARNING: {error_count}/{total_batches} track batches failed.")
+        if (error_count > (total_batches / 2)):
+            raise RuntimeError(
+                f"Majority of track batches failed ({error_count}/{total_batches}). Aborting pipeline."
+            )
 
     isrc_count = sum(1 for v in track_data.values() if v.get("isrc"))
     print(f"Retrieved tracks infos for {isrc_count}/{len(track_data)} tracks")
@@ -192,12 +203,15 @@ def fetch_tracks_infos_batch(
 
 def fetch_artists_batch(artist_ids: List[str], headers: Dict[str, str]) -> Dict:
     artists_infos = {}
+    error_count = 0
+    total_batches = 0
 
     print(f"Fetching {len(artist_ids)} artists...")
     for i in range(0, len(artist_ids), 50):
         print(f"Fetching artists {i}/{len(artist_ids)}...   ", end="\r")
         batch = artist_ids[i : i + 50]
         params = {"ids": ",".join(batch)}
+        total_batches += 1
 
         try:
             response = requests.get(
@@ -222,7 +236,15 @@ def fetch_artists_batch(artist_ids: List[str], headers: Dict[str, str]) -> Dict:
                     }
 
         except Exception as e:
+            error_count += 1
             print(f"Error fetching artist batch {i}: {e}")
+
+    if (error_count > 0):
+        print(f"WARNING: {error_count}/{total_batches} artist batches failed.")
+        if (error_count > (total_batches / 2)):
+            raise RuntimeError(
+                f"Majority of artist batches failed ({error_count}/{total_batches}). Aborting pipeline."
+            )
 
     print(f"Fetching {len(artist_ids)} artists done!")
     return artists_infos
