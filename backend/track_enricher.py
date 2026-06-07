@@ -1,3 +1,4 @@
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from typing import Dict, List, Optional
 import datetime
 import requests
@@ -103,13 +104,11 @@ def enrich_tracks_with_correct_release_dates(
     print(f"Fetching API data for {len(track_ids)} tracks...")
     tracks_data = fetch_tracks_infos_batch(track_ids, headers)
 
-    enriched_count = 0
     isrc_search_count = len(track_ids) - len(already_corrected)
     print(f"ISRC date correction needed for {isrc_search_count} tracks ({len(already_corrected)} already corrected)...")
 
+    # apply batch API data to all tracks
     for i, track in enumerate(playlist_items):
-        print(f"Enriching track {i+1}/{len(playlist_items)}...   ", end="\r")
-
         track_id = track["id"]
         api_data = tracks_data.get(track_id, {})
         isrc = api_data.get("isrc")
@@ -120,26 +119,37 @@ def enrich_tracks_with_correct_release_dates(
         playlist_items[i]["corrected_release_date"] = False
         playlist_items[i]["isrc"] = isrc
 
-        # already in DB with a corrected date: don't overwrite it
         if (track_id in already_corrected):
             playlist_items[i]["corrected_release_date"] = "already_corrected"
-            continue
-
-        # API release date is already the right one with singles
-        if (api_data.get("album_type") == "single"):
+        elif (api_data.get("album_type") == "single" and isrc):
             playlist_items[i]["corrected_release_date"] = True
-            continue
 
-        corrected_release_date = fetch_release_date_via_isrc(isrc, headers)
-        if (corrected_release_date is None):
-            print(f"No ISRC enrichment found for track ID {track_id} ({api_data.get("name")}).")
+    # parallel ISRC lookups for tracks that still need date correction
+    to_lookup = [
+        (i, playlist_items[i]["isrc"], tracks_data.get(playlist_items[i]["id"], {}).get("name"))
+        for i in range(len(playlist_items))
+        if playlist_items[i]["corrected_release_date"] is False
+    ]
 
-        else:
-            enriched_count += 1
+    def isrc_lookup(idx, isrc, name):
+        result = fetch_release_date_via_isrc(isrc, headers)
+        return idx, isrc, name, result
 
-            # comapre old and new release dates and keep the earliest one
-            old_date = playlist_items[i].get("release_date")
-            old_precision = playlist_items[i].get("release_date_precision")
+    enriched_count = 0
+    completed = 0
+    with ThreadPoolExecutor(max_workers=5) as executor:
+        futures = {executor.submit(isrc_lookup, idx, isrc, name): idx for idx, isrc, name in to_lookup}
+        for future in as_completed(futures):
+            completed += 1
+            print(f"ISRC lookup {completed}/{len(to_lookup)}...   ", end="\r")
+            idx, isrc, name, corrected_release_date = future.result()
+
+            if corrected_release_date is None:
+                print(f"No ISRC enrichment found for track ID {playlist_items[idx]['id']} ({name}).")
+                continue
+
+            old_date = playlist_items[idx].get("release_date")
+            old_precision = playlist_items[idx].get("release_date_precision")
 
             if (old_date and old_precision):
                 if old_precision == "month":
@@ -150,16 +160,14 @@ def enrich_tracks_with_correct_release_dates(
                 old_date = datetime.date.fromisoformat(old_date)
                 corrected_release_date = datetime.date.fromisoformat(corrected_release_date)
 
-                playlist_items[i]["release_date_precision"] = "day"
-                playlist_items[i]["corrected_release_date"] = True
-                
-                if (old_date < corrected_release_date):
-                    playlist_items[i]["release_date"] = old_date.isoformat()
-                else:
-                    playlist_items[i]["release_date"] = corrected_release_date.isoformat()
+                playlist_items[idx]["release_date_precision"] = "day"
+                playlist_items[idx]["corrected_release_date"] = True
+                enriched_count += 1
 
-        if (i > 50):
-            time.sleep(0.1)
+                if old_date < corrected_release_date:
+                    playlist_items[idx]["release_date"] = old_date.isoformat()
+                else:
+                    playlist_items[idx]["release_date"] = corrected_release_date.isoformat()
 
     print(f"\nSuccessfully found {enriched_count} singles with correct release dates")
     return playlist_items
