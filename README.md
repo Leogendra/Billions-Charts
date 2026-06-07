@@ -6,10 +6,10 @@ The website is available at [billions-charts.gatienh.fr](https://billions-charts
 
 ## Features
 - Overview of key stats: total songs, percentages, durations, etc.
-- Sort and explore tracks by streams, popularity, release date, or duration
-- Explore artist stats by most streamed, most songs, total playtime
-- Analyze tracks over time (by year and month)
-- Additional charts: stream thresholds, track durations, etc
+- Sort and explore tracks by streams, popularity, release date, or duration.
+- Explore artist stats by most streamed, most songs or total playtime.
+- Analyze tracks over time (by year and month).
+- Additional charts: stream thresholds, track durations, etc.
 
 ## Technologies Used
 Backend:  
@@ -23,11 +23,6 @@ Frontend:
 - **[Chart.js](https://www.chartjs.org/)** for displaying charts and statistics
 - **[Odometer.js](https://github.hubspot.com/odometer/docs/welcome/)** for displaying counters
 
-## Upcoming Features
-The website is still in development, and new features will be added in the future:  
-- Enhancements to charts and user experience
-- Addition of new types of visualizations
-
 
 ## Installation
 If you want to contribute or use the project for another playlist, you can run the project locally:
@@ -38,19 +33,43 @@ If you want to contribute or use the project for another playlist, you can run t
    pip install -r requirements.txt
    ```
 3. Setup a [Spotify developer account](https://developer.spotify.com/dashboard/) and create a new application to get your `CLIENT_ID` and `CLIENT_SECRET`.
-4. Setup a [MongoDB](https://www.mongodb.com/) account and create a new database to get your `MONGO_URI` (update the variable `WRITE_TO_DATABASE = False` in `app.py` if you want to write in local file instead of MongoDB).
+4. Setup a [MongoDB](https://www.mongodb.com/) account and create a new database to get your `MONGO_URI` (set `WRITE_TO_DATABASE=false` in `.env` to write to local files instead of MongoDB).
 5. Create a `.env` file in the root directory and add your Spotify API and MongoDB credentials, the playlist ID you want to analyze, and a password for the `search/` and `report/` routes:
    ```bash
     CLIENT_ID=your_client_id
     CLIENT_SECRET=your_client_secret
     MONGO_URI=mongodb_uri
-    PLAYLIST_ID=spotify_playlisyt_id
-    PASSWORD=1234
+    PLAYLIST_ID=spotify_playlist_id
+    PASSWORD=your_password
+    WRITE_TO_DATABASE=true
+    FLASK_DEBUG=false
    ```
 6. Launch the application:
    ```bash
    python app.py
    ```
+
+## API Endpoints
+
+All admin endpoints require an `Authorization: Bearer <PASSWORD>` header.
+
+`/search/` - retrieve the playlist's data and generate the report:
+```bash
+curl -X GET "http://localhost:3434/search/" \
+    -H "Authorization: Bearer your_password"
+```
+
+`/report/` - regenerate the report from already retrieved data:
+```bash
+curl -X GET "http://localhost:3434/report/2026-05-15/" \
+    -H "Authorization: Bearer your_password"
+```
+
+`/leaderboard/` - Update the leaderboard for a given date:
+```bash
+curl -X GET "http://localhost:3434/leaderboard/2026-05-15/" \
+    -H "Authorization: Bearer your_password"
+```
 
 ## Contact
 

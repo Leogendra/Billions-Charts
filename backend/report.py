@@ -1,5 +1,5 @@
+from backend.utils import create_folder, normalize_date_for_comparison
 from backend.database import retrieve_playlist_infos_from_mongo
-from backend.utils import create_folder
 from collections import defaultdict
 from datetime import datetime
 import json
@@ -12,7 +12,7 @@ MAX_TOP_SONGS = 10  # TODO: Dynamic backend limit for top songs
 def aggregate_general(tracks):
     total_tracks = len(tracks)
     total_artists = len(
-        set(artist["name"] for track in tracks for artist in track["artists"])
+        set(artist["id"] for track in tracks for artist in track["artists"])
     )
     total_streams = sum(track["playcount"] for track in tracks)
     total_time = sum(track["duration_ms"] for track in tracks) // 1000  # in seconds
@@ -108,15 +108,12 @@ def aggregate_artists(tracks):
 def aggregate_dates(tracks):
     normalized_tracks = []
     for track in tracks:
-        if not(track.get("corrected_release_date", False)):
+        if not(track.get("corrected_release_date")):
             continue
+
         release_date = track["release_date"]
         precision = track["release_date_precision"]
-
-        if precision == "month":
-            release_date += "-01"
-        elif precision == "year":
-            release_date += "-01-01"
+        release_date = normalize_date_for_comparison(release_date, precision)
 
         normalized_tracks.append(
             {
@@ -142,16 +139,15 @@ def aggregate_dates(tracks):
     return oldest_tracks, newest_tracks
 
 
-def agregate_billions(tracks):
+def aggregate_billions(tracks):
     normalized_tracks = []
-    fastest_candidates = []
     for track in tracks:
+        if (track.get("corrected_release_date") and (track.get("release_date_precision") != "day")):
+            continue
+
         release_date = track["release_date"]
-        if track["release_date_precision"] == "year":
-            release_date += "-01-01"
-        elif track["release_date_precision"] == "month":
-            release_date += "-01"
         billion_date = track["added_at"].split("T")[0]  # format : "2022-07-27T16:32:16.167Z"
+
         entry = {
             "id": track["id"],
             "name": track["name"],
@@ -172,11 +168,9 @@ def agregate_billions(tracks):
             ).days,
         }
         normalized_tracks.append(entry)
-        if track.get("corrected_release_date", False):
-            fastest_candidates.append(entry)
 
     newest_billions = sorted(normalized_tracks, key=lambda x: x["added_at"], reverse=True)[:MAX_TOP_SONGS]
-    fastest_billions = sorted(fastest_candidates, key=lambda x: x["billion_time"], reverse=False)[:MAX_TOP_SONGS]
+    fastest_billions = sorted(normalized_tracks, key=lambda x: x["billion_time"], reverse=False)[:MAX_TOP_SONGS]
 
     return newest_billions, fastest_billions
 
@@ -259,16 +253,13 @@ def get_streams_per_day(tracks):
     streams_per_day = []
 
     for track in tracks:
-        if track.get("corrected_release_date") is False:
+        if (track.get("corrected_release_date") is False):
             continue
-        release_date = track["release_date"]
-        precision = track["release_date_precision"]
-        playcount = track["playcount"]
 
-        if precision == "year":
-            release_date += "-01-01"
-        elif precision == "month":
-            release_date += "-01"
+        playcount = track["playcount"]
+        release_date = track["release_date"]
+        release_date_precision = track["release_date_precision"]
+        release_date = normalize_date_for_comparison(release_date, release_date_precision)
 
         numberOfDaysSinceRelease = max(
             (
@@ -295,14 +286,11 @@ def get_streams_per_day(tracks):
             }
         )
 
-    streams_per_day = sorted(
+    most_streams_per_day = sorted(
         streams_per_day, key=lambda x: x["streams_per_day"], reverse=True
     )[:MAX_TOP_SONGS]
-    flop_per_day = sorted(
-        streams_per_day, key=lambda x: x["streams_per_day"], reverse=False
-    )[:MAX_TOP_SONGS]
 
-    return streams_per_day
+    return most_streams_per_day
 
 
 def get_key_features_data(tracks, report):
@@ -401,13 +389,12 @@ def get_key_features_data(tracks, report):
     }
 
 
-def generate_report(dataPath, outputReportPath, WRITE_TO_DATABASE):
+def generate_report(dataPath, outputReportPath, WRITE_TO_DATABASE, dateKey=None):
 
     REPORT_VERSION = "1.2.1"
     print(f"Generating report version {REPORT_VERSION}...")
 
     if WRITE_TO_DATABASE:
-        dateKey = dataPath.split("_")[-1].split(".")[0]
         playlist = retrieve_playlist_infos_from_mongo(dateKey)
         if not (playlist):
             raise Exception(f"No data found for {dateKey} in database.")
@@ -440,7 +427,7 @@ def generate_report(dataPath, outputReportPath, WRITE_TO_DATABASE):
     oldest_tracks, newest_tracks = aggregate_dates(tracks)
 
     print("Aggregating billions...")
-    newest_billions, fastest_billions = agregate_billions(tracks)
+    newest_billions, fastest_billions = aggregate_billions(tracks)
 
     print("Aggregating by playcount...")
     most_streamed_tracks, least_streamed_tracks = aggregate_by_key(tracks, "playcount")
@@ -505,17 +492,16 @@ def generate_report(dataPath, outputReportPath, WRITE_TO_DATABASE):
 
     print("Writing report to disk...")
     with open(outputReportPath, "w", encoding="utf-8") as f:
-        json.dump(final_report, f, ensure_ascii=False, indent=4)
+        json.dump(final_report, f, ensure_ascii=False)
 
     print(f"Report successfully generated in {outputReportPath}.")
     return REPORT_VERSION
 
 
-def generate_leaderboard(dataPath, WRITE_TO_DATABASE):
+def generate_leaderboard(dataPath, WRITE_TO_DATABASE, dateKey=None):
     create_folder("data/analysis/")
 
     if WRITE_TO_DATABASE:
-        dateKey = dataPath.split("_")[-1].split(".")[0]
         tracks_data = retrieve_playlist_infos_from_mongo(dateKey)
     else:
         with open(dataPath, "r", encoding="utf-8") as f:

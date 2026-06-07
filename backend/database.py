@@ -4,13 +4,29 @@ import os
 
 load_dotenv()
 MONGO_URI = os.getenv("MONGO_URI")
-DRY_RUN = False
+DRY_RUN = os.getenv("DRY_RUN", "false").lower() == "true"
 
-client = MongoClient(MONGO_URI)
+if not MONGO_URI:
+    raise RuntimeError("MONGO_URI environment variable is not set")
+try:
+    client = MongoClient(
+        MONGO_URI,
+        serverSelectionTimeoutMS=5000,
+        connectTimeoutMS=5000,
+    )
+    client.admin.command("ping")
+except Exception as e:
+    raise RuntimeError(f"Failed to connect to MongoDB: {e}")
+
 db = client.billions
 playlists_collection = db.playlists_headers
 tracks_collection = db.playlist_tracks
 artists_collection = db.playlist_artists
+
+# one-time index creation
+playlists_collection.create_index("date", unique=True)
+tracks_collection.create_index("id", unique=True)
+artists_collection.create_index("id", unique=True)
 
 
 

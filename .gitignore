@@ -4,6 +4,9 @@
 *env*/
 .env
 
+# Logs
+logs/
+
 # Data
 **/data/
 **/tests/
