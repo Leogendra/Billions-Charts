@@ -1,4 +1,5 @@
 from concurrent.futures import ThreadPoolExecutor, as_completed
+from backend.utils import normalize_date_for_comparison
 from typing import Dict, List, Optional
 import datetime
 import requests
@@ -23,7 +24,7 @@ def request_with_retry(func, max_attempts: int = 3):
 def fetch_release_date_via_isrc(
     isrc: Optional[str],
     headers: Dict[str, str],
-) -> Optional[str]:
+) -> tuple[Optional[str], Optional[str]]:
     try:
         def fetch_isrc():
             params = {"q": f"isrc:{isrc}", "type": "track", "limit": 10}
@@ -37,41 +38,42 @@ def fetch_release_date_via_isrc(
 
         if not results:
             print(f"No search results found for ISRC {isrc}.")
-            return None
+            return None, None
 
-        best_date = None
+        best_date_obj = None
+        best_date_str = None
+        best_precision = None
 
         for result in results:
             album = result.get("album", {})
             release_date = album.get("release_date", "")
-            release_date_precision = album.get("release_date_precision", "")
+            precision = album.get("release_date_precision", "")
 
-            if not(release_date):
+            if not release_date:
                 continue
 
-            if release_date_precision == "month":
-                release_date = release_date + "-01"
-            elif release_date_precision == "year":
-                release_date = release_date + "-01-01"
+            normalized = normalize_date_for_comparison(release_date, precision)
 
             try:
-                release_date = datetime.date.fromisoformat(release_date)
+                date_obj = datetime.date.fromisoformat(normalized)
             except ValueError:
-                print(f"Result for ISRC {isrc} and track has invalid release date. Skipping.")
+                print(f"Result for ISRC {isrc} has invalid release date. Skipping.")
                 continue
 
-            if ((best_date is None) or (release_date < best_date)):
-                best_date = release_date
+            if ((best_date_obj is None) or (date_obj < best_date_obj)):
+                best_date_obj = date_obj
+                best_date_str = release_date
+                best_precision = precision
 
-        if (best_date is None):
+        if best_date_str is None:
             print(f"No results with valid release date found for ISRC {isrc}.")
-            return None
+            return None, None
 
-        return best_date.isoformat()
+        return best_date_str, best_precision
 
     except Exception as e:
         print(f"Error fetching track with ISRC {isrc}: {e}")
-        return None
+        return None, None
 
 
 def get_tracks_already_corrected(track_ids: List[str], tracks_collection) -> set:
@@ -132,8 +134,8 @@ def enrich_tracks_with_correct_release_dates(
     ]
 
     def isrc_lookup(idx, isrc, name):
-        result = fetch_release_date_via_isrc(isrc, headers)
-        return idx, isrc, name, result
+        date_str, precision = fetch_release_date_via_isrc(isrc, headers)
+        return idx, name, date_str, precision
 
     enriched_count = 0
     completed = 0
@@ -142,32 +144,27 @@ def enrich_tracks_with_correct_release_dates(
         for future in as_completed(futures):
             completed += 1
             print(f"ISRC lookup {completed}/{len(to_lookup)}...   ", end="\r")
-            idx, isrc, name, corrected_release_date = future.result()
+            idx, name, isrc_date, isrc_precision = future.result()
 
-            if corrected_release_date is None:
+            if isrc_date is None:
                 print(f"No ISRC enrichment found for track ID {playlist_items[idx]['id']} ({name}).")
                 continue
 
-            old_date = playlist_items[idx].get("release_date")
+            old_date_str = playlist_items[idx].get("release_date")
             old_precision = playlist_items[idx].get("release_date_precision")
 
-            if (old_date and old_precision):
-                if old_precision == "month":
-                    old_date = old_date + "-01"
-                elif old_precision == "year":
-                    old_date = old_date + "-01-01"
+            if old_date_str and old_precision:
+                old_date_obj = datetime.date.fromisoformat(normalize_date_for_comparison(old_date_str, old_precision))
+                isrc_date_obj = datetime.date.fromisoformat(normalize_date_for_comparison(isrc_date, isrc_precision))
 
-                old_date = datetime.date.fromisoformat(old_date)
-                corrected_release_date = datetime.date.fromisoformat(corrected_release_date)
-
-                playlist_items[idx]["release_date_precision"] = "day"
                 playlist_items[idx]["corrected_release_date"] = True
                 enriched_count += 1
 
-                if old_date < corrected_release_date:
-                    playlist_items[idx]["release_date"] = old_date.isoformat()
-                else:
-                    playlist_items[idx]["release_date"] = corrected_release_date.isoformat()
+                if isrc_date_obj < old_date_obj:
+                    # ISRC found a genuinely earlier date — store with its actual precision
+                    playlist_items[idx]["release_date"] = isrc_date
+                    playlist_items[idx]["release_date_precision"] = isrc_precision
+                # else: original is earlier — keep original date and precision unchanged
 
     print(f"\nSuccessfully found {enriched_count} singles with correct release dates")
     return playlist_items
