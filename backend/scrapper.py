@@ -32,17 +32,8 @@ def get_access_token():
         raise Exception("Error in while fetching access token:", e)
 
 
-def fetch_playlist_infos(dataPath, WRITE_TO_DATABASE, dateKey, overwrite=False):
-    if WRITE_TO_DATABASE:
-        if check_playlist_header_from_mongo(dateKey):
-            print(f"Playlist infos already fetched in database")
-            return
-    else:
-        if os.path.exists(dataPath):
-            print(f"Playlist infos already fetched in {dataPath}")
-            return
-
-    # Fetch playlist infos from Spotify
+def fetch_raw_playlist():
+    """Fetches raw playlist data from Spotify and returns a parsed dict."""
     create_folder("data/tracks/")
     try:
         playlist = PublicPlaylist(PLAYLIST_ID)
@@ -50,11 +41,11 @@ def fetch_playlist_infos(dataPath, WRITE_TO_DATABASE, dateKey, overwrite=False):
         raise Exception("Error while creating PublicPlaylist:", e)
 
     print("Fetching playlist infos...")
-    max_retries = 3  # handmade retry mechanism
+    max_retries = 3
     for attempt in range(max_retries):
         try:
             playlist_info = playlist.get_playlist_info(limit=5000)
-            if not (playlist_info["data"]):
+            if not playlist_info["data"]:
                 raise Exception(
                     "Error while fetching playlist infos:",
                     (
@@ -63,6 +54,7 @@ def fetch_playlist_infos(dataPath, WRITE_TO_DATABASE, dateKey, overwrite=False):
                         else "No data returned"
                     ),
                 )
+            break
         except Exception as e:
             print(f"Attempt {attempt+1}/{max_retries} failed: {e}")
             if (attempt + 1) == max_retries:
@@ -71,7 +63,6 @@ def fetch_playlist_infos(dataPath, WRITE_TO_DATABASE, dateKey, overwrite=False):
 
     raw_data = playlist_info["data"]["playlistV2"]
 
-    # Clean playlist infos
     playlist_infos = {}
     playlist_infos["uri"] = raw_data["uri"]
     playlist_infos["name"] = raw_data["name"]
@@ -83,17 +74,16 @@ def fetch_playlist_infos(dataPath, WRITE_TO_DATABASE, dateKey, overwrite=False):
 
     try:
         playlist_infos["coverUrl"] = raw_data["images"]["items"][0]["sources"][0]["url"]
-    except:
-        playlist_infos["coverUrl"] = None  # TODO: Add default image
+    except Exception:
+        playlist_infos["coverUrl"] = None
 
     try:
         playlist_infos["coverHex"] = raw_data["images"]["items"][0]["extractedColors"][
             "colorRaw"
         ]["hex"]
-    except:
+    except Exception:
         playlist_infos["coverHex"] = "#000000"
 
-    # Clean track infos
     playlist_infos["items"] = []
     for item in raw_data["content"]["items"]:
         playlist_infos["items"].append(
@@ -124,18 +114,22 @@ def fetch_playlist_infos(dataPath, WRITE_TO_DATABASE, dateKey, overwrite=False):
             }
         )
 
-    access_token = get_access_token()
-    headers = {"Authorization": f"Bearer {access_token}"}
+    return playlist_infos
 
-    # Fetch missing track infos with correct release dates using ISRC-based lookup
+
+def enrich_with_release_dates(playlist_infos, headers, tracks_col, overwrite):
+    """Enriches track items with correct release dates via ISRC lookup."""
     playlist_infos["items"] = enrich_tracks_with_correct_release_dates(
         playlist_infos["items"],
         headers,
-        tracks_collection=tracks_collection if WRITE_TO_DATABASE else None,
+        tracks_collection=tracks_col,
         overwrite=overwrite,
     )
+    return playlist_infos
 
-    # Fetch Artists infos: genres, followers, popularity, images
+
+def enrich_with_artist_infos(playlist_infos, headers):
+    """Fetches artist metadata (genres, followers, popularity, images) and merges it into each track."""
     artist_ids = list(
         {
             artist["id"]
@@ -145,19 +139,51 @@ def fetch_playlist_infos(dataPath, WRITE_TO_DATABASE, dateKey, overwrite=False):
     )
     artists_infos = fetch_artists_batch(artist_ids, headers)
 
-    # Merge artists infos
     for i, track in enumerate(playlist_infos["items"]):
         for j, artist in enumerate(track["artists"]):
             playlist_infos["items"][i]["artists"][j] = artists_infos[artist["id"]]
 
-    print("Playlist infos fetched and enriched successfully! Writing to database..." if WRITE_TO_DATABASE else "Playlist infos fetched and enriched successfully! Saving to file...")
+    return playlist_infos
 
-    # Save or insert in database
+
+def persist_playlist(playlist_infos, dataPath, WRITE_TO_DATABASE):
+    """Persists playlist data to MongoDB or a local JSON file."""
+    print(
+        "Playlist infos fetched and enriched successfully! Writing to database..."
+        if WRITE_TO_DATABASE
+        else "Playlist infos fetched and enriched successfully! Saving to file..."
+    )
     if WRITE_TO_DATABASE:
         add_to_database(playlist_infos)
         print("Song infos inserted in database.")
-
     else:
         with open(dataPath, "w", encoding="utf-8") as f:
             json.dump(playlist_infos, f, indent=4, ensure_ascii=False)
         print(f"Song infos saved in {dataPath}")
+
+
+def fetch_playlist_infos(dataPath, WRITE_TO_DATABASE, dateKey, overwrite=False):
+    if WRITE_TO_DATABASE:
+        if check_playlist_header_from_mongo(dateKey):
+            print(f"Playlist infos already fetched in database")
+            return
+    else:
+        if os.path.exists(dataPath):
+            print(f"Playlist infos already fetched in {dataPath}")
+            return
+
+    playlist_infos = fetch_raw_playlist()
+
+    access_token = get_access_token()
+    headers = {"Authorization": f"Bearer {access_token}"}
+
+    playlist_infos = enrich_with_release_dates(
+        playlist_infos,
+        headers,
+        tracks_col=tracks_collection if WRITE_TO_DATABASE else None,
+        overwrite=overwrite,
+    )
+
+    playlist_infos = enrich_with_artist_infos(playlist_infos, headers)
+
+    persist_playlist(playlist_infos, dataPath, WRITE_TO_DATABASE)
