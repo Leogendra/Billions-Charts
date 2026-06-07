@@ -6,19 +6,35 @@ import time
 
 
 
+def request_with_retry(func, max_attempts: int = 3):
+    """Calls fn() up to max_attempts times with exponential backoff (1s, 2s, 4s, ...)."""
+    for attempt in range(max_attempts):
+        try:
+            return func()
+        except Exception as e:
+            if attempt + 1 == max_attempts:
+                raise
+            delay = 2 ** attempt
+            print(f"Attempt {attempt + 1}/{max_attempts} failed: {e}. Retrying in {delay}s...")
+            time.sleep(delay)
+
+
 def fetch_release_date_via_isrc(
     isrc: Optional[str],
     headers: Dict[str, str],
 ) -> Optional[str]:
     try:
-        params = {"q": f"isrc:{isrc}", "type": "track", "limit": 10}
-        response = requests.get(
-            "https://api.spotify.com/v1/search", headers=headers, params=params
-        )
-        response.raise_for_status()
-        results = response.json().get("tracks", {}).get("items", [])
+        def fetch_isrc():
+            params = {"q": f"isrc:{isrc}", "type": "track", "limit": 10}
+            response = requests.get(
+                "https://api.spotify.com/v1/search", headers=headers, params=params
+            )
+            response.raise_for_status()
+            return response.json().get("tracks", {}).get("items", [])
 
-        if not(results):
+        results = request_with_retry(fetch_isrc)
+
+        if not results:
             print(f"No search results found for ISRC {isrc}.")
             return None
 
@@ -163,11 +179,14 @@ def fetch_tracks_infos_batch(
         total_batches += 1
 
         try:
-            response = requests.get(
-                "https://api.spotify.com/v1/tracks", headers=headers, params=params
-            )
-            response.raise_for_status()
-            tracks_data = response.json().get("tracks", [])
+            def fetch_tracks():
+                response = requests.get(
+                    "https://api.spotify.com/v1/tracks", headers=headers, params=params
+                )
+                response.raise_for_status()
+                return response.json().get("tracks", [])
+
+            tracks_data = request_with_retry(fetch_tracks)
 
             for track in tracks_data:
                 if track:
@@ -214,11 +233,14 @@ def fetch_artists_batch(artist_ids: List[str], headers: Dict[str, str]) -> Dict:
         total_batches += 1
 
         try:
-            response = requests.get(
-                "https://api.spotify.com/v1/artists", headers=headers, params=params
-            )
-            response.raise_for_status()
-            artists_batch = response.json()["artists"]
+            def fetch_artists():
+                response = requests.get(
+                    "https://api.spotify.com/v1/artists", headers=headers, params=params
+                )
+                response.raise_for_status()
+                return response.json()["artists"]
+
+            artists_batch = request_with_retry(fetch_artists)
 
             for artist in artists_batch:
                 if artist:
