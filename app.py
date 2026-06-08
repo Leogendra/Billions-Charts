@@ -181,26 +181,19 @@ def get_track(track_id):
     if (track is None):
         abort(404, description="Track not found.")
 
-    if (
-        track.get("corrected_release_date")
-        and track.get("release_date_precision") == "day"
-        and track.get("added_at")
-    ):
+    if (track.get("corrected_release_date") and (track.get("release_date_precision") == "day") and track.get("added_at")):
         billion_date = track["added_at"].split("T")[0]
-        track["billion_time"] = (
-            datetime.datetime.strptime(billion_date, "%Y-%m-%d")
-            - datetime.datetime.strptime(track["release_date"], "%Y-%m-%d")
-        ).days
+        track["billion_time"] = (datetime.datetime.strptime(billion_date, "%Y-%m-%d") - datetime.datetime.strptime(track["release_date"], "%Y-%m-%d")).days
 
     if (
-        track.get("corrected_release_date") is not False
+        (track.get("corrected_release_date") is not False)
         and track.get("release_date")
         and track.get("release_date_precision")
-        and track.get("playcount") is not None
+        and (track.get("playcount") is not None)
     ):
         normalized = normalize_date_for_comparison(track["release_date"], track["release_date_precision"])
-        days = max((datetime.datetime.now() - datetime.datetime.strptime(normalized, "%Y-%m-%d")).days, 1)
-        track["streams_per_day"] = track["playcount"] // days
+        daysSinceRelease = max((datetime.datetime.now() - datetime.datetime.strptime(normalized, "%Y-%m-%d")).days, 1)
+        track["streams_per_day"] = track["playcount"] // daysSinceRelease
 
     track.pop("corrected_release_date", None)
     return jsonify(track)

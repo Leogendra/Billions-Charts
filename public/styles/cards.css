@@ -280,11 +280,10 @@
     padding: 9px 12px;
     display: flex;
     flex-direction: column;
-    gap: 3px;
 }
 
 .popup-stat-label {
-    font-size: 0.62rem;
+    font-size: 0.6rem;
     font-weight: 600;
     opacity: 0.55;
     text-transform: uppercase;
@@ -292,7 +291,7 @@
 }
 
 .popup-stat-value {
-    font-size: 0.88rem;
+    font-size: 0.85rem;
     font-weight: bold;
 }
 
@@ -538,4 +537,12 @@
         height: 30px;
     }
 
+}
+
+.popup-error {
+    color: #1a1a2e;
+    font-size: 1rem;
+    font-weight: 500;
+    text-align: center;
+    padding: 20px 10px;
 }

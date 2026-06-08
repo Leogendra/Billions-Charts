@@ -48,8 +48,7 @@ function create_popup_card(track) {
     if (track.duration_ms != null) { stats.push({ label: "Duration", value: format_milliseconds(track.duration_ms) }); }
     if (track.release_date) { stats.push({ label: "Released", value: format_release_date(track.release_date, track.release_date_precision) }); }
     if (track.popularity != null) { stats.push({ label: "Popularity", value: `${track.popularity} / 100` }); }
-    if (track.billion_time != null) { stats.push({ label: "Days to 1B", value: format_number_of_days(track.billion_time) }); }
-    if (track.streams_per_day != null) { stats.push({ label: "Streams/day", value: format_streams_number(track.streams_per_day) }); }
+    if (track.streams_per_day != null) { stats.push({ label: "Streams/day", value: format_playcount(track.streams_per_day) }); }
     if (track.added_at) { stats.push({ label: "Billion date", value: format_iso_date(track.added_at) }); }
 
     const statsHtml = stats.map(s => `
@@ -98,21 +97,28 @@ function open_popup_card(track) {
         document.addEventListener("keydown", (e) => {
             if (e.key === "Escape") {
                 const zoomOverlay = document.getElementById("image-zoom-overlay");
-                if (zoomOverlay?.classList.contains("visible")) close_popup_card_image_zoom();
-                else close_popup_card();
+                if (zoomOverlay?.classList.contains("visible")) { close_popup_card_image_zoom(); }
+                else { close_popup_card(); }
             }
         });
     }
 
-    overlay.querySelector(".track-popup").innerHTML = create_popup_card(track);
-    overlay.querySelector(".popup-close").addEventListener("click", close_popup_card);
-    overlay.querySelector(".popup-cover img").addEventListener("click", (e) => {
-        e.stopPropagation();
-        open_popup_card_image_zoom(track.image);
-    });
+    try {
 
-    overlay.classList.add("visible");
-    document.body.style.overflow = "hidden";
+        overlay.querySelector(".track-popup").innerHTML = create_popup_card(track);
+        overlay.querySelector(".popup-close").addEventListener("click", close_popup_card);
+        overlay.querySelector(".popup-cover img").addEventListener("click", (e) => {
+            e.stopPropagation();
+            open_popup_card_image_zoom(track.image);
+        });
+        
+        overlay.classList.add("visible");
+        document.body.style.overflow = "hidden";
+    }
+    catch (err) {
+        console.error("Error populating popup content:", err);
+        open_popup_card_error();
+    }
 }
 
 
@@ -154,10 +160,15 @@ async function fetch_and_display_card(trackId) {
     open_popup_card_loading();
     try {
         const response = await fetch(`/track/${trackId}/`);
-        if (!response.ok) throw new Error(`HTTP ${response.status}`);
-        const track = await response.json();
-        open_popup_card(track);
-    } catch (err) {
+        if (response.ok) {
+            const track = await response.json();
+            open_popup_card(track);
+        }
+        else { 
+            throw new Error(`HTTP ${response.status}`);
+        }
+    } 
+    catch (err) {
         open_popup_card_error();
     }
 }
@@ -174,13 +185,13 @@ function open_popup_card_loading() {
         document.body.appendChild(overlay);
 
         overlay.addEventListener("click", (e) => {
-            if (e.target === overlay) close_popup_card();
+            if (e.target === overlay) { close_popup_card(); }
         });
         document.addEventListener("keydown", (e) => {
             if (e.key === "Escape") {
                 const zoomOverlay = document.getElementById("image-zoom-overlay");
-                if (zoomOverlay?.classList.contains("visible")) close_popup_card_image_zoom();
-                else close_popup_card();
+                if (zoomOverlay?.classList.contains("visible")) { close_popup_card_image_zoom(); }
+                else { close_popup_card(); }
             }
         });
     }
@@ -210,7 +221,7 @@ function open_popup_card_error() {
     if (popup) {
         popup.innerHTML = `
             <button class="popup-close">✕</button>
-            <div class="popup-error">Failed to load track.</div>
+            <div class="popup-error">Failed to load track details.</div>
         `;
         popup.querySelector(".popup-close").addEventListener("click", close_popup_card);
     }
