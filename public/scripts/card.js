@@ -28,7 +28,7 @@ function create_row_card(track, position, additionalInfo = "") {
     `;
 
     music_card.addEventListener("click", (e) => {
-        if (!e.target.closest("a")) open_popup_card(track);
+        if (!e.target.closest("a")) fetch_and_display_card(track.id);
     });
 
     return music_card;
@@ -48,10 +48,9 @@ function create_popup_card(track) {
     if (track.duration_ms != null) { stats.push({ label: "Duration", value: format_milliseconds(track.duration_ms) }); }
     if (track.release_date) { stats.push({ label: "Released", value: format_release_date(track.release_date, track.release_date_precision) }); }
     if (track.popularity != null) { stats.push({ label: "Popularity", value: `${track.popularity} / 100` }); }
-    if (track.billion_time != null) { stats.push({ label: "Days to 1B", value: track.billion_time }); }
-    if (track.streams_per_day != null) { stats.push({ label: "Streams/day", value: `${(track.streams_per_day / 1_000_000).toFixed(2)}M` }); }
-    if (track.added_at) { stats.push({ label: "Added", value: format_iso_date(track.added_at) }); }
-    if (track.isrc) { stats.push({ label: "ISRC", value: track.isrc }); }
+    if (track.billion_time != null) { stats.push({ label: "Days to 1B", value: format_number_of_days(track.billion_time) }); }
+    if (track.streams_per_day != null) { stats.push({ label: "Streams/day", value: format_streams_number(track.streams_per_day) }); }
+    if (track.added_at) { stats.push({ label: "Billion date", value: format_iso_date(track.added_at) }); }
 
     const statsHtml = stats.map(s => `
         <div class="popup-stat">

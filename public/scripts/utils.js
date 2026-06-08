@@ -20,6 +20,7 @@ function format_iso_date(isoString) {
 
 
 function format_playcount(count) {
+    if (count == null) { return null; }
     if (count >= 1_000_000_000) { return `${(count / 1_000_000_000).toFixed(2)}B`; }
     else if (count >= 1_000_000) { return `${(count / 1_000_000).toFixed(2)}M`; }
     else if (count >= 1_000) { return `${(count / 1_000).toFixed(2)}K`; }
@@ -32,4 +33,17 @@ function format_milliseconds(ms) {
     const minutes = Math.floor(seconds / 60);
     const remaining_seconds = seconds % 60;
     return `${minutes}:${remaining_seconds.toString().padStart(2, '0')}`;
+}
+
+
+function format_number_of_days(days) {
+    if (days == null) return null;
+    const years = Math.floor(days / 365);
+    const months = Math.floor((days % 365) / 30);
+    const remainingDays = days % 365 % 30;
+    const parts = [];
+    if (years > 0) parts.push(`${years}y`);
+    if (months > 0) parts.push(`${months}mo`);
+    if (remainingDays > 0 || parts.length === 0) parts.push(`${remainingDays}d`);
+    return parts.join(" ");
 }
