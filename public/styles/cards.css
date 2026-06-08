@@ -335,6 +335,81 @@
 }
 
 
+/* Skeleton loading */
+@keyframes skeleton-shimmer {
+    0%   { background-position: -600px 0; }
+    100% { background-position: 600px 0; }
+}
+
+.skeleton {
+    border-radius: 6px;
+    background: linear-gradient(90deg, #bdbebb 25%, #d2d3cf 50%, #bdbebb 75%);
+    background-size: 1200px 100%;
+    animation: skeleton-shimmer 1.6s infinite linear;
+}
+
+.popup-stat .skeleton {
+    background: linear-gradient(90deg, #06111e 25%, #112336 50%, #06111e 75%);
+    background-size: 1200px 100%;
+    animation: skeleton-shimmer 1.6s infinite linear;
+    border-radius: 4px;
+}
+
+.skeleton-cover {
+    width: 180px;
+    height: 180px;
+    border-radius: 12px !important;
+    flex-shrink: 0;
+}
+
+.skeleton-title {
+    width: 60%;
+    height: 20px;
+}
+
+.skeleton-artist {
+    width: 38%;
+    height: 14px;
+}
+
+.skeleton-genres {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    justify-content: center;
+}
+
+.skeleton-tag {
+    width: 74px;
+    height: 22px;
+    border-radius: 20px !important;
+}
+
+.skeleton-label {
+    width: 50%;
+    height: 9px;
+}
+
+.skeleton-value {
+    width: 68%;
+    height: 13px;
+}
+
+.skeleton-btn {
+    width: 150px;
+    height: 38px;
+    border-radius: 20px !important;
+    margin-top: 4px;
+}
+
+@media (max-width: 800px) {
+    .skeleton-cover {
+        width: 140px;
+        height: 140px;
+    }
+}
+
+
 /* Key features */
 .div-key-features {
     display: flex;

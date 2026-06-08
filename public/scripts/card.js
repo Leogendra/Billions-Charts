@@ -145,3 +145,74 @@ function open_popup_card_image_zoom(src) {
 function close_popup_card_image_zoom() {
     document.getElementById("image-zoom-overlay")?.classList.remove("visible");
 }
+
+
+async function fetch_and_display_card(trackId) {
+    if (!trackId || typeof trackId !== "string" || !/^[a-zA-Z0-9]+$/.test(trackId)) {
+        open_popup_card_error();
+        return;
+    }
+    open_popup_card_loading();
+    try {
+        const response = await fetch(`/track/${trackId}/`);
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        const track = await response.json();
+        open_popup_card(track);
+    } catch (err) {
+        open_popup_card_error();
+    }
+}
+
+
+function open_popup_card_loading() {
+    let overlay = document.getElementById("track-popup-overlay");
+    if (!overlay) {
+        overlay = document.createElement("div");
+        overlay.id = "track-popup-overlay";
+        const popup = document.createElement("div");
+        popup.classList.add("track-popup");
+        overlay.appendChild(popup);
+        document.body.appendChild(overlay);
+
+        overlay.addEventListener("click", (e) => {
+            if (e.target === overlay) close_popup_card();
+        });
+        document.addEventListener("keydown", (e) => {
+            if (e.key === "Escape") {
+                const zoomOverlay = document.getElementById("image-zoom-overlay");
+                if (zoomOverlay?.classList.contains("visible")) close_popup_card_image_zoom();
+                else close_popup_card();
+            }
+        });
+    }
+
+    const skeletonStats = Array.from({ length: 6 }, () => `
+        <div class="popup-stat">
+            <div class="skeleton skeleton-label"></div>
+            <div class="skeleton skeleton-value"></div>
+        </div>`).join("");
+
+    overlay.querySelector(".track-popup").innerHTML = `
+        <button class="popup-close">✕</button>
+        <div class="skeleton skeleton-cover"></div>
+        <div class="skeleton skeleton-title"></div>
+        <div class="skeleton skeleton-artist"></div>
+        <div class="popup-stats">${skeletonStats}</div>
+        <div class="skeleton skeleton-btn"></div>
+    `;
+    overlay.querySelector(".popup-close").addEventListener("click", close_popup_card);
+    overlay.classList.add("visible");
+    document.body.style.overflow = "hidden";
+}
+
+
+function open_popup_card_error() {
+    const popup = document.querySelector("#track-popup-overlay .track-popup");
+    if (popup) {
+        popup.innerHTML = `
+            <button class="popup-close">✕</button>
+            <div class="popup-error">Failed to load track.</div>
+        `;
+        popup.querySelector(".popup-close").addEventListener("click", close_popup_card);
+    }
+}
