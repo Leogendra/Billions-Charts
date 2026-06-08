@@ -1,8 +1,9 @@
+from backend.utils import create_folder, normalize_date_for_comparison, validate_date_key, validate_track_id
 from backend.report import generate_report, generate_leaderboard
 from flask import Flask, request, jsonify, send_file, abort
 from flask_limiter.util import get_remote_address
 from backend.scrapper import fetch_playlist_infos
-from backend.utils import create_folder
+from backend.database import retrieve_track_by_id
 from flask_limiter import Limiter
 from dotenv import load_dotenv
 from functools import wraps
@@ -46,12 +47,17 @@ if not(PASSWORD):
 
 
 
-def validate_date_key(dateKey):
-    if not re.fullmatch(r"\d{4}-\d{2}-\d{2}", dateKey):
-        print(f"[ERROR] dateKey: {dateKey} is invalid.")
-        abort(400, description="Invalid dateKey format.")
-    else:
-        print(f"[INFO] dateKey: {dateKey} is valid.")
+# def validate_date_key(dateKey):
+#     if not re.fullmatch(r"\d{4}-\d{2}-\d{2}", dateKey):
+#         print(f"[ERROR] dateKey: {dateKey} is invalid.")
+#         abort(400, description="Invalid dateKey format.")
+#     else:
+#         print(f"[INFO] dateKey: {dateKey} is valid.")
+
+
+# def validate_track_id(track_id):
+#     if not re.fullmatch(r"[0-9A-Za-z]{22}", track_id):
+#         abort(400, description="Invalid track_id format.")
 
 
 def require_password(f):
@@ -115,7 +121,9 @@ def search():
 @limiter.limit("5 per minute")
 @require_password
 def report(dateKey):
-    validate_date_key(dateKey)
+    if not(validate_date_key(dateKey)):
+        abort(400, description="Invalid dateKey format.")
+    
     dataPath = f"data/tracks/tracks_{dateKey}.json"
     reportPublicPath = f"public/data/report.json"
 
@@ -138,7 +146,9 @@ def report(dateKey):
 @limiter.limit("5 per minute")
 @require_password
 def leaderboard(dateKey):
-    validate_date_key(dateKey)
+    if not(validate_date_key(dateKey)):
+        abort(400, description="Invalid dateKey format.")
+
     create_folder("data/reports")
     dataPath = f"data/tracks/tracks_{dateKey}.json"
 
@@ -156,7 +166,48 @@ def leaderboard(dateKey):
         })
 
 
+@app.route("/track/<track_id>/", methods=["GET"])
+@limiter.limit("30 per minute")
+def get_track(track_id):
+    if not(validate_track_id(track_id)):
+        abort(400, description="Invalid track_id format.")
+
+    try:
+        track = retrieve_track_by_id(track_id)
+    except Exception as error:
+        logging.exception(error)
+        return jsonify({"message": "Internal error", "output": "An internal error occurred."}), 500
+
+    if (track is None):
+        abort(404, description="Track not found.")
+
+    if (
+        track.get("corrected_release_date")
+        and track.get("release_date_precision") == "day"
+        and track.get("added_at")
+    ):
+        billion_date = track["added_at"].split("T")[0]
+        track["billion_time"] = (
+            datetime.datetime.strptime(billion_date, "%Y-%m-%d")
+            - datetime.datetime.strptime(track["release_date"], "%Y-%m-%d")
+        ).days
+
+    if (
+        track.get("corrected_release_date") is not False
+        and track.get("release_date")
+        and track.get("release_date_precision")
+        and track.get("playcount") is not None
+    ):
+        normalized = normalize_date_for_comparison(track["release_date"], track["release_date_precision"])
+        days = max((datetime.datetime.now() - datetime.datetime.strptime(normalized, "%Y-%m-%d")).days, 1)
+        track["streams_per_day"] = track["playcount"] // days
+
+    track.pop("corrected_release_date", None)
+    return jsonify(track)
+
+
 @app.route("/", methods=["GET"])
+@limiter.limit("5 per minute")
 def read_root():
     return send_file("public/index.html")
 

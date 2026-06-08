@@ -152,6 +152,36 @@ def add_to_database(playlist_data):
     print("Playlist header added to the database")
 
 
+def retrieve_track_by_id(track_id: str) -> dict | None:
+    track = tracks_collection.find_one({"id": track_id})
+    if track is None:
+        return None
+    del track["_id"]
+
+    artist_ids = [a["id"] for a in track.get("artists", [])]
+    if artist_ids:
+        artists_docs = list(artists_collection.find({"id": {"$in": artist_ids}}))
+        artist_map = {a["id"]: a for a in artists_docs}
+        for artist in track["artists"]:
+            doc = artist_map.get(artist["id"], {})
+            artist.update(doc)
+            artist.pop("_id", None)
+
+    latest_header = playlists_collection.find_one(
+        {},
+        sort=[("date", -1)],
+        projection={"items": 1, "_id": 0},
+    )
+    if latest_header:
+        for item in latest_header.get("items", []):
+            if item["id"] == track_id:
+                track["playcount"] = item["playcount"]
+                track["popularity"] = item["popularity"]
+                break
+
+    return track
+
+
 def check_playlist_header_from_mongo(date: str) -> bool:
     # check a playlists headers where the field "date" matches the input date
     return playlists_collection.count_documents({"date": date}) > 0

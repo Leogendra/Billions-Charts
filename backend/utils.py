@@ -1,5 +1,5 @@
 import os
-
+import re
 
 
 
@@ -14,3 +14,11 @@ def normalize_date_for_comparison(date: str, precision: str) -> str:
     if (precision == "year"):
         return date + "-01-01"
     return date
+
+
+def validate_date_key(dateKey):
+    return re.fullmatch(r"\d{4}-\d{2}-\d{2}", dateKey)
+
+
+def validate_track_id(track_id):
+    return re.fullmatch(r"[0-9A-Za-z]{22}", track_id)
