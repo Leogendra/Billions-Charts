@@ -2,7 +2,7 @@
 
 Billions Charts is a website that analyzes Spotify's *Billions Club* playlist, featuring songs with over one billion streams since its creation on July 2021.  
 
-The website is available at [billions-charts.gatienh.fr](https://billions-charts.gatienh.fr/)
+The website is available at [billions-charts.com](https://billions-charts.com/)
 
 ## Features
 - Overview of key stats: total songs, percentages, durations, etc.
@@ -73,4 +73,4 @@ curl -X GET "http://localhost:3434/leaderboard/2026-05-15/" \
 
 ## Contact
 
-For any questions or suggestions, feel free to open an issue on GitHub or contact me directly at contact@billions-charts.gatienh.fr
+For any questions or suggestions, feel free to open an issue on GitHub or contact me directly at contact@billions-charts.com
