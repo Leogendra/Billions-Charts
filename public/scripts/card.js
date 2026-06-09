@@ -28,19 +28,19 @@ function create_row_card(track, position, additionalInfo = "") {
     `;
 
     music_card.addEventListener("click", (e) => {
-        if (!e.target.closest("a")) fetch_and_display_card(track.id);
+        if (!e.target.closest("a")) fetch_and_display_track_card(track.id);
     });
 
     return music_card;
 }
 
 
-function create_popup_card(track) {
+function create_track_popup_card(track) {
     const trackName = track.name.replace(/\([^)]*\)/g, "").trim();
     const isExplicit = track.contentRating?.toLowerCase() === "explicit";
 
     const artistsLinks = track.artists
-        .map(a => `<a class="cta-link" href="https://open.spotify.com/artist/${a.id}" target="_blank">${a.name}</a>`)
+        .map(a => `<a class="cta-link" data-artist-id="${a.id}" href="https://open.spotify.com/artist/${a.id}" target="_blank">${a.name}</a>`)
         .join(", ");
 
     const stats = [];
@@ -81,7 +81,7 @@ function create_popup_card(track) {
 }
 
 
-function open_popup_card(track) {
+function open_track_popup_card(track) {
     let overlay = document.getElementById("track-popup-overlay");
     if (!overlay) {
         overlay = document.createElement("div");
@@ -105,13 +105,22 @@ function open_popup_card(track) {
 
     try {
 
-        overlay.querySelector(".track-popup").innerHTML = create_popup_card(track);
+        overlay.querySelector(".track-popup").innerHTML = create_track_popup_card(track);
         overlay.querySelector(".popup-close").addEventListener("click", close_popup_card);
         overlay.querySelector(".popup-cover img").addEventListener("click", (e) => {
             e.stopPropagation();
             open_popup_card_image_zoom(track.image);
         });
-        
+
+        overlay.querySelectorAll(".popup-artists .cta-link[data-artist-id]").forEach(link => {
+            link.addEventListener("click", (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                const artist = track.artists.find(a => a.id === link.dataset.artistId);
+                if (artist) open_artist_popup_card(artist);
+            });
+        });
+
         overlay.classList.add("visible");
         document.body.style.overflow = "hidden";
     }
@@ -152,7 +161,7 @@ function close_popup_card_image_zoom() {
 }
 
 
-async function fetch_and_display_card(trackId) {
+async function fetch_and_display_track_card(trackId) {
     if (!trackId || typeof trackId !== "string" || !/^[a-zA-Z0-9]+$/.test(trackId)) {
         open_popup_card_error();
         return;
@@ -162,7 +171,7 @@ async function fetch_and_display_card(trackId) {
         const response = await fetch(`/track/${trackId}/`);
         if (response.ok) {
             const track = await response.json();
-            open_popup_card(track);
+            open_track_popup_card(track);
         }
         else { 
             throw new Error(`HTTP ${response.status}`);
@@ -225,4 +234,114 @@ function open_popup_card_error() {
         `;
         popup.querySelector(".popup-close").addEventListener("click", close_popup_card);
     }
+}
+
+
+function create_artist_popup_card(artist) {
+    const coverHtml = artist.image
+        ? `<div class="popup-cover artist-cover">
+               <img src="${artist.image}" alt="${artist.name}">
+           </div>`
+        : "";
+
+    const allGenres = (artist.genres || []).slice(0, 6);
+    const genresHtml = allGenres.length > 0
+        ? `<div class="popup-genres">${allGenres.map(g => `<span class="popup-genre-tag">${g}</span>`).join("")}</div>`
+        : "";
+
+    const totalMin = Math.floor(artist.total_duration_ms / 60000);
+    const hours = Math.floor(totalMin / 60);
+    const mins = totalMin % 60;
+    const durationStr = hours > 0 ? `${hours}h ${mins}m` : `${mins}m`;
+
+    const stats = [
+        artist.track_count != null       && { label: "Tracks",         value: artist.track_count },
+        artist.total_playcount != null   && { label: "Total streams",   value: format_playcount(artist.total_playcount) },
+        artist.total_duration_ms != null && { label: "Total duration",  value: durationStr },
+        artist.followers != null         && { label: "Followers",       value: format_playcount(artist.followers) },
+        artist.popularity != null        && { label: "Popularity",      value: `${artist.popularity} / 100` },
+    ].filter(Boolean);
+    const statsHtml = stats.length > 0
+        ? stats.map(s => `
+        <div class="popup-stat">
+            <span class="popup-stat-label">${s.label}</span>
+            <span class="popup-stat-value">${s.value}</span>
+        </div>`).join("")
+        : "";
+
+    const tracksHtml = (artist.tracks || []).map(t => `
+        <div class="popup-artist-track-item" data-track-id="${t.id}">
+            <img class="popup-artist-track-img" src="${t.image}" alt="${t.name}">
+            <span class="popup-artist-track-name">${t.name}</span>
+            <span class="popup-artist-track-streams">${format_playcount(t.playcount)}</span>
+        </div>`).join("");
+
+    return `
+        <button class="popup-close">✕</button>
+        ${coverHtml}
+        <div class="popup-track-name">${artist.name}</div>
+        ${genresHtml}
+        ${statsHtml ? `<div class="popup-stats">${statsHtml}</div>` : ""}
+        <div class="popup-artist-tracks">
+            <div class="popup-artist-tracks-title">Tracks in playlist</div>
+            <div class="popup-artist-tracks-list">${tracksHtml}</div>
+        </div>
+        <a class="popup-spotify-btn" href="https://open.spotify.com/artist/${artist.id}" target="_blank">Open in Spotify ↗</a>
+    `;
+}
+
+
+function open_artist_popup_card(artist) {
+    let overlay = document.getElementById("track-popup-overlay");
+    if (!overlay) {
+        overlay = document.createElement("div");
+        overlay.id = "track-popup-overlay";
+        const popup = document.createElement("div");
+        popup.classList.add("track-popup");
+        overlay.appendChild(popup);
+        document.body.appendChild(overlay);
+
+        overlay.addEventListener("click", (e) => {
+            if (e.target === overlay) close_popup_card();
+        });
+        document.addEventListener("keydown", (e) => {
+            if (e.key === "Escape") {
+                const zoomOverlay = document.getElementById("image-zoom-overlay");
+                if (zoomOverlay?.classList.contains("visible")) { close_popup_card_image_zoom(); }
+                else { close_popup_card(); }
+            }
+        });
+    }
+
+    try {
+        overlay.querySelector(".track-popup").innerHTML = create_artist_popup_card(artist);
+        overlay.querySelector(".popup-close").addEventListener("click", close_popup_card);
+
+        const coverImg = overlay.querySelector(".popup-cover img");
+        if (coverImg) {
+            coverImg.addEventListener("click", (e) => {
+                e.stopPropagation();
+                open_popup_card_image_zoom(artist.image);
+            });
+        }
+
+        overlay.querySelectorAll(".popup-artist-track-item").forEach(item => {
+            item.addEventListener("click", () => {
+                close_popup_card();
+                fetch_and_display_track_card(item.dataset.trackId);
+            });
+        });
+
+        overlay.classList.add("visible");
+        document.body.style.overflow = "hidden";
+    }
+    catch (err) {
+        console.error("Error populating artist popup:", err);
+        open_popup_card_error();
+    }
+}
+
+
+function display_artist_card(artist) {
+    open_artist_popup_card(artist);
 }

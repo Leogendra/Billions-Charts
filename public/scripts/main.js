@@ -105,7 +105,10 @@ function display_artists_bars(artists_infos, containerId) {
         const bar = document.createElement("div");
         bar.classList.add("bar-artist");
         bar.style.width = `${finalWidth}%`;
-        
+        bar.addEventListener("click", (e) => {
+            if (!e.target.closest("a")) open_artist_popup_card({ id: artist.id, name: artist.name, image: artist.image });
+        });
+
         const barContent = document.createElement("div");
         barContent.classList.add("bar-artist-content");
         bar.appendChild(barContent);
@@ -129,6 +132,7 @@ async function update_artists_most_streamed(report) {
     const artists = [];
     report.artists_playcounts.forEach(artist => {
         artists.push({
+            id: artist[2],
             name: artist[0],
             data: artist[1],
             data_dislay: `${(artist[1]/1_000_000_000).toFixed(2)}B`,
@@ -145,6 +149,7 @@ async function update_artists_most_songs(report) {
     const artists = [];
     report.artists_counts.forEach(artist => {
         artists.push({
+            id: artist[2],
             name: artist[0],
             data: artist[1],
             data_dislay: artist[1],
@@ -160,6 +165,7 @@ async function update_artists_most_popular(report) {
     const artists = [];
     report.artists_popularity.forEach(artist => {
         artists.push({
+            id: artist[2],
             name: artist[0],
             data: artist[1],
             data_dislay: artist[1],
@@ -175,6 +181,7 @@ async function update_artists_most_time(report) {
     const artists = [];
     report.artists_length.forEach(artist => {
         artists.push({
+            id: artist[2],
             name: artist[0],
             data: artist[1],
             data_dislay: `${String(Math.floor(artist[1] / 60000)).padStart(2, '0')}:${String(Math.floor((artist[1] % 60000) / 1000)).padStart(2, '0')}`,
