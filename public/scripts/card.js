@@ -7,18 +7,18 @@ function create_row_card(track, position, additionalInfo = "") {
 
     // Generate artists links
     const artistsLinks = track.artists
-        .map(artist => `<a class="cta-link" href="https://open.spotify.com/artist/${artist.id}" target="_blank" rel="noopener noreferrer">${artist.name}</a>`)
+        .map(artist => `<a class="cta-link" href="#" onclick="event.preventDefault(); fetch_and_display_artist_card('${artist.id}')">${artist.name}</a>`)
         .join(", ");
 
     const additionalInfoDiv = additionalInfo === "" ? "" : `<div class="music-infos">${additionalInfo}</div>`;
 
     music_card.innerHTML = `
-    <a href="https://open.spotify.com/track/${track.id}" target="_blank" rel="noopener noreferrer">
+    <a href="#" onclick="event.preventDefault(); open_popup_card_image_zoom('${track.image}')">
         <img src="${track.image}" alt="${trackName}">
     </a>
     <div class="music-card-content">
         <div class="music-title">
-            <a class="cta-link" href="https://open.spotify.com/track/${track.id}" target="_blank" rel="noopener noreferrer">${trackName}</a>
+            <a class="cta-link" href="#" onclick="event.preventDefault(); fetch_and_display_track_card('${track.id}')">${trackName}</a>
         </div>
         <div class="music-artist">
             ${artistsLinks}

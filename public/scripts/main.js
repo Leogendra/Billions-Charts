@@ -115,7 +115,7 @@ function display_artists_bars(artists_infos, containerId) {
 
         const divArtistName = document.createElement("div");
         divArtistName.classList.add("bar-artist-text");
-        divArtistName.innerHTML = `<a class="cta-link" href="${artist.url}" target="_blank" rel="noopener noreferrer">${artist.name}</a>&nbsp;(${artist.data_dislay})`;
+        divArtistName.innerHTML = `<a class="cta-link" href="#" onclick="event.preventDefault(); fetch_and_display_artist_card('${artist.id}')">${artist.name}</a>&nbsp;(${artist.data_dislay})`;
         barContent.appendChild(divArtistName);
 
         const img = document.createElement("img");
