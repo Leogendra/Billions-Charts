@@ -74,7 +74,7 @@ def generate_sitemap(dateKey):
     sitemap = f"""<?xml version="1.0" encoding="UTF-8"?>
     <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
-        <loc>https://billions-charts.gatienh.fr/</loc>
+        <loc>https://billions-charts.com/</loc>
         <lastmod>{dateKey}</lastmod>
         <changefreq>daily</changefreq>
         <priority>1.0</priority>
