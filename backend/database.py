@@ -182,6 +182,40 @@ def retrieve_track_by_id(track_id: str) -> dict | None:
     return track
 
 
+def retrieve_artist_by_id(artist_id: str) -> dict | None:
+    artist = artists_collection.find_one({"id": artist_id})
+    if artist is None:
+        return None
+    artist.pop("_id", None)
+
+    tracks = list(tracks_collection.find(
+        {"artists.id": artist_id},
+        projection={"id": 1, "name": 1, "image": 1, "duration_ms": 1, "_id": 0},
+    ))
+
+    latest_header = playlists_collection.find_one(
+        {},
+        sort=[("date", -1)],
+        projection={"items": 1, "_id": 0},
+    )
+    playcount_map = {}
+    if latest_header:
+        for item in latest_header.get("items", []):
+            playcount_map[item["id"]] = item["playcount"]
+
+    for track in tracks:
+        track["playcount"] = playcount_map.get(track["id"], 0)
+
+    tracks.sort(key=lambda t: t["playcount"], reverse=True)
+
+    artist["track_count"] = len(tracks)
+    artist["total_playcount"] = sum(t["playcount"] for t in tracks)
+    artist["total_duration_ms"] = sum(t.get("duration_ms", 0) for t in tracks)
+    artist["tracks"] = tracks
+
+    return artist
+
+
 def check_playlist_header_from_mongo(date: str) -> bool:
     # check a playlists headers where the field "date" matches the input date
     return playlists_collection.count_documents({"date": date}) > 0

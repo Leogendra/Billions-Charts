@@ -1,9 +1,9 @@
-from backend.utils import create_folder, normalize_date_for_comparison, validate_date_key, validate_track_id
+from backend.utils import create_folder, normalize_date_for_comparison, validate_date_key, validate_track_id, validate_artist_id
+from backend.database import retrieve_track_by_id, retrieve_artist_by_id
 from backend.report import generate_report, generate_leaderboard
 from flask import Flask, request, jsonify, send_file, abort
 from flask_limiter.util import get_remote_address
 from backend.scrapper import fetch_playlist_infos
-from backend.database import retrieve_track_by_id
 from flask_limiter import Limiter
 from dotenv import load_dotenv
 from functools import wraps
@@ -197,6 +197,24 @@ def get_track(track_id):
 
     track.pop("corrected_release_date", None)
     return jsonify(track)
+
+
+@app.route("/artist/<artist_id>/", methods=["GET"])
+@limiter.limit("30 per minute")
+def get_artist(artist_id):
+    if not(validate_artist_id(artist_id)):
+        abort(400, description="Invalid artist_id format.")
+
+    try:
+        artist = retrieve_artist_by_id(artist_id)
+    except Exception as error:
+        logging.exception(error)
+        return jsonify({"message": "Internal error", "output": "An internal error occurred."}), 500
+
+    if (artist is None):
+        abort(404, description="Artist not found.")
+
+    return jsonify(artist)
 
 
 @app.route("/", methods=["GET"])

@@ -361,6 +361,13 @@
     flex-shrink: 0;
 }
 
+.skeleton-cover-circle {
+    width: 180px;
+    height: 180px;
+    border-radius: 50% !important;
+    flex-shrink: 0;
+}
+
 .skeleton-title {
     width: 60%;
     height: 20px;

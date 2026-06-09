@@ -106,7 +106,7 @@ function display_artists_bars(artists_infos, containerId) {
         bar.classList.add("bar-artist");
         bar.style.width = `${finalWidth}%`;
         bar.addEventListener("click", (e) => {
-            if (!e.target.closest("a")) open_artist_popup_card({ id: artist.id, name: artist.name, image: artist.image });
+            if (!e.target.closest("a")) fetch_and_display_artist_card(artist.id);
         });
 
         const barContent = document.createElement("div");
@@ -115,7 +115,7 @@ function display_artists_bars(artists_infos, containerId) {
 
         const divArtistName = document.createElement("div");
         divArtistName.classList.add("bar-artist-text");
-        divArtistName.innerHTML = `<a class="cta-link" href="${artist.url}" target="_blank">${artist.name}</a>&nbsp;(${artist.data_dislay})`;
+        divArtistName.innerHTML = `<a class="cta-link" href="${artist.url}" target="_blank" rel="noopener noreferrer">${artist.name}</a>&nbsp;(${artist.data_dislay})`;
         barContent.appendChild(divArtistName);
 
         const img = document.createElement("img");

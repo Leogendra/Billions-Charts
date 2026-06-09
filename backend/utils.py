@@ -22,3 +22,7 @@ def validate_date_key(dateKey):
 
 def validate_track_id(track_id):
     return re.fullmatch(r"[0-9A-Za-z]{22}", track_id)
+
+
+def validate_artist_id(artist_id):
+    return re.fullmatch(r"[0-9A-Za-z]{22}", artist_id)

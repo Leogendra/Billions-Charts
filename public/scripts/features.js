@@ -28,7 +28,7 @@ function format_key_features(data) {
     return KEY_FEATURES_TEMPLATE.map(template =>
         template
             .replace(/\{\{(\w+)\}\}/g, (_, key) => // Double curly braces for links
-                `<a class="important-link" href="${data[key + "_link"] || key}" target="_blank">${data[key] || "#"}</a>`
+                `<a class="important-link" href="${data[key + "_link"] || key}" target="_blank" rel="noopener noreferrer">${data[key] || "#"}</a>`
             )
             .replace(/\%\{(\w+)\}\%/g, (_, key) => // Percentages for '%' to be highlighted
                 `<span class="important-text">${data[key] || "0"}%</span>`
