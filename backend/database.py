@@ -261,3 +261,23 @@ def retrieve_playlist_infos_from_mongo(date: str) -> dict:
             del artist["_id"]
 
     return playlist_data
+
+
+def retrieve_search_ids():
+    tracks = list(tracks_collection.aggregate([
+        {"$lookup": {
+            "from": "playlist_artists",
+            "localField": "artists.id",
+            "foreignField": "id",
+            "as": "artists_details",
+        }},
+        {"$project": {
+            "_id": 0,
+            "id": 1,
+            "name": 1,
+            "artists": {"$map": {"input": "$artists_details", "as": "a", "in": "$$a.name"}},
+        }},
+    ]))
+    artists = list(artists_collection.find({}, {"_id": 0, "id": 1, "name": 1}))
+    
+    return {"tracks": tracks, "artists": artists}

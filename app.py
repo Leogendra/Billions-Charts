@@ -1,6 +1,6 @@
 from backend.utils import create_folder, normalize_date_for_comparison, validate_date_key, validate_track_id, validate_artist_id
+from backend.report import generate_report, generate_leaderboard, generate_search_ids
 from backend.database import retrieve_track_by_id, retrieve_artist_by_id
-from backend.report import generate_report, generate_leaderboard
 from flask import Flask, request, jsonify, send_file, abort
 from flask_limiter.util import get_remote_address
 from backend.scrapper import fetch_playlist_infos
@@ -47,23 +47,9 @@ if not(PASSWORD):
 
 
 
-# def validate_date_key(dateKey):
-#     if not re.fullmatch(r"\d{4}-\d{2}-\d{2}", dateKey):
-#         print(f"[ERROR] dateKey: {dateKey} is invalid.")
-#         abort(400, description="Invalid dateKey format.")
-#     else:
-#         print(f"[INFO] dateKey: {dateKey} is valid.")
-
-
-# def validate_track_id(track_id):
-#     if not re.fullmatch(r"[0-9A-Za-z]{22}", track_id):
-#         abort(400, description="Invalid track_id format.")
-
-
 def require_password(f):
     @wraps(f)
     def decorated(*args, **kwargs):
-        time.sleep(1)
         auth_header = request.headers.get("Authorization", "")
         token = auth_header.removeprefix("Bearer ") if auth_header.startswith("Bearer ") else ""
         if (token != PASSWORD):
@@ -98,10 +84,12 @@ def search():
     dateKey = datetime.datetime.now().strftime("%Y-%m-%d")
     dataPath = f"data/tracks/tracks_{dateKey}.json"
     reportPublicPath = f"public/data/report.json"
+    searchIdsPublicPath = f"public/data/search_ids.json"
 
     try:
         fetch_playlist_infos(dataPath, WRITE_TO_DATABASE, dateKey)
         generate_report(dataPath, reportPublicPath, WRITE_TO_DATABASE, dateKey)
+        generate_search_ids(searchIdsPublicPath)
         generate_sitemap(dateKey)
         return jsonify({
             "message": "Search completed!",

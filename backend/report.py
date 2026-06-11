@@ -1,5 +1,5 @@
+from backend.database import retrieve_playlist_infos_from_mongo, retrieve_search_ids
 from backend.utils import create_folder, normalize_date_for_comparison
-from backend.database import retrieve_playlist_infos_from_mongo
 from collections import defaultdict
 from datetime import datetime
 import json
@@ -535,3 +535,10 @@ def generate_leaderboard(dataPath, WRITE_TO_DATABASE, dateKey=None):
             f.write(f"{i+1}. {track}: {count/1_000_000_000:.2f}B streams\n")
 
     print("Leaderboards updated.")
+
+
+def generate_search_ids(outputPath):
+    data = retrieve_search_ids()
+    with open(outputPath, "w", encoding="utf-8") as f:
+        json.dump(data, f, ensure_ascii=False)
+    print(f"Search IDs written to {outputPath}.")
