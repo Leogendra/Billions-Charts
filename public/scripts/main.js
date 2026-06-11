@@ -237,6 +237,7 @@ async function main() {
     ]);
 
     update_pills();
+    init_search();
 }
 
 
