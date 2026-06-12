@@ -29,6 +29,15 @@ _handler.setFormatter(_StripAnsi("%(asctime)s %(levelname)s %(message)s"))
 logging.getLogger().setLevel(logging.ERROR)
 logging.getLogger().addHandler(_handler)
 
+_access_handler = logging.handlers.RotatingFileHandler(
+    "logs/access.log", maxBytes=10 * 1024 * 1024, backupCount=5
+)
+_access_handler.setFormatter(logging.Formatter("%(asctime)s %(message)s", datefmt="%Y-%m-%dT%H:%M:%S"))
+access_logger = logging.getLogger("access")
+access_logger.setLevel(logging.INFO)
+access_logger.addHandler(_access_handler)
+access_logger.propagate = False
+
 app = Flask(__name__, static_folder="public", static_url_path="/")
 limiter = Limiter(
     get_remote_address,
@@ -160,6 +169,8 @@ def get_track(track_id):
     if not(validate_track_id(track_id)):
         abort(400, description="Invalid track_id format.")
 
+    access_logger.info("track %s", track_id)
+
     try:
         track = retrieve_track_by_id(track_id)
     except Exception as error:
@@ -192,6 +203,8 @@ def get_track(track_id):
 def get_artist(artist_id):
     if not(validate_artist_id(artist_id)):
         abort(400, description="Invalid artist_id format.")
+
+    access_logger.info("artist %s", artist_id)
 
     try:
         artist = retrieve_artist_by_id(artist_id)
