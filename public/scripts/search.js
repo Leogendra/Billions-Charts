@@ -192,10 +192,5 @@ function _wire_search_events() {
                 open_search();
             }
         }
-        // Ctrl+K fallback
-        if ((e.ctrlKey || e.metaKey) && e.key === "k") {
-            e.preventDefault();
-            open_search();
-        }
     });
 }
