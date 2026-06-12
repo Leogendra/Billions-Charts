@@ -111,10 +111,20 @@
             </div>
         </div>
 
-        <div class="chart-container additional-infos">
-            <p>📅 This page uses the data available at the date of 
-                <span class="update-date accent-color">January 2025</span>.
-            </p>
+        <div class="chart-container additional-infos" id="whats-new-section">
+            <div class="whats-new-header" id="whats-new-toggle">
+                <p>📅 This page uses the data available at the date of
+                    <span class="update-date accent-color">January 2025</span>.
+                </p>
+                <span class="whats-new-chevron">▾</span>
+            </div>
+            <div class="whats-new-body">
+                <div class="whats-new-inline">
+                    <p class="whats-new-title">📢 What's new (v1.3.0):</p>
+                    <p>👤 <strong>Artist and track pages</strong> - Click on any artist or track to open their detail page.</p>
+                    <p>🔍 <strong>Search bar</strong> - Search for any track or artist: click the search bar or press <kbd>Space</kbd> anywhere on the page.</p>
+                </div>
+            </div>
         </div>
 
         <div class="next-arrow-container"></div>
@@ -370,9 +380,9 @@
 
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/fuse.js/dist/fuse.min.js"></script>
     <script src="scripts/_odometer.js"></script>
 
-    <script src="https://cdn.jsdelivr.net/npm/fuse.js/dist/fuse.min.js"></script>
     <script src="scripts/utils.js"></script>
     <script src="scripts/card.js"></script>
     <script src="scripts/search.js"></script>

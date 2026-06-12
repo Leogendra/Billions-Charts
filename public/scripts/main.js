@@ -10,9 +10,9 @@ const playlist_description = document.querySelector("#playlist-description");
 const update_date_global = document.querySelector(".update-date");
 const cover_container = document.querySelector(".cover-container");
 
-// Details sections
-const details_sections = document.querySelectorAll("details");
-let all_details_open = true;
+// What's new section
+const whats_new_section = document.getElementById("whats-new-section");
+const whats_new_toggle = document.getElementById("whats-new-toggle");
 
 
 
@@ -193,6 +193,25 @@ async function update_artists_most_time(report) {
 }
 
 
+function init_whats_new() {
+    if (!whats_new_section || !whats_new_toggle) { return; }
+
+    if (localStorage.getItem("billions_charts_whats_new_collapsed") === "1") {
+        whats_new_section.classList.add("collapsed");
+    }
+
+    whats_new_toggle.addEventListener("click", () => {
+        const isCollapsed = whats_new_section.classList.toggle("collapsed");
+        if (isCollapsed) {
+            localStorage.setItem("billions_charts_whats_new_collapsed", "1");
+        } 
+        else {
+            localStorage.removeItem("billions_charts_whats_new_collapsed");
+        }
+    });
+}
+
+
 
 
 async function main() {
@@ -238,6 +257,7 @@ async function main() {
 
     update_pills();
     init_search();
+    init_whats_new();
 }
 
 

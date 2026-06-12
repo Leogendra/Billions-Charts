@@ -32,6 +32,16 @@ h2 {
 }
 
 
+kbd {
+    padding: 1px 6px;
+    background-color: rgba(255, 255, 255, 0.07);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 4px;
+    font-size: 0.78em;
+    font-family: inherit;
+}
+
+
 /* LINKS */
 a {
     text-decoration: underline;
@@ -82,6 +92,52 @@ a {
 .additional-infos {
     font-size: 1.2rem;
     line-height: 2;
+}
+
+.whats-new-inline {
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid rgba(224, 225, 221, 0.1);
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    color: var(--text-color);
+
+    & > p:not(.whats-new-title) {
+        margin-left: 20px;
+    }
+}
+
+.whats-new-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    user-select: none;
+}
+
+.whats-new-title {
+    color: var(--primary-color);
+}
+
+.whats-new-chevron {
+    color: var(--color-darker);
+    transition: transform 0.25s ease;
+    flex-shrink: 0;
+}
+
+#whats-new-section.collapsed .whats-new-chevron {
+    transform: rotate(-90deg);
+}
+
+.whats-new-body {
+    overflow: hidden;
+    max-height: 200px;
+    transition: max-height 0.25s ease;
+}
+
+#whats-new-section.collapsed .whats-new-body {
+    max-height: 0;
 }
 
 .accent-color {
