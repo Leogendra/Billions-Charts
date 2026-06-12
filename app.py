@@ -4,9 +4,11 @@ from backend.database import retrieve_track_by_id, retrieve_artist_by_id
 from flask import Flask, request, jsonify, send_file, abort
 from flask_limiter.util import get_remote_address
 from backend.scrapper import fetch_playlist_infos
+from backend.og_image import generate_og_image
 from flask_limiter import Limiter
 from dotenv import load_dotenv
 from functools import wraps
+import logging.handlers
 import datetime
 import logging
 import time
@@ -100,6 +102,7 @@ def search():
         generate_report(dataPath, reportPublicPath, WRITE_TO_DATABASE, dateKey)
         generate_search_ids(searchIdsPublicPath)
         generate_sitemap(dateKey)
+        generate_og_image(reportPublicPath)
         return jsonify({
             "message": "Search completed!",
             "output": "The search of the playlist has been completed successfully.",
