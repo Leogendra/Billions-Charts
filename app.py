@@ -18,16 +18,15 @@ import re
 
 load_dotenv()
 
-class _StripAnsi(logging.Formatter):
-    _ansi_re = re.compile(r"\x1b\[[0-9;]*m")
-
+class StripANSIColors(logging.Formatter):
+    ansi_re = re.compile(r"\x1b\[[0-9;]*m")
     def format(self, record):
         msg = super().format(record)
-        return self._ansi_re.sub("", msg)
+        return self.ansi_re.sub("", msg)
 
 os.makedirs("logs", exist_ok=True)
 _handler = logging.FileHandler("logs/app.log")
-_handler.setFormatter(_StripAnsi("%(asctime)s %(levelname)s %(message)s"))
+_handler.setFormatter(StripANSIColors("%(asctime)s %(levelname)s %(message)s"))
 logging.getLogger().setLevel(logging.ERROR)
 logging.getLogger().addHandler(_handler)
 

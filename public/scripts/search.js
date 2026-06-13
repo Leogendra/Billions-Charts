@@ -1,65 +1,68 @@
-let _fuseTracks = null;
-let _fuseArtists = null;
-let _selectedIndex = -1;
-let _currentResults = [];
+const search_button = document.querySelector("#search-trigger-btn");
+const search_overlay = document.querySelector("#search-overlay");
+const search_input = document.querySelector("#search-input");
+const search_results = document.querySelector("#search-results");
+
+const search_footer_hint = document.querySelector(".search-footer-hint");
+
+
+let fuse_tracks = null;
+let fuse_artists = null;
+let searchSelectedIndex = -1;
+let search_current_results = [];
 
 
 async function init_search() {
     const resp = await fetch("data/search_ids.json");
     const data = await resp.json();
 
-    _fuseTracks = new Fuse(data.tracks || [], {
+    fuse_tracks = new Fuse(data.tracks || [], {
         keys: ["name"],
         threshold: 0.4,
         includeScore: true,
     });
 
-    _fuseArtists = new Fuse(data.artists || [], {
+    fuse_artists = new Fuse(data.artists || [], {
         keys: ["name"],
         threshold: 0.4,
         includeScore: true,
     });
 
-    _wire_search_events();
+    setup_search_events();
 }
 
 
 function open_search() {
-    const overlay = document.getElementById("search-overlay");
-    overlay.classList.add("active");
-    overlay.setAttribute("aria-hidden", "false");
-    const input = document.getElementById("search-input");
-    input.value = "";
-    _render_results("");
-    setTimeout(() => input.focus(), 50);
+    search_overlay.classList.add("active");
+    search_overlay.setAttribute("aria-hidden", "false");
+    search_input.value = "";
+    render_search_results("");
+    setTimeout(() => search_input.focus(), 50);
 }
 
 
 function close_search() {
-    const overlay = document.getElementById("search-overlay");
-    overlay.classList.remove("active");
-    overlay.setAttribute("aria-hidden", "true");
-    _selectedIndex = -1;
-    _currentResults = [];
+    search_overlay.classList.remove("active");
+    search_overlay.setAttribute("aria-hidden", "true");
+    searchSelectedIndex = -1;
+    search_current_results = [];
 }
 
 
-function _render_results(query) {
-    const container = document.getElementById("search-results");
-    _selectedIndex = -1;
+function render_search_results(query) {
+    searchSelectedIndex = -1;
 
     let trackResults, artistResults;
 
     if (query.length === 0) {
-        // Empty query: show nothing (or top defaults could go here)
-        container.innerHTML = "";
-        _currentResults = [];
-        _update_footer_hint();
+        search_results.innerHTML = "";
+        search_current_results = [];
+        update_search_footer_hint();
         return;
     }
 
-    trackResults = _fuseTracks ? _fuseTracks.search(query).slice(0, 6) : [];
-    artistResults = _fuseArtists ? _fuseArtists.search(query).slice(0, 4) : [];
+    trackResults = fuse_tracks ? fuse_tracks.search(query).slice(0, 6) : [];
+    artistResults = fuse_artists ? fuse_artists.search(query).slice(0, 4) : [];
 
     // Merge and interleave: keep best matches from both
     const tracks = trackResults.map(r => ({ type: "track", id: r.item.id, name: r.item.name, artists: r.item.artists, score: r.score }));
@@ -67,120 +70,114 @@ function _render_results(query) {
 
     // Sort all by score (lower = better in Fuse.js)
     const combined = [...tracks, ...artists].sort((a, b) => a.score - b.score).slice(0, 8);
-    _currentResults = combined;
+    search_current_results = combined;
 
     if (combined.length === 0) {
-        container.innerHTML = `<div class="search-no-results">No results for "<strong>${_escape(query)}</strong>"</div>`;
-        _update_footer_hint();
+        search_results.innerHTML = `<div class="search-no-results">No results for "<strong>${escape_html(query)}</strong>"</div>`;
+        update_search_footer_hint();
         return;
     }
 
-    container.innerHTML = combined.map((item, i) => _render_item_html(item, i)).join("");
+    search_results.innerHTML = combined.map((item, i) => render_search_item_html(item, i)).join("");
 
-    container.querySelectorAll(".search-result-item").forEach((el, i) => {
-        el.addEventListener("click", () => _select_result(_currentResults[i]));
+    search_results.querySelectorAll(".search-result-item").forEach((el, i) => {
+        el.addEventListener("click", () => select_search_result(search_current_results[i]));
     });
 
-    _update_footer_hint();
+    update_search_footer_hint();
 }
 
 
-function _render_item_html(item, i) {
+function render_search_item_html(item, i) {
     const emoji = item.type === "track" ? "🎵" : "👤";
     const phClass = `search-result-img-placeholder${item.type === "artist" ? " artist-placeholder" : ""}`;
 
     const imgHtml = `<div class="${phClass}">${emoji}</div>`;
 
     const sub = item.type === "track" && item.artists?.length
-        ? `<div class="search-result-sub">${item.artists.map(_escape).join(", ")}</div>`
+        ? `<div class="search-result-sub">${item.artists.map(escape_html).join(", ")}</div>`
         : "";
 
     return `
     <div class="search-result-item" data-index="${i}">
         ${imgHtml}
         <div class="search-result-info">
-            <div class="search-result-name">${_escape(item.name)}</div>
+            <div class="search-result-name">${escape_html(item.name)}</div>
             ${sub}
         </div>
     </div>`;
 }
 
 
-function _update_footer_hint() {
-    const hint = document.querySelector(".search-footer-hint");
-    if (!hint) return;
-    if (_currentResults.length > 0) {
-        hint.style.display = "flex";
-    } else {
-        hint.style.display = "none";
+function update_search_footer_hint() {
+    if (!search_footer_hint) { return; }
+    if (search_current_results.length > 0) {
+        search_footer_hint.style.display = "flex";
+    } 
+    else {
+        search_footer_hint.style.display = "none";
     }
 }
 
 
-function _move_selection(dir) {
+function move_search_selection(dir) {
     const items = document.querySelectorAll(".search-result-item");
-    if (items.length === 0) return;
+    if (items.length === 0) { return; }
 
-    if (_selectedIndex >= 0 && _selectedIndex < items.length) {
-        items[_selectedIndex].classList.remove("selected");
+    if (searchSelectedIndex >= 0 && searchSelectedIndex < items.length) {
+        items[searchSelectedIndex].classList.remove("selected");
     }
 
-    _selectedIndex = (_selectedIndex + dir + items.length) % items.length;
-    items[_selectedIndex].classList.add("selected");
-    items[_selectedIndex].scrollIntoView({ block: "nearest" });
+    searchSelectedIndex = (searchSelectedIndex + dir + items.length) % items.length;
+    items[searchSelectedIndex].classList.add("selected");
+    items[searchSelectedIndex].scrollIntoView({ block: "nearest" });
 }
 
 
-function _select_result(item) {
+function select_search_result(item) {
     close_search();
     if (item.type === "track") {
         fetch_and_display_track_card(item.id);
-    } else {
+    } 
+    else {
         fetch_and_display_artist_card(item.id);
     }
 }
 
 
-function _escape(str) {
-    return str
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;");
-}
+function setup_search_events() {
+    search_button.addEventListener("click", open_search);
 
-
-function _wire_search_events() {
-    document.getElementById("search-trigger-btn").addEventListener("click", open_search);
-
-    document.getElementById("search-overlay").addEventListener("click", e => {
-        if (e.target.id === "search-overlay") close_search();
+    search_overlay.addEventListener("click", e => {
+        if (e.target.id === "search-overlay") { close_search(); }
     });
 
-    document.getElementById("search-input").addEventListener("input", e => {
-        _render_results(e.target.value.trim());
+    search_input.addEventListener("input", e => {
+        render_search_results(e.target.value.trim());
     });
 
-    document.getElementById("search-input").addEventListener("keydown", e => {
-        if (e.key === "ArrowDown") { e.preventDefault(); _move_selection(1); }
-        else if (e.key === "ArrowUp") { e.preventDefault(); _move_selection(-1); }
+    // arrows to navigate, enter to select, escape to close
+    search_input.addEventListener("keydown", e => {
+        if (e.key === "ArrowDown") { e.preventDefault(); move_search_selection(1); }
+        else if (e.key === "ArrowUp") { e.preventDefault(); move_search_selection(-1); }
         else if (e.key === "Enter") {
-            if (_selectedIndex >= 0 && _currentResults[_selectedIndex]) {
-                _select_result(_currentResults[_selectedIndex]);
-            } else if (_currentResults.length > 0) {
-                _select_result(_currentResults[0]);
+            if (searchSelectedIndex >= 0 && search_current_results[searchSelectedIndex]) {
+                select_search_result(search_current_results[searchSelectedIndex]);
+            } else if (search_current_results.length > 0) {
+                select_search_result(search_current_results[0]);
             }
         }
         else if (e.key === "Escape") close_search();
     });
 
-    // Space to open (when not focused on an input/textarea)
+    // space to open (when not focused on an input/textarea)
     document.addEventListener("keydown", e => {
         if (e.key === " " && !["INPUT", "TEXTAREA", "SELECT"].includes(document.activeElement.tagName)) {
             e.preventDefault();
-            if (document.getElementById("search-overlay").classList.contains("active")) {
+            if (search_overlay.classList.contains("active")) {
                 close_search();
-            } else {
+            }
+            else {
                 const zoomOverlay = document.getElementById("image-zoom-overlay");
                 if (zoomOverlay?.classList.contains("visible")) {
                     close_popup_card_image_zoom();

@@ -20,21 +20,21 @@
     cursor: pointer;
     transition: border-color 0.2s, background-color 0.2s;
     text-align: left;
-}
-
-#search-trigger-btn:hover {
-    background-color: #233048;
-    border-color: var(--accent-color);
-    color: var(--primary-color);
-}
-
-#search-trigger-btn svg {
-    flex-shrink: 0;
-    opacity: 0.6;
-}
-
-#search-trigger-btn:hover svg {
-    opacity: 1;
+    
+    &:hover {
+        background-color: #233048;
+        border-color: var(--accent-color);
+        color: var(--primary-color);
+    }
+    
+    & svg {
+        flex-shrink: 0;
+        opacity: 0.6;
+    }
+    
+    &:hover svg {
+        opacity: 1;
+    }
 }
 
 .search-trigger-label {
@@ -53,10 +53,10 @@
     align-items: flex-start;
     justify-content: center;
     padding-top: 80px;
-}
-
-#search-overlay.active {
-    display: flex;
+    
+    &.active {
+        display: flex;
+    }
 }
 
 
@@ -83,11 +83,11 @@
     gap: 10px;
     padding: 14px 16px;
     border-bottom: 1px solid rgba(224, 225, 221, 0.1);
-}
-
-.search-input-row svg {
-    flex-shrink: 0;
-    opacity: 0.5;
+    
+    & svg {
+        flex-shrink: 0;
+        opacity: 0.5;
+    }
 }
 
 #search-input {
@@ -98,10 +98,10 @@
     font-size: 1.05rem;
     color: var(--primary-color);
     font-family: inherit;
-}
-
-#search-input::placeholder {
-    color: var(--color-darker);
+    
+    &::placeholder {
+        color: var(--color-darker);
+    }
 }
 
 .search-close-btn {
@@ -114,10 +114,10 @@
     border-radius: 5px;
     border: 1px solid rgba(255, 255, 255, 0.12);
     transition: color 0.2s;
-}
-
-.search-close-btn:hover {
-    color: var(--primary-color);
+    
+    &:hover {
+        color: var(--primary-color);
+    }
 }
 
 
@@ -127,10 +127,10 @@
     overflow-y: auto;
     scrollbar-width: thin;
     scrollbar-color: rgba(255, 103, 0, 0.3) transparent;
-}
-
-#search-results:empty {
-    display: none;
+    
+    &:empty {
+        display: none;
+    }
 }
 
 .search-result-item {
@@ -141,25 +141,12 @@
     cursor: pointer;
     transition: background-color 0.12s;
     border-left: 3px solid transparent;
-}
-
-.search-result-item:hover,
-.search-result-item.selected {
-    background-color: rgba(255, 103, 0, 0.08);
-    border-left-color: var(--accent-color);
-}
-
-.search-result-img {
-    width: 42px;
-    height: 42px;
-    object-fit: cover;
-    border-radius: 6px;
-    flex-shrink: 0;
-    background-color: var(--main-bg-color);
-}
-
-.search-result-img.artist-img {
-    border-radius: 50%;
+    
+    &:hover,
+    &.selected {
+        background-color: rgba(255, 103, 0, 0.08);
+        border-left-color: var(--accent-color);
+    }
 }
 
 .search-result-img-placeholder {
@@ -167,15 +154,16 @@
     height: 42px;
     border-radius: 6px;
     flex-shrink: 0;
-    background-color: rgba(255, 255, 255, 0.06);
+    background-color: rgba(255, 255, 255, 0.1);
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 1.2rem;
-}
-
-.search-result-img-placeholder.artist-placeholder {
-    border-radius: 50%;
+    
+    &.artist-placeholder {
+        border-radius: 50%;
+        background-color: rgba(255, 255, 255, 0.5);
+    }
 }
 
 .search-result-info {
@@ -200,25 +188,6 @@
     text-overflow: ellipsis;
 }
 
-.result-type-badge {
-    flex-shrink: 0;
-    font-size: 0.7rem;
-    padding: 2px 8px;
-    border-radius: 20px;
-    font-weight: 600;
-    letter-spacing: 0.03em;
-}
-
-.result-type-badge.badge-track {
-    background-color: rgba(255, 103, 0, 0.18);
-    color: var(--accent-color);
-}
-
-.result-type-badge.badge-artist {
-    background-color: rgba(100, 149, 237, 0.18);
-    color: #6495ED;
-}
-
 .search-no-results {
     padding: 20px 16px;
     text-align: center;
@@ -233,15 +202,15 @@
     gap: 16px;
     font-size: 0.72rem;
     color: var(--color-darker);
-}
-
-.search-footer-hint kbd {
-    padding: 1px 5px;
-    background-color: rgba(255, 255, 255, 0.07);
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    border-radius: 4px;
-    font-size: 0.7rem;
-    font-family: inherit;
+    
+    & kbd {
+        padding: 1px 5px;
+        background-color: rgba(255, 255, 255, 0.07);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        border-radius: 4px;
+        font-size: 0.7rem;
+        font-family: inherit;
+    }
 }
 
 
