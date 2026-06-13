@@ -60,6 +60,7 @@ function update_playlist_infos(report) {
     playlist_cover.src = report.coverUrl;
     cover_container.style.boxShadow = report.coverHex;
     playlist_description.textContent = report.description.replace(/<[^>]*>|{[^}]*}/g, '');
+    cover_container.onclick = () => open_popup_card_image_zoom(report.coverUrl);
 }
 
 
@@ -106,7 +107,7 @@ function display_artists_bars(artists_infos, containerId) {
         bar.classList.add("bar-artist");
         bar.style.width = `${finalWidth}%`;
         bar.addEventListener("click", (e) => {
-            if (!e.target.closest("a")) fetch_and_display_artist_card(artist.id);
+            if (!e.target.closest("a") && !e.target.closest(".bar-artist-image")) fetch_and_display_artist_card(artist.id);
         });
 
         const barContent = document.createElement("div");
@@ -121,6 +122,10 @@ function display_artists_bars(artists_infos, containerId) {
         const img = document.createElement("img");
         img.src = artist.image;
         img.classList.add("bar-artist-image");
+        img.addEventListener("click", (e) => {
+            e.stopPropagation();
+            open_popup_card_image_zoom(artist.image);
+        });
         bar.appendChild(img);
 
         container.appendChild(bar);

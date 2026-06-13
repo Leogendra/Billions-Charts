@@ -105,6 +105,7 @@ a {
 
     & > p:not(.whats-new-title) {
         margin-left: 20px;
+        font-size: 0.9em;
     }
 }
 
