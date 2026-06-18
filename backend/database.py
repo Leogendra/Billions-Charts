@@ -31,6 +31,8 @@ playlists_collection.create_index("date", unique=True)
 tracks_collection.create_index("id", unique=True)
 artists_collection.create_index("id", unique=True)
 
+MB_TRACK_FIELDS = ["mb_id", "mb_language", "mb_script", "mb_release_date"]
+MB_ARTIST_FIELDS = ["mb_id", "mb_unmatched", "mb_type", "mb_gender", "mb_country", "mb_area", "mb_begin_date", "mb_end_date", "mb_is_ended", "mb_sort_name", "mb_disambiguation", "mb_genres"]
 
 
 
@@ -70,7 +72,7 @@ def insert_or_update_playlist_header(playlist_data):
 def insert_or_update_tracks(playlist_data):
     operations = []
     for track in playlist_data["items"]:
-        track_data = {
+        track_fixed_data = {
             "id": track["id"],
             "name": track["name"],
             "contentRating": track["contentRating"],
@@ -78,32 +80,37 @@ def insert_or_update_tracks(playlist_data):
             "artists": [{"id": artist["id"]} for artist in track["artists"]],
             "image": track["image"],
             "image_size": track["image_size"],
+            "added_at": track["added_at"],
         }
 
         if ("isrc" in track):
-            track_data["isrc"] = track["isrc"]
+            track_fixed_data["isrc"] = track["isrc"]
+
+        set_fields = {}
+        corrected_dates_fields = {}
 
         correctedFlag = track.get("corrected_release_date")
         if (correctedFlag == "already_corrected"): # Date was corrected in a previous run
-            continue
+            pass
         elif (correctedFlag == True): # Date was corrected in this run
             set_fields = {
                 "release_date": track["release_date"],
                 "release_date_precision": track["release_date_precision"],
                 "corrected_release_date": True,
             }
-            set_on_insert_fields = {"added_at": track["added_at"]}
-        else:
+        else: # Date was never corrected, set it only on insert
             set_fields = {"corrected_release_date": False}
-            set_on_insert_fields = {
-                "added_at": track["added_at"],
+            corrected_dates_fields = {
                 "release_date": track["release_date"],
                 "release_date_precision": track["release_date_precision"],
             }
 
+        mb_data = {k: track[k] for k in MB_TRACK_FIELDS if (k in track)}
+        set_fields.update(mb_data)
+
         update = {
             "$set": set_fields,
-            "$setOnInsert": track_data | set_on_insert_fields,
+            "$setOnInsert": track_fixed_data | corrected_dates_fields,
         }
 
         operations.append(UpdateOne({"id": track["id"]}, update, upsert=True))
@@ -116,29 +123,36 @@ def insert_or_update_tracks(playlist_data):
 
 def insert_or_update_artists(playlist_data):
     operations = []
+    seen_ids = set()
     for track in playlist_data["items"]:
         for artist in track["artists"]:
-            artist_data = {
+            if (artist["id"] in seen_ids):
+                continue
+
+            seen_ids.add(artist["id"])
+
+            img = artist.get("image")
+            artist_fixed_data = {
                 "id": artist["id"],
+            }
+            set_fields = {
                 "name": artist.get("name", "Unknown"),
                 "genres": artist.get("genres", []),
                 "followers": artist.get("followers", -1),
                 "popularity": artist.get("popularity", -1),
-                "image": (
-                    artist.get("image").get("url") if artist.get("image") else None
-                ),
-                "image_size": (
-                    artist.get("image").get("width") if artist.get("image") else None
-                ),
+                "image": img.get("url") if img else None,
+                "image_size": img.get("width") if img else None,
             }
 
-            operations.append(
-                UpdateOne(
-                    {"id": artist["id"]},
-                    {"$set": artist_data},
-                    upsert=True,
-                )
-            )
+            mb_data = {k: artist[k] for k in MB_ARTIST_FIELDS if k in artist}
+            set_fields.update(mb_data)
+
+            update = {
+                "$set": set_fields,
+                "$setOnInsert": artist_fixed_data
+            }
+
+            operations.append(UpdateOne({"id": artist["id"]}, update, upsert=True))
 
     if (DRY_RUN):
         print(f"Dry run mode - not writing {len(operations)} artists to the database")

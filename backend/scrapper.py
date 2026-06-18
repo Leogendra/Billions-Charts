@@ -1,6 +1,7 @@
 from backend.track_enricher import enrich_tracks_with_correct_release_dates, fetch_artists_batch
+from backend.musicbrainz_enricher import enrich_tracks_with_musicbrainz, enrich_artists_with_musicbrainz
 from backend.database import add_to_database, check_playlist_header_from_mongo
-from backend.database import tracks_collection
+from backend.database import tracks_collection, artists_collection
 from backend.utils import create_folder
 from spotapi import PublicPlaylist
 from dotenv import load_dotenv
@@ -146,17 +147,23 @@ def enrich_with_artist_infos(playlist_infos, headers):
     return playlist_infos
 
 
+def enrich_with_musicbrainz(playlist_infos, tracks_col, artists_col):
+    """Enriches tracks and artists with MusicBrainz fixed metadata (fetched once per entity)."""
+    playlist_infos["items"] = enrich_tracks_with_musicbrainz(playlist_infos["items"], tracks_col)
+    playlist_infos["items"] = enrich_artists_with_musicbrainz(playlist_infos["items"], artists_col)
+
+    return playlist_infos
+
+
 def persist_playlist(playlist_infos, dataPath, WRITE_TO_DATABASE):
     """Persists playlist data to MongoDB or a local JSON file."""
-    print(
-        "Playlist infos fetched and enriched successfully! Writing to database..."
-        if WRITE_TO_DATABASE
-        else "Playlist infos fetched and enriched successfully! Saving to file..."
-    )
+    print("Playlist infos fetched and enriched successfully!")
     if WRITE_TO_DATABASE:
+        print("Writing to database...")
         add_to_database(playlist_infos)
         print("Song infos inserted in database.")
     else:
+        print("Saving to file...")
         with open(dataPath, "w", encoding="utf-8") as f:
             json.dump(playlist_infos, f, indent=4, ensure_ascii=False)
         print(f"Song infos saved in {dataPath}")
@@ -173,6 +180,7 @@ def fetch_playlist_infos(dataPath, WRITE_TO_DATABASE, dateKey, overwrite=False):
             return
 
     playlist_infos = fetch_raw_playlist()
+    playlist_infos["items"] = playlist_infos["items"]
 
     access_token = get_access_token()
     headers = {"Authorization": f"Bearer {access_token}"}
@@ -185,5 +193,11 @@ def fetch_playlist_infos(dataPath, WRITE_TO_DATABASE, dateKey, overwrite=False):
     )
 
     playlist_infos = enrich_with_artist_infos(playlist_infos, headers)
+
+    playlist_infos = enrich_with_musicbrainz(
+        playlist_infos,
+        tracks_col=tracks_collection if WRITE_TO_DATABASE else None,
+        artists_col=artists_collection if WRITE_TO_DATABASE else None,
+    )
 
     persist_playlist(playlist_infos, dataPath, WRITE_TO_DATABASE)
