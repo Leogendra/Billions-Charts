@@ -1,8 +1,9 @@
 const search_button = document.querySelector("#search-trigger-btn");
+const floating_search_button = document.querySelector("#search-fab");
+
 const search_overlay = document.querySelector("#search-overlay");
 const search_input = document.querySelector("#search-input");
 const search_results = document.querySelector("#search-results");
-
 const search_footer_hint = document.querySelector(".search-footer-hint");
 
 
@@ -111,7 +112,7 @@ function render_search_item_html(item, i) {
 
 function update_search_footer_hint() {
     if (!search_footer_hint) { return; }
-    if (search_current_results.length > 0) {
+    if ((search_current_results.length > 0) && !IS_MOBILE) {
         search_footer_hint.style.display = "flex";
     } 
     else {
@@ -145,8 +146,15 @@ function select_search_result(item) {
 }
 
 
+function setup_search_fab() {
+    floating_search_button.classList.toggle("visible")
+    floating_search_button.addEventListener("click", open_search);
+}
+
+
 function setup_search_events() {
     search_button.addEventListener("click", open_search);
+    setup_search_fab();
 
     search_overlay.addEventListener("click", e => {
         if (e.target.id === "search-overlay") { close_search(); }
