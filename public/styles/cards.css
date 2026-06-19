@@ -21,29 +21,23 @@
     border-radius: 12px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
     overflow: hidden;
-}
-
-.card-color-1 {
-    background-color: var(--primary-color-darker);
-}
-
-.music-card {
     cursor: pointer;
-}
-
-.music-card:hover {
-    animation: pulse 0.3s ease-in-out;
-}
-
-.music-card img {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 60px;
-    aspect-ratio: 1;
-    border-radius: 8px;
-    object-fit: cover;
-    flex-shrink: 0;
+    
+    &:hover {
+        animation: pulse 0.3s ease-in-out;
+    }
+    
+    & img {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 60px;
+        aspect-ratio: 1;
+        border-radius: 8px;
+        object-fit: cover;
+        flex-shrink: 0;
+        cursor: zoom-in;
+    }
 }
 
 .music-card-content {
@@ -509,6 +503,12 @@
     width: 35px;
     height: 35px;
     border-radius: 50%;
+    cursor: zoom-in;
+    transition: transform 0.15s ease;
+}
+
+.bar-artist-image:hover {
+    transform: scale(1.1);
 }
 
 

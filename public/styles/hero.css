@@ -53,6 +53,7 @@
     width: 300px;
     height: 300px;
     overflow: hidden;
+    cursor: zoom-in;
 }
 
 #playlist-description {

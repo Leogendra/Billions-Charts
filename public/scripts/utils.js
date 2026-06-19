@@ -47,3 +47,12 @@ function format_number_of_days(days) {
     if (remainingDays > 0 || parts.length === 0) parts.push(`${remainingDays}d`);
     return parts.join(" ");
 }
+
+
+function escape_html(str) {
+    return str
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;");
+}

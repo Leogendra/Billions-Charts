@@ -1,10 +1,11 @@
+from backend.database import retrieve_playlist_infos_from_mongo, retrieve_search_ids
 from backend.utils import create_folder, normalize_date_for_comparison
-from backend.database import retrieve_playlist_infos_from_mongo
 from collections import defaultdict
 from datetime import datetime
 import json
 
 MAX_TOP_SONGS = 10  # TODO: Dynamic backend limit for top songs
+REPORT_VERSION = "1.2.2"
 
 
 
@@ -391,7 +392,6 @@ def get_key_features_data(tracks, report):
 
 def generate_report(dataPath, outputReportPath, WRITE_TO_DATABASE, dateKey=None):
 
-    REPORT_VERSION = "1.2.1"
     print(f"Generating report version {REPORT_VERSION}...")
 
     if WRITE_TO_DATABASE:
@@ -405,7 +405,7 @@ def generate_report(dataPath, outputReportPath, WRITE_TO_DATABASE, dateKey=None)
     create_folder("data/reports/")
     create_folder("public/data/")
 
-    tracks = playlist["items"]
+    tracks = [track for track in playlist["items"] if (track["playcount"] >= 1_000_000_000)]
     print(f"Loaded {len(tracks)} tracks.")
 
     print("Aggregating general stats...")
@@ -535,3 +535,10 @@ def generate_leaderboard(dataPath, WRITE_TO_DATABASE, dateKey=None):
             f.write(f"{i+1}. {track}: {count/1_000_000_000:.2f}B streams\n")
 
     print("Leaderboards updated.")
+
+
+def generate_search_ids(outputPath):
+    data = retrieve_search_ids()
+    with open(outputPath, "w", encoding="utf-8") as f:
+        json.dump(data, f, ensure_ascii=False)
+    print(f"Search IDs written to {outputPath}.")

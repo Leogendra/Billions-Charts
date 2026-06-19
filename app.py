@@ -1,12 +1,14 @@
 from backend.utils import create_folder, normalize_date_for_comparison, validate_date_key, validate_track_id, validate_artist_id
+from backend.report import generate_report, generate_leaderboard, generate_search_ids
 from backend.database import retrieve_track_by_id, retrieve_artist_by_id
-from backend.report import generate_report, generate_leaderboard
 from flask import Flask, request, jsonify, send_file, abort
 from flask_limiter.util import get_remote_address
 from backend.scrapper import fetch_playlist_infos
+from backend.og_image import generate_og_image
 from flask_limiter import Limiter
 from dotenv import load_dotenv
 from functools import wraps
+import logging.handlers
 import datetime
 import logging
 import time
@@ -16,18 +18,26 @@ import re
 
 load_dotenv()
 
-class _StripAnsi(logging.Formatter):
-    _ansi_re = re.compile(r"\x1b\[[0-9;]*m")
-
+class StripANSIColors(logging.Formatter):
+    ansi_re = re.compile(r"\x1b\[[0-9;]*m")
     def format(self, record):
         msg = super().format(record)
-        return self._ansi_re.sub("", msg)
+        return self.ansi_re.sub("", msg)
 
 os.makedirs("logs", exist_ok=True)
 _handler = logging.FileHandler("logs/app.log")
-_handler.setFormatter(_StripAnsi("%(asctime)s %(levelname)s %(message)s"))
+_handler.setFormatter(StripANSIColors("%(asctime)s %(levelname)s %(message)s"))
 logging.getLogger().setLevel(logging.ERROR)
 logging.getLogger().addHandler(_handler)
+
+_access_handler = logging.handlers.RotatingFileHandler(
+    "logs/access.log", maxBytes=10 * 1024 * 1024, backupCount=5
+)
+_access_handler.setFormatter(logging.Formatter("%(asctime)s %(message)s", datefmt="%Y-%m-%dT%H:%M:%S"))
+access_logger = logging.getLogger("access")
+access_logger.setLevel(logging.INFO)
+access_logger.addHandler(_access_handler)
+access_logger.propagate = False
 
 app = Flask(__name__, static_folder="public", static_url_path="/")
 limiter = Limiter(
@@ -47,23 +57,9 @@ if not(PASSWORD):
 
 
 
-# def validate_date_key(dateKey):
-#     if not re.fullmatch(r"\d{4}-\d{2}-\d{2}", dateKey):
-#         print(f"[ERROR] dateKey: {dateKey} is invalid.")
-#         abort(400, description="Invalid dateKey format.")
-#     else:
-#         print(f"[INFO] dateKey: {dateKey} is valid.")
-
-
-# def validate_track_id(track_id):
-#     if not re.fullmatch(r"[0-9A-Za-z]{22}", track_id):
-#         abort(400, description="Invalid track_id format.")
-
-
 def require_password(f):
     @wraps(f)
     def decorated(*args, **kwargs):
-        time.sleep(1)
         auth_header = request.headers.get("Authorization", "")
         token = auth_header.removeprefix("Bearer ") if auth_header.startswith("Bearer ") else ""
         if (token != PASSWORD):
@@ -98,11 +94,14 @@ def search():
     dateKey = datetime.datetime.now().strftime("%Y-%m-%d")
     dataPath = f"data/tracks/tracks_{dateKey}.json"
     reportPublicPath = f"public/data/report.json"
+    searchIdsPublicPath = f"public/data/search_ids.json"
 
     try:
         fetch_playlist_infos(dataPath, WRITE_TO_DATABASE, dateKey)
         generate_report(dataPath, reportPublicPath, WRITE_TO_DATABASE, dateKey)
+        generate_search_ids(searchIdsPublicPath)
         generate_sitemap(dateKey)
+        generate_og_image(reportPublicPath)
         return jsonify({
             "message": "Search completed!",
             "output": "The search of the playlist has been completed successfully.",
@@ -172,6 +171,8 @@ def get_track(track_id):
     if not(validate_track_id(track_id)):
         abort(400, description="Invalid track_id format.")
 
+    access_logger.info("track %s", track_id)
+
     try:
         track = retrieve_track_by_id(track_id)
     except Exception as error:
@@ -204,6 +205,8 @@ def get_track(track_id):
 def get_artist(artist_id):
     if not(validate_artist_id(artist_id)):
         abort(400, description="Invalid artist_id format.")
+
+    access_logger.info("artist %s", artist_id)
 
     try:
         artist = retrieve_artist_by_id(artist_id)

@@ -4,10 +4,13 @@ import os
 
 load_dotenv()
 MONGO_URI = os.getenv("MONGO_URI")
+MONGO_DB_NAME = os.getenv("MONGO_DB_NAME")
 DRY_RUN = os.getenv("DRY_RUN", "false").lower() == "true"
 
 if not MONGO_URI:
     raise RuntimeError("MONGO_URI environment variable is not set")
+if not MONGO_DB_NAME:
+    raise RuntimeError("MONGO_DB_NAME environment variable is not set")
 try:
     client = MongoClient(
         MONGO_URI,
@@ -18,7 +21,7 @@ try:
 except Exception as e:
     raise RuntimeError(f"Failed to connect to MongoDB: {e}")
 
-db = client.billions
+db = client[MONGO_DB_NAME]
 playlists_collection = db.playlists_headers
 tracks_collection = db.playlist_tracks
 artists_collection = db.playlist_artists
@@ -261,3 +264,23 @@ def retrieve_playlist_infos_from_mongo(date: str) -> dict:
             del artist["_id"]
 
     return playlist_data
+
+
+def retrieve_search_ids():
+    tracks = list(tracks_collection.aggregate([
+        {"$lookup": {
+            "from": "playlist_artists",
+            "localField": "artists.id",
+            "foreignField": "id",
+            "as": "artists_details",
+        }},
+        {"$project": {
+            "_id": 0,
+            "id": 1,
+            "name": 1,
+            "artists": {"$map": {"input": "$artists_details", "as": "a", "in": "$$a.name"}},
+        }},
+    ]))
+    artists = list(artists_collection.find({}, {"_id": 0, "id": 1, "name": 1}))
+    
+    return {"tracks": tracks, "artists": artists}
