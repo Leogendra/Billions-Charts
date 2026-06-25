@@ -1,6 +1,7 @@
 from pymongo import MongoClient, UpdateOne
 from dotenv import load_dotenv
 import os
+import json # DEBUG
 
 load_dotenv()
 MONGO_URI = os.getenv("MONGO_URI")
@@ -32,7 +33,7 @@ tracks_collection.create_index("id", unique=True)
 artists_collection.create_index("id", unique=True)
 
 MB_TRACK_FIELDS = ["mb_id", "mb_language", "mb_script", "mb_release_date"]
-MB_ARTIST_FIELDS = ["mb_id", "mb_unmatched", "mb_type", "mb_gender", "mb_country", "mb_area", "mb_begin_date", "mb_end_date", "mb_is_ended", "mb_sort_name", "mb_disambiguation", "mb_genres"]
+MB_ARTIST_FIELDS = ["mb_id", "mb_type", "mb_gender", "mb_country", "mb_area", "mb_begin_date", "mb_end_date", "mb_is_ended", "mb_sort_name", "mb_disambiguation", "mb_genres"] + ["mb_name_matched", "mb_unmatched"]
 
 
 
@@ -59,14 +60,14 @@ def insert_or_update_playlist_header(playlist_data):
     }
 
     if (DRY_RUN):        
-        print(f"Dry run mode - not writing {len(playlist_data['items'])} tracks to the database")
+        print(f"[Dry run] not writing {len(playlist_data['items'])} tracks to the database")
     else:
-        # Upsert based on the date
         playlists_collection.update_one(
             {"date": playlist_data["date"]},
             {"$set": header_data},
             upsert=True,
         )
+        print("Playlist header added to the database")
 
 
 def insert_or_update_tracks(playlist_data):
@@ -116,9 +117,10 @@ def insert_or_update_tracks(playlist_data):
         operations.append(UpdateOne({"id": track["id"]}, update, upsert=True))
 
     if (DRY_RUN):        
-        print(f"Dry run mode - not writing {len(operations)} tracks to the database")
+        print(f"[Dry run] not writing {len(operations)} tracks to the database")
     elif operations:
         tracks_collection.bulk_write(operations)
+        print("Tracks added to the database")
 
 
 def insert_or_update_artists(playlist_data):
@@ -146,7 +148,6 @@ def insert_or_update_artists(playlist_data):
 
             mb_data = {k: artist[k] for k in MB_ARTIST_FIELDS if k in artist}
             set_fields.update(mb_data)
-
             update = {
                 "$set": set_fields,
                 "$setOnInsert": artist_fixed_data
@@ -155,18 +156,16 @@ def insert_or_update_artists(playlist_data):
             operations.append(UpdateOne({"id": artist["id"]}, update, upsert=True))
 
     if (DRY_RUN):
-        print(f"Dry run mode - not writing {len(operations)} artists to the database")
+        print(f"[Dry run] not writing {len(operations)} artists to the database")
     elif operations:
         artists_collection.bulk_write(operations)
+        print("Artists added to the database")
 
 
 def add_to_database(playlist_data):
     insert_or_update_tracks(playlist_data)
-    print("Tracks added to the database")
     insert_or_update_artists(playlist_data)
-    print("Artists added to the database")
     insert_or_update_playlist_header(playlist_data)
-    print("Playlist header added to the database")
 
 
 def retrieve_track_by_id(track_id: str) -> dict | None:

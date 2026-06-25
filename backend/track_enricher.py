@@ -93,7 +93,7 @@ def enrich_tracks_with_correct_release_dates(
     tracks_collection=None,
     overwrite: bool = False,
 ) -> List[Dict]:
-    print("\n=== Starting track enrichment via API search ===")
+    print("\n=== Starting track enrichment via Spotify API search ===")
 
     track_ids = [track["id"] for track in playlist_items]
 

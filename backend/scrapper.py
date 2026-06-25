@@ -1,5 +1,5 @@
 from backend.track_enricher import enrich_tracks_with_correct_release_dates, fetch_artists_batch
-from backend.musicbrainz_enricher import enrich_tracks_with_musicbrainz, enrich_artists_with_musicbrainz
+from backend.mb_enricher import enrich_tracks_with_musicbrainz, enrich_artists_with_musicbrainz
 from backend.database import add_to_database, check_playlist_header_from_mongo
 from backend.database import tracks_collection, artists_collection
 from backend.utils import create_folder
@@ -180,7 +180,7 @@ def fetch_playlist_infos(dataPath, WRITE_TO_DATABASE, dateKey, overwrite=False):
             return
 
     playlist_infos = fetch_raw_playlist()
-    playlist_infos["items"] = playlist_infos["items"]
+    # playlist_infos["items"] = playlist_infos["items"][:10] # DEBUG: Limit to first 10 items for testing purposes
 
     access_token = get_access_token()
     headers = {"Authorization": f"Bearer {access_token}"}

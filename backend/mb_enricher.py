@@ -1,6 +1,7 @@
 from typing import Dict, List, Optional, Tuple
 import requests
 import time
+import json # debug
 
 MB_BASE = "https://musicbrainz.org/ws/2"
 MB_HEADERS = {
@@ -12,7 +13,7 @@ RATE_LIMIT_DELAY = 1.0
 
 
 
-def mb_get(path: str, params: dict = {}, max_retries: int = 3) -> Optional[dict]:
+def mb_api_get(path: str, params: dict = {}, max_retries: int = 3) -> Optional[dict]:
     url = f"{MB_BASE}/{path}"
     params = {**params, "fmt": "json"}
     start = time.time()
@@ -57,17 +58,20 @@ def get_language_from_releases(releases: list) -> Tuple[Optional[str], Optional[
     return None, None
 
 
-def fetch_track_mb_data(isrc: str) -> dict:
-    data = mb_get(f"isrc/{isrc}", {"inc": "artist-credits"})
-    if(not(data) or not(data.get("recordings"))):
-        return {}
+def fetch_track_mb_data(isrc: str, existing_mb_id: str = None) -> dict:
+    if existing_mb_id:
+        mbid = existing_mb_id
+    else:
+        data = mb_api_get(f"isrc/{isrc}", {"inc": "artist-credits"})
+        if(not(data) or not(data.get("recordings"))):
+            return {}
 
-    recording = data["recordings"][0]
-    mbid = recording.get("id")
-    if not(mbid):
-        return {}
+        recording = data["recordings"][0]
+        mbid = recording.get("id")
+        if not(mbid):
+            return {}
 
-    rec_detail = mb_get(f"recording/{mbid}", {"inc": "releases"})
+    rec_detail = mb_api_get(f"recording/{mbid}", {"inc": "releases"})
     releases = rec_detail.get("releases", []) if rec_detail else []
 
     language, script = get_language_from_releases(releases)
@@ -83,45 +87,85 @@ def fetch_track_mb_data(isrc: str) -> dict:
     }
 
 
-def fetch_artist_mb_data(spotify_artist_id: str) -> dict:
-    data = mb_get("url/", {
+def build_artist_result(mbid: str, artist_details: dict, nameMatched: bool = False) -> dict:
+    life_span = artist_details.get("life-span", {})
+    return {
+        "mb_id": mbid,
+        "mb_type": artist_details.get("type"),
+        "mb_gender": artist_details.get("gender"),
+        "mb_country": artist_details.get("country"),
+        "mb_area": artist_details.get("area", {}).get("name") if artist_details.get("area") else None,
+        "mb_begin_date": life_span.get("begin"),
+        "mb_end_date": life_span.get("end"),
+        "mb_is_ended": life_span.get("ended", False),
+        "mb_sort_name": artist_details.get("sort-name"),
+        "mb_disambiguation": artist_details.get("disambiguation"),
+        "mb_genres": [
+            {
+                "name": g["name"],
+                "count": g["count"]
+            }
+            for g in artist_details.get("genres", [])
+        ],
+        "mb_name_matched": nameMatched,
+        "mb_unmatched": False,
+    }
+
+
+def fetch_artist_mb_data(spotify_artist_id: str, artist_name: str = None) -> dict:
+    # URL Spotify lookup
+    data = mb_api_get("url/", {
         "query": f"url:https://open.spotify.com/artist/{spotify_artist_id}",
         "targettype": "artist",
     })
-    if not(data and data.get("urls")):
+    if (data and data.get("urls")):
+        try:
+            mbid = data["urls"][0]["relation-list"][0]["relations"][0]["artist"]["id"]
+            detail = mb_api_get(f"artist/{mbid}", {"inc": "aliases+tags+genres+url-rels"})
+            if detail:
+                return build_artist_result(mbid, detail)
+        except (KeyError, IndexError):
+            pass
+
+    # fallback with name search
+    if not(artist_name):
         return {"mb_unmatched": True}
 
-    try:
-        mbid = data["urls"][0]["relation-list"][0]["relations"][0]["artist"]["id"]
-    except (KeyError, IndexError):
+    search_data = mb_api_get("artist/", {"query": f'artist:"{artist_name}"', "limit": 5})
+    candidates = (search_data or {}).get("artists", [])
+
+    # candidates are sorted by descending score
+    if (not(candidates) or (candidates[0].get("score", 0) < 90)):
         return {"mb_unmatched": True}
 
-    detail = mb_get(f"artist/{mbid}", {"inc": "aliases+tags+genres+url-rels"})
-    if not detail:
-        return {}
+    top_candidate_detail = None
+    for candidate in candidates[:3]:
+        if (candidate.get("score", 0) < 90):
+            break
+        artist_detail = mb_api_get(f"artist/{candidate['id']}", {"inc": "aliases+tags+genres+url-rels"})
+        if not(artist_detail):
+            continue
+        if (top_candidate_detail is None):
+            top_candidate_detail = (candidate["id"], artist_detail)
+        for rel in artist_detail.get("relations", []):
+            resource = rel.get("url", {}).get("resource", "")
+            if (("open.spotify.com/artist/" in resource) and (spotify_artist_id in resource)):
+                return build_artist_result(candidate["id"], artist_detail, nameMatched=True)
 
-    life_span = detail.get("life-span", {})
-    is_ended = life_span.get("ended", False)
-    artist_type = detail.get("type")
+    # no Spotify match found, take top candidate
+    top = candidates[0]
+    if ((top.get("score") == 100)
+            and ((len(candidates) == 1) or (candidates[1].get("score", 0) < 90))
+            and (top_candidate_detail is not None)):
+        topCandidateMbid, artist_detail = top_candidate_detail
+        return build_artist_result(topCandidateMbid, artist_detail, nameMatched=True)
 
-    return {
-        "mb_id": mbid,
-        "mb_type": artist_type,
-        "mb_gender": detail.get("gender"),
-        "mb_country": detail.get("country"),
-        "mb_area": detail.get("area", {}).get("name") if detail.get("area") else None,
-        "mb_begin_date": life_span.get("begin"),
-        "mb_end_date": life_span.get("end"),
-        "mb_is_ended": is_ended,
-        "mb_sort_name": detail.get("sort-name"),
-        "mb_disambiguation": detail.get("disambiguation"),
-        "mb_genres": [g["name"] for g in detail.get("genres", [])],
-    }
+    return {"mb_unmatched": True}
 
 
 def fetch_artist_mb_status(mb_id: str) -> dict:
     """Fetches only life-span status for an already-matched artist."""
-    detail = mb_get(f"artist/{mb_id}")
+    detail = mb_api_get(f"artist/{mb_id}")
     if not detail:
         return {}
 
@@ -155,7 +199,7 @@ def get_artists_needing_mb_enrichment(
     - need_full: artist IDs with no mb_id and not mb_unmatched (need name lookup)
     - status_checks: {artist_id: mb_id} for matched but still-active artists/bands
     """
-    if artists_collection is None:
+    if (artists_collection is None):
         return set(artist_ids), {}
     try:
         docs = list(artists_collection.find(
@@ -185,14 +229,19 @@ def enrich_tracks_with_musicbrainz(
     playlist_items: List[Dict],
     tracks_collection=None,
 ) -> List[Dict]:
-    print("\n=== Starting track enrichment via MusicBrainz ===")
-
     track_ids = [track["id"] for track in playlist_items]
     needs_enrichment = get_tracks_needing_mb_enrichment(track_ids, tracks_collection)
-    to_enrich = [track for track in playlist_items if ((track["id"] in needs_enrichment) and track.get("isrc"))]
+    to_enrich = [
+        track for track in playlist_items
+        if (track["id"] in needs_enrichment) and track.get("isrc") and not track.get("mb_id")
+    ]
 
+    if not(to_enrich):
+        return playlist_items
+
+    print("\n=== Starting track enrichment via MusicBrainz ===")
     skipped = len(track_ids) - len(needs_enrichment)
-    print(f"{len(to_enrich)} MB track needing lookups ({skipped} already enriched, {len(needs_enrichment) - len(to_enrich)} missing ISRC).")
+    print(f"{len(to_enrich)} track needing lookups ({skipped} already enriched, {len(needs_enrichment) - len(to_enrich)} missing ISRC).")
 
     id_to_index = {t["id"]: i for i, t in enumerate(playlist_items)}
     enriched_count = 0
@@ -200,8 +249,9 @@ def enrich_tracks_with_musicbrainz(
 
     # lookups for tracks with ISRCs
     for count, track in enumerate(to_enrich, 1):
-        print(f"  MB track lookup {count}/{len(to_enrich)} ({time.time() - startTime:.1f}s)...   ", end="\r")
-        mb_data = fetch_track_mb_data(track["isrc"])
+        ETA = (time.time() - startTime) / (count + 1) * (len(to_enrich) - count - 1)
+        print(f"  MB track lookup {count}/{len(to_enrich)} (ETA: {ETA:.1f}s)...   ", end="\r")
+        mb_data = fetch_track_mb_data(track["isrc"], existing_mb_id=track.get("mb_id"))
         if mb_data.get("mb_id"):
             playlist_items[id_to_index[track["id"]]].update(mb_data)
             enriched_count += 1
@@ -214,8 +264,6 @@ def enrich_artists_with_musicbrainz(
     playlist_items: List[Dict],
     artists_collection=None,
 ) -> List[Dict]:
-    print("\n=== Starting artist enrichment via MusicBrainz ===")
-
     artist_map: Dict[str, dict] = {}
     for track in playlist_items:
         for artist in track["artists"]:
@@ -224,8 +272,13 @@ def enrich_artists_with_musicbrainz(
                 artist_map[artistId] = artist
 
     artist_ids = list(artist_map.keys())
-    need_full, status_checks = get_artists_needing_mb_enrichment(artist_ids, artists_collection)
+    # need_full, status_checks = get_artists_needing_mb_enrichment(artist_ids, artists_collection)
+    need_full, status_checks = get_artists_needing_mb_enrichment(artist_ids, None) # debug for querying all artists
 
+    if not need_full:
+        return playlist_items
+
+    print("\n=== Starting artist enrichment via MusicBrainz ===")
     # print(f"MB artist lookups needed: {len(need_full)} full, {len(status_checks)} status updates") # off for now
     print(f"MB artist lookups needed: {len(need_full)} full.")
 
@@ -234,15 +287,18 @@ def enrich_artists_with_musicbrainz(
 
     # full lookup in musicbrainz
     for count, artistId in enumerate(need_full):
-        print(f"  MB artist full lookup {count+1}/{len(need_full)} ({time.time() - startTime:.1f}s)...   ", end="\r")
-        mb_data = fetch_artist_mb_data(artistId)
+        ETA = (time.time() - startTime) / (count + 1) * (len(need_full) - count - 1)
+        print(f"  MB artist full lookup {count+1}/{len(need_full)} (ETA: {ETA:.1f}s)...   ", end="\r")
+        artist_name = artist_map[artistId].get("name")
+        mb_data = fetch_artist_mb_data(artistId, artist_name=artist_name)
         if mb_data:
             mb_results[artistId] = mb_data
 
     # status lookup for currently active
     if False: # TODO: off for now since many artists are still active. Search for heuristics to avoid redundant lookups.
         for count, (artistId, mb_id) in enumerate(status_checks.items()):
-            print(f"  MB artist status check {count+1}/{len(status_checks)} ({time.time() - startTime:.1f}s)...   ", end="\r")
+            ETA = (time.time() - startTime) / (count + 1) * (len(status_checks) - count - 1)
+            print(f"  MB artist status check {count+1}/{len(status_checks)} (ETA: {ETA:.1f}s)...   ", end="\r")
             status = fetch_artist_mb_status(mb_id)
             if status.get("mb_is_ended"):
                 mb_results[artistId] = status

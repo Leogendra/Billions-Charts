@@ -95,6 +95,7 @@ def search():
     dataPath = f"data/tracks/tracks_{dateKey}.json"
     reportPublicPath = f"public/data/report.json"
     searchIdsPublicPath = f"public/data/search_ids.json"
+    print(f"[{datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S')}] Starting search for {dateKey}")
 
     try:
         fetch_playlist_infos(dataPath, WRITE_TO_DATABASE, dateKey)
