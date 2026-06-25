@@ -261,22 +261,15 @@ def enrich_tracks_with_musicbrainz(
 
 
 def enrich_artists_with_musicbrainz(
-    playlist_items: List[Dict],
+    artists_dict: Dict[str, dict],
     artists_collection=None,
-) -> List[Dict]:
-    artist_map: Dict[str, dict] = {}
-    for track in playlist_items:
-        for artist in track["artists"]:
-            artistId = artist["id"]
-            if (artistId not in artist_map):
-                artist_map[artistId] = artist
-
-    artist_ids = list(artist_map.keys())
-    # need_full, status_checks = get_artists_needing_mb_enrichment(artist_ids, artists_collection)
-    need_full, status_checks = get_artists_needing_mb_enrichment(artist_ids, None) # debug for querying all artists
+) -> Dict[str, dict]:
+    artist_ids = list(artists_dict.keys())
+    need_full, status_checks = get_artists_needing_mb_enrichment(artist_ids, artists_collection)
+    # need_full, status_checks = get_artists_needing_mb_enrichment(artist_ids, None) # debug for querying all artists
 
     if not need_full:
-        return playlist_items
+        return artists_dict
 
     print("\n=== Starting artist enrichment via MusicBrainz ===")
     # print(f"MB artist lookups needed: {len(need_full)} full, {len(status_checks)} status updates") # off for now
@@ -289,7 +282,7 @@ def enrich_artists_with_musicbrainz(
     for count, artistId in enumerate(need_full):
         ETA = (time.time() - startTime) / (count + 1) * (len(need_full) - count - 1)
         print(f"  MB artist full lookup {count+1}/{len(need_full)} (ETA: {ETA:.1f}s)...   ", end="\r")
-        artist_name = artist_map[artistId].get("name")
+        artist_name = artists_dict[artistId].get("name")
         mb_data = fetch_artist_mb_data(artistId, artist_name=artist_name)
         if mb_data:
             mb_results[artistId] = mb_data
@@ -304,15 +297,13 @@ def enrich_artists_with_musicbrainz(
                 mb_results[artistId] = status
 
     # merge results
-    for i, track in enumerate(playlist_items):
-        for j, artist in enumerate(track["artists"]):
-            artistId = artist["id"]
-            if (artistId in mb_results):
-                playlist_items[i]["artists"][j].update(mb_results[artistId])
+    for artistId, mb_data in mb_results.items():
+        if artistId in artists_dict:
+            artists_dict[artistId].update(mb_data)
 
     nbFullMatched = sum(1 for v in mb_results.values() if ((v.get("mb_id") and not v.get("mb_unmatched"))))
     print(f"\nMB artist enrichment done: {nbFullMatched}/{len(need_full)} matched")
-    return playlist_items
+    return artists_dict
 
 
 if __name__ == "__main__":

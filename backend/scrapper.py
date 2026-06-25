@@ -85,8 +85,19 @@ def fetch_raw_playlist():
     except Exception:
         playlist_infos["coverHex"] = "#000000"
 
+    playlist_infos["artists"] = {}
     playlist_infos["items"] = []
     for item in raw_data["content"]["items"]:
+        raw_artists = item["itemV2"]["data"]["artists"]["items"]
+        artist_ids = []
+        for artist in raw_artists:
+            artist_id = artist["uri"].split(":")[-1]
+            artist_ids.append(artist_id)
+            if (artist_id not in playlist_infos["artists"]):
+                playlist_infos["artists"][artist_id] = {
+                    "id": artist_id,
+                    "name": artist["profile"]["name"],
+                }
         playlist_infos["items"].append(
             {
                 "added_at": item["addedAt"]["isoString"],
@@ -97,13 +108,7 @@ def fetch_raw_playlist():
                 "duration_ms": item["itemV2"]["data"]["trackDuration"][
                     "totalMilliseconds"
                 ],
-                "artists": [
-                    {
-                        "name": artist["profile"]["name"],
-                        "id": artist["uri"].split(":")[-1],
-                    }
-                    for artist in item["itemV2"]["data"]["artists"]["items"]
-                ],
+                "artists": artist_ids,
                 "image": max(
                     item["itemV2"]["data"]["albumOfTrack"]["coverArt"]["sources"],
                     key=lambda x: x["width"],
@@ -130,27 +135,16 @@ def enrich_with_release_dates(playlist_infos, headers, tracks_col, overwrite):
 
 
 def enrich_with_artist_infos(playlist_infos, headers):
-    """Fetches artist metadata (genres, followers, popularity, images) and merges it into each track."""
-    artist_ids = list(
-        {
-            artist["id"]
-            for track in playlist_infos["items"]
-            for artist in track["artists"]
-        }
-    )
-    artists_infos = fetch_artists_batch(artist_ids, headers)
-
-    for i, track in enumerate(playlist_infos["items"]):
-        for j, artist in enumerate(track["artists"]):
-            playlist_infos["items"][i]["artists"][j] = artists_infos[artist["id"]]
-
+    """Fetches full artist metadata (genres, followers, popularity, images) into the top-level artists dict."""
+    artist_ids = list(playlist_infos["artists"].keys())
+    playlist_infos["artists"] = fetch_artists_batch(artist_ids, headers)
     return playlist_infos
 
 
 def enrich_with_musicbrainz(playlist_infos, tracks_col, artists_col):
     """Enriches tracks and artists with MusicBrainz fixed metadata (fetched once per entity)."""
     playlist_infos["items"] = enrich_tracks_with_musicbrainz(playlist_infos["items"], tracks_col)
-    playlist_infos["items"] = enrich_artists_with_musicbrainz(playlist_infos["items"], artists_col)
+    playlist_infos["artists"] = enrich_artists_with_musicbrainz(playlist_infos["artists"], artists_col)
 
     return playlist_infos
 
@@ -168,6 +162,11 @@ def fetch_playlist_infos(dateKey, overwrite=False):
 
     playlist_infos = fetch_raw_playlist()
     # playlist_infos["items"] = playlist_infos["items"][:10] # DEBUG: Limit to first 10 items for testing purposes
+
+    # with open(f"data/tracks/tracks_{dateKey}.json", "w", encoding="utf-8") as f:
+    #     json.dump(playlist_infos, f, indent=4)
+
+    # raise Exception("Test exception") # DEBUG: Test exception handling
 
     access_token = get_access_token()
     headers = {"Authorization": f"Bearer {access_token}"}

@@ -78,7 +78,7 @@ def insert_or_update_tracks(playlist_data):
             "name": track["name"],
             "contentRating": track["contentRating"],
             "duration_ms": track["duration_ms"],
-            "artists": [{"id": artist["id"]} for artist in track["artists"]],
+            "artists": [{"id": aid} for aid in track["artists"]],
             "image": track["image"],
             "image_size": track["image_size"],
             "added_at": track["added_at"],
@@ -125,35 +125,26 @@ def insert_or_update_tracks(playlist_data):
 
 def insert_or_update_artists(playlist_data):
     operations = []
-    seen_ids = set()
-    for track in playlist_data["items"]:
-        for artist in track["artists"]:
-            if (artist["id"] in seen_ids):
-                continue
+    for artist_id, artist in playlist_data["artists"].items():
+        artist_fixed_data = {"id": artist_id}
+        img = artist.get("image")
+        set_fields = {
+            "name": artist.get("name", "Unknown"),
+            "genres": artist.get("genres", []),
+            "followers": artist.get("followers", -1),
+            "popularity": artist.get("popularity", -1),
+            "image": img.get("url") if img else None,
+            "image_size": img.get("width") if img else None,
+        }
 
-            seen_ids.add(artist["id"])
+        mb_data = {k: artist[k] for k in MB_ARTIST_FIELDS if k in artist}
+        set_fields.update(mb_data)
+        update = {
+            "$set": set_fields,
+            "$setOnInsert": artist_fixed_data
+        }
 
-            img = artist.get("image")
-            artist_fixed_data = {
-                "id": artist["id"],
-            }
-            set_fields = {
-                "name": artist.get("name", "Unknown"),
-                "genres": artist.get("genres", []),
-                "followers": artist.get("followers", -1),
-                "popularity": artist.get("popularity", -1),
-                "image": img.get("url") if img else None,
-                "image_size": img.get("width") if img else None,
-            }
-
-            mb_data = {k: artist[k] for k in MB_ARTIST_FIELDS if k in artist}
-            set_fields.update(mb_data)
-            update = {
-                "$set": set_fields,
-                "$setOnInsert": artist_fixed_data
-            }
-
-            operations.append(UpdateOne({"id": artist["id"]}, update, upsert=True))
+        operations.append(UpdateOne({"id": artist["id"]}, update, upsert=True))
 
     if (DRY_RUN):
         print(f"[Dry run] not writing {len(operations)} artists to the database")
@@ -267,14 +258,13 @@ def retrieve_playlist_infos_from_mongo(date: str) -> dict:
         }
     )
     artists_details = list(artists_collection.find({"id": {"$in": artist_ids}}))
-    artist_details_dict = {artist["id"]: artist for artist in artists_details}
+    for artist in artists_details:
+        artist.pop("_id", None)
+    artists_dict = {artist["id"]: artist for artist in artists_details}
 
+    playlist_data["artists"] = artists_dict
     for track in playlist_data["items"]:
-        for artist in track["artists"]:
-            artist_id = artist["id"]
-            if artist_id in artist_details_dict:
-                artist.update(artist_details_dict[artist_id])
-            del artist["_id"]
+        track["artists"] = [a["id"] for a in track["artists"]]
 
     return playlist_data
 
