@@ -218,4 +218,8 @@
     .search-trigger-bar {
         margin: 30px 0 -20px;
     }
+
+    .search-modal {
+        margin: 0 10px;
+    }
 }
