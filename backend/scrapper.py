@@ -155,29 +155,16 @@ def enrich_with_musicbrainz(playlist_infos, tracks_col, artists_col):
     return playlist_infos
 
 
-def persist_playlist(playlist_infos, dataPath, WRITE_TO_DATABASE):
-    """Persists playlist data to MongoDB or a local JSON file."""
-    print("Playlist infos fetched and enriched successfully!")
-    if WRITE_TO_DATABASE:
-        print("Writing to database...")
-        add_to_database(playlist_infos)
-        print("Song infos inserted in database.")
-    else:
-        print("Saving to file...")
-        with open(dataPath, "w", encoding="utf-8") as f:
-            json.dump(playlist_infos, f, indent=4, ensure_ascii=False)
-        print(f"Song infos saved in {dataPath}")
+def persist_playlist(playlist_infos):
+    print("Playlist infos fetched and enriched successfully! Writing to database...")
+    add_to_database(playlist_infos)
+    print("Song infos inserted in database.")
 
 
-def fetch_playlist_infos(dataPath, WRITE_TO_DATABASE, dateKey, overwrite=False):
-    if WRITE_TO_DATABASE:
-        if check_playlist_header_from_mongo(dateKey):
-            print(f"Playlist infos already fetched in database")
-            return
-    else:
-        if os.path.exists(dataPath):
-            print(f"Playlist infos already fetched in {dataPath}")
-            return
+def fetch_playlist_infos(dateKey, overwrite=False):
+    if check_playlist_header_from_mongo(dateKey):
+        print(f"Playlist infos already fetched in database")
+        return
 
     playlist_infos = fetch_raw_playlist()
     # playlist_infos["items"] = playlist_infos["items"][:10] # DEBUG: Limit to first 10 items for testing purposes
@@ -188,7 +175,7 @@ def fetch_playlist_infos(dataPath, WRITE_TO_DATABASE, dateKey, overwrite=False):
     playlist_infos = enrich_with_release_dates(
         playlist_infos,
         headers,
-        tracks_col=tracks_collection if WRITE_TO_DATABASE else None,
+        tracks_col=tracks_collection,
         overwrite=overwrite,
     )
 
@@ -196,8 +183,8 @@ def fetch_playlist_infos(dataPath, WRITE_TO_DATABASE, dateKey, overwrite=False):
 
     playlist_infos = enrich_with_musicbrainz(
         playlist_infos,
-        tracks_col=tracks_collection if WRITE_TO_DATABASE else None,
-        artists_col=artists_collection if WRITE_TO_DATABASE else None,
+        tracks_col=tracks_collection,
+        artists_col=artists_collection,
     )
 
-    persist_playlist(playlist_infos, dataPath, WRITE_TO_DATABASE)
+    persist_playlist(playlist_infos)

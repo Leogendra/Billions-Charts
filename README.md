@@ -40,7 +40,6 @@ If you want to contribute or use the project for another playlist, you can run t
      - `playlists_headers`
      - `playlist_tracks`
      - `playlist_artists`
-   - (Set `WRITE_TO_DATABASE=false` in `.env` to write to local files instead of MongoDB.)
 5. Create a `.env` file in the root directory and add your Spotify API and MongoDB credentials, the playlist ID you want to analyze, and a password for the `search/` and `report/` routes:
    ```bash
     CLIENT_ID=your_client_id
@@ -49,7 +48,6 @@ If you want to contribute or use the project for another playlist, you can run t
     MONGO_DB_NAME=your_database_name
     PLAYLIST_ID=spotify_playlist_id
     PASSWORD=your_password
-    WRITE_TO_DATABASE=true
     FLASK_DEBUG=false
    ```
 6. Launch the application:

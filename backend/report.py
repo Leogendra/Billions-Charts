@@ -390,17 +390,13 @@ def get_key_features_data(tracks, report):
     }
 
 
-def generate_report(dataPath, outputReportPath, WRITE_TO_DATABASE, dateKey=None):
+def generate_report(dataPath, outputReportPath, dateKey=None):
 
     print(f"Generating report version {REPORT_VERSION}...")
 
-    if WRITE_TO_DATABASE:
-        playlist = retrieve_playlist_infos_from_mongo(dateKey)
-        if not (playlist):
-            raise Exception(f"No data found for {dateKey} in database.")
-    else:
-        with open(dataPath, "r", encoding="utf-8") as f:
-            playlist = json.load(f)
+    playlist = retrieve_playlist_infos_from_mongo(dateKey)
+    if not (playlist):
+        raise Exception(f"No data found for {dateKey} in database.")
 
     create_folder("data/reports/")
     create_folder("public/data/")
@@ -498,14 +494,10 @@ def generate_report(dataPath, outputReportPath, WRITE_TO_DATABASE, dateKey=None)
     return REPORT_VERSION
 
 
-def generate_leaderboard(dataPath, WRITE_TO_DATABASE, dateKey=None):
+def generate_leaderboard(dataPath, dateKey=None):
     create_folder("data/analysis/")
 
-    if WRITE_TO_DATABASE:
-        tracks_data = retrieve_playlist_infos_from_mongo(dateKey)
-    else:
-        with open(dataPath, "r", encoding="utf-8") as f:
-            tracks_data = json.load(f)
+    tracks_data = retrieve_playlist_infos_from_mongo(dateKey)
 
     artists = {}
     streams = {}

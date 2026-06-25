@@ -99,7 +99,7 @@ def enrich_tracks_with_correct_release_dates(
 
     # Tracks already corrected skip the ISRC date search but still get popularity updated
     already_corrected = set()
-    if (tracks_collection is not None and not overwrite):
+    if ((tracks_collection is not None) and (not overwrite)):
         already_corrected = get_tracks_already_corrected(track_ids, tracks_collection)
 
     # fetch API data for all tracks

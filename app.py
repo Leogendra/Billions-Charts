@@ -49,7 +49,6 @@ limiter = Limiter(
 PORT = os.getenv("PORT") or 3434
 BASE_URL = f"http://localhost:{PORT}"
 
-WRITE_TO_DATABASE = os.getenv("WRITE_TO_DATABASE", "true").lower() == "true"
 PASSWORD = os.getenv("PASSWORD", "")
 if not(PASSWORD):
     raise RuntimeError("PASSWORD environment variable is not set")
@@ -98,8 +97,8 @@ def search():
     print(f"[{datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S')}] Starting search for {dateKey}")
 
     try:
-        fetch_playlist_infos(dataPath, WRITE_TO_DATABASE, dateKey)
-        generate_report(dataPath, reportPublicPath, WRITE_TO_DATABASE, dateKey)
+        fetch_playlist_infos(dateKey)
+        generate_report(dataPath, reportPublicPath, dateKey)
         generate_search_ids(searchIdsPublicPath)
         generate_sitemap(dateKey)
         generate_og_image(reportPublicPath)
@@ -128,7 +127,7 @@ def report(dateKey):
     reportPublicPath = f"public/data/report.json"
 
     try:
-        reportVersion = generate_report(dataPath, reportPublicPath, WRITE_TO_DATABASE, dateKey)
+        reportVersion = generate_report(dataPath, reportPublicPath, dateKey)
         generate_sitemap(dateKey)
         return jsonify( {
             "message": "Report generated!",
@@ -153,7 +152,7 @@ def leaderboard(dateKey):
     dataPath = f"data/tracks/tracks_{dateKey}.json"
 
     try:
-        generate_leaderboard(dataPath, WRITE_TO_DATABASE, dateKey)
+        generate_leaderboard(dataPath, dateKey)
         return jsonify({
             "message": "Leaderboard updated!",
             "output": "The leaderboard has been generated successfully.",
