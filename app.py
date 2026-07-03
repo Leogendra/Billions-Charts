@@ -91,20 +91,19 @@ def generate_sitemap(dateKey):
 @require_password
 def search():
     dateKey = datetime.datetime.now().strftime("%Y-%m-%d")
-    dataPath = f"data/tracks/tracks_{dateKey}.json"
     reportPublicPath = f"public/data/report.json"
     searchIdsPublicPath = f"public/data/search_ids.json"
     print(f"[{datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S')}] Starting search for {dateKey}")
 
     try:
         fetch_playlist_infos(dateKey)
-        generate_report(dataPath, reportPublicPath, dateKey)
+        reportVersion = generate_report(reportPublicPath, dateKey)
         generate_search_ids(searchIdsPublicPath)
         generate_sitemap(dateKey)
         generate_og_image(reportPublicPath)
         return jsonify({
             "message": "Search completed!",
-            "output": "The search of the playlist has been completed successfully.",
+            "output": f"The search of the playlist has been completed successfully. Report version: {reportVersion}",
         })
     except Exception as error:
         logging.exception(error)
@@ -123,11 +122,10 @@ def report(dateKey):
     if not(validate_date_key(dateKey)):
         abort(400, description="Invalid dateKey format.")
     
-    dataPath = f"data/tracks/tracks_{dateKey}.json"
     reportPublicPath = f"public/data/report.json"
 
     try:
-        reportVersion = generate_report(dataPath, reportPublicPath, dateKey)
+        reportVersion = generate_report(reportPublicPath, dateKey)
         generate_sitemap(dateKey)
         return jsonify( {
             "message": "Report generated!",
@@ -149,10 +147,9 @@ def leaderboard(dateKey):
         abort(400, description="Invalid dateKey format.")
 
     create_folder("data/reports")
-    dataPath = f"data/tracks/tracks_{dateKey}.json"
 
     try:
-        generate_leaderboard(dataPath, dateKey)
+        generate_leaderboard(dateKey)
         return jsonify({
             "message": "Leaderboard updated!",
             "output": "The leaderboard has been generated successfully.",

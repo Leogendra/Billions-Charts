@@ -540,6 +540,55 @@ async function create_histogram_time_count(report) {
 }
 
 
+async function create_histogram_release_weekday(report) {
+    const rawData = report.distribution_weekday_release_count;
+    const dayNames = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+
+    const values = dayNames.map((_, i) => rawData[String(i)] || 0);
+
+    const ctx = document.querySelector("#histo-plot-release-weekday").getContext("2d");
+    new Chart(ctx, {
+        type: "bar",
+        data: {
+            labels: dayNames,
+            datasets: [{
+                label: "Number of tracks",
+                data: values,
+                backgroundColor: accentColor,
+                borderColor: accentColor,
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: "Number of tracks",
+                        color: primaryColor
+                    },
+                    ticks: {
+                        color: primaryColor
+                    },
+                },
+                x: {
+                    ticks: {
+                        color: primaryColor
+                    },
+                }
+            },
+            plugins: {
+                legend: {
+                    display: false
+                }
+            }
+        }
+    });
+}
+
+
 async function create_histogram_featuring(report) {
     const rawFeats = report.distribution_featuring_count;
 

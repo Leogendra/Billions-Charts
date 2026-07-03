@@ -5,7 +5,7 @@ from datetime import datetime
 import json
 
 MAX_TOP_SONGS = 10  # TODO: Dynamic backend limit for top songs
-REPORT_VERSION = "1.3.0"
+REPORT_VERSION = "1.4.0"
 
 
 
@@ -209,6 +209,7 @@ def aggregate_by_key(tracks, agregateKey, artists_dict):
 def aggregate_periods(tracks):
     year_release_count = defaultdict(int)
     month_release_count = defaultdict(int)
+    weekday_release_count = defaultdict(int)
     year_billion_count = defaultdict(int)
     month_billion_count = defaultdict(int)
     stream_count = defaultdict(int)
@@ -230,6 +231,10 @@ def aggregate_periods(tracks):
                 year_release_count[year] += 1
                 month_release_count[month] += 1
 
+            if precision == "day":
+                weekday = datetime.strptime(release_date, "%Y-%m-%d").weekday()
+                weekday_release_count[str(weekday)] += 1
+
         billion_date = added_at.split("T")[0]  # format : "2022-07-27T16:32:16.167Z"
         if (billion_date != "2021-07-21"):  # Billions Club creation date
             billion_year, billion_month, *_ = billion_date.split("-")
@@ -243,6 +248,7 @@ def aggregate_periods(tracks):
     return (
         dict(year_release_count),
         dict(month_release_count),
+        dict(weekday_release_count),
         dict(year_billion_count),
         dict(month_billion_count),
         dict(stream_count),
@@ -391,7 +397,7 @@ def get_key_features_data(tracks, report):
     }
 
 
-def generate_report(dataPath, outputReportPath, dateKey=None):
+def generate_report(outputReportPath, dateKey):
 
     print(f"Generating report version {REPORT_VERSION}...")
 
@@ -438,6 +444,7 @@ def generate_report(dataPath, outputReportPath, dateKey=None):
     (
         year_release_count,
         month_release_count,
+        weekday_release_count,
         year_billion_count,
         month_billion_count,
         stream_count,
@@ -478,6 +485,7 @@ def generate_report(dataPath, outputReportPath, dateKey=None):
         "streams_per_day": streams_per_day,
         "distribution_year_release_count": year_release_count,
         "distribution_month_release_count": month_release_count,
+        "distribution_weekday_release_count": weekday_release_count,
         "distribution_year_billion_count": year_billion_count,
         "distribution_month_billion_count": month_billion_count,
         "distribution_streams_count": stream_count,
@@ -496,7 +504,7 @@ def generate_report(dataPath, outputReportPath, dateKey=None):
     return REPORT_VERSION
 
 
-def generate_leaderboard(dataPath, dateKey=None):
+def generate_leaderboard(dateKey):
     create_folder("data/analysis/")
 
     tracks_data = retrieve_playlist_infos_from_mongo(dateKey)
