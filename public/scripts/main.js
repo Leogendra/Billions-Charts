@@ -15,6 +15,9 @@ const whats_new_section = document.getElementById("whats-new-section");
 const whats_new_toggle = document.getElementById("whats-new-toggle");
 
 
+const IS_MOBILE = window.innerWidth <= 800;
+
+
 
 
 async function get_report(reportPath) {
