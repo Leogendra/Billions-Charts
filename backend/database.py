@@ -48,7 +48,6 @@ def insert_or_update_playlist_header(playlist_data):
         "generatedTimeStamp": playlist_data["generatedTimeStamp"],
         "coverUrl": playlist_data["coverUrl"],
         "coverHex": playlist_data["coverHex"],
-        # Include only the track ids and playcounts
         "items": [
             {
                 "id": track["id"],
@@ -56,6 +55,14 @@ def insert_or_update_playlist_header(playlist_data):
                 "popularity": track["popularity"],
             }
             for track in playlist_data["items"]
+        ],
+        "artists": [
+            {
+                "id": artist["id"],
+                "followers": artist.get("followers", -1),
+                "popularity": artist.get("popularity", -1),
+            }
+            for artist in playlist_data["artists"].values()
         ],
     }
 
