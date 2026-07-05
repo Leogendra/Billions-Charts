@@ -1,7 +1,6 @@
 from typing import Dict, List, Optional, Tuple
 import requests
 import time
-import json # debug
 
 MB_BASE = "https://musicbrainz.org/ws/2"
 MB_HEADERS = {

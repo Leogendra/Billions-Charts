@@ -8,7 +8,6 @@ from dotenv import load_dotenv
 import datetime
 import requests
 import time
-import json
 import os
 
 load_dotenv()
@@ -162,11 +161,6 @@ def fetch_playlist_infos(dateKey, overwrite=False):
 
     playlist_infos = fetch_raw_playlist()
     # playlist_infos["items"] = playlist_infos["items"][:10] # DEBUG: Limit to first 10 items for testing purposes
-
-    # with open(f"data/tracks/tracks_{dateKey}.json", "w", encoding="utf-8") as f:
-    #     json.dump(playlist_infos, f, indent=4)
-
-    # raise Exception("Test exception") # DEBUG: Test exception handling
 
     access_token = get_access_token()
     headers = {"Authorization": f"Bearer {access_token}"}

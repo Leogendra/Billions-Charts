@@ -115,7 +115,6 @@ def aggregate_dates(tracks, artists_dict):
 
         release_date = track["release_date"]
         precision = track["release_date_precision"]
-        release_date = normalize_date_for_comparison(release_date, precision)
 
         normalized_tracks.append(
             {
@@ -131,10 +130,11 @@ def aggregate_dates(tracks, artists_dict):
                 ],
                 "image": track["image"],
                 "release_date": release_date,
+                "release_date_precision": precision,
             }
         )
 
-    sorted_tracks = sorted(normalized_tracks, key=lambda x: x["release_date"])
+    sorted_tracks = sorted(normalized_tracks, key=lambda x: normalize_date_for_comparison(x["release_date"], x["release_date_precision"]))
     oldest_tracks = sorted_tracks[:MAX_TOP_SONGS]
     newest_tracks = sorted_tracks[-MAX_TOP_SONGS:][::-1]
 

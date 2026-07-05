@@ -1,7 +1,6 @@
 from pymongo import MongoClient, UpdateOne
 from dotenv import load_dotenv
 import os
-import json # DEBUG
 
 load_dotenv()
 MONGO_URI = os.getenv("MONGO_URI")
