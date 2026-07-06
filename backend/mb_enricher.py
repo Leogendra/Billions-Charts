@@ -1,4 +1,5 @@
 from typing import Dict, List, Optional, Tuple
+from backend.utils import correct_uncertain_date
 import requests
 import time
 
@@ -229,6 +230,7 @@ def enrich_tracks_with_musicbrainz(
     tracks_collection=None,
 ) -> List[Dict]:
     track_ids = [track["id"] for track in playlist_items]
+    id_to_index = {track["id"]: i for i, track in enumerate(playlist_items)}
     needs_enrichment = get_tracks_needing_mb_enrichment(track_ids, tracks_collection)
     to_enrich = [
         track for track in playlist_items
@@ -236,26 +238,65 @@ def enrich_tracks_with_musicbrainz(
     ]
 
     if not(to_enrich):
-        return playlist_items
+        print("No tracks needing MB enrichment.")
 
-    print("\n=== Starting track enrichment via MusicBrainz ===")
-    skipped = len(track_ids) - len(needs_enrichment)
-    print(f"{len(to_enrich)} track needing lookups ({skipped} already enriched, {len(needs_enrichment) - len(to_enrich)} missing ISRC).")
+    else:
+        print("\n=== Starting track enrichment via MusicBrainz ===")
+        skipped = len(track_ids) - len(needs_enrichment)
+        print(f"{len(to_enrich)} track needing lookups ({skipped} already enriched, {len(needs_enrichment) - len(to_enrich)} missing ISRC).")
 
-    id_to_index = {t["id"]: i for i, t in enumerate(playlist_items)}
-    enriched_count = 0
-    startTime = time.time()
+        enriched_count = 0
+        startTime = time.time()
 
-    # lookups for tracks with ISRCs
-    for count, track in enumerate(to_enrich, 1):
-        ETA = (time.time() - startTime) / (count + 1) * (len(to_enrich) - count - 1)
-        print(f"  MB track lookup {count}/{len(to_enrich)} (ETA: {ETA:.1f}s)...   ", end="\r")
-        mb_data = fetch_track_mb_data(track["isrc"], existing_mb_id=track.get("mb_id"))
-        if mb_data.get("mb_id"):
-            playlist_items[id_to_index[track["id"]]].update(mb_data)
-            enriched_count += 1
+        # lookups for tracks with ISRCs
+        for count, track in enumerate(to_enrich, 1):
+            ETA = (time.time() - startTime) / (count - 1) * (len(to_enrich) - count) if (count > 1) else 0
+            print(f"  MB track lookup {count}/{len(to_enrich)} (ETA: {ETA:.1f}s)...   ", end="\r")
+            mb_data = fetch_track_mb_data(track["isrc"], existing_mb_id=track.get("mb_id"))
+            if mb_data.get("mb_id"):
+                playlist_items[id_to_index[track["id"]]].update(mb_data)
+                enriched_count += 1
 
-    print(f"\nMB track enrichment done: {enriched_count}/{len(to_enrich)} matched")
+        print(f"\nMB track enrichment done: {enriched_count}/{len(to_enrich)} matched")
+
+    # Fetch mb_release_date from DB for tracks already MB-enriched in a prior run but still uncertain.
+    uncertain_ids_to_fetch = [
+        track["id"] for track in playlist_items
+        if (track["id"] not in needs_enrichment)
+        and track.get("release_date_uncertain")
+        and not(track.get("mb_release_date"))
+    ]
+
+    if (uncertain_ids_to_fetch and (tracks_collection is not None)):
+        try:
+            docs = tracks_collection.find(
+                {"id": {"$in": uncertain_ids_to_fetch}},
+                {"id": 1, "mb_release_date": 1, "_id": 0},
+            )
+            for doc in docs:
+                idx = id_to_index.get(doc["id"])
+                if ((idx is not None) and doc.get("mb_release_date")):
+                    playlist_items[idx]["mb_release_date"] = doc["mb_release_date"]
+        except Exception as e:
+            raise RuntimeError(f"Error backfilling mb_release_date for uncertain tracks: {e}")
+
+    # Apply MB release date corrections to uncertain tracks, fallback to downgrade to year precision
+    changed = 0
+    for i in range(len(playlist_items)):
+        if not playlist_items[i].get("release_date_uncertain"):
+            continue
+        track = playlist_items[i]
+        new_date, new_precision = correct_uncertain_date(track.get("release_date"), track.get("release_date_precision"), track.get("mb_release_date"))
+        playlist_items[i]["release_date"] = new_date
+        playlist_items[i]["release_date_precision"] = new_precision
+        playlist_items[i]["corrected_release_date"] = True
+        changed += 1
+
+    if (changed > 0):
+        print(f"Uncertain date correction: {changed} tracks corrected.")
+    else:
+        print("No uncertain date correction made.")
+
     return playlist_items
 
 
@@ -268,6 +309,7 @@ def enrich_artists_with_musicbrainz(
     # need_full, status_checks = get_artists_needing_mb_enrichment(artist_ids, None) # debug for querying all artists
 
     if not need_full:
+        print("No artists needing MB enrichment.")
         return artists_dict
 
     print("\n=== Starting artist enrichment via MusicBrainz ===")
@@ -278,9 +320,9 @@ def enrich_artists_with_musicbrainz(
     startTime = time.time()
 
     # full lookup in musicbrainz
-    for count, artistId in enumerate(need_full):
-        ETA = (time.time() - startTime) / (count + 1) * (len(need_full) - count - 1)
-        print(f"  MB artist full lookup {count+1}/{len(need_full)} (ETA: {ETA:.1f}s)...   ", end="\r")
+    for count, artistId in enumerate(need_full, 1):
+        ETA = (time.time() - startTime) / (count - 1) * (len(need_full) - count) if (count > 1) else 0
+        print(f"  MB artist full lookup {count}/{len(need_full)} (ETA: {ETA:.1f}s)...   ", end="\r")
         artist_name = artists_dict[artistId].get("name")
         mb_data = fetch_artist_mb_data(artistId, artist_name=artist_name)
         if mb_data:
@@ -289,8 +331,8 @@ def enrich_artists_with_musicbrainz(
     # status lookup for currently active
     if False: # TODO: off for now since many artists are still active. Search for heuristics to avoid redundant lookups.
         for count, (artistId, mb_id) in enumerate(status_checks.items()):
-            ETA = (time.time() - startTime) / (count + 1) * (len(status_checks) - count - 1)
-            print(f"  MB artist status check {count+1}/{len(status_checks)} (ETA: {ETA:.1f}s)...   ", end="\r")
+            ETA = (time.time() - startTime) / (count - 1) * (len(status_checks) - count) if (count > 1) else 0
+            print(f"  MB artist status check {count}/{len(status_checks)} (ETA: {ETA:.1f}s)...   ", end="\r")
             status = fetch_artist_mb_status(mb_id)
             if status.get("mb_is_ended"):
                 mb_results[artistId] = status
