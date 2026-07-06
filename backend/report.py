@@ -410,15 +410,12 @@ def generate_report(outputReportPath, dateKey):
 
     artists_dict = playlist["artists"]
     tracks = [track for track in playlist["items"] if (track["playcount"] >= 1_000_000_000)]
-    print(f"Loaded {len(tracks)} tracks.")
 
-    print("Aggregating general stats...")
     total_tracks, total_artists, total_streams, total_time, total_explicits = (
         aggregate_general(tracks)
     )
-    print(f"  {total_tracks} tracks, {total_artists} artists, {total_streams:,} streams.")
+    print(f"   Loaded {total_tracks} tracks, {total_artists} artists, {total_streams:,} streams.")
 
-    print("Aggregating artists...")
     (
         artists_counts,
         artists_playcounts,
@@ -427,20 +424,14 @@ def generate_report(outputReportPath, dateKey):
         count_distribution,
     ) = aggregate_artists(tracks, artists_dict)
 
-    print("Aggregating dates...")
     oldest_tracks, newest_tracks = aggregate_dates(tracks, artists_dict)
 
-    print("Aggregating billions...")
     newest_billions, fastest_billions = aggregate_billions(tracks, artists_dict)
 
-    print("Aggregating by playcount...")
     most_streamed_tracks, least_streamed_tracks = aggregate_by_key(tracks, "playcount", artists_dict)
-    print("Aggregating by popularity...")
     most_popular_tracks, least_popular_tracks = aggregate_by_key(tracks, "popularity", artists_dict)
-    print("Aggregating by duration...")
     most_long_tracks, most_short_tracks = aggregate_by_key(tracks, "duration_ms", artists_dict)
 
-    print("Aggregating periods...")
     (
         year_release_count,
         month_release_count,
@@ -452,10 +443,8 @@ def generate_report(outputReportPath, dateKey):
         featuring_count,
     ) = aggregate_periods(tracks)
 
-    print("Computing streams per day...")
     streams_per_day = get_streams_per_day(tracks, artists_dict)
 
-    print("Building final report...")
     final_report = {
         "name": playlist["name"],
         "description": playlist["description"],
@@ -493,10 +482,8 @@ def generate_report(outputReportPath, dateKey):
         "distribution_featuring_count": featuring_count,
         "distribution_track_count": count_distribution,
     }
-    print("Computing template data...")
     final_report["template_data"] = get_key_features_data(tracks, final_report)
 
-    print("Writing report to disk...")
     with open(outputReportPath, "w", encoding="utf-8") as f:
         json.dump(final_report, f, ensure_ascii=False)
 

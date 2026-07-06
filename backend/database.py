@@ -73,7 +73,7 @@ def insert_or_update_playlist_header(playlist_data):
             {"$set": header_data},
             upsert=True,
         )
-        print("Playlist header added to the database")
+        print("   Playlist header added to the database")
 
 
 def insert_or_update_tracks(playlist_data):
@@ -126,7 +126,7 @@ def insert_or_update_tracks(playlist_data):
         print(f"[Dry run] not writing {len(operations)} tracks to the database")
     elif operations:
         tracks_collection.bulk_write(operations)
-        print("Tracks added to the database")
+        print("   Tracks added to the database")
 
 
 def insert_or_update_artists(playlist_data):
@@ -156,7 +156,7 @@ def insert_or_update_artists(playlist_data):
         print(f"[Dry run] not writing {len(operations)} artists to the database")
     elif operations:
         artists_collection.bulk_write(operations)
-        print("Artists added to the database")
+        print("   Artists added to the database")
 
 
 def add_to_database(playlist_data):
