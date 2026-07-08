@@ -256,6 +256,7 @@ async function main() {
         create_histogram_track_count(report),
         create_histogram_time_count(report),
         create_histogram_featuring(report),
+        create_histogram_genres(report),
     ]);
     
     await Promise.all([

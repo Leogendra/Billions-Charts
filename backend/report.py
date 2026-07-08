@@ -301,6 +301,27 @@ def get_streams_per_day(tracks, artists_dict):
     return most_streams_per_day
 
 
+def get_genres_distribution(tracks, artists_dict, useMbGenres=False):
+    genres_count = defaultdict(int)
+
+    for track in tracks:
+        for aid in track["artists"]:
+            artist = artists_dict.get(aid, {})
+            if useMbGenres:
+                genres = artist.get("mb_genres", [])
+                for genre in genres:
+                    genreName = genre.get("name")
+                    count = genre.get("count", 0)
+                    if count > 3:  # Only count genres with more than 3 community votes
+                        genres_count[genreName] += 1
+            else:
+                genres = artist.get("genres", [])
+                for genre in genres:
+                    genres_count[genre] += 1
+
+    return dict(genres_count)
+
+
 def get_key_features_data(tracks, report):
     total_tracks = report["total_tracks"]
 
@@ -432,6 +453,9 @@ def generate_report(outputReportPath, dateKey):
     most_popular_tracks, least_popular_tracks = aggregate_by_key(tracks, "popularity", artists_dict)
     most_long_tracks, most_short_tracks = aggregate_by_key(tracks, "duration_ms", artists_dict)
 
+    # distribution_genres_count = get_genres_distribution(tracks, artists_dict, useMbGenres=False) # Spotify genres (deprecated)
+    distribution_mb_genres_count = get_genres_distribution(tracks, artists_dict, useMbGenres=True)
+
     (
         year_release_count,
         month_release_count,
@@ -481,6 +505,7 @@ def generate_report(outputReportPath, dateKey):
         "distribution_time_count": time_count,
         "distribution_featuring_count": featuring_count,
         "distribution_track_count": count_distribution,
+        "distribution_genres_count": distribution_mb_genres_count,
     }
     final_report["template_data"] = get_key_features_data(tracks, final_report)
 

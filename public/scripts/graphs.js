@@ -658,3 +658,75 @@ async function create_histogram_featuring(report) {
         }
     });
 }
+
+
+async function create_histogram_genres(report, max=20) {
+    const rawGenres = report.distribution_genres_count;
+
+    const genre_count = Object.keys(rawGenres).map(String);
+    const values = genre_count.map(genre => rawGenres[genre] || 0);
+
+    // order genres by count descending
+    const sorted_data = genre_count
+        .map((genre, index) => ({ genre, value: values[index] }))
+        .sort((a, b) => b.value - a.value);
+
+    const genre_count_sorted = sorted_data.map(d => d.genre);
+    const values_sorted = sorted_data.map(d => d.value);
+
+    // trim to max
+    const genre_count_filtered = genre_count_sorted.slice(0, max);
+    const values_filtered = values_sorted.slice(0, max);
+
+    const ctx = document.querySelector("#histo-plot-genres-distribution").getContext("2d");
+    new Chart(ctx, {
+        type: "bar",
+        data: {
+            labels: genre_count_filtered,
+            datasets: [{
+                label: "Number of tracks",
+                data: values_filtered,
+                backgroundColor: accentColor,
+                borderColor: accentColor,
+                borderWidth: 0
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    title: {
+                        display: true,
+                        text: "Number of tracks",
+                        color: primaryColor
+                    },
+                    ticks: {
+                        color: primaryColor,
+                    },
+                },
+                x: {
+                    title: {
+                        display: true,
+                        text: "Genres",
+                        color: primaryColor
+                    },
+                    ticks: {
+                        color: primaryColor
+                    },
+                }
+            },
+            plugins: {
+                legend: {
+                    display: false
+                },
+                tooltip: {
+                    callbacks: {
+                        title: function(context) {
+                            return context[0].label;
+                        }
+                    }
+                }
+            }
+        }
+    });
+}
