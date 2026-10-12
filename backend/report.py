@@ -362,7 +362,7 @@ def get_key_features_data(tracks, report):
         "most_popular_song_link": f"https://open.spotify.com/track/{most_popular_song["id"]}",
         "most_popular_artist": most_popular_artist,
         "most_popular_artist_link": f"https://open.spotify.com/artist/{most_popular_song["artists"][0]["id"]}",
-        "most_popular_streams": f"{most_popular_song["playcount"] // 1_000_000_000:.2f}B",
+        "most_popular_streams": f"{most_popular_song["playcount"] / 1_000_000_000:.2f}B",
         "fastest_song": fastest_billion["name"],
         "fastest_song_link": f"https://open.spotify.com/track/{fastest_billion["id"]}",
         "fastest_artist": fastest_billion["artists"][0]["name"],
