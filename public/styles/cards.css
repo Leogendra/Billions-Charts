@@ -198,6 +198,11 @@
     pointer-events: auto;
 }
 
+#image-zoom-overlay .image-zoom-tilt {
+    display: inline-flex;
+    border-radius: 12px;
+}
+
 #image-zoom-overlay img {
     max-width: 90vw;
     max-height: 90vh;

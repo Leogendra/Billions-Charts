@@ -145,14 +145,29 @@ function open_popup_card_image_zoom(src) {
     if (!overlay) {
         overlay = document.createElement("div");
         overlay.id = "image-zoom-overlay";
+        // The tilt is applied on a wrapper so it does not override the img zoom-in transform
+        const tiltWrapper = document.createElement("div");
+        tiltWrapper.classList.add("image-zoom-tilt");
         const img = document.createElement("img");
-        overlay.appendChild(img);
+        tiltWrapper.appendChild(img);
+        overlay.appendChild(tiltWrapper);
         document.body.appendChild(overlay);
         overlay.addEventListener("click", close_popup_card_image_zoom);
+
+        VanillaTilt.init(tiltWrapper);
+        img.addEventListener("load", reset_image_zoom_tilt);
     }
 
     overlay.querySelector("img").src = src;
     overlay.classList.add("visible");
+    // A cached image with an unchanged src does not fire "load" again
+    reset_image_zoom_tilt();
+}
+
+
+function reset_image_zoom_tilt() {
+    // Re-measures the wrapper, since its size depends on the displayed image
+    document.querySelector("#image-zoom-overlay .image-zoom-tilt")?.vanillaTilt.reset();
 }
 
 
