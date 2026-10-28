@@ -31,9 +31,40 @@ playlists_collection.create_index("date", unique=True)
 tracks_collection.create_index("id", unique=True)
 artists_collection.create_index("id", unique=True)
 
-MB_TRACK_FIELDS = ["mb_id", "mb_language", "mb_script", "mb_release_date"]
+MB_TRACK_FIELDS = ["mb_id", "mb_language", "mb_script", "mb_release_date", "mb_unmatched"]
 MB_ARTIST_FIELDS = ["mb_id", "mb_type", "mb_gender", "mb_country", "mb_area", "mb_begin_date", "mb_end_date", "mb_is_ended", "mb_sort_name", "mb_disambiguation", "mb_genres"] + ["mb_name_matched", "mb_unmatched"]
 
+
+
+def extract_mb_fields(entity: dict, mb_fields: list) -> dict:
+    return {k: entity[k] for k in mb_fields if (k in entity)}
+
+
+def write_mb_checkpoint(collection, operations: list, label: str):
+    if (DRY_RUN):
+        print(f"\n[Dry run] not writing MB checkpoint for {len(operations)} {label}")
+    elif operations:
+        collection.bulk_write(operations, ordered=False)
+
+
+def save_tracks_mb_checkpoint(tracks: list):
+    """Persists only the MB fields of tracks already in the database. No upsert on purpose: a track created here would skip its $setOnInsert fields (name, image, dates...) at the final save, so new tracks wait in memory for that final save."""
+    operations = []
+    for track in tracks:
+        mb_data = extract_mb_fields(track, MB_TRACK_FIELDS)
+        if mb_data:
+            operations.append(UpdateOne({"id": track["id"]}, {"$set": mb_data}))
+    write_mb_checkpoint(tracks_collection, operations, "tracks")
+
+
+def save_artists_mb_checkpoint(artists: list):
+    """Persists only the MB fields of artists. Upsert is safe here: every non-MB artist field is $set (not $setOnInsert) by the final save."""
+    operations = []
+    for artist in artists:
+        mb_data = extract_mb_fields(artist, MB_ARTIST_FIELDS)
+        if mb_data:
+            operations.append(UpdateOne({"id": artist["id"]}, {"$set": mb_data}, upsert=True))
+    write_mb_checkpoint(artists_collection, operations, "artists")
 
 
 def insert_or_update_playlist_header(playlist_data):
@@ -112,7 +143,7 @@ def insert_or_update_tracks(playlist_data):
                 "release_date_precision": track["release_date_precision"],
             }
 
-        mb_data = {k: track[k] for k in MB_TRACK_FIELDS if (k in track)}
+        mb_data = extract_mb_fields(track, MB_TRACK_FIELDS)
         set_fields.update(mb_data)
 
         update = {
@@ -143,7 +174,7 @@ def insert_or_update_artists(playlist_data):
             "image_size": img.get("width") if img else None,
         }
 
-        mb_data = {k: artist[k] for k in MB_ARTIST_FIELDS if k in artist}
+        mb_data = extract_mb_fields(artist, MB_ARTIST_FIELDS)
         set_fields.update(mb_data)
         update = {
             "$set": set_fields,

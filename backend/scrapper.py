@@ -1,5 +1,7 @@
+from backend.mb_enricher import enrich_tracks_batch, enrich_artists_batch, correct_uncertain_release_dates
+from backend.mb_enricher import EnrichmentProgress, select_tracks_to_enrich, select_artists_to_enrich
 from backend.track_enricher import enrich_tracks_with_correct_release_dates, fetch_artists_batch
-from backend.mb_enricher import enrich_tracks_with_musicbrainz, enrich_artists_with_musicbrainz
+from backend.database import save_tracks_mb_checkpoint, save_artists_mb_checkpoint
 from backend.database import add_to_database, check_playlist_header_from_mongo
 from backend.database import tracks_collection, artists_collection
 from backend.utils import create_folder
@@ -14,6 +16,7 @@ load_dotenv()
 PLAYLIST_ID = os.getenv("PLAYLIST_ID")
 CLIENT_ID = os.getenv("CLIENT_ID")
 CLIENT_SECRET = os.getenv("CLIENT_SECRET")
+MB_CHECKPOINT_SIZE = 50
 
 
 
@@ -140,10 +143,31 @@ def enrich_with_artist_infos(playlist_infos, headers):
     return playlist_infos
 
 
+def run_mb_lookups_with_checkpoints(items, label, enrich_batch, save_checkpoint):
+    """Saves MB results every MB_CHECKPOINT_SIZE lookups, so a crash during a multi-hour run loses at most one batch. The next run skips what was saved."""
+    if not(items):
+        print(f"No {label}s needing MB enrichment.")
+        return
+
+    print(f"\n=== Starting {label} enrichment via MusicBrainz ===")
+    progress = EnrichmentProgress(label, len(items))
+    for start in range(0, len(items), MB_CHECKPOINT_SIZE):
+        batch = items[start : start + MB_CHECKPOINT_SIZE]
+        enrich_batch(batch, progress)
+        save_checkpoint(batch)
+        progress.print_checkpoint()
+
+    progress.print_summary()
+
+
 def enrich_with_musicbrainz(playlist_infos, tracks_col, artists_col):
     """Enriches tracks and artists with MusicBrainz fixed metadata (fetched once per entity)."""
-    playlist_infos["items"] = enrich_tracks_with_musicbrainz(playlist_infos["items"], tracks_col)
-    playlist_infos["artists"] = enrich_artists_with_musicbrainz(playlist_infos["artists"], artists_col)
+    tracks_to_enrich = select_tracks_to_enrich(playlist_infos["items"], tracks_col)
+    run_mb_lookups_with_checkpoints(tracks_to_enrich, "track", enrich_tracks_batch, save_tracks_mb_checkpoint)
+    playlist_infos["items"] = correct_uncertain_release_dates(playlist_infos["items"], tracks_col)
+
+    artists_to_enrich = select_artists_to_enrich(playlist_infos["artists"], artists_col)
+    run_mb_lookups_with_checkpoints(artists_to_enrich, "artist", enrich_artists_batch, save_artists_mb_checkpoint)
 
     return playlist_infos
 

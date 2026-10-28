@@ -1,4 +1,5 @@
-from typing import Dict, List, Optional, Tuple
+from dataclasses import dataclass, field
+from typing import Callable, Dict, List, Optional, Tuple
 from backend.utils import correct_uncertain_date
 import requests
 import time
@@ -13,7 +14,46 @@ RATE_LIMIT_DELAY = 1.0
 
 
 
+class MusicBrainzError(Exception):
+    """Technical failure like network or repeated 503."""
+
+
+@dataclass
+class EnrichmentProgress:
+    """Tracks a lookup run across all checkpoint batches, so the counter and ETA cover the whole run and not a single batch."""
+    label: str
+    total: int
+    done: int = 0
+    matched: int = 0
+    unmatched: int = 0
+    failed: int = 0
+    start_time: float = field(default_factory=time.time)
+
+    def print_progress(self) -> None:
+        eta = (time.time() - self.start_time) / self.done * (self.total - self.done) if (self.done > 0) else 0
+        print(f"  MB {self.label} lookup {self.done + 1}/{self.total} (ETA: {eta:.1f}s)...   ", end="\r")
+
+    def record_result(self, mb_data: dict) -> None:
+        self.done += 1
+        if mb_data.get("mb_id"):
+            self.matched += 1
+        else:
+            self.unmatched += 1
+
+    def record_failure(self, item_id: str, error: MusicBrainzError) -> None:
+        self.done += 1
+        self.failed += 1
+        print(f"\n  [ERROR] MB {self.label} {item_id}: {error}")
+
+    def print_checkpoint(self) -> None:
+        print(f"\n  Checkpoint saved: {self.done}/{self.total} {self.label}s processed")
+
+    def print_summary(self) -> None:
+        print(f"MB {self.label} enrichment done: {self.matched} matched, {self.unmatched} unmatched, {self.failed} failed (retried on next run)")
+
+
 def mb_api_get(path: str, params: dict = {}, max_retries: int = 3) -> Optional[dict]:
+    """Returns the JSON response, or None when MusicBrainz answers 404 (the resource does not exist). Raises MusicBrainzError on any technical failure."""
     url = f"{MB_BASE}/{path}"
     params = {**params, "fmt": "json"}
     start = time.time()
@@ -21,28 +61,30 @@ def mb_api_get(path: str, params: dict = {}, max_retries: int = 3) -> Optional[d
     for attempt in range(max_retries):
         try:
             response = requests.get(url, headers=MB_HEADERS, params=params, timeout=10)
-        except Exception as e:
-            print(f"  [ERROR] MB {path}: {e}")
+        except requests.RequestException as e:
             time.sleep(RATE_LIMIT_DELAY)
-            return None
+            raise MusicBrainzError(f"{path}: {e}")
 
         if (response.status_code == 503):
             backoff = RATE_LIMIT_DELAY * (2 ** (attempt + 1))
-            print(f"  [503] MB rate limited: retry {attempt+1}/{max_retries} in {backoff:.0f}s...")
+            print(f"\n  [503] MB rate limited: retry {attempt+1}/{max_retries} in {backoff:.0f}s...")
             time.sleep(backoff)
             continue
 
         elapsed = time.time() - start
         time.sleep(max(0, RATE_LIMIT_DELAY - elapsed))
 
-        if not(response.ok):
-            print(f"  [HTTP {response.status_code}] MB {path}")
+        if (response.status_code == 404):
             return None
+        if not(response.ok):
+            raise MusicBrainzError(f"{path}: HTTP {response.status_code}")
 
-        return response.json()
+        try:
+            return response.json()
+        except ValueError as e:
+            raise MusicBrainzError(f"{path}: invalid JSON ({e})")
 
-    print(f"  [FAIL] MB {path}: too many 503s after {max_retries} attempts")
-    return None
+    raise MusicBrainzError(f"{path}: too many 503s after {max_retries} attempts")
 
 
 def get_language_from_releases(releases: list) -> Tuple[Optional[str], Optional[str]]:
@@ -64,12 +106,12 @@ def fetch_track_mb_data(isrc: str, existing_mb_id: str = None) -> dict:
     else:
         data = mb_api_get(f"isrc/{isrc}", {"inc": "artist-credits"})
         if(not(data) or not(data.get("recordings"))):
-            return {}
+            return {"mb_unmatched": True}
 
         recording = data["recordings"][0]
         mbid = recording.get("id")
         if not(mbid):
-            return {}
+            return {"mb_unmatched": True}
 
     rec_detail = mb_api_get(f"recording/{mbid}", {"inc": "releases"})
     releases = rec_detail.get("releases", []) if rec_detail else []
@@ -84,6 +126,7 @@ def fetch_track_mb_data(isrc: str, existing_mb_id: str = None) -> dict:
         "mb_language": language,
         "mb_script": script,
         "mb_release_date": min(dates) if dates else None,
+        "mb_unmatched": False,
     }
 
 
@@ -112,31 +155,37 @@ def build_artist_result(mbid: str, artist_details: dict, nameMatched: bool = Fal
     }
 
 
-def fetch_artist_mb_data(spotify_artist_id: str, artist_name: str = None) -> dict:
-    # URL Spotify lookup
+def lookup_artist_by_spotify_url(spotify_artist_id: str) -> Optional[dict]:
     data = mb_api_get("url/", {
         "query": f"url:https://open.spotify.com/artist/{spotify_artist_id}",
         "targettype": "artist",
     })
-    if (data and data.get("urls")):
-        try:
-            mbid = data["urls"][0]["relation-list"][0]["relations"][0]["artist"]["id"]
-            detail = mb_api_get(f"artist/{mbid}", {"inc": "aliases+tags+genres+url-rels"})
-            if detail:
-                return build_artist_result(mbid, detail)
-        except (KeyError, IndexError):
-            pass
+    if not(data and data.get("urls")):
+        return None
 
-    # fallback with name search
+    try:
+        mbid = data["urls"][0]["relation-list"][0]["relations"][0]["artist"]["id"]
+    except (KeyError, IndexError):
+        return None
+
+    detail = mb_api_get(f"artist/{mbid}", {"inc": "aliases+tags+genres+url-rels"})
+    if detail:
+        return build_artist_result(mbid, detail)
+    else:
+        return None
+
+
+def search_artist_by_name(spotify_artist_id: str, artist_name: Optional[str]) -> Tuple[dict, bool]:
+    """Returns the MB result and whether it is confirmed by a Spotify link on the MB artist page."""
     if not(artist_name):
-        return {"mb_unmatched": True}
+        return {"mb_unmatched": True}, False
 
     search_data = mb_api_get("artist/", {"query": f'artist:"{artist_name}"', "limit": 5})
     candidates = (search_data or {}).get("artists", [])
 
     # candidates are sorted by descending score
     if (not(candidates) or (candidates[0].get("score", 0) < 90)):
-        return {"mb_unmatched": True}
+        return {"mb_unmatched": True}, False
 
     top_candidate_detail = None
     for candidate in candidates[:3]:
@@ -150,7 +199,7 @@ def fetch_artist_mb_data(spotify_artist_id: str, artist_name: str = None) -> dic
         for rel in artist_detail.get("relations", []):
             resource = rel.get("url", {}).get("resource", "")
             if (("open.spotify.com/artist/" in resource) and (spotify_artist_id in resource)):
-                return build_artist_result(candidate["id"], artist_detail, nameMatched=True)
+                return build_artist_result(candidate["id"], artist_detail, nameMatched=True), True
 
     # no Spotify match found, take top candidate
     top = candidates[0]
@@ -158,9 +207,28 @@ def fetch_artist_mb_data(spotify_artist_id: str, artist_name: str = None) -> dic
             and ((len(candidates) == 1) or (candidates[1].get("score", 0) < 90))
             and (top_candidate_detail is not None)):
         topCandidateMbid, artist_detail = top_candidate_detail
-        return build_artist_result(topCandidateMbid, artist_detail, nameMatched=True)
+        return build_artist_result(topCandidateMbid, artist_detail, nameMatched=True), False
+    else:
+        return {"mb_unmatched": True}, False
 
-    return {"mb_unmatched": True}
+
+def fetch_artist_mb_data(spotify_artist_id: str, artist_name: str = None) -> dict:
+    url_lookup_error = None
+    try:
+        url_match = lookup_artist_by_spotify_url(spotify_artist_id)
+    except MusicBrainzError as e:
+        url_match, url_lookup_error = None, e
+
+    if url_match:
+        return url_match
+
+    # fallback with name search
+    name_result, spotify_confirmed = search_artist_by_name(spotify_artist_id, artist_name)
+    if ((url_lookup_error is not None) and not(spotify_confirmed)):
+        # The failed URL lookup could have found another artist: only a Spotify-confirmed match is trustworthy enough to keep.
+        raise url_lookup_error
+    else:
+        return name_result
 
 
 def fetch_artist_mb_status(mb_id: str) -> dict:
@@ -179,9 +247,14 @@ def fetch_artist_mb_status(mb_id: str) -> dict:
 
 
 def get_tracks_needing_mb_enrichment(track_ids: list, tracks_collection) -> set:
+    if (tracks_collection is None):
+        return set(track_ids)
     try:
         already = tracks_collection.find(
-            {"id": {"$in": track_ids}, "mb_id": {"$exists": True}},
+            {
+                "id": {"$in": track_ids},
+                "$or": [{"mb_id": {"$exists": True}}, {"mb_unmatched": True}],
+            },
             {"id": 1, "_id": 0},
         )
         return set(track_ids) - {doc["id"] for doc in already}
@@ -225,45 +298,71 @@ def get_artists_needing_mb_enrichment(
         return set(artist_ids), {}
 
 
-def enrich_tracks_with_musicbrainz(
+def select_tracks_to_enrich(
     playlist_items: List[Dict],
     tracks_collection=None,
 ) -> List[Dict]:
+    """Returns the track dicts themselves (not copies), so the lookups enrich the playlist in place."""
     track_ids = [track["id"] for track in playlist_items]
-    id_to_index = {track["id"]: i for i, track in enumerate(playlist_items)}
     needs_enrichment = get_tracks_needing_mb_enrichment(track_ids, tracks_collection)
     to_enrich = [
         track for track in playlist_items
         if (track["id"] in needs_enrichment) and track.get("isrc") and not track.get("mb_id")
     ]
 
-    if not(to_enrich):
-        print("No tracks needing MB enrichment.")
+    skipped = len(track_ids) - len(needs_enrichment)
+    print(f"{len(to_enrich)} tracks needing MB lookups ({skipped} already enriched, {len(needs_enrichment) - len(to_enrich)} missing ISRC).")
+    return to_enrich
 
-    else:
-        print("\n=== Starting track enrichment via MusicBrainz ===")
-        skipped = len(track_ids) - len(needs_enrichment)
-        print(f"{len(to_enrich)} track needing lookups ({skipped} already enriched, {len(needs_enrichment) - len(to_enrich)} missing ISRC).")
 
-        enriched_count = 0
-        startTime = time.time()
+def select_artists_to_enrich(
+    artists_dict: Dict[str, dict],
+    artists_collection=None,
+) -> List[Dict]:
+    """Returns the artist dicts themselves (not copies), so the lookups enrich the playlist in place."""
+    artist_ids = list(artists_dict.keys())
+    need_full, status_checks = get_artists_needing_mb_enrichment(artist_ids, artists_collection)
+    # need_full, status_checks = get_artists_needing_mb_enrichment(artist_ids, None) # debug for querying all artists
+    # TODO: status_checks (fetch_artist_mb_status) are off for now since many artists are still active. Search for heuristics to avoid redundant lookups.
 
-        # lookups for tracks with ISRCs
-        for count, track in enumerate(to_enrich, 1):
-            ETA = (time.time() - startTime) / (count - 1) * (len(to_enrich) - count) if (count > 1) else 0
-            print(f"  MB track lookup {count}/{len(to_enrich)} (ETA: {ETA:.1f}s)...   ", end="\r")
-            mb_data = fetch_track_mb_data(track["isrc"], existing_mb_id=track.get("mb_id"))
-            if mb_data.get("mb_id"):
-                playlist_items[id_to_index[track["id"]]].update(mb_data)
-                enriched_count += 1
+    print(f"{len(need_full)} artists needing MB full lookups.")
+    return [artists_dict[artistId] for artistId in need_full]
 
-        print(f"\nMB track enrichment done: {enriched_count}/{len(to_enrich)} matched")
 
-    # Fetch mb_release_date from DB for tracks already MB-enriched in a prior run but still uncertain.
+def enrich_batch(
+    items: List[Dict],
+    fetch_mb_data: Callable[[Dict], dict],
+    progress: EnrichmentProgress,
+) -> None:
+    """Merges the MB fields into each item in place. An item whose lookup failed is left untouched, so it stays 'to do' for the next run."""
+    for item in items:
+        progress.print_progress()
+        try:
+            mb_data = fetch_mb_data(item)
+        except MusicBrainzError as e:
+            progress.record_failure(item["id"], e)
+            continue
+        item.update(mb_data)
+        progress.record_result(mb_data)
+
+
+def enrich_tracks_batch(tracks: List[Dict], progress: EnrichmentProgress) -> None:
+    enrich_batch(tracks, lambda track: fetch_track_mb_data(track["isrc"]), progress)
+
+
+def enrich_artists_batch(artists: List[Dict], progress: EnrichmentProgress) -> None:
+    enrich_batch(artists, lambda artist: fetch_artist_mb_data(artist["id"], artist_name=artist.get("name")), progress)
+
+
+def backfill_mb_release_dates(
+    playlist_items: List[Dict],
+    tracks_collection=None,
+) -> None:
+    """Fetches mb_release_date from DB for uncertain tracks MB-enriched in a prior run (their in-memory dict has no MB fields)."""
+    id_to_index = {track["id"]: i for i, track in enumerate(playlist_items)}
     uncertain_ids_to_fetch = [
         track["id"] for track in playlist_items
-        if (track["id"] not in needs_enrichment)
-        and track.get("release_date_uncertain")
+        if track.get("release_date_uncertain")
         and not(track.get("mb_release_date"))
     ]
 
@@ -280,7 +379,14 @@ def enrich_tracks_with_musicbrainz(
         except Exception as e:
             raise RuntimeError(f"Error backfilling mb_release_date for uncertain tracks: {e}")
 
-    # Apply MB release date corrections to uncertain tracks, fallback to downgrade to year precision
+
+def correct_uncertain_release_dates(
+    playlist_items: List[Dict],
+    tracks_collection=None,
+) -> List[Dict]:
+    """Applies MB release date corrections to uncertain tracks, fallback to downgrade to year precision. Must run after all MB lookups."""
+    backfill_mb_release_dates(playlist_items, tracks_collection)
+
     changed = 0
     for i in range(len(playlist_items)):
         if not playlist_items[i].get("release_date_uncertain"):
@@ -298,68 +404,3 @@ def enrich_tracks_with_musicbrainz(
         print("No uncertain date correction made.")
 
     return playlist_items
-
-
-def enrich_artists_with_musicbrainz(
-    artists_dict: Dict[str, dict],
-    artists_collection=None,
-) -> Dict[str, dict]:
-    artist_ids = list(artists_dict.keys())
-    need_full, status_checks = get_artists_needing_mb_enrichment(artist_ids, artists_collection)
-    # need_full, status_checks = get_artists_needing_mb_enrichment(artist_ids, None) # debug for querying all artists
-
-    if not need_full:
-        print("No artists needing MB enrichment.")
-        return artists_dict
-
-    print("\n=== Starting artist enrichment via MusicBrainz ===")
-    # print(f"MB artist lookups needed: {len(need_full)} full, {len(status_checks)} status updates") # off for now
-    print(f"MB artist lookups needed: {len(need_full)} full.")
-
-    mb_results: Dict[str, dict] = {}
-    startTime = time.time()
-
-    # full lookup in musicbrainz
-    for count, artistId in enumerate(need_full, 1):
-        ETA = (time.time() - startTime) / (count - 1) * (len(need_full) - count) if (count > 1) else 0
-        print(f"  MB artist full lookup {count}/{len(need_full)} (ETA: {ETA:.1f}s)...   ", end="\r")
-        artist_name = artists_dict[artistId].get("name")
-        mb_data = fetch_artist_mb_data(artistId, artist_name=artist_name)
-        if mb_data:
-            mb_results[artistId] = mb_data
-
-    # status lookup for currently active
-    if False: # TODO: off for now since many artists are still active. Search for heuristics to avoid redundant lookups.
-        for count, (artistId, mb_id) in enumerate(status_checks.items()):
-            ETA = (time.time() - startTime) / (count - 1) * (len(status_checks) - count) if (count > 1) else 0
-            print(f"  MB artist status check {count}/{len(status_checks)} (ETA: {ETA:.1f}s)...   ", end="\r")
-            status = fetch_artist_mb_status(mb_id)
-            if status.get("mb_is_ended"):
-                mb_results[artistId] = status
-
-    # merge results
-    for artistId, mb_data in mb_results.items():
-        if artistId in artists_dict:
-            artists_dict[artistId].update(mb_data)
-
-    nbFullMatched = sum(1 for v in mb_results.values() if ((v.get("mb_id") and not v.get("mb_unmatched"))))
-    print(f"\nMB artist enrichment done: {nbFullMatched}/{len(need_full)} matched")
-    return artists_dict
-
-
-if __name__ == "__main__":
-    import json
-
-    """
-    test_isrc = "QM4TX1817912"  # Fake love - BTS
-    track_data = fetch_track_mb_data(test_isrc)
-    # print(f"Track data for ISRC {test_isrc}: {track_data}")
-    with open("test_track_mb_data.json", "w", encoding="utf-8") as f:
-        json.dump(track_data, f, indent=4, ensure_ascii=False)
-    """
-    
-    # artist_id = "4GJ6xDCF5jaUqD6avOuQT6" # fifty fifty
-    artist_id = "5YBSzuCs7WaFKNr7Bky0Uf" # Olivia (pas rodrigo)
-    artist_data = fetch_artist_mb_data(artist_id)
-    with open("test_artist_mb_data.json", "w", encoding="utf-8") as f:
-        json.dump(artist_data, f, indent=4, ensure_ascii=False)
