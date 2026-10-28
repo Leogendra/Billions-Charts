@@ -293,3 +293,48 @@ def retrieve_search_ids():
     artists = list(artists_collection.find({}, {"_id": 0, "id": 1, "name": 1}))
     
     return {"tracks": tracks, "artists": artists}
+
+
+
+
+# TESTS
+def clone_database_for_testing():
+    BATCH_SIZE = 1000
+    source_name = MONGO_DB_NAME
+    target_name = f"{MONGO_DB_NAME}_test"
+
+    print(f"Cloning database '{source_name}' into '{target_name}'.")
+    input("Press Enter to confirm...")
+
+    client = MongoClient(MONGO_URI, serverSelectionTimeoutMS=5000)
+    source = client[source_name]
+    target = client[target_name]
+
+    for name in source.list_collection_names():
+        if name.startswith("system."):
+            continue
+
+        # delete all documents in the collection
+        target[name].delete_many({})
+
+        batch = []
+        count = 0
+        for doc in source[name].find():
+            batch.append(doc)
+            if len(batch) >= BATCH_SIZE:
+                target[name].insert_many(batch)
+                count += len(batch)
+                batch = []
+        if batch:
+            target[name].insert_many(batch)
+            count += len(batch)
+
+        for index in source[name].list_indexes():
+            if index["name"] == "_id_":
+                continue
+            options = {k: v for k, v in index.items() if k in ("unique", "sparse", "expireAfterSeconds")}
+            target[name].create_index(list(index["key"].items()), name=index["name"], **options)
+
+        print(f"{name}: {count} docs copied")
+    
+    print(f"Clone complete. Use MONGO_DB_NAME={target_name} to run against the clone.")
