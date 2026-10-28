@@ -160,14 +160,21 @@ def run_mb_lookups_with_checkpoints(items, label, enrich_batch, save_checkpoint)
     progress.print_summary()
 
 
+def has_existing_tracks(tracks_col) -> bool:
+    return tracks_col.count_documents({}, limit=1) > 0
+
+
 def enrich_with_musicbrainz(playlist_infos, tracks_col, artists_col):
     """Enriches tracks and artists with MusicBrainz fixed metadata (fetched once per entity)."""
-    tracks_to_enrich = select_tracks_to_enrich(playlist_infos["items"], tracks_col)
-    run_mb_lookups_with_checkpoints(tracks_to_enrich, "track", enrich_tracks_batch, save_tracks_mb_checkpoint)
-    playlist_infos["items"] = correct_uncertain_release_dates(playlist_infos["items"], tracks_col)
+    if not(has_existing_tracks(tracks_col)):
+        print("No tracks in database yet: skipping MusicBrainz enrichment until the next run, so its checkpoints can be saved.")
+    else:
+        tracks_to_enrich = select_tracks_to_enrich(playlist_infos["items"], tracks_col)
+        run_mb_lookups_with_checkpoints(tracks_to_enrich, "track", enrich_tracks_batch, save_tracks_mb_checkpoint)
+        playlist_infos["items"] = correct_uncertain_release_dates(playlist_infos["items"], tracks_col)
 
-    artists_to_enrich = select_artists_to_enrich(playlist_infos["artists"], artists_col)
-    run_mb_lookups_with_checkpoints(artists_to_enrich, "artist", enrich_artists_batch, save_artists_mb_checkpoint)
+        artists_to_enrich = select_artists_to_enrich(playlist_infos["artists"], artists_col)
+        run_mb_lookups_with_checkpoints(artists_to_enrich, "artist", enrich_artists_batch, save_artists_mb_checkpoint)
 
     return playlist_infos
 
