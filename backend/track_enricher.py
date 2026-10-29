@@ -102,6 +102,14 @@ def enrich_tracks_with_correct_release_dates(
     print(f"Fetching API data for {len(track_ids)} tracks...")
     tracks_data = fetch_tracks_infos_batch(track_ids, headers)
 
+    # A track without API data would be persisted without date or popularity: abort, the next /search/ retries
+    missing_ids = [track_id for track_id in track_ids if (track_id not in tracks_data)]
+    if missing_ids:
+        raise RuntimeError(
+            f"Spotify returned no data for {len(missing_ids)}/{len(track_ids)} tracks "
+            f"(first ones: {', '.join(missing_ids[:10])}). Aborting pipeline."
+        )
+
     # Tracks already corrected skip the ISRC date search but still get popularity updated
     already_corrected = set()
     if not(overwrite):
@@ -110,12 +118,8 @@ def enrich_tracks_with_correct_release_dates(
     # apply batch API data to all tracks
     for i, track in enumerate(playlist_items):
         track_id = track["id"]
-        api_data = tracks_data.get(track_id, {})
+        api_data = tracks_data[track_id]
         isrc = api_data.get("isrc")
-
-        if not(api_data):
-            print(f"No API data found for track ID {track_id}. Skipping enrichment.")
-            continue
 
         playlist_items[i]["popularity"] = api_data.get("popularity")
         playlist_items[i]["release_date"] = api_data.get("release_date")
@@ -232,10 +236,6 @@ def fetch_tracks_infos_batch(
 
     if (error_count > 0):
         print(f"WARNING: {error_count}/{total_batches} track batches failed.")
-        if (error_count > (total_batches / 2)):
-            raise RuntimeError(
-                f"Majority of track batches failed ({error_count}/{total_batches}). Aborting pipeline."
-            )
 
     isrc_count = sum(1 for v in track_data.values() if v.get("isrc"))
     print(f"Retrieved tracks infos for {isrc_count}/{len(track_data)} tracks")
