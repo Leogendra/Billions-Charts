@@ -133,7 +133,7 @@ def enrich_tracks_with_correct_release_dates(
     to_lookup = [
         (i, playlist_items[i]["isrc"])
         for i in range(len(playlist_items))
-        if playlist_items[i]["corrected_release_date"] is False
+        if (playlist_items[i]["corrected_release_date"] is False) and playlist_items[i]["isrc"]
     ]
     
     isrc_search_count = len(to_lookup)
