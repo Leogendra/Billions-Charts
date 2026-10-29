@@ -1,9 +1,7 @@
-from backend.mb_enricher import run_mb_lookups_with_checkpoints, select_tracks_to_enrich, select_artists_to_enrich
-from backend.mb_enricher import enrich_tracks_batch, enrich_artists_batch, correct_uncertain_release_dates
 from backend.track_enricher import enrich_tracks_with_correct_release_dates, fetch_artists_batch
-from backend.database import save_tracks_mb_checkpoint, save_artists_mb_checkpoint
 from backend.database import add_to_database, check_playlist_header_from_mongo
-from backend.database import tracks_collection, artists_collection
+from backend.mb_enricher import correct_uncertain_release_dates
+from backend.database import tracks_collection
 from backend.utils import create_folder
 from spotapi import PublicPlaylist
 from dotenv import load_dotenv
@@ -142,25 +140,6 @@ def enrich_with_artist_infos(playlist_infos, headers):
     return playlist_infos
 
 
-def has_existing_tracks(tracks_col) -> bool:
-    return tracks_col.count_documents({}, limit=1) > 0
-
-
-def enrich_with_musicbrainz(playlist_infos, tracks_col, artists_col):
-    """Enriches tracks and artists with MusicBrainz fixed metadata (fetched once per entity)."""
-    if not(has_existing_tracks(tracks_col)):
-        print("No tracks in database yet: skipping MusicBrainz enrichment until the next run, so its checkpoints can be saved.")
-    else:
-        tracks_to_enrich = select_tracks_to_enrich(playlist_infos["items"], tracks_col)
-        run_mb_lookups_with_checkpoints(tracks_to_enrich, "track", enrich_tracks_batch, save_tracks_mb_checkpoint)
-        playlist_infos["items"] = correct_uncertain_release_dates(playlist_infos["items"], tracks_col)
-
-        artists_to_enrich = select_artists_to_enrich(playlist_infos["artists"], artists_col)
-        run_mb_lookups_with_checkpoints(artists_to_enrich, "artist", enrich_artists_batch, save_artists_mb_checkpoint)
-
-    return playlist_infos
-
-
 def persist_playlist(playlist_infos):
     print("Playlist infos fetched and enriched successfully! Writing to database...")
     add_to_database(playlist_infos)
@@ -187,10 +166,7 @@ def fetch_playlist_infos(dateKey, overwrite=False):
 
     playlist_infos = enrich_with_artist_infos(playlist_infos, headers)
 
-    playlist_infos = enrich_with_musicbrainz(
-        playlist_infos,
-        tracks_col=tracks_collection,
-        artists_col=artists_collection,
-    )
+    # MusicBrainz lookups run in /enrich/: only the MB dates already stored are used here
+    playlist_infos["items"] = correct_uncertain_release_dates(playlist_infos["items"], tracks_collection)
 
     persist_playlist(playlist_infos)

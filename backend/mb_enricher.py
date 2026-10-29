@@ -237,6 +237,7 @@ def fetch_artist_mb_data(spotify_artist_id: str, artist_name: str = None) -> dic
         return name_result
 
 
+# TODO: unused for now since many artists are still active. Search for heuristics to avoid redundant lookups.
 def fetch_artist_mb_status(mb_id: str) -> dict:
     """Fetches only life-span status for an already-matched artist."""
     detail = mb_api_get(f"artist/{mb_id}")
@@ -250,89 +251,6 @@ def fetch_artist_mb_status(mb_id: str) -> dict:
         "mb_end_date": life_span.get("end"),
         "mb_is_ended": is_ended,
     }
-
-
-def get_tracks_needing_mb_enrichment(track_ids: list, tracks_collection) -> set:
-    if (tracks_collection is None):
-        return set(track_ids)
-    try:
-        already = tracks_collection.find(
-            {
-                "id": {"$in": track_ids},
-                "$or": [{"mb_id": {"$exists": True}}, {"mb_unmatched": True}],
-            },
-            {"id": 1, "_id": 0},
-        )
-        return set(track_ids) - {doc["id"] for doc in already}
-    except Exception as e:
-        print(f"Error querying MB-enriched tracks: {e}")
-        return set(track_ids)
-
-
-def get_artists_needing_mb_enrichment(
-    artist_ids: list,
-    artists_collection,
-) -> Tuple[set, Dict[str, str]]:
-    """
-    Returns:
-    - need_full: artist IDs with no mb_id and not mb_unmatched (need name lookup)
-    - status_checks: {artist_id: mb_id} for matched but still-active artists/bands
-    """
-    if (artists_collection is None):
-        return set(artist_ids), {}
-    try:
-        docs = list(artists_collection.find(
-            {"id": {"$in": artist_ids}},
-            {"id": 1, "mb_id": 1, "mb_unmatched": 1, "mb_is_ended": 1, "_id": 0},
-        ))
-        need_full = set(artist_ids)
-        status_checks: Dict[str, str] = {}
-
-        for doc in docs:
-            artistId = doc["id"]
-            mb_id = doc.get("mb_id")
-            if (doc.get("mb_unmatched") or mb_id):
-                need_full.discard(artistId)
-            if mb_id:
-                is_ended = doc.get("mb_is_ended")
-                if not(is_ended):
-                    status_checks[artistId] = mb_id
-
-        return need_full, status_checks
-    except Exception as e:
-        print(f"Error querying MB-enriched artists: {e}")
-        return set(artist_ids), {}
-
-
-def select_tracks_to_enrich(
-    playlist_items: List[Dict],
-    tracks_collection=None,
-) -> List[Dict]:
-    """Returns the track dicts themselves (not copies), so the lookups enrich the playlist in place."""
-    track_ids = [track["id"] for track in playlist_items]
-    needs_enrichment = get_tracks_needing_mb_enrichment(track_ids, tracks_collection)
-    to_enrich = [
-        track for track in playlist_items
-        if (track["id"] in needs_enrichment) and track.get("isrc") and not track.get("mb_id")
-    ]
-
-    skipped = len(track_ids) - len(needs_enrichment)
-    print(f"{len(to_enrich)} tracks needing MB lookups ({skipped} already enriched, {len(needs_enrichment) - len(to_enrich)} missing ISRC).")
-    return to_enrich
-
-
-def select_artists_to_enrich(
-    artists_dict: Dict[str, dict],
-    artists_collection=None,
-) -> List[Dict]:
-    """Returns the artist dicts themselves (not copies), so the lookups enrich the playlist in place."""
-    artist_ids = list(artists_dict.keys())
-    need_full, status_checks = get_artists_needing_mb_enrichment(artist_ids, artists_collection)
-    # need_full, status_checks = get_artists_needing_mb_enrichment(artist_ids, None) # debug for querying all artists
-    # TODO: status_checks (fetch_artist_mb_status) are off for now since many artists are still active. Search for heuristics to avoid redundant lookups.
-
-    print(f"{len(need_full)} artists needing MB full lookups.")
-    return [artists_dict[artistId] for artistId in need_full]
 
 
 def enrich_batch(

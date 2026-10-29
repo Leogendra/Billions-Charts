@@ -48,7 +48,7 @@ def write_mb_checkpoint(collection, operations: list, label: str):
 
 
 def save_tracks_mb_checkpoint(tracks: list):
-    """Persists only the MB fields of tracks already in the database. No upsert on purpose: a track created here would skip its $setOnInsert fields (name, image, dates...) at the final save, so new tracks wait in memory for that final save."""
+    """Persists only the MB fields of tracks already in the database. No upsert: /enrich/ only reads tracks from the database."""
     operations = []
     for track in tracks:
         mb_data = extract_mb_fields(track, MB_TRACK_FIELDS)
@@ -58,12 +58,12 @@ def save_tracks_mb_checkpoint(tracks: list):
 
 
 def save_artists_mb_checkpoint(artists: list):
-    """Persists only the MB fields of artists. Upsert is safe here: every non-MB artist field is $set (not $setOnInsert) by the final save."""
+    """Persists only the MB fields of artists already in the database. No upsert: /enrich/ only reads artists from the database."""
     operations = []
     for artist in artists:
         mb_data = extract_mb_fields(artist, MB_ARTIST_FIELDS)
         if mb_data:
-            operations.append(UpdateOne({"id": artist["id"]}, {"$set": mb_data}, upsert=True))
+            operations.append(UpdateOne({"id": artist["id"]}, {"$set": mb_data}))
     write_mb_checkpoint(artists_collection, operations, "artists")
 
 
@@ -144,9 +144,6 @@ def insert_or_update_tracks(playlist_data):
                 "release_date_precision": track["release_date_precision"],
             }
 
-        mb_data = extract_mb_fields(track, MB_TRACK_FIELDS)
-        set_fields.update(mb_data)
-
         update = {
             "$set": set_fields,
             "$setOnInsert": track_fixed_data | corrected_dates_fields,
@@ -175,8 +172,6 @@ def insert_or_update_artists(playlist_data):
             "image_size": img.get("width") if img else None,
         }
 
-        mb_data = extract_mb_fields(artist, MB_ARTIST_FIELDS)
-        set_fields.update(mb_data)
         update = {
             "$set": set_fields,
             "$setOnInsert": artist_fixed_data
