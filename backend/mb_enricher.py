@@ -354,30 +354,37 @@ def enrich_artists_batch(artists: List[Dict], progress: EnrichmentProgress) -> N
     enrich_batch(artists, lambda artist: fetch_artist_mb_data(artist["id"], artist_name=artist.get("name")), progress)
 
 
+def is_mb_processed(track: Dict) -> bool:
+    return bool(track.get("mb_id") or track.get("mb_unmatched"))
+
+
 def backfill_mb_release_dates(
     playlist_items: List[Dict],
     tracks_collection=None,
 ) -> None:
-    """Fetches mb_release_date from DB for uncertain tracks MB-enriched in a prior run (their in-memory dict has no MB fields)."""
+    """Fetches mb_id, mb_unmatched and mb_release_date from DB for uncertain tracks MB-processed in a prior run."""
     id_to_index = {track["id"]: i for i, track in enumerate(playlist_items)}
     uncertain_ids_to_fetch = [
         track["id"] for track in playlist_items
         if track.get("release_date_uncertain")
-        and not(track.get("mb_release_date"))
+        and not(is_mb_processed(track))
     ]
 
     if (uncertain_ids_to_fetch and (tracks_collection is not None)):
         try:
             docs = tracks_collection.find(
                 {"id": {"$in": uncertain_ids_to_fetch}},
-                {"id": 1, "mb_release_date": 1, "_id": 0},
+                {"id": 1, "mb_id": 1, "mb_unmatched": 1, "mb_release_date": 1, "_id": 0},
             )
             for doc in docs:
                 idx = id_to_index.get(doc["id"])
-                if ((idx is not None) and doc.get("mb_release_date")):
-                    playlist_items[idx]["mb_release_date"] = doc["mb_release_date"]
+                if (idx is None):
+                    continue
+                for field in ("mb_id", "mb_unmatched", "mb_release_date"):
+                    if (field in doc):
+                        playlist_items[idx][field] = doc[field]
         except Exception as e:
-            raise RuntimeError(f"Error backfilling mb_release_date for uncertain tracks: {e}")
+            raise RuntimeError(f"Error backfilling MB fields for uncertain tracks: {e}")
 
 
 def correct_uncertain_release_dates(
@@ -385,13 +392,21 @@ def correct_uncertain_release_dates(
     tracks_collection=None,
 ) -> List[Dict]:
     """Applies MB release date corrections to uncertain tracks, fallback to downgrade to year precision. Must run after all MB lookups."""
-    backfill_mb_release_dates(playlist_items, tracks_collection)
+    backfill_mb_release_dates(playlist_items, tracks_collection) # updates playlist_items in place
 
     changed = 0
+    deferred = 0
     for i in range(len(playlist_items)):
         if not playlist_items[i].get("release_date_uncertain"):
             continue
         track = playlist_items[i]
+
+        # leave the date unvalidated for a later run
+        if not(is_mb_processed(track)):
+            playlist_items[i]["corrected_release_date"] = False
+            deferred += 1
+            continue
+
         new_date, new_precision = correct_uncertain_date(track.get("release_date"), track.get("release_date_precision"), track.get("mb_release_date"))
         playlist_items[i]["release_date"] = new_date
         playlist_items[i]["release_date_precision"] = new_precision
@@ -402,5 +417,7 @@ def correct_uncertain_release_dates(
         print(f"Uncertain date correction: {changed} tracks corrected.")
     else:
         print("No uncertain date correction made.")
+    if (deferred > 0):
+        print(f"Uncertain date correction: {deferred} tracks deferred until MusicBrainz has processed them.")
 
     return playlist_items
