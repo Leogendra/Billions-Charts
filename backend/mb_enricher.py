@@ -1,5 +1,5 @@
+from backend.utils import correct_uncertain_date, normalize_name, normalize_title, is_mb_date_preferred, infer_precision_from_date_string
 from backend.database import save_tracks_mb_checkpoint, save_artists_mb_checkpoint, MB_TRACK_FIELDS
-from backend.utils import correct_uncertain_date, normalize_name, normalize_title
 from backend.database import tracks_collection, artists_collection
 from typing import Callable, Dict, List, Optional, Tuple
 from dataclasses import dataclass, field
@@ -432,4 +432,43 @@ def correct_uncertain_release_dates(
     if (deferred > 0):
         print(f"Uncertain date correction: {deferred} tracks deferred until MusicBrainz has processed them.")
 
+    return playlist_items
+
+
+def apply_mb_date_rule(
+    playlist_items: List[Dict],
+    tracks_collection,
+) -> List[Dict]:
+    """Replaces the date by an earlier MB date (see is_mb_date_preferred) when the MB match is verified. Must run after correct_uncertain_release_dates.
+    Already corrected tracks are compared with their stored date, since their in-memory date is the raw Spotify one."""
+    track_ids = [track["id"] for track in playlist_items]
+    try:
+        docs = {
+            doc["id"]: doc
+            for doc in tracks_collection.find(
+                {"id": {"$in": track_ids}, "mb_title": {"$exists": True}, "mb_suspect": {"$ne": True}},
+                {"id": 1, "release_date": 1, "release_date_precision": 1, "release_date_before_mb": 1, "mb_release_date": 1, "_id": 0},
+            )
+        }
+    except Exception as e:
+        raise RuntimeError(f"Error querying MB dates: {e}")
+
+    changed = 0
+    for i, track in enumerate(playlist_items):
+        doc = docs.get(track["id"])
+        if (doc is None) or track.get("manual_release_date"):
+            continue
+
+        current = doc if (track.get("corrected_release_date") == "already_corrected") else track
+        current_date = current.get("release_date")
+        if not(is_mb_date_preferred(current_date, doc.get("mb_release_date"))):
+            continue
+
+        playlist_items[i]["release_date_before_mb"] = doc.get("release_date_before_mb") or current_date
+        playlist_items[i]["release_date"] = doc["mb_release_date"]
+        playlist_items[i]["release_date_precision"] = infer_precision_from_date_string(doc["mb_release_date"])
+        playlist_items[i]["corrected_release_date"] = True
+        changed += 1
+
+    print(f"MB date rule: {changed} tracks take an earlier MusicBrainz date.")
     return playlist_items

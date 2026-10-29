@@ -1,6 +1,6 @@
 from backend.track_enricher import enrich_tracks_with_correct_release_dates, fetch_artists_batch
+from backend.mb_enricher import correct_uncertain_release_dates, apply_mb_date_rule
 from backend.database import add_to_database, check_playlist_header_from_mongo
-from backend.mb_enricher import correct_uncertain_release_dates
 from backend.database import tracks_collection
 from backend.utils import create_folder
 from spotapi import PublicPlaylist
@@ -168,5 +168,6 @@ def fetch_playlist_infos(dateKey, overwrite=False):
 
     # MusicBrainz lookups run in /enrich/: only the MB dates already stored are used here
     playlist_infos["items"] = correct_uncertain_release_dates(playlist_infos["items"], tracks_collection)
+    playlist_infos["items"] = apply_mb_date_rule(playlist_infos["items"], tracks_collection)
 
     persist_playlist(playlist_infos)

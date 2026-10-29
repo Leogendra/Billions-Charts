@@ -124,10 +124,6 @@ def insert_or_update_tracks(playlist_data):
         set_fields = {}
         corrected_dates_fields = {}
 
-        # not overwrite a stored ISRC.
-        if track.get("isrc"):
-            set_fields["isrc"] = track["isrc"]
-
         correctedFlag = track.get("corrected_release_date")
         if (correctedFlag == "already_corrected"): # Date was corrected in a previous run
             pass
@@ -137,12 +133,18 @@ def insert_or_update_tracks(playlist_data):
                 "release_date_precision": track["release_date_precision"],
                 "corrected_release_date": True,
             }
+            if track.get("release_date_before_mb"):
+                set_fields["release_date_before_mb"] = track["release_date_before_mb"]
         else: # Date was never corrected, set it only on insert
             set_fields = {"corrected_release_date": False}
             corrected_dates_fields = {
                 "release_date": track["release_date"],
                 "release_date_precision": track["release_date_precision"],
             }
+
+        # not overwrite a stored ISRC.
+        if track.get("isrc"):
+            set_fields["isrc"] = track["isrc"]
 
         update = {
             "$set": set_fields,

@@ -1,5 +1,6 @@
 from typing import Optional
 import unicodedata
+import datetime
 import os
 import re
 
@@ -103,6 +104,26 @@ def correct_uncertain_date(
         if (mb_date[:4] <= date[:4]):
             return (mb_date, mb_precision)
     return (date[:4], "year")
+
+
+def is_mb_date_preferred(stored_date: Optional[str], mb_date: Optional[str]) -> bool:
+    mb_precision = infer_precision_from_date_string(mb_date)
+    stored_precision = infer_precision_from_date_string(stored_date)
+    if not(mb_precision) or not(stored_precision):
+        return False
+    if is_uncertain_isrc_date(mb_date, mb_precision):
+        return False
+
+    mb_rank = PRECISION_RANK[mb_precision]
+    stored_rank = PRECISION_RANK[stored_precision]
+    if (mb_rank < stored_rank):
+        return False
+    if (mb_rank > stored_rank):
+        return mb_date[:len(stored_date)] <= stored_date
+    if (mb_precision == "day"):
+        gap = datetime.date.fromisoformat(stored_date) - datetime.date.fromisoformat(mb_date)
+        return gap.days > 7
+    return mb_date < stored_date
 
 
 def validate_date_key(dateKey):
