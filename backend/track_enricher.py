@@ -88,6 +88,17 @@ def get_tracks_already_corrected(track_ids: List[str], tracks_collection) -> set
         return set()
 
 
+def get_stored_isrcs(track_ids: List[str], tracks_collection) -> Dict[str, str]:
+    try:
+        docs = tracks_collection.find(
+            {"id": {"$in": track_ids}, "isrc": {"$nin": [None, ""]}},
+            {"id": 1, "isrc": 1, "_id": 0},
+        )
+        return {doc["id"]: doc["isrc"] for doc in docs}
+    except Exception as e:
+        raise RuntimeError(f"Error querying stored ISRCs: {e}")
+
+
 def enrich_tracks_with_correct_release_dates(
     playlist_items: List[Dict],
     headers: Dict[str, str],
@@ -115,11 +126,13 @@ def enrich_tracks_with_correct_release_dates(
     if not(overwrite):
         already_corrected = get_tracks_already_corrected(track_ids, tracks_collection)
 
+    stored_isrcs = get_stored_isrcs(track_ids, tracks_collection)
+
     # apply batch API data to all tracks
     for i, track in enumerate(playlist_items):
         track_id = track["id"]
         api_data = tracks_data[track_id]
-        isrc = api_data.get("isrc")
+        isrc = stored_isrcs.get(track_id) or api_data.get("isrc") # use stored ISRC first
 
         playlist_items[i]["popularity"] = api_data.get("popularity")
         playlist_items[i]["release_date"] = api_data.get("release_date")

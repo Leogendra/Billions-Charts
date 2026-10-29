@@ -121,11 +121,12 @@ def insert_or_update_tracks(playlist_data):
             "added_at": track["added_at"],
         }
 
-        if ("isrc" in track):
-            track_fixed_data["isrc"] = track["isrc"]
-
         set_fields = {}
         corrected_dates_fields = {}
+
+        # not overwrite a stored ISRC.
+        if track.get("isrc"):
+            set_fields["isrc"] = track["isrc"]
 
         correctedFlag = track.get("corrected_release_date")
         if (correctedFlag == "already_corrected"): # Date was corrected in a previous run
