@@ -146,7 +146,8 @@ def enrich_tracks_with_correct_release_dates(
 
     enriched_count = 0
     completed = 0
-    with ThreadPoolExecutor(max_workers=5) as executor:
+    nb_workers = 3 # 5 workers yield 429 errors
+    with ThreadPoolExecutor(max_workers=nb_workers) as executor:
         futures = {executor.submit(isrc_lookup_process, idx, isrc): idx for idx, isrc in to_lookup}
         for future in as_completed(futures):
             completed += 1
