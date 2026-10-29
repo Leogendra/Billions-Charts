@@ -1,7 +1,7 @@
-from backend.database import save_tracks_mb_checkpoint, save_artists_mb_checkpoint
+from backend.database import save_tracks_mb_checkpoint, save_artists_mb_checkpoint, MB_TRACK_FIELDS
+from backend.utils import correct_uncertain_date, normalize_name, normalize_title
 from backend.database import tracks_collection, artists_collection
 from typing import Callable, Dict, List, Optional, Tuple
-from backend.utils import correct_uncertain_date
 from dataclasses import dataclass, field
 import requests
 import time
@@ -29,6 +29,7 @@ class EnrichmentProgress:
     done: int = 0
     matched: int = 0
     unmatched: int = 0
+    suspect: int = 0
     failed: int = 0
     start_time: float = field(default_factory=time.time)
 
@@ -38,7 +39,9 @@ class EnrichmentProgress:
 
     def record_result(self, mb_data: dict) -> None:
         self.done += 1
-        if mb_data.get("mb_id"):
+        if mb_data.get("mb_suspect"):
+            self.suspect += 1
+        elif mb_data.get("mb_id"):
             self.matched += 1
         else:
             self.unmatched += 1
@@ -52,10 +55,10 @@ class EnrichmentProgress:
         print(f"\n  Checkpoint saved: {self.done}/{self.total} {self.label}s processed")
 
     def print_summary(self) -> None:
-        print(f"MB {self.label} enrichment done: {self.matched} matched, {self.unmatched} unmatched, {self.failed} failed (retried on next run)")
+        print(f"MB {self.label} enrichment done: {self.matched} matched, {self.suspect} suspect, {self.unmatched} unmatched, {self.failed} failed (retried on next run)")
 
     def to_counts(self) -> dict:
-        return {"matched": self.matched, "unmatched": self.unmatched, "failed": self.failed, "total": self.total}
+        return {"matched": self.matched, "suspect": self.suspect, "unmatched": self.unmatched, "failed": self.failed, "total": self.total}
 
 
 def mb_api_get(path: str, params: dict = {}, max_retries: int = 3) -> Optional[dict]:
@@ -106,18 +109,37 @@ def get_language_from_releases(releases: list) -> Tuple[Optional[str], Optional[
     return None, None
 
 
-def fetch_track_mb_data(isrc: str, existing_mb_id: str = None) -> dict:
-    if existing_mb_id:
-        mbid = existing_mb_id
-    else:
-        data = mb_api_get(f"isrc/{isrc}", {"inc": "artist-credits"})
-        if(not(data) or not(data.get("recordings"))):
-            return {"mb_unmatched": True}
+def is_recording_matching(recording: dict, spotify_title: str, spotify_artists: List[Dict]) -> bool:
+    """Same normalized title, and at least one credited artist matching a Spotify artist by MB id or normalized name."""
+    if (normalize_title(recording.get("title")) != normalize_title(spotify_title)):
+        return False
 
-        recording = data["recordings"][0]
-        mbid = recording.get("id")
-        if not(mbid):
-            return {"mb_unmatched": True}
+    spotify_mb_ids = {artist.get("mb_id") for artist in spotify_artists if artist.get("mb_id")}
+    spotify_names = {normalize_name(artist.get("name")) for artist in spotify_artists if artist.get("name")}
+    for credit in recording.get("artist-credit", []):
+        mb_artist = credit.get("artist", {})
+        if (mb_artist.get("id") in spotify_mb_ids):
+            return True
+        if ({normalize_name(credit.get("name")), normalize_name(mb_artist.get("name"))} & spotify_names):
+            return True
+    return False
+
+
+def unmatched_track_mb_data() -> dict:
+    """Resets every MB field, so a re-verified track does not keep the mb_id or mb_release_date of a previous match."""
+    return {track_field: None for track_field in MB_TRACK_FIELDS} | {"mb_unmatched": True}
+
+
+def fetch_track_mb_data(isrc: str, spotify_title: str, spotify_artists: List[Dict]) -> dict:
+    """spotify_artists: [{"name", "mb_id"}]. Without a matching recording, the first one is kept but flagged mb_suspect."""
+    data = mb_api_get(f"isrc/{isrc}", {"inc": "artist-credits"})
+    recordings = [r for r in (data or {}).get("recordings", []) if r.get("id")]
+    if not(recordings):
+        return unmatched_track_mb_data()
+
+    matching = [r for r in recordings if is_recording_matching(r, spotify_title, spotify_artists)]
+    recording = matching[0] if matching else recordings[0]
+    mbid = recording["id"]
 
     rec_detail = mb_api_get(f"recording/{mbid}", {"inc": "releases"})
     releases = rec_detail.get("releases", []) if rec_detail else []
@@ -133,6 +155,10 @@ def fetch_track_mb_data(isrc: str, existing_mb_id: str = None) -> dict:
         "mb_script": script,
         "mb_release_date": min(dates) if dates else None,
         "mb_unmatched": False,
+        "mb_title": recording.get("title"),
+        "mb_artists": [credit.get("name") for credit in recording.get("artist-credit", [])],
+        "mb_isrc_recordings": len(recordings),
+        "mb_suspect": not(matching),
     }
 
 
@@ -271,7 +297,7 @@ def enrich_batch(
 
 
 def enrich_tracks_batch(tracks: List[Dict], progress: EnrichmentProgress) -> None:
-    enrich_batch(tracks, lambda track: fetch_track_mb_data(track["isrc"]), progress)
+    enrich_batch(tracks, lambda track: fetch_track_mb_data(track["isrc"], track["name"], track["spotify_artists"]), progress)
 
 
 def enrich_artists_batch(artists: List[Dict], progress: EnrichmentProgress) -> None:
@@ -297,15 +323,25 @@ def run_mb_lookups_with_checkpoints(items, label, enrich_batch, save_checkpoint)
 
 
 def get_pending_tracks_from_db() -> List[Dict]:
-    """Every DB track MB has not processed yet, whatever playlist it comes from. Tracks without ISRC cannot be looked up."""
-    return list(tracks_collection.find(
+    """Every DB track MB has not processed yet, whatever playlist it comes from. Tracks without ISRC cannot be looked up.
+    A track with mb_id but no mb_title was matched before the recording check: it is verified again once."""
+    tracks = list(tracks_collection.find(
         {
             "isrc": {"$nin": [None, ""]},
-            "mb_id": {"$exists": False},
             "mb_unmatched": {"$ne": True},
+            "$or": [{"mb_id": {"$exists": False}}, {"mb_title": {"$exists": False}}],
         },
-        {"id": 1, "isrc": 1, "_id": 0},
+        {"id": 1, "isrc": 1, "name": 1, "artists": 1, "_id": 0},
     ))
+
+    artist_ids = list({artist["id"] for track in tracks for artist in track.get("artists", [])})
+    artists_by_id = {
+        doc["id"]: doc
+        for doc in artists_collection.find({"id": {"$in": artist_ids}}, {"id": 1, "name": 1, "mb_id": 1, "_id": 0})
+    }
+    for track in tracks:
+        track["spotify_artists"] = [artists_by_id.get(artist["id"], {}) for artist in track.get("artists", [])]
+    return tracks
 
 
 def get_pending_artists_from_db() -> List[Dict]:
@@ -319,12 +355,13 @@ def get_pending_artists_from_db() -> List[Dict]:
 
 
 def enrich_database_with_musicbrainz() -> Dict[str, dict]:
-    """Looks up every pending track then artist of the DB. Failed lookups stay pending for the next run."""
-    tracks = get_pending_tracks_from_db()
-    tracks_progress = run_mb_lookups_with_checkpoints(tracks, "track", enrich_tracks_batch, save_tracks_mb_checkpoint)
-
+    """Looks up every pending artist then track of the DB. Failed lookups stay pending for the next run.
+    Artists go first: the recording check of a track uses the mb_id of its artists."""
     artists = get_pending_artists_from_db()
     artists_progress = run_mb_lookups_with_checkpoints(artists, "artist", enrich_artists_batch, save_artists_mb_checkpoint)
+
+    tracks = get_pending_tracks_from_db()
+    tracks_progress = run_mb_lookups_with_checkpoints(tracks, "track", enrich_tracks_batch, save_tracks_mb_checkpoint)
 
     return {"tracks": tracks_progress.to_counts(), "artists": artists_progress.to_counts()}
 

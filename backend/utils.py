@@ -1,6 +1,7 @@
+from typing import Optional
+import unicodedata
 import os
 import re
-from typing import Optional
 
 PRECISION_RANK = {"year": 0, "month": 1, "day": 2}
 
@@ -10,6 +11,22 @@ PRECISION_RANK = {"year": 0, "month": 1, "day": 2}
 def create_folder(folder):
     if not os.path.exists(folder):
         os.makedirs(folder)
+
+
+def normalize_name(name: str) -> str:
+    without_accents = "".join(
+        c for c in unicodedata.normalize("NFKD", name or "")
+        if not(unicodedata.combining(c))
+    )
+    return " ".join(re.sub(r"[^\w]+", " ", without_accents.lower()).split())
+
+
+def normalize_title(title: str) -> str:
+    """normalize_name without the version details: "(...)", "[...]" and a " - ..." suffix ("Cupid - Twin Version" -> "cupid")."""
+    base_title = re.sub(r"\([^)]*\)|\[[^\]]*\]", " ", title or "")
+    base_title = re.split(r"\s[-–—]\s", base_title)[0]
+    # a title made only of details ("(Intro)") keeps them
+    return normalize_name(base_title) or normalize_name(title)
 
 
 def normalize_date_for_comparison(date: str, precision: str) -> str:
