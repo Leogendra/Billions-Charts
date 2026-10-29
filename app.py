@@ -1,6 +1,7 @@
 from backend.utils import create_folder, normalize_date_for_comparison, validate_date_key, validate_track_id, validate_artist_id
 from backend.report import generate_report, generate_leaderboard, generate_search_ids
 from backend.database import retrieve_track_by_id, retrieve_artist_by_id
+from backend.mb_enricher import enrich_database_with_musicbrainz
 from flask import Flask, request, jsonify, send_file, abort
 from flask_limiter.util import get_remote_address
 from backend.scrapper import fetch_playlist_infos
@@ -9,6 +10,7 @@ from flask_limiter import Limiter
 from dotenv import load_dotenv
 from functools import wraps
 import logging.handlers
+import threading
 import datetime
 import logging
 import time
@@ -53,10 +55,12 @@ PASSWORD = os.getenv("PASSWORD", "")
 if not(PASSWORD):
     raise RuntimeError("PASSWORD environment variable is not set")
 
+admin_lock = threading.Lock()
 
 
 
-def require_password(f):
+
+def require_admin(f):
     @wraps(f)
     def decorated(*args, **kwargs):
         auth_header = request.headers.get("Authorization", "")
@@ -67,7 +71,15 @@ def require_password(f):
                 "message": "Access denied!",
                 "output": "You don't have access to this resource.",
             })
-        return f(*args, **kwargs)
+        if not(admin_lock.acquire(blocking=False)):
+            return jsonify({
+                "message": "Admin task already running!",
+                "output": "Another admin task is in progress, try again later.",
+            }), 409
+        try:
+            return f(*args, **kwargs)
+        finally:
+            admin_lock.release()
     return decorated
 
 
@@ -88,7 +100,7 @@ def generate_sitemap(dateKey):
 
 @app.route("/search/", methods=["GET"])
 @limiter.limit("5 per minute")
-@require_password
+@require_admin
 def search():
     dateKey = datetime.datetime.now().strftime("%Y-%m-%d")
     reportPublicPath = f"public/data/report.json"
@@ -113,11 +125,30 @@ def search():
                 "output": "An internal error occurred.",
             }
         )
-    
+
+
+@app.route("/enrich/", methods=["GET"])
+@limiter.limit("5 per minute")
+@require_admin
+def enrich():
+    print(f"[{datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S')}] Starting MusicBrainz enrichment")
+    try:
+        counts = enrich_database_with_musicbrainz()
+        return jsonify({
+            "message": "Enrichment completed!",
+            "output": counts,
+        })
+    except Exception as error:
+        logging.exception(error)
+        return jsonify({
+            "message": "Enrichment failed!",
+            "output": "An internal error occurred.",
+        })
+
 
 @app.route("/report/<dateKey>/", methods=["GET"])
 @limiter.limit("5 per minute")
-@require_password
+@require_admin
 def report(dateKey):
     if not(validate_date_key(dateKey)):
         abort(400, description="Invalid dateKey format.")
@@ -141,7 +172,7 @@ def report(dateKey):
 
 @app.route("/leaderboard/<dateKey>/", methods=["GET"])
 @limiter.limit("5 per minute")
-@require_password
+@require_admin
 def leaderboard(dateKey):
     if not(validate_date_key(dateKey)):
         abort(400, description="Invalid dateKey format.")

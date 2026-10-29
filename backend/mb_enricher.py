@@ -1,6 +1,8 @@
-from dataclasses import dataclass, field
+from backend.database import save_tracks_mb_checkpoint, save_artists_mb_checkpoint
+from backend.database import tracks_collection, artists_collection
 from typing import Callable, Dict, List, Optional, Tuple
 from backend.utils import correct_uncertain_date
+from dataclasses import dataclass, field
 import requests
 import time
 
@@ -10,6 +12,7 @@ MB_HEADERS = {
     "Accept": "application/json",
 }
 RATE_LIMIT_DELAY = 1.0
+MB_CHECKPOINT_SIZE = 50
 
 
 
@@ -50,6 +53,9 @@ class EnrichmentProgress:
 
     def print_summary(self) -> None:
         print(f"MB {self.label} enrichment done: {self.matched} matched, {self.unmatched} unmatched, {self.failed} failed (retried on next run)")
+
+    def to_counts(self) -> dict:
+        return {"matched": self.matched, "unmatched": self.unmatched, "failed": self.failed, "total": self.total}
 
 
 def mb_api_get(path: str, params: dict = {}, max_retries: int = 3) -> Optional[dict]:
@@ -352,6 +358,57 @@ def enrich_tracks_batch(tracks: List[Dict], progress: EnrichmentProgress) -> Non
 
 def enrich_artists_batch(artists: List[Dict], progress: EnrichmentProgress) -> None:
     enrich_batch(artists, lambda artist: fetch_artist_mb_data(artist["id"], artist_name=artist.get("name")), progress)
+
+
+def run_mb_lookups_with_checkpoints(items, label, enrich_batch, save_checkpoint) -> EnrichmentProgress:
+    """Saves MB results every MB_CHECKPOINT_SIZE lookups. The next run skips what was saved."""
+    progress = EnrichmentProgress(label, len(items))
+    if not(items):
+        print(f"No {label}s needing MB enrichment.")
+        return progress
+
+    print(f"\n=== Starting {label} enrichment via MusicBrainz ===")
+    for start in range(0, len(items), MB_CHECKPOINT_SIZE):
+        batch = items[start : start + MB_CHECKPOINT_SIZE]
+        enrich_batch(batch, progress)
+        save_checkpoint(batch)
+        progress.print_checkpoint()
+
+    progress.print_summary()
+    return progress
+
+
+def get_pending_tracks_from_db() -> List[Dict]:
+    """Every DB track MB has not processed yet, whatever playlist it comes from. Tracks without ISRC cannot be looked up."""
+    return list(tracks_collection.find(
+        {
+            "isrc": {"$nin": [None, ""]},
+            "mb_id": {"$exists": False},
+            "mb_unmatched": {"$ne": True},
+        },
+        {"id": 1, "isrc": 1, "_id": 0},
+    ))
+
+
+def get_pending_artists_from_db() -> List[Dict]:
+    return list(artists_collection.find(
+        {
+            "mb_id": {"$exists": False},
+            "mb_unmatched": {"$ne": True},
+        },
+        {"id": 1, "name": 1, "_id": 0},
+    ))
+
+
+def enrich_database_with_musicbrainz() -> Dict[str, dict]:
+    """Looks up every pending track then artist of the DB. Failed lookups stay pending for the next run."""
+    tracks = get_pending_tracks_from_db()
+    tracks_progress = run_mb_lookups_with_checkpoints(tracks, "track", enrich_tracks_batch, save_tracks_mb_checkpoint)
+
+    artists = get_pending_artists_from_db()
+    artists_progress = run_mb_lookups_with_checkpoints(artists, "artist", enrich_artists_batch, save_artists_mb_checkpoint)
+
+    return {"tracks": tracks_progress.to_counts(), "artists": artists_progress.to_counts()}
 
 
 def is_mb_processed(track: Dict) -> bool:
