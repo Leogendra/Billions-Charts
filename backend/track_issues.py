@@ -94,7 +94,7 @@ def build_track_issues_lines(tracks: List[Dict], pending_count: int) -> tuple[Li
 
     lines = [
         f"Track issues - {datetime.now().strftime('%Y-%m-%d %H:%M')}",
-        "To clear a track, give it a manual date with set_manual_release_date.py: the correct date, or its current date to confirm it.",
+        "To clear a track, give it a manual date with scripts/set_manual_release_date.py: the correct date, or its current date to confirm it.",
         "",
         f"== TO FIX ({to_fix_count}) ==",
         "",
