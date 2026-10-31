@@ -33,6 +33,16 @@ artists_collection.create_index("id", unique=True)
 
 MB_TRACK_FIELDS = ["mb_id", "mb_language", "mb_script", "mb_release_date", "mb_unmatched", "mb_title", "mb_artists", "mb_isrc_recordings", "mb_suspect"]
 MB_ARTIST_FIELDS = ["mb_id", "mb_type", "mb_gender", "mb_country", "mb_area", "mb_begin_date", "mb_end_date", "mb_is_ended", "mb_sort_name", "mb_disambiguation", "mb_genres"] + ["mb_name_matched", "mb_unmatched"]
+TRACK_ISSUES_FIELDS = [
+    "id", "name", "isrc",
+    "release_date", "release_date_precision", "corrected_release_date", "release_date_before_mb", "manual_release_date",
+    "mb_id", "mb_unmatched", "mb_suspect", "mb_title", "mb_artists", "mb_release_date",
+]
+PENDING_TRACKS_QUERY = {
+    "isrc": {"$nin": [None, ""]},
+    "mb_unmatched": {"$ne": True},
+    "$or": [{"mb_id": {"$exists": False}}, {"mb_title": {"$exists": False}}],
+}
 
 
 
@@ -320,8 +330,28 @@ def retrieve_search_ids():
         }},
     ]))
     artists = list(artists_collection.find({}, {"_id": 0, "id": 1, "name": 1}))
-    
+
     return {"tracks": tracks, "artists": artists}
+
+
+def retrieve_tracks_for_issues() -> list:
+    """Every DB track with the fields of the track issues report, its artists resolved to their names."""
+    projection = {field: 1 for field in TRACK_ISSUES_FIELDS}
+    projection["_id"] = 0
+    projection["artists"] = {"$map": {"input": "$artists_details", "as": "a", "in": "$$a.name"}}
+    return list(tracks_collection.aggregate([
+        {"$lookup": {
+            "from": "playlist_artists",
+            "localField": "artists.id",
+            "foreignField": "id",
+            "as": "artists_details",
+        }},
+        {"$project": projection},
+    ]))
+
+
+def count_pending_tracks() -> int:
+    return tracks_collection.count_documents(PENDING_TRACKS_QUERY)
 
 
 

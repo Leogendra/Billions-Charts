@@ -1,5 +1,5 @@
 from backend.utils import correct_uncertain_date, normalize_name, normalize_title, is_mb_date_preferred, infer_precision_from_date_string
-from backend.database import save_tracks_mb_checkpoint, save_artists_mb_checkpoint, MB_TRACK_FIELDS
+from backend.database import save_tracks_mb_checkpoint, save_artists_mb_checkpoint, MB_TRACK_FIELDS, PENDING_TRACKS_QUERY
 from backend.database import tracks_collection, artists_collection
 from typing import Callable, Dict, List, Optional, Tuple
 from dataclasses import dataclass, field
@@ -323,14 +323,8 @@ def run_mb_lookups_with_checkpoints(items, label, enrich_batch, save_checkpoint)
 
 
 def get_pending_tracks_from_db() -> List[Dict]:
-    """Every DB track MB has not processed yet, whatever playlist it comes from. Tracks without ISRC cannot be looked up.
-    A track with mb_id but no mb_title was matched before the recording check: it is verified again once."""
     tracks = list(tracks_collection.find(
-        {
-            "isrc": {"$nin": [None, ""]},
-            "mb_unmatched": {"$ne": True},
-            "$or": [{"mb_id": {"$exists": False}}, {"mb_title": {"$exists": False}}],
-        },
+        PENDING_TRACKS_QUERY,
         {"id": 1, "isrc": 1, "name": 1, "artists": 1, "_id": 0},
     ))
 

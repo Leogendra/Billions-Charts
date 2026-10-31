@@ -2,6 +2,7 @@ from backend.utils import create_folder, normalize_date_for_comparison, validate
 from backend.report import generate_report, generate_leaderboard, generate_search_ids
 from backend.database import retrieve_track_by_id, retrieve_artist_by_id
 from backend.mb_enricher import enrich_database_with_musicbrainz
+from backend.track_issues import generate_track_issues
 from flask import Flask, request, jsonify, send_file, abort
 from flask_limiter.util import get_remote_address
 from backend.scrapper import fetch_playlist_infos
@@ -111,6 +112,7 @@ def search():
         fetch_playlist_infos(dateKey)
         reportVersion = generate_report(reportPublicPath, dateKey)
         generate_search_ids(searchIdsPublicPath)
+        generate_track_issues()
         generate_sitemap(dateKey)
         generate_og_image(reportPublicPath)
         return jsonify({
@@ -134,6 +136,7 @@ def enrich():
     print(f"[{datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S')}] Starting MusicBrainz enrichment")
     try:
         counts = enrich_database_with_musicbrainz()
+        generate_track_issues()
         return jsonify({
             "message": "Enrichment completed!",
             "output": counts,
