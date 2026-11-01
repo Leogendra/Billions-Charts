@@ -31,8 +31,18 @@ playlists_collection.create_index("date", unique=True)
 tracks_collection.create_index("id", unique=True)
 artists_collection.create_index("id", unique=True)
 
-MB_TRACK_FIELDS = ["mb_id", "mb_language", "mb_script", "mb_release_date", "mb_unmatched"]
+MB_TRACK_FIELDS = ["mb_id", "mb_language", "mb_script", "mb_release_date", "mb_unmatched", "mb_title", "mb_artists", "mb_isrc_recordings", "mb_suspect"]
 MB_ARTIST_FIELDS = ["mb_id", "mb_type", "mb_gender", "mb_country", "mb_area", "mb_begin_date", "mb_end_date", "mb_is_ended", "mb_sort_name", "mb_disambiguation", "mb_genres"] + ["mb_name_matched", "mb_unmatched"]
+TRACK_ISSUES_FIELDS = [
+    "id", "name", "isrc",
+    "release_date", "release_date_precision", "corrected_release_date", "release_date_before_mb", "manual_release_date",
+    "mb_id", "mb_unmatched", "mb_suspect", "mb_title", "mb_artists", "mb_release_date",
+]
+PENDING_TRACKS_QUERY = {
+    "isrc": {"$nin": [None, ""]},
+    "mb_unmatched": {"$ne": True},
+    "$or": [{"mb_id": {"$exists": False}}, {"mb_title": {"$exists": False}}],
+}
 
 
 
@@ -48,7 +58,7 @@ def write_mb_checkpoint(collection, operations: list, label: str):
 
 
 def save_tracks_mb_checkpoint(tracks: list):
-    """Persists only the MB fields of tracks already in the database. No upsert on purpose: a track created here would skip its $setOnInsert fields (name, image, dates...) at the final save, so new tracks wait in memory for that final save."""
+    """Persists only the MB fields of tracks already in the database. No upsert: /enrich/ only reads tracks from the database."""
     operations = []
     for track in tracks:
         mb_data = extract_mb_fields(track, MB_TRACK_FIELDS)
@@ -58,12 +68,12 @@ def save_tracks_mb_checkpoint(tracks: list):
 
 
 def save_artists_mb_checkpoint(artists: list):
-    """Persists only the MB fields of artists. Upsert is safe here: every non-MB artist field is $set (not $setOnInsert) by the final save."""
+    """Persists only the MB fields of artists already in the database. No upsert: /enrich/ only reads artists from the database."""
     operations = []
     for artist in artists:
         mb_data = extract_mb_fields(artist, MB_ARTIST_FIELDS)
         if mb_data:
-            operations.append(UpdateOne({"id": artist["id"]}, {"$set": mb_data}, upsert=True))
+            operations.append(UpdateOne({"id": artist["id"]}, {"$set": mb_data}))
     write_mb_checkpoint(artists_collection, operations, "artists")
 
 
@@ -121,9 +131,6 @@ def insert_or_update_tracks(playlist_data):
             "added_at": track["added_at"],
         }
 
-        if ("isrc" in track):
-            track_fixed_data["isrc"] = track["isrc"]
-
         set_fields = {}
         corrected_dates_fields = {}
 
@@ -136,6 +143,8 @@ def insert_or_update_tracks(playlist_data):
                 "release_date_precision": track["release_date_precision"],
                 "corrected_release_date": True,
             }
+            if track.get("release_date_before_mb"):
+                set_fields["release_date_before_mb"] = track["release_date_before_mb"]
         else: # Date was never corrected, set it only on insert
             set_fields = {"corrected_release_date": False}
             corrected_dates_fields = {
@@ -143,8 +152,9 @@ def insert_or_update_tracks(playlist_data):
                 "release_date_precision": track["release_date_precision"],
             }
 
-        mb_data = extract_mb_fields(track, MB_TRACK_FIELDS)
-        set_fields.update(mb_data)
+        # not overwrite a stored ISRC.
+        if track.get("isrc"):
+            set_fields["isrc"] = track["isrc"]
 
         update = {
             "$set": set_fields,
@@ -174,8 +184,6 @@ def insert_or_update_artists(playlist_data):
             "image_size": img.get("width") if img else None,
         }
 
-        mb_data = extract_mb_fields(artist, MB_ARTIST_FIELDS)
-        set_fields.update(mb_data)
         update = {
             "$set": set_fields,
             "$setOnInsert": artist_fixed_data
@@ -322,8 +330,28 @@ def retrieve_search_ids():
         }},
     ]))
     artists = list(artists_collection.find({}, {"_id": 0, "id": 1, "name": 1}))
-    
+
     return {"tracks": tracks, "artists": artists}
+
+
+def retrieve_tracks_for_issues() -> list:
+    """Every DB track with the fields of the track issues report, its artists resolved to their names."""
+    projection = {field: 1 for field in TRACK_ISSUES_FIELDS}
+    projection["_id"] = 0
+    projection["artists"] = {"$map": {"input": "$artists_details", "as": "a", "in": "$$a.name"}}
+    return list(tracks_collection.aggregate([
+        {"$lookup": {
+            "from": "playlist_artists",
+            "localField": "artists.id",
+            "foreignField": "id",
+            "as": "artists_details",
+        }},
+        {"$project": projection},
+    ]))
+
+
+def count_pending_tracks() -> int:
+    return tracks_collection.count_documents(PENDING_TRACKS_QUERY)
 
 
 

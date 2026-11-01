@@ -1,6 +1,8 @@
-from dataclasses import dataclass, field
+from backend.utils import correct_uncertain_date, normalize_name, normalize_title, is_mb_date_preferred, infer_precision_from_date_string, is_new_date_preferred
+from backend.database import save_tracks_mb_checkpoint, save_artists_mb_checkpoint, MB_TRACK_FIELDS, PENDING_TRACKS_QUERY
+from backend.database import tracks_collection, artists_collection
 from typing import Callable, Dict, List, Optional, Tuple
-from backend.utils import correct_uncertain_date
+from dataclasses import dataclass, field
 import requests
 import time
 
@@ -10,6 +12,7 @@ MB_HEADERS = {
     "Accept": "application/json",
 }
 RATE_LIMIT_DELAY = 1.0
+MB_CHECKPOINT_SIZE = 50
 
 
 
@@ -26,6 +29,7 @@ class EnrichmentProgress:
     done: int = 0
     matched: int = 0
     unmatched: int = 0
+    suspect: int = 0
     failed: int = 0
     start_time: float = field(default_factory=time.time)
 
@@ -35,7 +39,9 @@ class EnrichmentProgress:
 
     def record_result(self, mb_data: dict) -> None:
         self.done += 1
-        if mb_data.get("mb_id"):
+        if mb_data.get("mb_suspect"):
+            self.suspect += 1
+        elif mb_data.get("mb_id"):
             self.matched += 1
         else:
             self.unmatched += 1
@@ -49,7 +55,10 @@ class EnrichmentProgress:
         print(f"\n  Checkpoint saved: {self.done}/{self.total} {self.label}s processed")
 
     def print_summary(self) -> None:
-        print(f"MB {self.label} enrichment done: {self.matched} matched, {self.unmatched} unmatched, {self.failed} failed (retried on next run)")
+        print(f"MB {self.label} enrichment done: {self.matched} matched, {self.suspect} suspect, {self.unmatched} unmatched, {self.failed} failed (retried on next run)")
+
+    def to_counts(self) -> dict:
+        return {"matched": self.matched, "suspect": self.suspect, "unmatched": self.unmatched, "failed": self.failed, "total": self.total}
 
 
 def mb_api_get(path: str, params: dict = {}, max_retries: int = 3) -> Optional[dict]:
@@ -87,31 +96,60 @@ def mb_api_get(path: str, params: dict = {}, max_retries: int = 3) -> Optional[d
     raise MusicBrainzError(f"{path}: too many 503s after {max_retries} attempts")
 
 
+def pick_earliest_dated_release(releases: list) -> Optional[dict]:
+    dated_releases = [r for r in releases if r.get("date")]
+    if not(dated_releases):
+        return None
+    earliest_release = dated_releases[0]
+    for release in dated_releases[1:]:
+        if is_new_date_preferred(earliest_release["date"], release["date"]):
+            earliest_release = release
+    return earliest_release
+
+
 def get_language_from_releases(releases: list) -> Tuple[Optional[str], Optional[str]]:
     official = [r for r in releases if r.get("status") == "Official"]
     candidates = official if official else releases
-    candidates.sort(key=lambda r: r.get("date") or "9999")
-    for release in candidates:
-        text_rep = release.get("text-representation", {})
-        language = text_rep.get("language")
-        script = text_rep.get("script")
-        if language:
-            return language, script
-    return None, None
+    with_language = [r for r in candidates if r.get("text-representation", {}).get("language")]
+    if not(with_language):
+        return None, None
+    # a release without date is used only when no release with a language is dated
+    release = pick_earliest_dated_release(with_language) or with_language[0]
+    text_rep = release["text-representation"]
+    return text_rep["language"], text_rep.get("script")
 
 
-def fetch_track_mb_data(isrc: str, existing_mb_id: str = None) -> dict:
-    if existing_mb_id:
-        mbid = existing_mb_id
-    else:
-        data = mb_api_get(f"isrc/{isrc}", {"inc": "artist-credits"})
-        if(not(data) or not(data.get("recordings"))):
-            return {"mb_unmatched": True}
+def is_recording_matching(recording: dict, spotify_title: str, spotify_artists: List[Dict]) -> bool:
+    """Same normalized title, and at least one credited artist matching a Spotify artist by MB id or normalized name."""
+    if (normalize_title(recording.get("title")) != normalize_title(spotify_title)):
+        return False
 
-        recording = data["recordings"][0]
-        mbid = recording.get("id")
-        if not(mbid):
-            return {"mb_unmatched": True}
+    spotify_mb_ids = {artist.get("mb_id") for artist in spotify_artists if artist.get("mb_id")}
+    spotify_names = {normalize_name(artist.get("name")) for artist in spotify_artists if artist.get("name")}
+    for credit in recording.get("artist-credit", []):
+        mb_artist = credit.get("artist", {})
+        if (mb_artist.get("id") in spotify_mb_ids):
+            return True
+        if ({normalize_name(credit.get("name")), normalize_name(mb_artist.get("name"))} & spotify_names):
+            return True
+    return False
+
+
+def unmatched_track_mb_data() -> dict:
+    """Resets every MB field, so a re-verified track does not keep the mb_id or mb_release_date of a previous match."""
+    return {track_field: None for track_field in MB_TRACK_FIELDS} | {"mb_unmatched": True}
+
+
+def fetch_track_mb_data(isrc: str, spotify_title: str, spotify_artists: List[Dict]) -> dict:
+    """spotify_artists: [{"name", "mb_id"}]. Without a matching recording, the first one is kept but flagged mb_suspect."""
+    data = mb_api_get(f"isrc/{isrc}", {"inc": "artist-credits"})
+    recordings = [r for r in (data or {}).get("recordings", []) if r.get("id")]
+    if not(recordings):
+        return unmatched_track_mb_data()
+
+    matching = [r for r in recordings if is_recording_matching(r, spotify_title, spotify_artists)]
+    recording = matching[0] if matching else recordings[0]
+    mbid = recording["id"]
 
     rec_detail = mb_api_get(f"recording/{mbid}", {"inc": "releases"})
     releases = rec_detail.get("releases", []) if rec_detail else []
@@ -119,14 +157,18 @@ def fetch_track_mb_data(isrc: str, existing_mb_id: str = None) -> dict:
     language, script = get_language_from_releases(releases)
 
     official = [r for r in releases if r.get("status") == "Official"] or releases
-    dates = [r.get("date") for r in official if r.get("date")]
+    earliest_release = pick_earliest_dated_release(official)
 
     return {
         "mb_id": mbid,
         "mb_language": language,
         "mb_script": script,
-        "mb_release_date": min(dates) if dates else None,
+        "mb_release_date": earliest_release["date"] if earliest_release else None,
         "mb_unmatched": False,
+        "mb_title": recording.get("title"),
+        "mb_artists": [credit.get("name") for credit in recording.get("artist-credit", [])],
+        "mb_isrc_recordings": len(recordings),
+        "mb_suspect": not(matching),
     }
 
 
@@ -231,6 +273,7 @@ def fetch_artist_mb_data(spotify_artist_id: str, artist_name: str = None) -> dic
         return name_result
 
 
+# TODO: unused for now since many artists are still active. Search for heuristics to avoid redundant lookups.
 def fetch_artist_mb_status(mb_id: str) -> dict:
     """Fetches only life-span status for an already-matched artist."""
     detail = mb_api_get(f"artist/{mb_id}")
@@ -244,89 +287,6 @@ def fetch_artist_mb_status(mb_id: str) -> dict:
         "mb_end_date": life_span.get("end"),
         "mb_is_ended": is_ended,
     }
-
-
-def get_tracks_needing_mb_enrichment(track_ids: list, tracks_collection) -> set:
-    if (tracks_collection is None):
-        return set(track_ids)
-    try:
-        already = tracks_collection.find(
-            {
-                "id": {"$in": track_ids},
-                "$or": [{"mb_id": {"$exists": True}}, {"mb_unmatched": True}],
-            },
-            {"id": 1, "_id": 0},
-        )
-        return set(track_ids) - {doc["id"] for doc in already}
-    except Exception as e:
-        print(f"Error querying MB-enriched tracks: {e}")
-        return set(track_ids)
-
-
-def get_artists_needing_mb_enrichment(
-    artist_ids: list,
-    artists_collection,
-) -> Tuple[set, Dict[str, str]]:
-    """
-    Returns:
-    - need_full: artist IDs with no mb_id and not mb_unmatched (need name lookup)
-    - status_checks: {artist_id: mb_id} for matched but still-active artists/bands
-    """
-    if (artists_collection is None):
-        return set(artist_ids), {}
-    try:
-        docs = list(artists_collection.find(
-            {"id": {"$in": artist_ids}},
-            {"id": 1, "mb_id": 1, "mb_unmatched": 1, "mb_is_ended": 1, "_id": 0},
-        ))
-        need_full = set(artist_ids)
-        status_checks: Dict[str, str] = {}
-
-        for doc in docs:
-            artistId = doc["id"]
-            mb_id = doc.get("mb_id")
-            if (doc.get("mb_unmatched") or mb_id):
-                need_full.discard(artistId)
-            if mb_id:
-                is_ended = doc.get("mb_is_ended")
-                if not(is_ended):
-                    status_checks[artistId] = mb_id
-
-        return need_full, status_checks
-    except Exception as e:
-        print(f"Error querying MB-enriched artists: {e}")
-        return set(artist_ids), {}
-
-
-def select_tracks_to_enrich(
-    playlist_items: List[Dict],
-    tracks_collection=None,
-) -> List[Dict]:
-    """Returns the track dicts themselves (not copies), so the lookups enrich the playlist in place."""
-    track_ids = [track["id"] for track in playlist_items]
-    needs_enrichment = get_tracks_needing_mb_enrichment(track_ids, tracks_collection)
-    to_enrich = [
-        track for track in playlist_items
-        if (track["id"] in needs_enrichment) and track.get("isrc") and not track.get("mb_id")
-    ]
-
-    skipped = len(track_ids) - len(needs_enrichment)
-    print(f"{len(to_enrich)} tracks needing MB lookups ({skipped} already enriched, {len(needs_enrichment) - len(to_enrich)} missing ISRC).")
-    return to_enrich
-
-
-def select_artists_to_enrich(
-    artists_dict: Dict[str, dict],
-    artists_collection=None,
-) -> List[Dict]:
-    """Returns the artist dicts themselves (not copies), so the lookups enrich the playlist in place."""
-    artist_ids = list(artists_dict.keys())
-    need_full, status_checks = get_artists_needing_mb_enrichment(artist_ids, artists_collection)
-    # need_full, status_checks = get_artists_needing_mb_enrichment(artist_ids, None) # debug for querying all artists
-    # TODO: status_checks (fetch_artist_mb_status) are off for now since many artists are still active. Search for heuristics to avoid redundant lookups.
-
-    print(f"{len(need_full)} artists needing MB full lookups.")
-    return [artists_dict[artistId] for artistId in need_full]
 
 
 def enrich_batch(
@@ -347,37 +307,100 @@ def enrich_batch(
 
 
 def enrich_tracks_batch(tracks: List[Dict], progress: EnrichmentProgress) -> None:
-    enrich_batch(tracks, lambda track: fetch_track_mb_data(track["isrc"]), progress)
+    enrich_batch(tracks, lambda track: fetch_track_mb_data(track["isrc"], track["name"], track["spotify_artists"]), progress)
 
 
 def enrich_artists_batch(artists: List[Dict], progress: EnrichmentProgress) -> None:
     enrich_batch(artists, lambda artist: fetch_artist_mb_data(artist["id"], artist_name=artist.get("name")), progress)
 
 
+def run_mb_lookups_with_checkpoints(items, label, enrich_batch, save_checkpoint) -> EnrichmentProgress:
+    """Saves MB results every MB_CHECKPOINT_SIZE lookups. The next run skips what was saved."""
+    progress = EnrichmentProgress(label, len(items))
+    if not(items):
+        print(f"No {label}s needing MB enrichment.")
+        return progress
+
+    print(f"\n=== Starting {label} enrichment via MusicBrainz ===")
+    for start in range(0, len(items), MB_CHECKPOINT_SIZE):
+        batch = items[start : start + MB_CHECKPOINT_SIZE]
+        enrich_batch(batch, progress)
+        save_checkpoint(batch)
+        progress.print_checkpoint()
+
+    progress.print_summary()
+    return progress
+
+
+def get_pending_tracks_from_db() -> List[Dict]:
+    tracks = list(tracks_collection.find(
+        PENDING_TRACKS_QUERY,
+        {"id": 1, "isrc": 1, "name": 1, "artists": 1, "_id": 0},
+    ))
+
+    artist_ids = list({artist["id"] for track in tracks for artist in track.get("artists", [])})
+    artists_by_id = {
+        doc["id"]: doc
+        for doc in artists_collection.find({"id": {"$in": artist_ids}}, {"id": 1, "name": 1, "mb_id": 1, "_id": 0})
+    }
+    for track in tracks:
+        track["spotify_artists"] = [artists_by_id.get(artist["id"], {}) for artist in track.get("artists", [])]
+    return tracks
+
+
+def get_pending_artists_from_db() -> List[Dict]:
+    return list(artists_collection.find(
+        {
+            "mb_id": {"$exists": False},
+            "mb_unmatched": {"$ne": True},
+        },
+        {"id": 1, "name": 1, "_id": 0},
+    ))
+
+
+def enrich_database_with_musicbrainz() -> Dict[str, dict]:
+    """Looks up every pending artist then track of the DB. Failed lookups stay pending for the next run.
+    Artists go first: the recording check of a track uses the mb_id of its artists."""
+    artists = get_pending_artists_from_db()
+    artists_progress = run_mb_lookups_with_checkpoints(artists, "artist", enrich_artists_batch, save_artists_mb_checkpoint)
+
+    tracks = get_pending_tracks_from_db()
+    tracks_progress = run_mb_lookups_with_checkpoints(tracks, "track", enrich_tracks_batch, save_tracks_mb_checkpoint)
+
+    return {"tracks": tracks_progress.to_counts(), "artists": artists_progress.to_counts()}
+
+
+def is_mb_processed(track: Dict) -> bool:
+    return bool(track.get("mb_id") or track.get("mb_unmatched"))
+
+
 def backfill_mb_release_dates(
     playlist_items: List[Dict],
     tracks_collection=None,
 ) -> None:
-    """Fetches mb_release_date from DB for uncertain tracks MB-enriched in a prior run (their in-memory dict has no MB fields)."""
+    """Fetches mb_id, mb_unmatched and mb_release_date from DB for uncertain tracks MB-processed in a prior run."""
     id_to_index = {track["id"]: i for i, track in enumerate(playlist_items)}
     uncertain_ids_to_fetch = [
         track["id"] for track in playlist_items
         if track.get("release_date_uncertain")
-        and not(track.get("mb_release_date"))
+        and not(is_mb_processed(track))
     ]
 
     if (uncertain_ids_to_fetch and (tracks_collection is not None)):
         try:
             docs = tracks_collection.find(
                 {"id": {"$in": uncertain_ids_to_fetch}},
-                {"id": 1, "mb_release_date": 1, "_id": 0},
+                {"id": 1, "mb_id": 1, "mb_unmatched": 1, "mb_release_date": 1, "_id": 0},
             )
             for doc in docs:
                 idx = id_to_index.get(doc["id"])
-                if ((idx is not None) and doc.get("mb_release_date")):
-                    playlist_items[idx]["mb_release_date"] = doc["mb_release_date"]
+                if (idx is None):
+                    continue
+                for field in ("mb_id", "mb_unmatched", "mb_release_date"):
+                    if (field in doc):
+                        playlist_items[idx][field] = doc[field]
         except Exception as e:
-            raise RuntimeError(f"Error backfilling mb_release_date for uncertain tracks: {e}")
+            raise RuntimeError(f"Error backfilling MB fields for uncertain tracks: {e}")
 
 
 def correct_uncertain_release_dates(
@@ -385,13 +408,21 @@ def correct_uncertain_release_dates(
     tracks_collection=None,
 ) -> List[Dict]:
     """Applies MB release date corrections to uncertain tracks, fallback to downgrade to year precision. Must run after all MB lookups."""
-    backfill_mb_release_dates(playlist_items, tracks_collection)
+    backfill_mb_release_dates(playlist_items, tracks_collection) # updates playlist_items in place
 
     changed = 0
+    deferred = 0
     for i in range(len(playlist_items)):
         if not playlist_items[i].get("release_date_uncertain"):
             continue
         track = playlist_items[i]
+
+        # leave the date unvalidated for a later run
+        if not(is_mb_processed(track)):
+            playlist_items[i]["corrected_release_date"] = False
+            deferred += 1
+            continue
+
         new_date, new_precision = correct_uncertain_date(track.get("release_date"), track.get("release_date_precision"), track.get("mb_release_date"))
         playlist_items[i]["release_date"] = new_date
         playlist_items[i]["release_date_precision"] = new_precision
@@ -402,5 +433,46 @@ def correct_uncertain_release_dates(
         print(f"Uncertain date correction: {changed} tracks corrected.")
     else:
         print("No uncertain date correction made.")
+    if (deferred > 0):
+        print(f"Uncertain date correction: {deferred} tracks deferred until MusicBrainz has processed them.")
 
+    return playlist_items
+
+
+def apply_mb_date_rule(
+    playlist_items: List[Dict],
+    tracks_collection,
+) -> List[Dict]:
+    """Replaces the date by an earlier MB date (see is_mb_date_preferred) when the MB match is verified. Must run after correct_uncertain_release_dates.
+    Already corrected tracks are compared with their stored date, since their in-memory date is the raw Spotify one."""
+    track_ids = [track["id"] for track in playlist_items]
+    try:
+        docs = {
+            doc["id"]: doc
+            for doc in tracks_collection.find(
+                {"id": {"$in": track_ids}, "mb_title": {"$exists": True}, "mb_suspect": {"$ne": True}},
+                {"id": 1, "release_date": 1, "release_date_precision": 1, "release_date_before_mb": 1, "mb_release_date": 1, "_id": 0},
+            )
+        }
+    except Exception as e:
+        raise RuntimeError(f"Error querying MB dates: {e}")
+
+    changed = 0
+    for i, track in enumerate(playlist_items):
+        doc = docs.get(track["id"])
+        if (doc is None) or track.get("manual_release_date"):
+            continue
+
+        current = doc if (track.get("corrected_release_date") == "already_corrected") else track
+        current_date = current.get("release_date")
+        if not(is_mb_date_preferred(current_date, doc.get("mb_release_date"))):
+            continue
+
+        playlist_items[i]["release_date_before_mb"] = doc.get("release_date_before_mb") or current_date
+        playlist_items[i]["release_date"] = doc["mb_release_date"]
+        playlist_items[i]["release_date_precision"] = infer_precision_from_date_string(doc["mb_release_date"])
+        playlist_items[i]["corrected_release_date"] = True
+        changed += 1
+
+    print(f"MB date rule: {changed} tracks take an earlier MusicBrainz date.")
     return playlist_items

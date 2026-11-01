@@ -1,6 +1,8 @@
+from typing import Optional
+import unicodedata
+import datetime
 import os
 import re
-from typing import Optional
 
 PRECISION_RANK = {"year": 0, "month": 1, "day": 2}
 
@@ -10,6 +12,22 @@ PRECISION_RANK = {"year": 0, "month": 1, "day": 2}
 def create_folder(folder):
     if not os.path.exists(folder):
         os.makedirs(folder)
+
+
+def normalize_name(name: str) -> str:
+    without_accents = "".join(
+        c for c in unicodedata.normalize("NFKD", name or "")
+        if not(unicodedata.combining(c))
+    )
+    return " ".join(re.sub(r"[^\w]+", " ", without_accents.lower()).split())
+
+
+def normalize_title(title: str) -> str:
+    """normalize_name without the version details: "(...)", "[...]" and a " - ..." suffix ("Cupid - Twin Version" -> "cupid")."""
+    base_title = re.sub(r"\([^)]*\)|\[[^\]]*\]", " ", title or "")
+    base_title = re.split(r"\s[-–—]\s", base_title)[0]
+    # a title made only of details ("(Intro)") keeps them
+    return normalize_name(base_title) or normalize_name(title)
 
 
 def normalize_date_for_comparison(date: str, precision: str) -> str:
@@ -38,11 +56,18 @@ def infer_precision_from_date_string(date_str: Optional[str]) -> Optional[str]:
 
 
 def is_new_date_preferred(
-    oldDate: str, oldPrecision: str,
-    newDate: str, newPrecision: str,
+    oldDate: str,
+    newDate: str,
     oldUncertain: Optional[bool] = None,
     newUncertain: Optional[bool] = None,
 ) -> bool:
+    oldPrecision = infer_precision_from_date_string(oldDate)
+    newPrecision = infer_precision_from_date_string(newDate)
+    if not(newPrecision):
+        return False
+    if not(oldPrecision):
+        return True
+
     # Same year + differing uncertainty -> prefer the certain one.
     if (oldUncertain is not None) and (newUncertain is not None):
         if (oldDate[:4] == newDate[:4]) and (oldUncertain != newUncertain):
@@ -86,6 +111,26 @@ def correct_uncertain_date(
         if (mb_date[:4] <= date[:4]):
             return (mb_date, mb_precision)
     return (date[:4], "year")
+
+
+def is_mb_date_preferred(stored_date: Optional[str], mb_date: Optional[str]) -> bool:
+    mb_precision = infer_precision_from_date_string(mb_date)
+    stored_precision = infer_precision_from_date_string(stored_date)
+    if not(mb_precision) or not(stored_precision):
+        return False
+    if is_uncertain_isrc_date(mb_date, mb_precision):
+        return False
+
+    mb_rank = PRECISION_RANK[mb_precision]
+    stored_rank = PRECISION_RANK[stored_precision]
+    if (mb_rank < stored_rank):
+        return False
+    if (mb_rank > stored_rank):
+        return mb_date[:len(stored_date)] <= stored_date
+    if (mb_precision == "day"):
+        gap = datetime.date.fromisoformat(stored_date) - datetime.date.fromisoformat(mb_date)
+        return gap.days > 7
+    return mb_date < stored_date
 
 
 def validate_date_key(dateKey):

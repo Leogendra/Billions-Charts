@@ -1,4 +1,4 @@
-from backend.utils import is_uncertain_isrc_date, is_new_date_preferred
+from backend.utils import is_uncertain_isrc_date, is_new_date_preferred, infer_precision_from_date_string
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from typing import Dict, List, Optional
 import requests
@@ -54,8 +54,7 @@ def fetch_release_date_via_isrc(
             uncertain = is_uncertain_isrc_date(release_date, precision)
 
             if (best_date_str is None) or is_new_date_preferred(
-                best_date_str, best_precision,
-                release_date, precision,
+                best_date_str, release_date,
                 best_uncertain, uncertain,
             ):
                 best_date_str = release_date
@@ -88,6 +87,35 @@ def get_tracks_already_corrected(track_ids: List[str], tracks_collection) -> set
         return set()
 
 
+def get_stored_isrcs(track_ids: List[str], tracks_collection) -> Dict[str, str]:
+    try:
+        docs = tracks_collection.find(
+            {"id": {"$in": track_ids}, "isrc": {"$nin": [None, ""]}},
+            {"id": 1, "isrc": 1, "_id": 0},
+        )
+        return {doc["id"]: doc["isrc"] for doc in docs}
+    except Exception as e:
+        raise RuntimeError(f"Error querying stored ISRCs: {e}")
+
+
+def get_manual_release_dates(track_ids: List[str], tracks_collection) -> Dict[str, tuple[str, str]]:
+    """{id: (date, precision)} for dates fixed by hand. Raises on error: an empty result would let a /search/ overwrite them."""
+    try:
+        docs = tracks_collection.find(
+            {"id": {"$in": track_ids}, "manual_release_date": {"$nin": [None, ""]}},
+            {"id": 1, "manual_release_date": 1, "manual_release_date_precision": 1, "_id": 0},
+        )
+        return {
+            doc["id"]: (
+                doc["manual_release_date"],
+                doc.get("manual_release_date_precision") or infer_precision_from_date_string(doc["manual_release_date"]),
+            )
+            for doc in docs
+        }
+    except Exception as e:
+        raise RuntimeError(f"Error querying manual release dates: {e}")
+
+
 def enrich_tracks_with_correct_release_dates(
     playlist_items: List[Dict],
     headers: Dict[str, str],
@@ -102,20 +130,27 @@ def enrich_tracks_with_correct_release_dates(
     print(f"Fetching API data for {len(track_ids)} tracks...")
     tracks_data = fetch_tracks_infos_batch(track_ids, headers)
 
+    # A track without API data would be persisted without date or popularity: abort, the next /search/ retries
+    missing_ids = [track_id for track_id in track_ids if (track_id not in tracks_data)]
+    if missing_ids:
+        raise RuntimeError(
+            f"Spotify returned no data for {len(missing_ids)}/{len(track_ids)} tracks "
+            f"(first ones: {', '.join(missing_ids[:10])}). Aborting pipeline."
+        )
+
     # Tracks already corrected skip the ISRC date search but still get popularity updated
     already_corrected = set()
     if not(overwrite):
         already_corrected = get_tracks_already_corrected(track_ids, tracks_collection)
 
+    stored_isrcs = get_stored_isrcs(track_ids, tracks_collection)
+    manual_dates = get_manual_release_dates(track_ids, tracks_collection)
+
     # apply batch API data to all tracks
     for i, track in enumerate(playlist_items):
         track_id = track["id"]
-        api_data = tracks_data.get(track_id, {})
-        isrc = api_data.get("isrc")
-
-        if not(api_data):
-            print(f"No API data found for track ID {track_id}. Skipping enrichment.")
-            continue
+        api_data = tracks_data[track_id]
+        isrc = stored_isrcs.get(track_id) or api_data.get("isrc") # use stored ISRC first
 
         playlist_items[i]["popularity"] = api_data.get("popularity")
         playlist_items[i]["release_date"] = api_data.get("release_date")
@@ -123,7 +158,14 @@ def enrich_tracks_with_correct_release_dates(
         playlist_items[i]["corrected_release_date"] = False
         playlist_items[i]["isrc"] = isrc
 
-        if (track_id in already_corrected):
+        # a manual date always wins
+        if (track_id in manual_dates):
+            manual_date, manual_precision = manual_dates[track_id]
+            playlist_items[i]["release_date"] = manual_date
+            playlist_items[i]["release_date_precision"] = manual_precision
+            playlist_items[i]["manual_release_date"] = manual_date
+            playlist_items[i]["corrected_release_date"] = True
+        elif (track_id in already_corrected):
             playlist_items[i]["corrected_release_date"] = "already_corrected"
         # # cannot be trusted anymore since Spotify sometimes returns wrong release dates for singles
         # elif ((api_data.get("album_type") == "single") and isrc): 
@@ -133,7 +175,7 @@ def enrich_tracks_with_correct_release_dates(
     to_lookup = [
         (i, playlist_items[i]["isrc"])
         for i in range(len(playlist_items))
-        if playlist_items[i]["corrected_release_date"] is False
+        if (playlist_items[i]["corrected_release_date"] is False) and playlist_items[i]["isrc"]
     ]
     
     isrc_search_count = len(to_lookup)
@@ -146,7 +188,8 @@ def enrich_tracks_with_correct_release_dates(
 
     enriched_count = 0
     completed = 0
-    with ThreadPoolExecutor(max_workers=5) as executor:
+    nb_workers = 3 # 5 workers yield 429 errors
+    with ThreadPoolExecutor(max_workers=nb_workers) as executor:
         futures = {executor.submit(isrc_lookup_process, idx, isrc): idx for idx, isrc in to_lookup}
         for future in as_completed(futures):
             completed += 1
@@ -164,8 +207,7 @@ def enrich_tracks_with_correct_release_dates(
                 enriched_count += 1
 
                 if is_new_date_preferred(
-                    old_date_str, old_precision,
-                    isrc_date, isrc_precision,
+                    old_date_str, isrc_date,
                     is_uncertain_isrc_date(old_date_str, old_precision), isrc_uncertain,
                 ):
                     playlist_items[idx]["release_date"] = isrc_date
@@ -180,6 +222,7 @@ def enrich_tracks_with_correct_release_dates(
     for i in range(len(playlist_items)):
         track = playlist_items[i]
         if (track.get("corrected_release_date") != "already_corrected"
+                and not(track.get("manual_release_date"))
                 and is_uncertain_isrc_date(track.get("release_date", ""), track.get("release_date_precision", ""))):
             playlist_items[i]["release_date_uncertain"] = True
 
@@ -231,10 +274,6 @@ def fetch_tracks_infos_batch(
 
     if (error_count > 0):
         print(f"WARNING: {error_count}/{total_batches} track batches failed.")
-        if (error_count > (total_batches / 2)):
-            raise RuntimeError(
-                f"Majority of track batches failed ({error_count}/{total_batches}). Aborting pipeline."
-            )
 
     isrc_count = sum(1 for v in track_data.values() if v.get("isrc"))
     print(f"Retrieved tracks infos for {isrc_count}/{len(track_data)} tracks")
