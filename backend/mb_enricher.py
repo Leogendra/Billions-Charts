@@ -1,4 +1,4 @@
-from backend.utils import correct_uncertain_date, normalize_name, normalize_title, is_mb_date_preferred, infer_precision_from_date_string
+from backend.utils import correct_uncertain_date, normalize_name, normalize_title, is_mb_date_preferred, infer_precision_from_date_string, is_new_date_preferred
 from backend.database import save_tracks_mb_checkpoint, save_artists_mb_checkpoint, MB_TRACK_FIELDS, PENDING_TRACKS_QUERY
 from backend.database import tracks_collection, artists_collection
 from typing import Callable, Dict, List, Optional, Tuple
@@ -96,17 +96,27 @@ def mb_api_get(path: str, params: dict = {}, max_retries: int = 3) -> Optional[d
     raise MusicBrainzError(f"{path}: too many 503s after {max_retries} attempts")
 
 
+def pick_earliest_dated_release(releases: list) -> Optional[dict]:
+    dated_releases = [r for r in releases if r.get("date")]
+    if not(dated_releases):
+        return None
+    earliest_release = dated_releases[0]
+    for release in dated_releases[1:]:
+        if is_new_date_preferred(earliest_release["date"], release["date"]):
+            earliest_release = release
+    return earliest_release
+
+
 def get_language_from_releases(releases: list) -> Tuple[Optional[str], Optional[str]]:
     official = [r for r in releases if r.get("status") == "Official"]
     candidates = official if official else releases
-    candidates.sort(key=lambda r: r.get("date") or "9999")
-    for release in candidates:
-        text_rep = release.get("text-representation", {})
-        language = text_rep.get("language")
-        script = text_rep.get("script")
-        if language:
-            return language, script
-    return None, None
+    with_language = [r for r in candidates if r.get("text-representation", {}).get("language")]
+    if not(with_language):
+        return None, None
+    # a release without date is used only when no release with a language is dated
+    release = pick_earliest_dated_release(with_language) or with_language[0]
+    text_rep = release["text-representation"]
+    return text_rep["language"], text_rep.get("script")
 
 
 def is_recording_matching(recording: dict, spotify_title: str, spotify_artists: List[Dict]) -> bool:
@@ -147,13 +157,13 @@ def fetch_track_mb_data(isrc: str, spotify_title: str, spotify_artists: List[Dic
     language, script = get_language_from_releases(releases)
 
     official = [r for r in releases if r.get("status") == "Official"] or releases
-    dates = [r.get("date") for r in official if r.get("date")]
+    earliest_release = pick_earliest_dated_release(official)
 
     return {
         "mb_id": mbid,
         "mb_language": language,
         "mb_script": script,
-        "mb_release_date": min(dates) if dates else None,
+        "mb_release_date": earliest_release["date"] if earliest_release else None,
         "mb_unmatched": False,
         "mb_title": recording.get("title"),
         "mb_artists": [credit.get("name") for credit in recording.get("artist-credit", [])],

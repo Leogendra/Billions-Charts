@@ -56,11 +56,18 @@ def infer_precision_from_date_string(date_str: Optional[str]) -> Optional[str]:
 
 
 def is_new_date_preferred(
-    oldDate: str, oldPrecision: str,
-    newDate: str, newPrecision: str,
+    oldDate: str,
+    newDate: str,
     oldUncertain: Optional[bool] = None,
     newUncertain: Optional[bool] = None,
 ) -> bool:
+    oldPrecision = infer_precision_from_date_string(oldDate)
+    newPrecision = infer_precision_from_date_string(newDate)
+    if not(newPrecision):
+        return False
+    if not(oldPrecision):
+        return True
+
     # Same year + differing uncertainty -> prefer the certain one.
     if (oldUncertain is not None) and (newUncertain is not None):
         if (oldDate[:4] == newDate[:4]) and (oldUncertain != newUncertain):

@@ -54,8 +54,7 @@ def fetch_release_date_via_isrc(
             uncertain = is_uncertain_isrc_date(release_date, precision)
 
             if (best_date_str is None) or is_new_date_preferred(
-                best_date_str, best_precision,
-                release_date, precision,
+                best_date_str, release_date,
                 best_uncertain, uncertain,
             ):
                 best_date_str = release_date
@@ -208,8 +207,7 @@ def enrich_tracks_with_correct_release_dates(
                 enriched_count += 1
 
                 if is_new_date_preferred(
-                    old_date_str, old_precision,
-                    isrc_date, isrc_precision,
+                    old_date_str, isrc_date,
                     is_uncertain_isrc_date(old_date_str, old_precision), isrc_uncertain,
                 ):
                     playlist_items[idx]["release_date"] = isrc_date
