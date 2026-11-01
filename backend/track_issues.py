@@ -38,11 +38,6 @@ def is_unvalidated_date(track: Dict) -> bool:
     return not(track.get("corrected_release_date")) and is_mb_processed(track)
 
 
-def describe_mb_suspect(track: Dict) -> str:
-    mb_artists = ", ".join(track.get("mb_artists") or [])
-    return f"MB: \"{track.get('mb_title')}\" by {mb_artists}, MB date {track.get('mb_release_date')}"
-
-
 def describe_mb_replacement(track: Dict) -> str:
     return f"{track.get('release_date_before_mb')} -> {track.get('release_date')} (MB)"
 
@@ -51,7 +46,6 @@ def describe_mb_replacement(track: Dict) -> str:
 TO_FIX_SECTIONS = [
     IssueSection("No ISRC", lambda track: not(track.get("isrc"))),
     IssueSection("MB unmatched", lambda track: bool(track.get("mb_unmatched"))),
-    IssueSection("MB suspect", lambda track: bool(track.get("mb_suspect")), describe_mb_suspect),
     IssueSection("Date not validated", is_unvalidated_date),
     IssueSection("MB date on a version title", lambda track: is_date_replaced_by_mb(track) and is_version_title(track.get("name")), describe_mb_replacement),
 ]
@@ -77,6 +71,7 @@ def build_info_lines(tracks: List[Dict], pending_count: int) -> List[str]:
     return [
         "== INFO ==",
         f"MB pending: {pending_count}",
+        f"MB suspect: {sum(bool(track.get('mb_suspect')) for track in tracks)}",
         f"Dates replaced by MB: {sum(is_date_replaced_by_mb(track) for track in tracks)}",
         f"Year-precision dates: {sum(track.get('release_date_precision') == 'year' for track in tracks)}",
         f"Manual dates: {sum(has_manual_date(track) for track in tracks)}",
