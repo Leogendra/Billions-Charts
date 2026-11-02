@@ -33,6 +33,16 @@ def is_version_title(name: str) -> bool:
     return VERSION_TITLE_PATTERN.search(name or "") is not None
 
 
+def is_date_contradicted_by_mb(track: Dict) -> bool:
+    """False when MB only refines the previous date (1996 -> 1996-06-04)."""
+    previous_date = track.get("release_date_before_mb") or ""
+    return not((track.get("release_date") or "").startswith(previous_date))
+
+
+def is_mb_date_on_version_title(track: Dict) -> bool:
+    return is_date_replaced_by_mb(track) and is_date_contradicted_by_mb(track) and is_version_title(track.get("name"))
+
+
 def is_unvalidated_date(track: Dict) -> bool:
     """Tracks MB has not processed yet are left out: their date correction is deferred until the next /enrich/ + /search/."""
     return not(track.get("corrected_release_date")) and is_mb_processed(track)
@@ -47,7 +57,7 @@ TO_FIX_SECTIONS = [
     IssueSection("No ISRC", lambda track: not(track.get("isrc"))),
     IssueSection("MB unmatched", lambda track: bool(track.get("mb_unmatched"))),
     IssueSection("Date not validated", is_unvalidated_date),
-    IssueSection("MB date on a version title", lambda track: is_date_replaced_by_mb(track) and is_version_title(track.get("name")), describe_mb_replacement),
+    IssueSection("MB date on a version title", is_mb_date_on_version_title, describe_mb_replacement),
 ]
 
 
