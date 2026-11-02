@@ -28,7 +28,7 @@ def fetch_release_date_via_isrc(
         def fetch_isrc():
             params = {"q": f"isrc:{isrc}", "type": "track", "limit": 10}
             response = requests.get(
-                "https://api.spotify.com/v1/search", headers=headers, params=params
+                "https://api.spotify.com/v1/search", headers=headers, params=params, timeout=10
             )
             response.raise_for_status()
             return response.json().get("tracks", {}).get("items", [])
@@ -245,7 +245,7 @@ def fetch_tracks_infos_batch(
         try:
             def fetch_tracks():
                 response = requests.get(
-                    "https://api.spotify.com/v1/tracks", headers=headers, params=params
+                    "https://api.spotify.com/v1/tracks", headers=headers, params=params, timeout=10
                 )
                 response.raise_for_status()
                 return response.json().get("tracks", [])
@@ -295,7 +295,7 @@ def fetch_artists_batch(artist_ids: List[str], headers: Dict[str, str]) -> Dict:
         try:
             def fetch_artists():
                 response = requests.get(
-                    "https://api.spotify.com/v1/artists", headers=headers, params=params
+                    "https://api.spotify.com/v1/artists", headers=headers, params=params, timeout=10
                 )
                 response.raise_for_status()
                 return response.json()["artists"]

@@ -24,7 +24,11 @@ def get_access_token():
     data = {"grant_type": "client_credentials"}
     try:
         response = requests.post(
-            url, headers=headers, data=data, auth=(CLIENT_ID, CLIENT_SECRET)
+            url,
+            headers=headers,
+            data=data,
+            auth=(CLIENT_ID, CLIENT_SECRET),
+            timeout=10
         )
         response.raise_for_status()
         return response.json()["access_token"]
