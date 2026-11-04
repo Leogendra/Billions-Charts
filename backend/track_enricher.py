@@ -1,7 +1,7 @@
 from backend.utils import is_uncertain_isrc_date, is_new_date_preferred, infer_precision_from_date_string
 from backend.database import retrieve_corrected_track_ids, retrieve_stored_isrcs, retrieve_manual_release_dates
 from concurrent.futures import ThreadPoolExecutor, as_completed
-from typing import Dict, List, Optional
+from typing import Callable, Dict, List, Optional
 import requests
 import time
 
@@ -96,14 +96,6 @@ def enrich_tracks_with_correct_release_dates(
     # fetch API data for all tracks
     print(f"Fetching API data for {len(track_ids)} tracks...")
     tracks_data = fetch_tracks_infos_batch(track_ids, headers)
-
-    # A track without API data would be persisted without date or popularity: abort, the next /search/ retries
-    missing_ids = [track_id for track_id in track_ids if (track_id not in tracks_data)]
-    if missing_ids:
-        raise RuntimeError(
-            f"Spotify returned no data for {len(missing_ids)}/{len(track_ids)} tracks "
-            f"(first ones: {', '.join(missing_ids[:10])}). Aborting pipeline."
-        )
 
     # Tracks already corrected skip the ISRC date search but still get popularity updated
     already_corrected = set()
@@ -206,51 +198,87 @@ def enrich_tracks_with_correct_release_dates(
     return playlist_items
 
 
-def fetch_tracks_infos_batch(
-    track_ids: List[str], headers: Dict[str, str]
+def fetch_spotify_batches(
+    url: str,
+    response_key: str,
+    ids: List[str],
+    headers: Dict[str, str],
+    parse_item: Callable[[Dict], Dict],
+    label: str,
 ) -> Dict[str, Dict]:
-    track_data = {}
+    """Fetches ids by chunks of 50, keyed by Spotify id"""
+    items_infos = {}
     error_count = 0
     total_batches = 0
 
-    for i in range(0, len(track_ids), 50):
-        print(f"Fetching tracks {i}/{len(track_ids)}...   ", end="\r")
-        chunk = track_ids[i : i + 50]
+    for i in range(0, len(ids), 50):
+        print(f"Fetching {label}s {i}/{len(ids)}...   ", end="\r")
+        chunk = ids[i : i + 50]
         params = {"ids": ",".join(chunk)}
         total_batches += 1
 
         try:
-            def fetch_tracks():
-                response = requests.get(
-                    "https://api.spotify.com/v1/tracks", headers=headers, params=params, timeout=10
-                )
+            def fetch_chunk():
+                response = requests.get(url, headers=headers, params=params, timeout=10)
                 response.raise_for_status()
-                return response.json().get("tracks", [])
+                return response.json().get(response_key, [])
 
-            tracks_data = request_with_retry(fetch_tracks)
-
-            for track in tracks_data:
-                if track:
-                    track_id = track.get("id")
-                    if not(track_id):
-                        continue
-
-                    album = track.get("album", {})
-                    track_data[track_id] = {
-                        "isrc": track.get("external_ids", {}).get("isrc"),
-                        "name": track.get("name"),
-                        "popularity": track.get("popularity"),
-                        "album_type": album.get("album_type"),
-                        "release_date": album.get("release_date"),
-                        "release_date_precision": album.get("release_date_precision"),
-                    }
+            # An item without id raises KeyError: the whole chunk counts as failed
+            for item in request_with_retry(fetch_chunk):
+                if item:
+                    items_infos[item["id"]] = parse_item(item)
 
         except Exception as e:
             error_count += 1
-            print(f"Error fetching tracks infos batch at {i}: {e}")
+            print(f"Error fetching {label} batch at {i}: {e}")
 
     if (error_count > 0):
-        print(f"WARNING: {error_count}/{total_batches} track batches failed.")
+        print(f"WARNING: {error_count}/{total_batches} {label} batches failed.")
+
+    # An item without API data would be persisted incomplete: abort, the next /search/ retries
+    missing_ids = [item_id for item_id in ids if (item_id not in items_infos)]
+    if missing_ids:
+        raise RuntimeError(
+            f"Spotify returned no data for {len(missing_ids)}/{len(ids)} {label}s "
+            f"(first ones: {', '.join(missing_ids[:10])}). Aborting pipeline."
+        )
+
+    return items_infos
+
+
+def parse_track_infos(track: Dict) -> Dict:
+    album = track.get("album", {})
+    return {
+        "isrc": track.get("external_ids", {}).get("isrc"),
+        "name": track.get("name"),
+        "popularity": track.get("popularity"),
+        "album_type": album.get("album_type"),
+        "release_date": album.get("release_date"),
+        "release_date_precision": album.get("release_date_precision"),
+    }
+
+
+def parse_artist_infos(artist: Dict) -> Dict:
+    return {
+        "id": artist["id"],
+        "name": artist["name"],
+        "genres": artist["genres"],
+        "followers": artist["followers"]["total"],
+        "popularity": artist["popularity"],
+        "image": (
+            max(artist["images"], key=lambda x: x["width"])
+            if artist["images"]
+            else None
+        ),
+    }
+
+
+def fetch_tracks_infos_batch(
+    track_ids: List[str], headers: Dict[str, str]
+) -> Dict[str, Dict]:
+    track_data = fetch_spotify_batches(
+        "https://api.spotify.com/v1/tracks", "tracks", track_ids, headers, parse_track_infos, "track",
+    )
 
     isrc_count = sum(1 for v in track_data.values() if v.get("isrc"))
     print(f"Retrieved tracks infos for {isrc_count}/{len(track_data)} tracks")
@@ -258,52 +286,10 @@ def fetch_tracks_infos_batch(
 
 
 def fetch_artists_batch(artist_ids: List[str], headers: Dict[str, str]) -> Dict:
-    artists_infos = {}
-    error_count = 0
-    total_batches = 0
-
     print(f"Fetching {len(artist_ids)} artists...")
-    for i in range(0, len(artist_ids), 50):
-        print(f"Fetching artists {i}/{len(artist_ids)}...   ", end="\r")
-        batch = artist_ids[i : i + 50]
-        params = {"ids": ",".join(batch)}
-        total_batches += 1
-
-        try:
-            def fetch_artists():
-                response = requests.get(
-                    "https://api.spotify.com/v1/artists", headers=headers, params=params, timeout=10
-                )
-                response.raise_for_status()
-                return response.json()["artists"]
-
-            artists_batch = request_with_retry(fetch_artists)
-
-            for artist in artists_batch:
-                if artist:
-                    artists_infos[artist["id"]] = {
-                        "id": artist["id"],
-                        "name": artist["name"],
-                        "genres": artist["genres"],
-                        "followers": artist["followers"]["total"],
-                        "popularity": artist["popularity"],
-                        "image": (
-                            max(artist["images"], key=lambda x: x["width"])
-                            if artist["images"]
-                            else None
-                        ),
-                    }
-
-        except Exception as e:
-            error_count += 1
-            print(f"Error fetching artist batch {i}: {e}")
-
-    if (error_count > 0):
-        print(f"WARNING: {error_count}/{total_batches} artist batches failed.")
-        if (error_count > (total_batches / 2)):
-            raise RuntimeError(
-                f"Majority of artist batches failed ({error_count}/{total_batches}). Aborting pipeline."
-            )
+    artists_infos = fetch_spotify_batches(
+        "https://api.spotify.com/v1/artists", "artists", artist_ids, headers, parse_artist_infos, "artist",
+    )
 
     print(f"Fetching {len(artist_ids)} artists done!")
     return artists_infos
