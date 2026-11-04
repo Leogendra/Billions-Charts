@@ -1,6 +1,6 @@
 from backend.utils import correct_uncertain_date, normalize_name, normalize_title, is_mb_date_preferred, infer_precision_from_date_string, is_new_date_preferred
-from backend.database import save_tracks_mb_checkpoint, save_artists_mb_checkpoint, MB_TRACK_FIELDS, PENDING_TRACKS_QUERY
-from backend.database import tracks_collection, artists_collection
+from backend.database import save_tracks_mb_checkpoint, save_artists_mb_checkpoint, MB_TRACK_FIELDS
+from backend.database import retrieve_mb_pending_tracks, retrieve_mb_pending_artists, retrieve_tracks_mb_status, retrieve_verified_mb_dates
 from typing import Callable, Dict, List, Optional, Tuple
 from dataclasses import dataclass, field
 import requests
@@ -332,39 +332,13 @@ def run_mb_lookups_with_checkpoints(items, label, enrich_batch, save_checkpoint)
     return progress
 
 
-def get_pending_tracks_from_db() -> List[Dict]:
-    tracks = list(tracks_collection.find(
-        PENDING_TRACKS_QUERY,
-        {"id": 1, "isrc": 1, "name": 1, "artists": 1, "_id": 0},
-    ))
-
-    artist_ids = list({artist["id"] for track in tracks for artist in track.get("artists", [])})
-    artists_by_id = {
-        doc["id"]: doc
-        for doc in artists_collection.find({"id": {"$in": artist_ids}}, {"id": 1, "name": 1, "mb_id": 1, "_id": 0})
-    }
-    for track in tracks:
-        track["spotify_artists"] = [artists_by_id.get(artist["id"], {}) for artist in track.get("artists", [])]
-    return tracks
-
-
-def get_pending_artists_from_db() -> List[Dict]:
-    return list(artists_collection.find(
-        {
-            "mb_id": {"$exists": False},
-            "mb_unmatched": {"$ne": True},
-        },
-        {"id": 1, "name": 1, "_id": 0},
-    ))
-
-
 def enrich_database_with_musicbrainz() -> Dict[str, dict]:
     """Looks up every pending artist then track of the DB. Failed lookups stay pending for the next run.
     Artists go first: the recording check of a track uses the mb_id of its artists."""
-    artists = get_pending_artists_from_db()
+    artists = retrieve_mb_pending_artists()
     artists_progress = run_mb_lookups_with_checkpoints(artists, "artist", enrich_artists_batch, save_artists_mb_checkpoint)
 
-    tracks = get_pending_tracks_from_db()
+    tracks = retrieve_mb_pending_tracks()
     tracks_progress = run_mb_lookups_with_checkpoints(tracks, "track", enrich_tracks_batch, save_tracks_mb_checkpoint)
 
     return {"tracks": tracks_progress.to_counts(), "artists": artists_progress.to_counts()}
@@ -374,10 +348,7 @@ def is_mb_processed(track: Dict) -> bool:
     return bool(track.get("mb_id") or track.get("mb_unmatched"))
 
 
-def backfill_mb_release_dates(
-    playlist_items: List[Dict],
-    tracks_collection=None,
-) -> None:
+def backfill_mb_release_dates(playlist_items: List[Dict]) -> None:
     """Fetches mb_id, mb_unmatched and mb_release_date from DB for uncertain tracks MB-processed in a prior run."""
     id_to_index = {track["id"]: i for i, track in enumerate(playlist_items)}
     uncertain_ids_to_fetch = [
@@ -386,13 +357,9 @@ def backfill_mb_release_dates(
         and not(is_mb_processed(track))
     ]
 
-    if (uncertain_ids_to_fetch and (tracks_collection is not None)):
+    if uncertain_ids_to_fetch:
         try:
-            docs = tracks_collection.find(
-                {"id": {"$in": uncertain_ids_to_fetch}},
-                {"id": 1, "mb_id": 1, "mb_unmatched": 1, "mb_release_date": 1, "_id": 0},
-            )
-            for doc in docs:
+            for doc in retrieve_tracks_mb_status(uncertain_ids_to_fetch):
                 idx = id_to_index.get(doc["id"])
                 if (idx is None):
                     continue
@@ -403,12 +370,9 @@ def backfill_mb_release_dates(
             raise RuntimeError(f"Error backfilling MB fields for uncertain tracks: {e}")
 
 
-def correct_uncertain_release_dates(
-    playlist_items: List[Dict],
-    tracks_collection=None,
-) -> List[Dict]:
+def correct_uncertain_release_dates(playlist_items: List[Dict]) -> List[Dict]:
     """Applies MB release date corrections to uncertain tracks, fallback to downgrade to year precision. Must run after all MB lookups."""
-    backfill_mb_release_dates(playlist_items, tracks_collection) # updates playlist_items in place
+    backfill_mb_release_dates(playlist_items) # updates playlist_items in place
 
     changed = 0
     deferred = 0
@@ -439,21 +403,12 @@ def correct_uncertain_release_dates(
     return playlist_items
 
 
-def apply_mb_date_rule(
-    playlist_items: List[Dict],
-    tracks_collection,
-) -> List[Dict]:
+def apply_mb_date_rule(playlist_items: List[Dict]) -> List[Dict]:
     """Replaces the date by an earlier MB date (see is_mb_date_preferred) when the MB match is verified. Must run after correct_uncertain_release_dates.
     Already corrected tracks are compared with their stored date, since their in-memory date is the raw Spotify one."""
     track_ids = [track["id"] for track in playlist_items]
     try:
-        docs = {
-            doc["id"]: doc
-            for doc in tracks_collection.find(
-                {"id": {"$in": track_ids}, "mb_title": {"$exists": True}, "mb_suspect": {"$ne": True}},
-                {"id": 1, "release_date": 1, "release_date_precision": 1, "release_date_before_mb": 1, "mb_release_date": 1, "_id": 0},
-            )
-        }
+        docs = {doc["id"]: doc for doc in retrieve_verified_mb_dates(track_ids)}
     except Exception as e:
         raise RuntimeError(f"Error querying MB dates: {e}")
 

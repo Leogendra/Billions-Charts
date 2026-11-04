@@ -1,7 +1,6 @@
 from backend.track_enricher import enrich_tracks_with_correct_release_dates, fetch_artists_batch
 from backend.mb_enricher import correct_uncertain_release_dates, apply_mb_date_rule
 from backend.database import add_to_database, check_playlist_header_from_mongo
-from backend.database import tracks_collection
 from backend.utils import create_folder
 from spotapi import PublicPlaylist
 from dotenv import load_dotenv
@@ -126,12 +125,11 @@ def fetch_raw_playlist():
     return playlist_infos
 
 
-def enrich_with_release_dates(playlist_infos, headers, tracks_col, overwrite):
+def enrich_with_release_dates(playlist_infos, headers, overwrite):
     """Enriches track items with correct release dates via ISRC lookup."""
     playlist_infos["items"] = enrich_tracks_with_correct_release_dates(
         playlist_infos["items"],
         headers,
-        tracks_collection=tracks_col,
         overwrite=overwrite,
     )
     return playlist_infos
@@ -164,14 +162,13 @@ def fetch_playlist_infos(dateKey, overwrite=False):
     playlist_infos = enrich_with_release_dates(
         playlist_infos,
         headers,
-        tracks_col=tracks_collection,
         overwrite=overwrite,
     )
 
     playlist_infos = enrich_with_artist_infos(playlist_infos, headers)
 
     # MusicBrainz lookups run in /enrich/: only the MB dates already stored are used here
-    playlist_infos["items"] = correct_uncertain_release_dates(playlist_infos["items"], tracks_collection)
-    playlist_infos["items"] = apply_mb_date_rule(playlist_infos["items"], tracks_collection)
+    playlist_infos["items"] = correct_uncertain_release_dates(playlist_infos["items"])
+    playlist_infos["items"] = apply_mb_date_rule(playlist_infos["items"])
 
     persist_playlist(playlist_infos)

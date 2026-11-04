@@ -33,12 +33,8 @@ artists_collection.create_index("id", unique=True)
 
 MB_TRACK_FIELDS = ["mb_id", "mb_language", "mb_script", "mb_release_date", "mb_unmatched", "mb_title", "mb_artists", "mb_isrc_recordings", "mb_suspect"]
 MB_ARTIST_FIELDS = ["mb_id", "mb_type", "mb_gender", "mb_country", "mb_area", "mb_begin_date", "mb_end_date", "mb_is_ended", "mb_sort_name", "mb_disambiguation", "mb_genres"] + ["mb_name_matched", "mb_unmatched"]
-TRACK_ISSUES_FIELDS = [
-    "id", "name", "isrc",
-    "release_date", "release_date_precision", "corrected_release_date", "release_date_before_mb", "manual_release_date",
-    "mb_id", "mb_unmatched", "mb_suspect", "mb_title", "mb_artists", "mb_release_date",
-]
-PENDING_TRACKS_QUERY = {
+TRACK_ISSUES_FIELDS = ["id", "name", "isrc", "release_date", "release_date_precision", "corrected_release_date", "release_date_before_mb", "manual_release_date", "mb_id", "mb_unmatched", "mb_suspect", "mb_title", "mb_artists", "mb_release_date"]
+MB_PENDING_TRACKS_QUERY = {
     "isrc": {"$nin": [None, ""]},
     "mb_unmatched": {"$ne": True},
     "$or": [{"mb_id": {"$exists": False}}, {"mb_title": {"$exists": False}}],
@@ -351,7 +347,77 @@ def retrieve_tracks_for_issues() -> list:
 
 
 def count_pending_tracks() -> int:
-    return tracks_collection.count_documents(PENDING_TRACKS_QUERY)
+    return tracks_collection.count_documents(MB_PENDING_TRACKS_QUERY)
+
+
+def retrieve_mb_pending_tracks() -> list:
+    """Tracks still waiting for a MB lookup"""
+    tracks = list(tracks_collection.find(
+        MB_PENDING_TRACKS_QUERY,
+        {"id": 1, "isrc": 1, "name": 1, "artists": 1, "_id": 0},
+    ))
+
+    artist_ids = list({artist["id"] for track in tracks for artist in track.get("artists", [])})
+    artists_by_id = {
+        doc["id"]: doc
+        for doc in artists_collection.find({"id": {"$in": artist_ids}}, {"id": 1, "name": 1, "mb_id": 1, "_id": 0})
+    }
+    for track in tracks:
+        track["spotify_artists"] = [artists_by_id.get(artist["id"], {}) for artist in track.get("artists", [])]
+    return tracks
+
+
+def retrieve_mb_pending_artists() -> list:
+    """Artists still waiting for a MB lookup"""
+    return list(artists_collection.find(
+        {
+            "mb_id": {"$exists": False},
+            "mb_unmatched": {"$ne": True},
+        },
+        {"id": 1, "name": 1, "_id": 0},
+    ))
+
+
+def retrieve_corrected_track_ids(track_ids: list) -> set:
+    docs = tracks_collection.find(
+        {
+            "id": {"$in": track_ids},
+            "corrected_release_date": True,
+            "release_date": {"$not": {"$regex": "-01-01$"}},
+        },
+        {"id": 1, "_id": 0},
+    )
+    return {doc["id"] for doc in docs}
+
+
+def retrieve_stored_isrcs(track_ids: list) -> dict:
+    docs = tracks_collection.find(
+        {"id": {"$in": track_ids}, "isrc": {"$nin": [None, ""]}},
+        {"id": 1, "isrc": 1, "_id": 0},
+    )
+    return {doc["id"]: doc["isrc"] for doc in docs}
+
+
+def retrieve_manual_release_dates(track_ids: list) -> list:
+    return list(tracks_collection.find(
+        {"id": {"$in": track_ids}, "manual_release_date": {"$nin": [None, ""]}},
+        {"id": 1, "manual_release_date": 1, "manual_release_date_precision": 1, "_id": 0},
+    ))
+
+
+def retrieve_tracks_mb_status(track_ids: list) -> list:
+    return list(tracks_collection.find(
+        {"id": {"$in": track_ids}},
+        {"id": 1, "mb_id": 1, "mb_unmatched": 1, "mb_release_date": 1, "_id": 0},
+    ))
+
+
+def retrieve_verified_mb_dates(track_ids: list) -> list:
+    """Tracks with a verified MB match (mb_title set, not suspect) and their stored and MB dates."""
+    return list(tracks_collection.find(
+        {"id": {"$in": track_ids}, "mb_title": {"$exists": True}, "mb_suspect": {"$ne": True}},
+        {"id": 1, "release_date": 1, "release_date_precision": 1, "release_date_before_mb": 1, "mb_release_date": 1, "_id": 0},
+    ))
 
 
 

@@ -1,4 +1,5 @@
 from backend.utils import is_uncertain_isrc_date, is_new_date_preferred, infer_precision_from_date_string
+from backend.database import retrieve_corrected_track_ids, retrieve_stored_isrcs, retrieve_manual_release_dates
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from typing import Dict, List, Optional
 import requests
@@ -72,39 +73,25 @@ def fetch_release_date_via_isrc(
         return None, None, False
 
 
-def get_tracks_already_corrected(track_ids: List[str], tracks_collection) -> set:
+def get_tracks_already_corrected(track_ids: List[str]) -> set:
     try:
-        already_corrected = tracks_collection.find(
-            {
-                "id": {"$in": track_ids},
-                "corrected_release_date": True,
-                "release_date": {"$not": {"$regex": "-01-01$"}},
-            }
-        )
-        return {doc["id"] for doc in already_corrected}
+        return retrieve_corrected_track_ids(track_ids)
     except Exception as e:
         print(f"Error querying corrected tracks: {e}")
         return set()
 
 
-def get_stored_isrcs(track_ids: List[str], tracks_collection) -> Dict[str, str]:
+def get_stored_isrcs(track_ids: List[str]) -> Dict[str, str]:
     try:
-        docs = tracks_collection.find(
-            {"id": {"$in": track_ids}, "isrc": {"$nin": [None, ""]}},
-            {"id": 1, "isrc": 1, "_id": 0},
-        )
-        return {doc["id"]: doc["isrc"] for doc in docs}
+        return retrieve_stored_isrcs(track_ids)
     except Exception as e:
         raise RuntimeError(f"Error querying stored ISRCs: {e}")
 
 
-def get_manual_release_dates(track_ids: List[str], tracks_collection) -> Dict[str, tuple[str, str]]:
+def get_manual_release_dates(track_ids: List[str]) -> Dict[str, tuple[str, str]]:
     """{id: (date, precision)} for dates fixed by hand. Raises on error: an empty result would let a /search/ overwrite them."""
     try:
-        docs = tracks_collection.find(
-            {"id": {"$in": track_ids}, "manual_release_date": {"$nin": [None, ""]}},
-            {"id": 1, "manual_release_date": 1, "manual_release_date_precision": 1, "_id": 0},
-        )
+        docs = retrieve_manual_release_dates(track_ids)
         return {
             doc["id"]: (
                 doc["manual_release_date"],
@@ -119,7 +106,6 @@ def get_manual_release_dates(track_ids: List[str], tracks_collection) -> Dict[st
 def enrich_tracks_with_correct_release_dates(
     playlist_items: List[Dict],
     headers: Dict[str, str],
-    tracks_collection=None,
     overwrite: bool = False,
 ) -> List[Dict]:
     print("\n=== Starting track enrichment via Spotify API search ===")
@@ -141,10 +127,10 @@ def enrich_tracks_with_correct_release_dates(
     # Tracks already corrected skip the ISRC date search but still get popularity updated
     already_corrected = set()
     if not(overwrite):
-        already_corrected = get_tracks_already_corrected(track_ids, tracks_collection)
+        already_corrected = get_tracks_already_corrected(track_ids)
 
-    stored_isrcs = get_stored_isrcs(track_ids, tracks_collection)
-    manual_dates = get_manual_release_dates(track_ids, tracks_collection)
+    stored_isrcs = get_stored_isrcs(track_ids)
+    manual_dates = get_manual_release_dates(track_ids)
 
     # apply batch API data to all tracks
     for i, track in enumerate(playlist_items):
