@@ -1,8 +1,9 @@
 from backend.utils import correct_uncertain_date, normalize_name, normalize_title, is_mb_date_preferred, infer_precision_from_date_string, is_new_date_preferred
-from backend.database import save_tracks_mb_checkpoint, save_artists_mb_checkpoint, MB_TRACK_FIELDS
-from backend.database import retrieve_mb_pending_tracks, retrieve_mb_pending_artists, retrieve_tracks_mb_status, retrieve_verified_mb_dates
+from backend.database import retrieve_mb_pending_tracks, retrieve_mb_pending_artists, retrieve_tracks_mb_status, retrieve_tracks_mb_dates
+from backend.database import save_tracks_mb_checkpoint, save_artists_mb_checkpoint, MB_TRACK_FIELDS, MB_STATUS_FIELDS
 from typing import Callable, Dict, List, Optional, Tuple
 from dataclasses import dataclass, field
+from enum import Enum
 import requests
 import time
 
@@ -19,6 +20,17 @@ MB_CHECKPOINT_SIZE = 50
 
 class MusicBrainzError(Exception):
     """Technical failure like network or repeated 503."""
+
+
+class MbTrackStatus(Enum):
+    NO_ISRC = "no_isrc" # never looked up
+    PENDING = "pending" # waits for /enrich/
+    UNMATCHED = "unmatched" # MB lookup found no recording matching the ISRC
+    SUSPECT = "suspect" # MB title or artists do not match Spotify
+    VERIFIED = "verified"
+
+
+MB_PROCESSED_STATUSES = {MbTrackStatus.UNMATCHED, MbTrackStatus.SUSPECT, MbTrackStatus.VERIFIED}
 
 
 @dataclass
@@ -344,12 +356,30 @@ def enrich_database_with_musicbrainz() -> Dict[str, dict]:
     return {"tracks": tracks_progress.to_counts(), "artists": artists_progress.to_counts()}
 
 
+def get_mb_track_status(track: Dict) -> MbTrackStatus:
+    """Single source of truth for how far a track's MB data can be trusted."""
+    if not(track.get("isrc")):
+        return MbTrackStatus.NO_ISRC
+    elif track.get("mb_unmatched"):
+        return MbTrackStatus.UNMATCHED
+    elif not(track.get("mb_id")) or not(track.get("mb_title")):
+        return MbTrackStatus.PENDING
+    elif track.get("mb_suspect"):
+        return MbTrackStatus.SUSPECT
+    else:
+        return MbTrackStatus.VERIFIED
+
+
 def is_mb_processed(track: Dict) -> bool:
-    return bool(track.get("mb_id") or track.get("mb_unmatched"))
+    return get_mb_track_status(track) in MB_PROCESSED_STATUSES
+
+
+def is_mb_verified(track: Dict) -> bool:
+    return get_mb_track_status(track) == MbTrackStatus.VERIFIED
 
 
 def backfill_mb_release_dates(playlist_items: List[Dict]) -> None:
-    """Fetches mb_id, mb_unmatched and mb_release_date from DB for uncertain tracks MB-processed in a prior run."""
+    """Fetches the MB status fields and mb_release_date from DB for uncertain tracks MB-processed in a prior run."""
     id_to_index = {track["id"]: i for i, track in enumerate(playlist_items)}
     uncertain_ids_to_fetch = [
         track["id"] for track in playlist_items
@@ -363,9 +393,9 @@ def backfill_mb_release_dates(playlist_items: List[Dict]) -> None:
                 idx = id_to_index.get(doc["id"])
                 if (idx is None):
                     continue
-                for field in ("mb_id", "mb_unmatched", "mb_release_date"):
-                    if (field in doc):
-                        playlist_items[idx][field] = doc[field]
+                for mb_field in MB_STATUS_FIELDS + ["mb_release_date"]:
+                    if (mb_field in doc):
+                        playlist_items[idx][mb_field] = doc[mb_field]
         except Exception as e:
             raise RuntimeError(f"Error backfilling MB fields for uncertain tracks: {e}")
 
@@ -387,7 +417,9 @@ def correct_uncertain_release_dates(playlist_items: List[Dict]) -> List[Dict]:
             deferred += 1
             continue
 
-        new_date, new_precision = correct_uncertain_date(track.get("release_date"), track.get("release_date_precision"), track.get("mb_release_date"))
+        # a suspect or unmatched track has no trusted MB date: downgrade to year precision
+        mb_date = track.get("mb_release_date") if is_mb_verified(track) else None
+        new_date, new_precision = correct_uncertain_date(track.get("release_date"), track.get("release_date_precision"), mb_date)
         playlist_items[i]["release_date"] = new_date
         playlist_items[i]["release_date_precision"] = new_precision
         playlist_items[i]["corrected_release_date"] = True
@@ -408,7 +440,7 @@ def apply_mb_date_rule(playlist_items: List[Dict]) -> List[Dict]:
     Already corrected tracks are compared with their stored date, since their in-memory date is the raw Spotify one."""
     track_ids = [track["id"] for track in playlist_items]
     try:
-        docs = {doc["id"]: doc for doc in retrieve_verified_mb_dates(track_ids)}
+        docs = {doc["id"]: doc for doc in retrieve_tracks_mb_dates(track_ids) if is_mb_verified(doc)}
     except Exception as e:
         raise RuntimeError(f"Error querying MB dates: {e}")
 

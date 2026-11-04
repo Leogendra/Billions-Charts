@@ -34,6 +34,7 @@ artists_collection.create_index("id", unique=True)
 MB_TRACK_FIELDS = ["mb_id", "mb_language", "mb_script", "mb_release_date", "mb_unmatched", "mb_title", "mb_artists", "mb_isrc_recordings", "mb_suspect"]
 MB_ARTIST_FIELDS = ["mb_id", "mb_type", "mb_gender", "mb_country", "mb_area", "mb_begin_date", "mb_end_date", "mb_is_ended", "mb_sort_name", "mb_disambiguation", "mb_genres"] + ["mb_name_matched", "mb_unmatched"]
 TRACK_ISSUES_FIELDS = ["id", "name", "isrc", "release_date", "release_date_precision", "corrected_release_date", "release_date_before_mb", "manual_release_date", "mb_id", "mb_unmatched", "mb_suspect", "mb_title", "mb_artists", "mb_release_date"]
+MB_STATUS_FIELDS = ["mb_id", "mb_unmatched", "mb_title", "mb_suspect"]
 MB_PENDING_TRACKS_QUERY = {
     "isrc": {"$nin": [None, ""]},
     "mb_unmatched": {"$ne": True},
@@ -406,15 +407,13 @@ def retrieve_manual_release_dates(track_ids: list) -> list:
 
 
 def retrieve_tracks_mb_status(track_ids: list) -> list:
-    return list(tracks_collection.find(
-        {"id": {"$in": track_ids}},
-        {"id": 1, "mb_id": 1, "mb_unmatched": 1, "mb_release_date": 1, "_id": 0},
-    ))
+    projection = {field: 1 for field in MB_STATUS_FIELDS + ["id", "mb_release_date"]}
+    projection["_id"] = 0
+    return list(tracks_collection.find({"id": {"$in": track_ids}}, projection))
 
 
-def retrieve_verified_mb_dates(track_ids: list) -> list:
-    """Tracks with a verified MB match (mb_title set, not suspect) and their stored and MB dates."""
-    return list(tracks_collection.find(
-        {"id": {"$in": track_ids}, "mb_title": {"$exists": True}, "mb_suspect": {"$ne": True}},
-        {"id": 1, "release_date": 1, "release_date_precision": 1, "release_date_before_mb": 1, "mb_release_date": 1, "_id": 0},
-    ))
+def retrieve_tracks_mb_dates(track_ids: list) -> list:
+    """Stored and MB dates of the tracks, with their MB status fields: the caller keeps the verified matches."""
+    projection = {field: 1 for field in MB_STATUS_FIELDS + ["id", "isrc", "release_date", "release_date_precision", "release_date_before_mb", "mb_release_date"]}
+    projection["_id"] = 0
+    return list(tracks_collection.find({"id": {"$in": track_ids}}, projection))
