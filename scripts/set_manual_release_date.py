@@ -1,4 +1,4 @@
-from backend.database import tracks_collection, artists_collection, MONGO_DB_NAME, DRY_RUN
+from backend.database import get_tracks_collection, get_artists_collection, MONGO_DB_NAME, DRY_RUN
 from backend.utils import validate_track_id, infer_precision_from_date_string
 from pymongo import UpdateOne
 import datetime
@@ -49,7 +49,7 @@ def parse_manual_date(date_str: str) -> str:
 
 
 def get_track(track_id: str) -> dict:
-    track = tracks_collection.find_one({"id": track_id}, {"_id": 0})
+    track = get_tracks_collection().find_one({"id": track_id}, {"_id": 0})
     if (track is None):
         raise LookupError(f"Track {track_id} not found in database {MONGO_DB_NAME!r}.")
     return track
@@ -59,7 +59,7 @@ def get_artist_names(track: dict) -> list[str]:
     artist_ids = [artist["id"] for artist in track.get("artists", [])]
     names_by_id = {
         doc["id"]: doc.get("name")
-        for doc in artists_collection.find({"id": {"$in": artist_ids}}, {"id": 1, "name": 1, "_id": 0})
+        for doc in get_artists_collection().find({"id": {"$in": artist_ids}}, {"id": 1, "name": 1, "_id": 0})
     }
     return [names_by_id.get(artist_id) or artist_id for artist_id in artist_ids]
 
@@ -93,7 +93,7 @@ def set_manual_release_dates(dates_by_track_id: dict[str, str]) -> None:
     if (DRY_RUN):
         print("[Dry run] manual release dates not written.")
     else:
-        tracks_collection.bulk_write([
+        get_tracks_collection().bulk_write([
             UpdateOne(
                 {"id": track["id"]},
                 {"$set": {"manual_release_date": date_str}},

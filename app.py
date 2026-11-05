@@ -1,9 +1,9 @@
 from backend.utils import create_folder, normalize_date_for_comparison, infer_precision_from_date_string, validate_date_key, validate_track_id, validate_artist_id
 from backend.report import generate_report, generate_leaderboard, generate_search_ids
-from backend.database import retrieve_track_by_id, retrieve_artist_by_id
+from backend.database import retrieve_track_by_id, retrieve_artist_by_id, get_db
 from backend.mb_enricher import enrich_database_with_musicbrainz
-from backend.track_issues import generate_track_issues
 from flask import Flask, request, jsonify, send_file, abort
+from backend.track_issues import generate_track_issues
 from flask_limiter.util import get_remote_address
 from backend.scrapper import fetch_playlist_infos
 from backend.og_image import generate_og_image
@@ -259,6 +259,7 @@ def read_root():
 
 
 if __name__ == "__main__":
+    get_db() # db check
     debug = os.getenv("FLASK_DEBUG", "false").lower() == "true"
     print(f"Server is running on http://localhost:{PORT}")
     app.run(debug=debug, port=PORT)

@@ -1,4 +1,4 @@
-from backend.database import tracks_collection, playlists_collection, MONGO_DB_NAME, DRY_RUN
+from backend.database import get_tracks_collection, get_playlists_collection, MONGO_DB_NAME, DRY_RUN
 from backend.utils import create_folder
 import json
 import os
@@ -10,7 +10,7 @@ DUPLICATED_ISRC_PATH = "data/analysis/duplicated_isrc.json"
 
 def get_all_tracks() -> list[dict]:
     """Every DB track, its artists resolved to their names."""
-    return list(tracks_collection.aggregate([
+    return list(get_tracks_collection().aggregate([
         {"$lookup": {
             "from": "playlist_artists",
             "localField": "artists.id",
@@ -29,7 +29,7 @@ def get_all_tracks() -> list[dict]:
 
 
 def get_latest_playlist_header() -> dict:
-    header = playlists_collection.find_one({}, {"_id": 0, "date": 1, "items.id": 1}, sort=[("date", -1)])
+    header = get_playlists_collection().find_one({}, {"_id": 0, "date": 1, "items.id": 1}, sort=[("date", -1)])
     if (header is None):
         raise LookupError(f"No playlist header found in database {MONGO_DB_NAME!r}.")
     return header
@@ -73,7 +73,7 @@ def delete_tracks(track_ids: list[str]) -> None:
     if (DRY_RUN):
         print(f"[Dry run] not deleting {len(track_ids)} track(s) from the database")
     else:
-        result = tracks_collection.delete_many({"id": {"$in": track_ids}})
+        result = get_tracks_collection().delete_many({"id": {"$in": track_ids}})
         print(f"{result.deleted_count} track(s) deleted from playlist_tracks")
 
 
@@ -85,7 +85,7 @@ def purge_duplicate_tracks(tracks_to_delete: list[dict]) -> None:
         return
 
     track_ids = [track["id"] for track in tracks_to_delete]
-    headers_count = playlists_collection.count_documents({"items.id": {"$in": track_ids}})
+    headers_count = get_playlists_collection().count_documents({"items.id": {"$in": track_ids}})
     print(f"\nWarning: {headers_count} older playlist header(s) still reference these tracks.")
     print(f"Database: {MONGO_DB_NAME}{' (DRY_RUN: nothing will be deleted)' if DRY_RUN else ''}")
     answer = input(f"Type 'delete' to delete these {len(track_ids)} track(s) from playlist_tracks: ")

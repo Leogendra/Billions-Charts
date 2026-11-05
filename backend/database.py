@@ -1,5 +1,6 @@
 from pymongo import MongoClient, UpdateOne
 from dotenv import load_dotenv
+from functools import cache
 import os
 
 load_dotenv()
@@ -7,29 +8,42 @@ MONGO_URI = os.getenv("MONGO_URI")
 MONGO_DB_NAME = os.getenv("MONGO_DB_NAME")
 DRY_RUN = os.getenv("DRY_RUN", "false").lower() == "true"
 
-if not MONGO_URI:
-    raise RuntimeError("MONGO_URI environment variable is not set")
-if not MONGO_DB_NAME:
-    raise RuntimeError("MONGO_DB_NAME environment variable is not set")
-try:
-    client = MongoClient(
-        MONGO_URI,
-        serverSelectionTimeoutMS=5000,
-        connectTimeoutMS=5000,
-    )
-    client.admin.command("ping")
-except Exception as e:
-    raise RuntimeError(f"Failed to connect to MongoDB: {e}")
 
-db = client[MONGO_DB_NAME]
-playlists_collection = db.playlists_headers
-tracks_collection = db.playlist_tracks
-artists_collection = db.playlist_artists
+@cache
+def get_db():
+    """Connects to MongoDB and creates the indexes on the first call only."""
+    if not MONGO_URI:
+        raise RuntimeError("MONGO_URI environment variable is not set")
+    if not MONGO_DB_NAME:
+        raise RuntimeError("MONGO_DB_NAME environment variable is not set")
+    try:
+        client = MongoClient(
+            MONGO_URI,
+            serverSelectionTimeoutMS=5000,
+            connectTimeoutMS=5000,
+        )
+        client.admin.command("ping")
+    except Exception as e:
+        raise RuntimeError(f"Failed to connect to MongoDB: {e}") from e
 
-# one-time index creation
-playlists_collection.create_index("date", unique=True)
-tracks_collection.create_index("id", unique=True)
-artists_collection.create_index("id", unique=True)
+    db = client[MONGO_DB_NAME]
+    db.playlists_headers.create_index("date", unique=True)
+    db.playlist_tracks.create_index("id", unique=True)
+    db.playlist_artists.create_index("id", unique=True)
+    return db
+
+
+def get_playlists_collection():
+    return get_db().playlists_headers
+
+
+def get_tracks_collection():
+    return get_db().playlist_tracks
+
+
+def get_artists_collection():
+    return get_db().playlist_artists
+
 
 MB_TRACK_FIELDS = ["mb_id", "mb_language", "mb_script", "mb_release_date", "mb_unmatched", "mb_title", "mb_artists", "mb_isrc_recordings", "mb_suspect"]
 MB_ARTIST_FIELDS = ["mb_id", "mb_type", "mb_gender", "mb_country", "mb_area", "mb_begin_date", "mb_end_date", "mb_is_ended", "mb_sort_name", "mb_disambiguation", "mb_genres"] + ["mb_name_matched", "mb_unmatched"]
@@ -61,7 +75,7 @@ def save_tracks_mb_checkpoint(tracks: list):
         mb_data = extract_mb_fields(track, MB_TRACK_FIELDS)
         if mb_data:
             operations.append(UpdateOne({"id": track["id"]}, {"$set": mb_data}))
-    write_mb_checkpoint(tracks_collection, operations, "tracks")
+    write_mb_checkpoint(get_tracks_collection(), operations, "tracks")
 
 
 def save_artists_mb_checkpoint(artists: list):
@@ -71,7 +85,7 @@ def save_artists_mb_checkpoint(artists: list):
         mb_data = extract_mb_fields(artist, MB_ARTIST_FIELDS)
         if mb_data:
             operations.append(UpdateOne({"id": artist["id"]}, {"$set": mb_data}))
-    write_mb_checkpoint(artists_collection, operations, "artists")
+    write_mb_checkpoint(get_artists_collection(), operations, "artists")
 
 
 def insert_or_update_playlist_header(playlist_data):
@@ -106,7 +120,7 @@ def insert_or_update_playlist_header(playlist_data):
     if (DRY_RUN):        
         print(f"[Dry run] not writing {len(playlist_data['items'])} tracks to the database")
     else:
-        playlists_collection.update_one(
+        get_playlists_collection().update_one(
             {"date": playlist_data["date"]},
             {"$set": header_data},
             upsert=True,
@@ -159,7 +173,7 @@ def insert_or_update_tracks(playlist_data):
     if (DRY_RUN):        
         print(f"[Dry run] not writing {len(operations)} tracks to the database")
     elif operations:
-        tracks_collection.bulk_write(operations)
+        get_tracks_collection().bulk_write(operations)
         print("   Tracks added to the database")
 
 
@@ -187,7 +201,7 @@ def insert_or_update_artists(playlist_data):
     if (DRY_RUN):
         print(f"[Dry run] not writing {len(operations)} artists to the database")
     elif operations:
-        artists_collection.bulk_write(operations)
+        get_artists_collection().bulk_write(operations)
         print("   Artists added to the database")
 
 
@@ -198,21 +212,21 @@ def add_to_database(playlist_data):
 
 
 def retrieve_track_by_id(track_id: str) -> dict | None:
-    track = tracks_collection.find_one({"id": track_id})
+    track = get_tracks_collection().find_one({"id": track_id})
     if track is None:
         return None
     del track["_id"]
 
     artist_ids = [a["id"] for a in track.get("artists", [])]
     if artist_ids:
-        artists_docs = list(artists_collection.find({"id": {"$in": artist_ids}}))
+        artists_docs = list(get_artists_collection().find({"id": {"$in": artist_ids}}))
         artist_map = {a["id"]: a for a in artists_docs}
         for artist in track["artists"]:
             doc = artist_map.get(artist["id"], {})
             artist.update(doc)
             artist.pop("_id", None)
 
-    latest_header = playlists_collection.find_one(
+    latest_header = get_playlists_collection().find_one(
         {},
         sort=[("date", -1)],
         projection={"items": 1, "_id": 0},
@@ -228,17 +242,17 @@ def retrieve_track_by_id(track_id: str) -> dict | None:
 
 
 def retrieve_artist_by_id(artist_id: str) -> dict | None:
-    artist = artists_collection.find_one({"id": artist_id})
+    artist = get_artists_collection().find_one({"id": artist_id})
     if artist is None:
         return None
     artist.pop("_id", None)
 
-    tracks = list(tracks_collection.find(
+    tracks = list(get_tracks_collection().find(
         {"artists.id": artist_id},
         projection={"id": 1, "name": 1, "image": 1, "duration_ms": 1, "_id": 0},
     ))
 
-    latest_header = playlists_collection.find_one(
+    latest_header = get_playlists_collection().find_one(
         {},
         sort=[("date", -1)],
         projection={"items": 1, "_id": 0},
@@ -263,22 +277,22 @@ def retrieve_artist_by_id(artist_id: str) -> dict | None:
 
 def check_playlist_header_from_mongo(date: str) -> bool:
     # check a playlists headers where the field "date" matches the input date
-    return playlists_collection.count_documents({"date": date}) > 0
+    return get_playlists_collection().count_documents({"date": date}) > 0
 
 
 def retrieve_playlist_infos_from_mongo(date: str) -> dict:
     # retrieve the playlists headers data where the field "date" matches the input date
-    data_count = playlists_collection.count_documents({"date": date})
+    data_count = get_playlists_collection().count_documents({"date": date})
     if data_count == 0:
         print(f"No playlist data found for the date {date}")
         return None
 
-    playlist_data = list(playlists_collection.find({"date": date}))[0]
+    playlist_data = list(get_playlists_collection().find({"date": date}))[0]
     del playlist_data["_id"]
 
     # Retrieve the details of the tracks from the tracks collection
     track_ids = [track["id"] for track in playlist_data["items"]]
-    tracks_details = list(tracks_collection.find({"id": {"$in": track_ids}}))
+    tracks_details = list(get_tracks_collection().find({"id": {"$in": track_ids}}))
     track_details_dict = {track["id"]: track for track in tracks_details}
 
     # a header can reference tracks deleted since
@@ -299,7 +313,7 @@ def retrieve_playlist_infos_from_mongo(date: str) -> dict:
             for artist in track["artists"]
         }
     )
-    artists_details = list(artists_collection.find({"id": {"$in": artist_ids}}))
+    artists_details = list(get_artists_collection().find({"id": {"$in": artist_ids}}))
     for artist in artists_details:
         artist.pop("_id", None)
     artists_dict = {artist["id"]: artist for artist in artists_details}
@@ -312,7 +326,7 @@ def retrieve_playlist_infos_from_mongo(date: str) -> dict:
 
 
 def retrieve_search_ids():
-    tracks = list(tracks_collection.aggregate([
+    tracks = list(get_tracks_collection().aggregate([
         {"$lookup": {
             "from": "playlist_artists",
             "localField": "artists.id",
@@ -326,7 +340,7 @@ def retrieve_search_ids():
             "artists": {"$map": {"input": "$artists_details", "as": "a", "in": "$$a.name"}},
         }},
     ]))
-    artists = list(artists_collection.find({}, {"_id": 0, "id": 1, "name": 1}))
+    artists = list(get_artists_collection().find({}, {"_id": 0, "id": 1, "name": 1}))
 
     return {"tracks": tracks, "artists": artists}
 
@@ -336,7 +350,7 @@ def retrieve_tracks_for_issues() -> list:
     projection = {field: 1 for field in TRACK_ISSUES_FIELDS}
     projection["_id"] = 0
     projection["artists"] = {"$map": {"input": "$artists_details", "as": "a", "in": "$$a.name"}}
-    return list(tracks_collection.aggregate([
+    return list(get_tracks_collection().aggregate([
         {"$lookup": {
             "from": "playlist_artists",
             "localField": "artists.id",
@@ -348,12 +362,12 @@ def retrieve_tracks_for_issues() -> list:
 
 
 def count_pending_tracks() -> int:
-    return tracks_collection.count_documents(MB_PENDING_TRACKS_QUERY)
+    return get_tracks_collection().count_documents(MB_PENDING_TRACKS_QUERY)
 
 
 def retrieve_mb_pending_tracks() -> list:
     """Tracks still waiting for a MB lookup"""
-    tracks = list(tracks_collection.find(
+    tracks = list(get_tracks_collection().find(
         MB_PENDING_TRACKS_QUERY,
         {"id": 1, "isrc": 1, "name": 1, "artists": 1, "_id": 0},
     ))
@@ -361,7 +375,7 @@ def retrieve_mb_pending_tracks() -> list:
     artist_ids = list({artist["id"] for track in tracks for artist in track.get("artists", [])})
     artists_by_id = {
         doc["id"]: doc
-        for doc in artists_collection.find({"id": {"$in": artist_ids}}, {"id": 1, "name": 1, "mb_id": 1, "_id": 0})
+        for doc in get_artists_collection().find({"id": {"$in": artist_ids}}, {"id": 1, "name": 1, "mb_id": 1, "_id": 0})
     }
     for track in tracks:
         track["spotify_artists"] = [artists_by_id.get(artist["id"], {}) for artist in track.get("artists", [])]
@@ -370,7 +384,7 @@ def retrieve_mb_pending_tracks() -> list:
 
 def retrieve_mb_pending_artists() -> list:
     """Artists still waiting for a MB lookup"""
-    return list(artists_collection.find(
+    return list(get_artists_collection().find(
         {
             "mb_id": {"$exists": False},
             "mb_unmatched": {"$ne": True},
@@ -380,7 +394,7 @@ def retrieve_mb_pending_artists() -> list:
 
 
 def retrieve_corrected_track_ids(track_ids: list) -> set:
-    docs = tracks_collection.find(
+    docs = get_tracks_collection().find(
         {
             "id": {"$in": track_ids},
             "corrected_release_date": True,
@@ -392,7 +406,7 @@ def retrieve_corrected_track_ids(track_ids: list) -> set:
 
 
 def retrieve_stored_isrcs(track_ids: list) -> dict:
-    docs = tracks_collection.find(
+    docs = get_tracks_collection().find(
         {"id": {"$in": track_ids}, "isrc": {"$nin": [None, ""]}},
         {"id": 1, "isrc": 1, "_id": 0},
     )
@@ -400,7 +414,7 @@ def retrieve_stored_isrcs(track_ids: list) -> dict:
 
 
 def retrieve_manual_release_dates(track_ids: list) -> list:
-    return list(tracks_collection.find(
+    return list(get_tracks_collection().find(
         {"id": {"$in": track_ids}, "manual_release_date": {"$nin": [None, ""]}},
         {"id": 1, "manual_release_date": 1, "_id": 0},
     ))
@@ -409,11 +423,11 @@ def retrieve_manual_release_dates(track_ids: list) -> list:
 def retrieve_tracks_mb_status(track_ids: list) -> list:
     projection = {field: 1 for field in MB_STATUS_FIELDS + ["id", "mb_release_date"]}
     projection["_id"] = 0
-    return list(tracks_collection.find({"id": {"$in": track_ids}}, projection))
+    return list(get_tracks_collection().find({"id": {"$in": track_ids}}, projection))
 
 
 def retrieve_tracks_mb_dates(track_ids: list) -> list:
     """Stored and MB dates of the tracks, with their MB status fields: the caller keeps the verified matches."""
     projection = {field: 1 for field in MB_STATUS_FIELDS + ["id", "isrc", "release_date", "release_date_before_mb", "mb_release_date"]}
     projection["_id"] = 0
-    return list(tracks_collection.find({"id": {"$in": track_ids}}, projection))
+    return list(get_tracks_collection().find({"id": {"$in": track_ids}}, projection))
