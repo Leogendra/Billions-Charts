@@ -38,11 +38,6 @@ def normalize_date_for_comparison(date: str, precision: str) -> str:
     return date
 
 
-def is_uncertain_isrc_date(date: str, precision: str) -> bool:
-    # Spotify sometimes returns wrong YYYY-01-01 with "day" precision.
-    return (precision == "day") and bool(re.match(r"^\d{4}-01-01$", date))
-
-
 def infer_precision_from_date_string(date_str: Optional[str]) -> Optional[str]:
     if (not date_str or not isinstance(date_str, str)):
         return None
@@ -55,12 +50,17 @@ def infer_precision_from_date_string(date_str: Optional[str]) -> Optional[str]:
     return None
 
 
-def is_new_date_preferred(
-    oldDate: str,
-    newDate: str,
-    oldUncertain: Optional[bool] = None,
-    newUncertain: Optional[bool] = None,
-) -> bool:
+def is_valid_mb_date(date: str) -> bool:
+    # a "0000" year is a placeholder, not a date
+    return bool(infer_precision_from_date_string(date)) and (date[:4] != "0000")
+
+
+def is_uncertain_date(date: str) -> bool:
+    # Spotify sometimes returns wrong YYYY-01-01 with "day" precision.
+    return bool(re.fullmatch(r"\d{4}-01-01", date or ""))
+
+
+def is_new_date_preferred(oldDate: str, newDate: str) -> bool:
     oldPrecision = infer_precision_from_date_string(oldDate)
     newPrecision = infer_precision_from_date_string(newDate)
     if not(newPrecision):
@@ -69,9 +69,9 @@ def is_new_date_preferred(
         return True
 
     # Same year + differing uncertainty -> prefer the certain one.
-    if (oldUncertain is not None) and (newUncertain is not None):
-        if (oldDate[:4] == newDate[:4]) and (oldUncertain != newUncertain):
-            return oldUncertain  # if oldUncertain=True, then prefer new
+    oldUncertain = is_uncertain_date(oldDate)
+    if (oldDate[:4] == newDate[:4]) and (oldUncertain != is_uncertain_date(newDate)):
+        return oldUncertain  # if oldUncertain=True, then prefer new
 
     oldRank = PRECISION_RANK[oldPrecision]
     newRank = PRECISION_RANK[newPrecision]
@@ -100,13 +100,13 @@ def correct_uncertain_date(
     precision: Optional[str],
     mb_date: Optional[str] = None,
 ) -> Optional[tuple[str, str]]:
-    if not(is_uncertain_isrc_date(date, precision)):
+    if not(is_uncertain_date(date)):
         return (date, precision)
 
     # if the MB date is uncertain or earlier than the Spotify date, downgrade to year precision.
     mb_precision = infer_precision_from_date_string(mb_date)
     if (mb_date and mb_precision):
-        if is_uncertain_isrc_date(mb_date, mb_precision):
+        if is_uncertain_date(mb_date):
             return (min(date[:4], mb_date[:4]), "year")
         if (mb_date[:4] <= date[:4]):
             return (mb_date, mb_precision)
@@ -118,7 +118,7 @@ def is_mb_date_preferred(stored_date: Optional[str], mb_date: Optional[str]) -> 
     stored_precision = infer_precision_from_date_string(stored_date)
     if not(mb_precision) or not(stored_precision):
         return False
-    if is_uncertain_isrc_date(mb_date, mb_precision):
+    if is_uncertain_date(mb_date):
         return False
 
     mb_rank = PRECISION_RANK[mb_precision]

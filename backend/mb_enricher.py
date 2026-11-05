@@ -2,6 +2,7 @@ from backend.utils import correct_uncertain_date, normalize_name, normalize_titl
 from backend.database import retrieve_mb_pending_tracks, retrieve_mb_pending_artists, retrieve_tracks_mb_status, retrieve_tracks_mb_dates
 from backend.database import save_tracks_mb_checkpoint, save_artists_mb_checkpoint, MB_TRACK_FIELDS, MB_STATUS_FIELDS
 from typing import Callable, Dict, List, Optional, Tuple
+from backend.utils import is_valid_mb_date
 from dataclasses import dataclass, field
 from enum import Enum
 import requests
@@ -109,7 +110,8 @@ def mb_api_get(path: str, params: dict = {}, max_retries: int = 3) -> Optional[d
 
 
 def pick_earliest_dated_release(releases: list) -> Optional[dict]:
-    dated_releases = [r for r in releases if r.get("date")]
+    """A YYYY-01-01 placeholder loses to a certain date of the same year."""
+    dated_releases = [r for r in releases if is_valid_mb_date(r.get("date"))]
     if not(dated_releases):
         return None
     earliest_release = dated_releases[0]

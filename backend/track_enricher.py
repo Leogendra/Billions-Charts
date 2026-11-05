@@ -1,4 +1,4 @@
-from backend.utils import is_uncertain_isrc_date, is_new_date_preferred, infer_precision_from_date_string
+from backend.utils import is_uncertain_date, is_new_date_preferred, infer_precision_from_date_string
 from backend.database import retrieve_corrected_track_ids, retrieve_stored_isrcs, retrieve_manual_release_dates
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from typing import Callable, Dict, List, Optional
@@ -24,8 +24,8 @@ def request_with_retry(func, max_attempts: int = 3):
 def fetch_release_date_via_isrc(
     isrc: Optional[str],
     headers: Dict[str, str],
-) -> tuple[Optional[str], Optional[str], bool]:
-    """Returns (None, None, False) when no match is found. Raises when the request fails after retries."""
+) -> tuple[Optional[str], Optional[str]]:
+    """Returns (None, None) when no match is found. Raises when the request fails after retries."""
     def fetch_isrc():
         params = {"q": f"isrc:{isrc}", "type": "track", "limit": 10}
         response = requests.get(
@@ -38,11 +38,10 @@ def fetch_release_date_via_isrc(
 
     if not results:
         print(f"No search results found for ISRC {isrc}.")
-        return None, None, False
+        return None, None
 
     best_date_str = None
     best_precision = None
-    best_uncertain = False
 
     for result in results:
         album = result.get("album", {})
@@ -52,21 +51,15 @@ def fetch_release_date_via_isrc(
         if not(release_date) or not(precision):
             continue
 
-        uncertain = is_uncertain_isrc_date(release_date, precision)
-
-        if (best_date_str is None) or is_new_date_preferred(
-            best_date_str, release_date,
-            best_uncertain, uncertain,
-        ):
+        if (best_date_str is None) or is_new_date_preferred(best_date_str, release_date):
             best_date_str = release_date
             best_precision = precision
-            best_uncertain = uncertain
 
     if best_date_str is None:
         print(f"No results with valid release date found for ISRC {isrc}.")
-        return None, None, False
+        return None, None
 
-    return best_date_str, best_precision, best_uncertain
+    return best_date_str, best_precision
 
 
 def get_manual_release_dates(track_ids: List[str]) -> Dict[str, tuple[str, str]]:
@@ -142,8 +135,8 @@ def enrich_tracks_with_correct_release_dates(
         print(f"ISRC date correction needed for {isrc_search_count} tracks.")
 
     def isrc_lookup_process(idx, isrc):
-        date_str, precision, uncertain = fetch_release_date_via_isrc(isrc, headers)
-        return idx, date_str, precision, uncertain
+        date_str, precision = fetch_release_date_via_isrc(isrc, headers)
+        return idx, date_str, precision
 
     enriched_count = 0
     error_count = 0
@@ -155,7 +148,7 @@ def enrich_tracks_with_correct_release_dates(
             completed += 1
             print(f"ISRC lookup {completed}/{len(to_lookup)}...   ", end="\r")
             try:
-                idx, isrc_date, isrc_precision, isrc_uncertain = future.result()
+                idx, isrc_date, isrc_precision = future.result()
             except Exception as e:
                 # the track keeps corrected_release_date=False, so the next run retries it
                 error_count += 1
@@ -172,13 +165,10 @@ def enrich_tracks_with_correct_release_dates(
             if (old_date_str and old_precision):
                 enriched_count += 1
 
-                if is_new_date_preferred(
-                    old_date_str, isrc_date,
-                    is_uncertain_isrc_date(old_date_str, old_precision), isrc_uncertain,
-                ):
+                if is_new_date_preferred(old_date_str, isrc_date):
                     playlist_items[idx]["release_date"] = isrc_date
                     playlist_items[idx]["release_date_precision"] = isrc_precision
-                    playlist_items[idx]["corrected_release_date"] = not(isrc_uncertain)
+                    playlist_items[idx]["corrected_release_date"] = not(is_uncertain_date(isrc_date))
                 else:
                     playlist_items[idx]["corrected_release_date"] = True
 
@@ -192,7 +182,7 @@ def enrich_tracks_with_correct_release_dates(
         track = playlist_items[i]
         if (track.get("corrected_release_date") != "already_corrected"
                 and not(track.get("manual_release_date"))
-                and is_uncertain_isrc_date(track.get("release_date", ""), track.get("release_date_precision", ""))):
+                and is_uncertain_date(track.get("release_date"))):
             playlist_items[i]["release_date_uncertain"] = True
 
     return playlist_items
