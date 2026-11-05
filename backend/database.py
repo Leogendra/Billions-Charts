@@ -281,10 +281,14 @@ def retrieve_playlist_infos_from_mongo(date: str) -> dict:
     tracks_details = list(tracks_collection.find({"id": {"$in": track_ids}}))
     track_details_dict = {track["id"]: track for track in tracks_details}
 
+    # a header can reference tracks deleted since
+    missing_ids = [track_id for track_id in track_ids if track_id not in track_details_dict]
+    if missing_ids:
+        print(f"Warning: skipping {len(missing_ids)} tracks missing from the database for {date}: {missing_ids}")
+    playlist_data["items"] = [track for track in playlist_data["items"] if track["id"] in track_details_dict]
+
     for track in playlist_data["items"]:
-        track_id = track["id"]
-        if track_id in track_details_dict:
-            track.update(track_details_dict[track_id])
+        track.update(track_details_dict[track["id"]])
         del track["_id"]
 
     # Retrieve the artists details from the artists collection
