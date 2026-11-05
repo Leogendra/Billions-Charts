@@ -1,4 +1,4 @@
-from backend.utils import create_folder, normalize_date_for_comparison, validate_date_key, validate_track_id, validate_artist_id
+from backend.utils import create_folder, normalize_date_for_comparison, infer_precision_from_date_string, validate_date_key, validate_track_id, validate_artist_id
 from backend.report import generate_report, generate_leaderboard, generate_search_ids
 from backend.database import retrieve_track_by_id, retrieve_artist_by_id
 from backend.mb_enricher import enrich_database_with_musicbrainz
@@ -213,17 +213,16 @@ def get_track(track_id):
     if (track is None):
         abort(404, description="Track not found.")
 
-    if (track.get("corrected_release_date") and (track.get("release_date_precision") == "day") and track.get("added_at")):
+    if (track.get("corrected_release_date") and (infer_precision_from_date_string(track.get("release_date")) == "day") and track.get("added_at")):
         billion_date = track["added_at"].split("T")[0]
         track["billion_time"] = (datetime.datetime.strptime(billion_date, "%Y-%m-%d") - datetime.datetime.strptime(track["release_date"], "%Y-%m-%d")).days
 
     if (
         (track.get("corrected_release_date") is not False)
-        and track.get("release_date")
-        and track.get("release_date_precision")
+        and infer_precision_from_date_string(track.get("release_date"))
         and (track.get("playcount") is not None)
     ):
-        normalized = normalize_date_for_comparison(track["release_date"], track["release_date_precision"])
+        normalized = normalize_date_for_comparison(track["release_date"])
         daysSinceRelease = max((datetime.datetime.now() - datetime.datetime.strptime(normalized, "%Y-%m-%d")).days, 1)
         track["streams_per_day"] = track["playcount"] // daysSinceRelease
 

@@ -1,7 +1,7 @@
 from backend.database import retrieve_tracks_for_issues, count_pending_tracks
+from backend.utils import create_folder, infer_precision_from_date_string
 from typing import Callable, Dict, List, Optional
 from backend.mb_enricher import is_mb_processed
-from backend.utils import create_folder
 from dataclasses import dataclass
 from datetime import datetime
 import os
@@ -63,7 +63,7 @@ TO_FIX_SECTIONS = [
 
 def describe_track(track: Dict) -> str:
     artists = ", ".join(track.get("artists") or [])
-    return f"{track.get('id')} | {track.get('name')} | {artists} | {track.get('release_date')} ({track.get('release_date_precision')})"
+    return f"{track.get('id')} | {track.get('name')} | {artists} | {track.get('release_date')}"
 
 
 def build_section_lines(section: IssueSection, tracks: List[Dict]) -> List[str]:
@@ -83,7 +83,7 @@ def build_info_lines(tracks: List[Dict], pending_count: int) -> List[str]:
         f"MB pending: {pending_count}",
         f"MB suspect: {sum(bool(track.get('mb_suspect')) for track in tracks)}",
         f"Dates replaced by MB: {sum(is_date_replaced_by_mb(track) for track in tracks)}",
-        f"Year-precision dates: {sum(track.get('release_date_precision') == 'year' for track in tracks)}",
+        f"Year-precision dates: {sum(infer_precision_from_date_string(track.get('release_date')) == 'year' for track in tracks)}",
         f"Manual dates: {sum(has_manual_date(track) for track in tracks)}",
     ]
 

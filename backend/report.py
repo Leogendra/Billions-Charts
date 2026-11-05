@@ -1,5 +1,5 @@
+from backend.utils import create_folder, normalize_date_for_comparison, infer_precision_from_date_string
 from backend.database import retrieve_playlist_infos_from_mongo, retrieve_search_ids
-from backend.utils import create_folder, normalize_date_for_comparison
 from collections import defaultdict
 from datetime import datetime
 import json
@@ -113,9 +113,6 @@ def aggregate_dates(tracks, artists_dict):
         if not(track.get("corrected_release_date")):
             continue
 
-        release_date = track["release_date"]
-        precision = track["release_date_precision"]
-
         normalized_tracks.append(
             {
                 "id": track["id"],
@@ -129,12 +126,11 @@ def aggregate_dates(tracks, artists_dict):
                     for aid in track["artists"]
                 ],
                 "image": track["image"],
-                "release_date": release_date,
-                "release_date_precision": precision,
+                "release_date": track["release_date"],
             }
         )
 
-    sorted_tracks = sorted(normalized_tracks, key=lambda x: normalize_date_for_comparison(x["release_date"], x["release_date_precision"]))
+    sorted_tracks = sorted(normalized_tracks, key=lambda x: normalize_date_for_comparison(x["release_date"]))
     oldest_tracks = sorted_tracks[:MAX_TOP_SONGS]
     newest_tracks = sorted_tracks[-MAX_TOP_SONGS:][::-1]
 
@@ -144,7 +140,7 @@ def aggregate_dates(tracks, artists_dict):
 def aggregate_billions(tracks, artists_dict):
     normalized_tracks = []
     for track in tracks:
-        if (track.get("corrected_release_date") and (track.get("release_date_precision") != "day")):
+        if (track.get("corrected_release_date") and (infer_precision_from_date_string(track.get("release_date")) != "day")):
             continue
 
         release_date = track["release_date"]
@@ -218,7 +214,7 @@ def aggregate_periods(tracks):
 
     for track in tracks:
         release_date = track["release_date"]
-        precision = track["release_date_precision"]
+        precision = infer_precision_from_date_string(release_date)
         added_at = track["added_at"]
         playcount = track["playcount"]
         duration = track["duration_ms"] // 1000  # in seconds
@@ -265,9 +261,7 @@ def get_streams_per_day(tracks, artists_dict):
             continue
 
         playcount = track["playcount"]
-        release_date = track["release_date"]
-        release_date_precision = track["release_date_precision"]
-        release_date = normalize_date_for_comparison(release_date, release_date_precision)
+        release_date = normalize_date_for_comparison(track["release_date"])
 
         numberOfDaysSinceRelease = max(
             (

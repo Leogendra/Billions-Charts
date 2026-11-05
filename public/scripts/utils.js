@@ -3,11 +3,11 @@ const month_names = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Se
 
 
 
-function format_release_date(date, precision) {
-    if (!date) return null;
+function format_release_date(date) {
+    if (!date) { return null; }
     const parts = date.split("-");
-    if (precision === "year" || parts.length === 1) return parts[0];
-    if (precision === "month" || parts.length === 2) return `${month_names[parseInt(parts[1]) - 1]} ${parts[0]}`;
+    if (parts.length === 1) { return parts[0]; }
+    if (parts.length === 2) { return `${month_names[parseInt(parts[1]) - 1]} ${parts[0]}`; }
     return `${parseInt(parts[2])} ${month_names[parseInt(parts[1]) - 1]} ${parts[0]}`;
 }
 

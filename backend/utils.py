@@ -30,7 +30,8 @@ def normalize_title(title: str) -> str:
     return normalize_name(base_title) or normalize_name(title)
 
 
-def normalize_date_for_comparison(date: str, precision: str) -> str:
+def normalize_date_for_comparison(date: str) -> str:
+    precision = infer_precision_from_date_string(date)
     if (precision == "month"):
         return date + "-01"
     if (precision == "year"):
@@ -76,8 +77,8 @@ def is_new_date_preferred(oldDate: str, newDate: str) -> bool:
     oldRank = PRECISION_RANK[oldPrecision]
     newRank = PRECISION_RANK[newPrecision]
 
-    old_normalized = normalize_date_for_comparison(oldDate, oldPrecision)
-    new_normalized = normalize_date_for_comparison(newDate, newPrecision)
+    old_normalized = normalize_date_for_comparison(oldDate)
+    new_normalized = normalize_date_for_comparison(newDate)
 
     coarserPrecision = oldPrecision if (oldRank <= newRank) else newPrecision
 
@@ -95,22 +96,17 @@ def is_new_date_preferred(oldDate: str, newDate: str) -> bool:
     return False
 
 
-def correct_uncertain_date(
-    date: Optional[str],
-    precision: Optional[str],
-    mb_date: Optional[str] = None,
-) -> Optional[tuple[str, str]]:
+def correct_uncertain_date(date: Optional[str], mb_date: Optional[str] = None) -> Optional[str]:
     if not(is_uncertain_date(date)):
-        return (date, precision)
+        return date
 
     # if the MB date is uncertain or earlier than the Spotify date, downgrade to year precision.
-    mb_precision = infer_precision_from_date_string(mb_date)
-    if (mb_date and mb_precision):
+    if infer_precision_from_date_string(mb_date):
         if is_uncertain_date(mb_date):
-            return (min(date[:4], mb_date[:4]), "year")
+            return min(date[:4], mb_date[:4])
         if (mb_date[:4] <= date[:4]):
-            return (mb_date, mb_precision)
-    return (date[:4], "year")
+            return mb_date
+    return date[:4]
 
 
 def is_mb_date_preferred(stored_date: Optional[str], mb_date: Optional[str]) -> bool:

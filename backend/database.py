@@ -33,7 +33,7 @@ artists_collection.create_index("id", unique=True)
 
 MB_TRACK_FIELDS = ["mb_id", "mb_language", "mb_script", "mb_release_date", "mb_unmatched", "mb_title", "mb_artists", "mb_isrc_recordings", "mb_suspect"]
 MB_ARTIST_FIELDS = ["mb_id", "mb_type", "mb_gender", "mb_country", "mb_area", "mb_begin_date", "mb_end_date", "mb_is_ended", "mb_sort_name", "mb_disambiguation", "mb_genres"] + ["mb_name_matched", "mb_unmatched"]
-TRACK_ISSUES_FIELDS = ["id", "name", "isrc", "release_date", "release_date_precision", "corrected_release_date", "release_date_before_mb", "manual_release_date", "mb_id", "mb_unmatched", "mb_suspect", "mb_title", "mb_artists", "mb_release_date"]
+TRACK_ISSUES_FIELDS = ["id", "name", "isrc", "release_date", "corrected_release_date", "release_date_before_mb", "manual_release_date", "mb_id", "mb_unmatched", "mb_suspect", "mb_title", "mb_artists", "mb_release_date"]
 MB_STATUS_FIELDS = ["mb_id", "mb_unmatched", "mb_title", "mb_suspect"]
 MB_PENDING_TRACKS_QUERY = {
     "isrc": {"$nin": [None, ""]},
@@ -137,17 +137,13 @@ def insert_or_update_tracks(playlist_data):
         elif (correctedFlag == True): # Date was corrected in this run
             set_fields = {
                 "release_date": track["release_date"],
-                "release_date_precision": track["release_date_precision"],
                 "corrected_release_date": True,
             }
             if track.get("release_date_before_mb"):
                 set_fields["release_date_before_mb"] = track["release_date_before_mb"]
         else: # Date was never corrected, set it only on insert
             set_fields = {"corrected_release_date": False}
-            corrected_dates_fields = {
-                "release_date": track["release_date"],
-                "release_date_precision": track["release_date_precision"],
-            }
+            corrected_dates_fields = {"release_date": track["release_date"]}
 
         # not overwrite a stored ISRC.
         if track.get("isrc"):
@@ -402,7 +398,7 @@ def retrieve_stored_isrcs(track_ids: list) -> dict:
 def retrieve_manual_release_dates(track_ids: list) -> list:
     return list(tracks_collection.find(
         {"id": {"$in": track_ids}, "manual_release_date": {"$nin": [None, ""]}},
-        {"id": 1, "manual_release_date": 1, "manual_release_date_precision": 1, "_id": 0},
+        {"id": 1, "manual_release_date": 1, "_id": 0},
     ))
 
 
@@ -414,6 +410,6 @@ def retrieve_tracks_mb_status(track_ids: list) -> list:
 
 def retrieve_tracks_mb_dates(track_ids: list) -> list:
     """Stored and MB dates of the tracks, with their MB status fields: the caller keeps the verified matches."""
-    projection = {field: 1 for field in MB_STATUS_FIELDS + ["id", "isrc", "release_date", "release_date_precision", "release_date_before_mb", "mb_release_date"]}
+    projection = {field: 1 for field in MB_STATUS_FIELDS + ["id", "isrc", "release_date", "release_date_before_mb", "mb_release_date"]}
     projection["_id"] = 0
     return list(tracks_collection.find({"id": {"$in": track_ids}}, projection))

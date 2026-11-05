@@ -1,4 +1,4 @@
-from backend.utils import correct_uncertain_date, normalize_name, normalize_title, is_mb_date_preferred, infer_precision_from_date_string, is_new_date_preferred
+from backend.utils import correct_uncertain_date, normalize_name, normalize_title, is_mb_date_preferred, is_new_date_preferred
 from backend.database import retrieve_mb_pending_tracks, retrieve_mb_pending_artists, retrieve_tracks_mb_status, retrieve_tracks_mb_dates
 from backend.database import save_tracks_mb_checkpoint, save_artists_mb_checkpoint, MB_TRACK_FIELDS, MB_STATUS_FIELDS
 from typing import Callable, Dict, List, Optional, Tuple
@@ -421,9 +421,7 @@ def correct_uncertain_release_dates(playlist_items: List[Dict]) -> List[Dict]:
 
         # a suspect or unmatched track has no trusted MB date: downgrade to year precision
         mb_date = track.get("mb_release_date") if is_mb_verified(track) else None
-        new_date, new_precision = correct_uncertain_date(track.get("release_date"), track.get("release_date_precision"), mb_date)
-        playlist_items[i]["release_date"] = new_date
-        playlist_items[i]["release_date_precision"] = new_precision
+        playlist_items[i]["release_date"] = correct_uncertain_date(track.get("release_date"), mb_date)
         playlist_items[i]["corrected_release_date"] = True
         changed += 1
 
@@ -459,7 +457,6 @@ def apply_mb_date_rule(playlist_items: List[Dict]) -> List[Dict]:
 
         playlist_items[i]["release_date_before_mb"] = doc.get("release_date_before_mb") or current_date
         playlist_items[i]["release_date"] = doc["mb_release_date"]
-        playlist_items[i]["release_date_precision"] = infer_precision_from_date_string(doc["mb_release_date"])
         playlist_items[i]["corrected_release_date"] = True
         changed += 1
 

@@ -66,12 +66,12 @@ def get_artist_names(track: dict) -> list[str]:
 
 def print_current_dates(track: dict, new_date: str, new_precision: str) -> None:
     print(f"\nTrack:                   {track.get('name')} - {', '.join(get_artist_names(track))} ({track['id']})")
-    print(f"release_date:            {track.get('release_date')} ({track.get('release_date_precision')})")
+    print(f"release_date:            {track.get('release_date')}")
     print(f"corrected_release_date:  {track.get('corrected_release_date')}")
     print(f"release_date_before_mb:  {track.get('release_date_before_mb')}")
     print(f"mb_release_date:         {track.get('mb_release_date')}")
     if track.get("manual_release_date"):
-        print(f"manual_release_date:     {track['manual_release_date']} ({track.get('manual_release_date_precision')}) -> will be replaced")
+        print(f"manual_release_date:     {track['manual_release_date']} -> will be replaced")
     else:
         print("manual_release_date:     none")
     print(f"New manual date:         {new_date} ({new_precision})")
@@ -96,9 +96,9 @@ def set_manual_release_dates(dates_by_track_id: dict[str, str]) -> None:
         tracks_collection.bulk_write([
             UpdateOne(
                 {"id": track["id"]},
-                {"$set": {"manual_release_date": date_str, "manual_release_date_precision": precision}},
+                {"$set": {"manual_release_date": date_str}},
             )
-            for track, date_str, precision in updates
+            for track, date_str, _ in updates
         ])
         print(f"{len(updates)} manual release date(s) saved. They are applied to release_date on the next /search/.")
 
