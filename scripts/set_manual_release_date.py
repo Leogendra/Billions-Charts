@@ -7,6 +7,14 @@ import datetime
 DATE_FORMATS_BY_PRECISION = {"year": "%Y", "month": "%Y-%m", "day": "%Y-%m-%d"}
 
 dates_to_update = {
+    # "7iN1s7xHE4ifF5povM6A48": "1970-03-06",  # Let It Be - Remastered 2009
+    # "2CtemffYhT0DJWcT1XW047": "1991-08-12",  # Nothing Else Matters (Remastered)
+    # "57iDDD9N9tTWe75x6qhStw": "1997-06-16",  # Bitter Sweet Symphony - Remastered 2016
+    # "63BcfK6YAzJYeISaTPr6IO": "1994-09-13",  # Big Poppa - 2007 Remaster
+    # "1gihuPhrLraKYrJMAEONyc": "2011-08-19",  # Feel So Close - Radio Edit
+    # "2Wo6QQD1KMDWeFkkjLqwx5": "2019-09-13",  # Roses - Imanbek Remix
+    # "6Tsu3OsuMz4KEGKbOYd6A0": "1997-03-04",  # Hypnotize - 2007 Remaster
+    # "2a1o6ZejUi8U3wzzOtCOYw": "2010-08-15",  # Danza Kuduro
     # "5gflgO9EPbIBf16n5TKnQS": "2004-03-04",  # Yo Voy
     # "2X6b7zLdIxCejd6GqVcQ9M": "2013-12-10",  # 3005
     # "2bnDTGikdoO8CwzlAPyBHR": "2010-04-27",  # Airplanes, Pt. II
@@ -22,7 +30,7 @@ dates_to_update = {
     # "4Yaw2PmyOETOnEM3TCf98I": "2010-03-15",  # Eenie Meenie
     # "07GvNcU1WdyZJq3XxP0kZa": "1976-12-20",  # Go Your Own Way - 2004 Remaster
     # "2YpeDb67231RjR0MgVLzsG": "2019-04-05",  # Old Town Road Remix
-    # "6V1bu6o1Yo5ZXnsCJU8Ovk": "2018-05-30",  # Girls Like You - Cardi B Version (MB: 2017-11-03 erroné)
+    # "6V1bu6o1Yo5ZXnsCJU8Ovk": "2018-05-30",  # Girls Like You - Cardi B Version
     # "37BZB0z9T8Xu7U3e65qxFy": "2021-04-23",  # Save Your Tears (with Ariana Grande) (Remix)
     # "7rglLriMNBPAyuJOMGwi39": "2021-08-13",  # Cold Heart - PNAU Remix
     # "1MtUq6Wp1eQ8PC6BbPCj8P": "2015-07-24",  # I Took A Pill In Ibiza - Seeb Remix
