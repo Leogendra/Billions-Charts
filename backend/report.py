@@ -8,6 +8,38 @@ MAX_TOP_SONGS = 10  # TODO: Dynamic backend limit for top songs
 REPORT_VERSION = "1.4.0"
 
 
+def resolve_artists(artist_ids, artists_dict):
+    return [
+        {
+            "id": aid,
+            "name": artists_dict.get(aid, {}).get("name", "Unknown"),
+            "image": artists_dict.get(aid, {}).get("image"),
+        }
+        for aid in artist_ids
+    ]
+
+
+def top_n_by(artists_data, key):
+    return sorted(
+        (
+            (artist, data[key], data["id"], data["image"])
+            for artist, data in artists_data.items()
+        ),
+        key=lambda x: x[1],
+        reverse=True,
+    )[:MAX_TOP_SONGS]
+
+
+def track_url(track_id):
+    return f"https://open.spotify.com/track/{track_id}"
+
+
+def artist_url(artist_id):
+    return f"https://open.spotify.com/artist/{artist_id}"
+
+
+def format_minutes_seconds(seconds):
+    return f"{seconds // 60}:{seconds % 60:02d}"
 
 
 def aggregate_general(tracks):
@@ -52,32 +84,9 @@ def aggregate_artists(tracks, artists_dict):
                 artists_data[artist_name]["image"] = artist.get("image")
 
     # Sort artists by count, playcount and length
-    artists_count_array = sorted(
-        (
-            (artist, data["count"], data["id"], data["image"])
-            for artist, data in artists_data.items()
-        ),
-        key=lambda x: x[1],
-        reverse=True,
-    )[:MAX_TOP_SONGS]
-
-    artists_playcount_array = sorted(
-        (
-            (artist, data["playcount"], data["id"], data["image"])
-            for artist, data in artists_data.items()
-        ),
-        key=lambda x: x[1],
-        reverse=True,
-    )[:MAX_TOP_SONGS]
-
-    artists_length_array = sorted(
-        (
-            (artist, data["length"], data["id"], data["image"])
-            for artist, data in artists_data.items()
-        ),
-        key=lambda x: x[1],
-        reverse=True,
-    )[:MAX_TOP_SONGS]
+    artists_count_array = top_n_by(artists_data, "count")
+    artists_playcount_array = top_n_by(artists_data, "playcount")
+    artists_length_array = top_n_by(artists_data, "length")
 
     # Divide popularity by the number of tracks to get an average
     for artist, data in artists_data.items():
@@ -85,14 +94,7 @@ def aggregate_artists(tracks, artists_dict):
             data["popularity"] / data["count"], 2
         )
 
-    artists_popularity_array = sorted(
-        (
-            (artist, data["popularity"], data["id"], data["image"])
-            for artist, data in artists_data.items()
-        ),
-        key=lambda x: x[1],
-        reverse=True,
-    )[:MAX_TOP_SONGS]
+    artists_popularity_array = top_n_by(artists_data, "popularity")
 
     tracks_count_distribution = defaultdict(int)
     for artist, data in artists_data.items():
@@ -117,14 +119,7 @@ def aggregate_dates(tracks, artists_dict):
             {
                 "id": track["id"],
                 "name": track["name"],
-                "artists": [
-                    {
-                        "id": aid,
-                        "name": artists_dict.get(aid, {}).get("name", "Unknown"),
-                        "image": artists_dict.get(aid, {}).get("image"),
-                    }
-                    for aid in track["artists"]
-                ],
+                "artists": resolve_artists(track["artists"], artists_dict),
                 "image": track["image"],
                 "release_date": track["release_date"],
             }
@@ -149,14 +144,7 @@ def aggregate_billions(tracks, artists_dict):
         entry = {
             "id": track["id"],
             "name": track["name"],
-            "artists": [
-                {
-                    "id": aid,
-                    "name": artists_dict.get(aid, {}).get("name", "Unknown"),
-                    "image": artists_dict.get(aid, {}).get("image"),
-                }
-                for aid in track["artists"]
-            ],
+            "artists": resolve_artists(track["artists"], artists_dict),
             "popularity": track["popularity"],
             "image": track["image"],
             "added_at": billion_date,
@@ -180,14 +168,7 @@ def aggregate_by_key(tracks, agregateKey, artists_dict):
         {
             "id": track["id"],
             "name": track["name"],
-            "artists": [
-                {
-                    "id": aid,
-                    "name": artists_dict.get(aid, {}).get("name", "Unknown"),
-                    "image": artists_dict.get(aid, {}).get("image"),
-                }
-                for aid in track["artists"]
-            ],
+            "artists": resolve_artists(track["artists"], artists_dict),
             "playcount": track["playcount"],
             "popularity": track["popularity"],
             "duration_ms": track["duration_ms"],
@@ -275,14 +256,7 @@ def get_streams_per_day(tracks, artists_dict):
             {
                 "id": track["id"],
                 "name": track["name"],
-                "artists": [
-                    {
-                        "id": aid,
-                        "name": artists_dict.get(aid, {}).get("name", "Unknown"),
-                        "image": artists_dict.get(aid, {}).get("image"),
-                    }
-                    for aid in track["artists"]
-                ],
+                "artists": resolve_artists(track["artists"], artists_dict),
                 "image": track["image"],
                 "streams_per_day": streamsPerDay,
             }
@@ -369,43 +343,43 @@ def get_key_features_data(tracks, report):
         "three_billion_percentage": three_billion_percentage,
         "four_billion_count": four_billion_count,
         "four_billion_song": report["most_streamed_tracks"][0]["name"],
-        "four_billion_song_link": f"https://open.spotify.com/track/{report["most_streamed_tracks"][0]["id"]}",
+        "four_billion_song_link": track_url(report["most_streamed_tracks"][0]["id"]),
         "four_billion_artist": report["most_streamed_tracks"][0]["artists"][0]["name"],
-        "four_billion_artist_link": f"https://open.spotify.com/artist/{report["most_streamed_tracks"][0]["artists"][0]["id"]}",
+        "four_billion_artist_link": artist_url(report["most_streamed_tracks"][0]["artists"][0]["id"]),
         "latest_song": latest_billion["name"],
-        "latest_song_link": f"https://open.spotify.com/track/{latest_billion["id"]}",
+        "latest_song_link": track_url(latest_billion["id"]),
         "latest_artist": latest_billion["artists"][0]["name"],
-        "latest_artist_link": f"https://open.spotify.com/artist/{latest_billion["artists"][0]["id"]}",
+        "latest_artist_link": artist_url(latest_billion["artists"][0]["id"]),
         "latest_date": datetime.strptime(
             latest_billion["added_at"], "%Y-%m-%d"
         ).strftime("%B %d, %Y"),
         "this_year_count": year_count,
         "most_popular_song": most_popular_song["name"],
-        "most_popular_song_link": f"https://open.spotify.com/track/{most_popular_song["id"]}",
+        "most_popular_song_link": track_url(most_popular_song["id"]),
         "most_popular_artist": most_popular_artist,
-        "most_popular_artist_link": f"https://open.spotify.com/artist/{most_popular_song["artists"][0]["id"]}",
+        "most_popular_artist_link": artist_url(most_popular_song["artists"][0]["id"]),
         "most_popular_streams": f"{most_popular_song["playcount"] / 1_000_000_000:.2f}B",
         "fastest_song": fastest_billion["name"],
-        "fastest_song_link": f"https://open.spotify.com/track/{fastest_billion["id"]}",
+        "fastest_song_link": track_url(fastest_billion["id"]),
         "fastest_artist": fastest_billion["artists"][0]["name"],
-        "fastest_artist_link": f"https://open.spotify.com/artist/{fastest_billion["artists"][0]["id"]}",
+        "fastest_artist_link": artist_url(fastest_billion["artists"][0]["id"]),
         "fastest_days": fastest_billion["billion_time"],
         "shortest_song": shortest_song["name"],
-        "shortest_song_link": f"https://open.spotify.com/track/{shortest_song["id"]}",
+        "shortest_song_link": track_url(shortest_song["id"]),
         "shortest_artist": shortest_song["artists"][0]["name"],
-        "shortest_artist_link": f"https://open.spotify.com/artist/{shortest_song["artists"][0]["id"]}",
-        "shortest_duration": f"{shortest_song["duration_ms"] // 60000}:{(shortest_song["duration_ms"] // 1000) % 60:02d}",
+        "shortest_artist_link": artist_url(shortest_song["artists"][0]["id"]),
+        "shortest_duration": format_minutes_seconds(shortest_song["duration_ms"] // 1000),
         "longest_song": longest_song["name"],
-        "longest_song_link": f"https://open.spotify.com/track/{longest_song["id"]}",
+        "longest_song_link": track_url(longest_song["id"]),
         "longest_artist": longest_song["artists"][0]["name"],
-        "longest_artist_link": f"https://open.spotify.com/artist/{longest_song["artists"][0]["id"]}",
-        "longest_duration": f"{longest_song["duration_ms"] // 60000}:{(longest_song["duration_ms"] // 1000) % 60:02d}",
+        "longest_artist_link": artist_url(longest_song["artists"][0]["id"]),
+        "longest_duration": format_minutes_seconds(longest_song["duration_ms"] // 1000),
         "total_time": f"{report["total_time"] // 3600}:{(report["total_time"] // 60) % 60:02d}:{report["total_time"] % 60:02d}",
         "count_artists_2plus_tracks": count_artists_2plus_tracks,
         "percent_artists_2plus_tracks": percent_artists_2plus_tracks,
         "count_artists_5plus_tracks": count_artists_5plus_tracks,
         "percent_artists_5plus_tracks": percent_artists_5plus_tracks,
-        "average_track_length": f"{report["total_time"] // total_tracks // 60}:{(report["total_time"] // total_tracks) % 60:02d}",
+        "average_track_length": format_minutes_seconds(report["total_time"] // total_tracks),
         "percent_explicit": f"{100 * report["total_explicits"] / total_tracks:.2f}",
         "percent_solo_tracks": f"{100 * (report["distribution_featuring_count"]["1"]) / total_tracks:.2f}",
         "highest_featuring_count": max(report["distribution_featuring_count"].keys()),
