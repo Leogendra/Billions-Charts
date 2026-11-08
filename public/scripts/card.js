@@ -46,10 +46,10 @@ function create_track_popup_card(track) {
     const stats = [];
     if (track.playcount != null) { stats.push({ label: "Streams", value: format_playcount(track.playcount) }); }
     if (track.duration_ms != null) { stats.push({ label: "Duration", value: format_milliseconds(track.duration_ms) }); }
-    if (track.release_date) { stats.push({ label: "Released", value: format_release_date(track.release_date, track.release_date_precision) }); }
+    if (track.release_date) { stats.push({ label: "Released", value: format_release_date(track.release_date) }); }
     if (track.popularity != null) { stats.push({ label: "Popularity", value: `${track.popularity} / 100` }); }
-    if (track.streams_per_day != null) { stats.push({ label: "Streams/day", value: format_playcount(track.streams_per_day) }); }
     if (track.added_at) { stats.push({ label: "Billion date", value: format_iso_date(track.added_at) }); }
+    if (track.streams_per_day != null) { stats.push({ label: "Streams/day", value: format_playcount(track.streams_per_day) }); }
 
     const statsHtml = stats.map(s => `
         <div class="popup-stat">

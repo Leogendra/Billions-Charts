@@ -40,8 +40,7 @@ If you want to contribute or use the project for another playlist, you can run t
      - `playlists_headers`
      - `playlist_tracks`
      - `playlist_artists`
-   - (Set `WRITE_TO_DATABASE=false` in `.env` to write to local files instead of MongoDB.)
-5. Create a `.env` file in the root directory and add your Spotify API and MongoDB credentials, the playlist ID you want to analyze, and a password for the `search/` and `report/` routes:
+5. Create a `.env` file in the root directory and add your Spotify API and MongoDB credentials, the playlist ID you want to analyze, and a password for the admin routes. Set `DRY_RUN=true` to run without writing to the database:
    ```bash
     CLIENT_ID=your_client_id
     CLIENT_SECRET=your_client_secret
@@ -49,8 +48,8 @@ If you want to contribute or use the project for another playlist, you can run t
     MONGO_DB_NAME=your_database_name
     PLAYLIST_ID=spotify_playlist_id
     PASSWORD=your_password
-    WRITE_TO_DATABASE=true
     FLASK_DEBUG=false
+    DRY_RUN=false
    ```
 6. Launch the application:
    ```bash
@@ -59,11 +58,19 @@ If you want to contribute or use the project for another playlist, you can run t
 
 ## API Endpoints
 
-All admin endpoints require an `Authorization: Bearer <PASSWORD>` header.
+All admin endpoints require an `Authorization: Bearer <PASSWORD>` header.  
+Only one admin task runs at a time: a call made while another one is running answers `409`.  
+Admin endpoints answer `200` even when the task fails: check the `message` field.
 
 `/search/` - retrieve the playlist's data and generate the report:
 ```bash
 curl -X GET "http://localhost:3434/search/" -H "Authorization: Bearer your_password"
+```
+
+`/enrich/` - fetch MusicBrainz data for the tracks and artists not processed yet.
+It's meant to run from a crontab at an off-peak hour, far enough from `/search/` (it will take more than an hour on a full database):
+```bash
+curl -X GET "http://localhost:3434/enrich/" -H "Authorization: Bearer your_password"
 ```
 
 `/report/` - regenerate the report from already retrieved data:
@@ -75,6 +82,15 @@ curl -X GET "http://localhost:3434/report/2026-05-15/" -H "Authorization: Bearer
 ```bash
 curl -X GET "http://localhost:3434/leaderboard/2026-05-15/" -H "Authorization: Bearer your_password"
 ```
+
+## Release dates
+
+Spotify often returns the date of a later album or compilation instead of the original release date. The dates are corrected in two steps:
+
+- `/search/` searches Spotify for the earliest release sharing the track's ISRC, then applies the MusicBrainz data already stored in the database.
+- `/enrich/` looks up each track's ISRC on MusicBrainz and stores the their fields (`mb_id`, `mb_title`, `mb_artists`, `mb_release_date`...). A recording whose title and artists do not match the Spotify track is flagged `mb_suspect`. An ISRC unknown to MusicBrainz is flagged `mb_unmatched`. Tracks and artists already processed are skipped.
+
+The MusicBrainz date replaces the stored date only if the match is not suspect and the MusicBrainz date is earlier (by more than 7 days at day precision). The previous date is kept in `release_date_before_mb`.
 
 ## Contact
 

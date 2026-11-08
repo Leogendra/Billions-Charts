@@ -1,13 +1,12 @@
 from backend.track_enricher import enrich_tracks_with_correct_release_dates, fetch_artists_batch
+from backend.mb_enricher import correct_uncertain_release_dates, apply_mb_date_rule
 from backend.database import add_to_database, check_playlist_header_from_mongo
-from backend.database import tracks_collection
 from backend.utils import create_folder
 from spotapi import PublicPlaylist
 from dotenv import load_dotenv
 import datetime
 import requests
 import time
-import json
 import os
 
 load_dotenv()
@@ -24,7 +23,11 @@ def get_access_token():
     data = {"grant_type": "client_credentials"}
     try:
         response = requests.post(
-            url, headers=headers, data=data, auth=(CLIENT_ID, CLIENT_SECRET)
+            url,
+            headers=headers,
+            data=data,
+            auth=(CLIENT_ID, CLIENT_SECRET),
+            timeout=10
         )
         response.raise_for_status()
         return response.json()["access_token"]
@@ -84,8 +87,19 @@ def fetch_raw_playlist():
     except Exception:
         playlist_infos["coverHex"] = "#000000"
 
+    playlist_infos["artists"] = {}
     playlist_infos["items"] = []
     for item in raw_data["content"]["items"]:
+        raw_artists = item["itemV2"]["data"]["artists"]["items"]
+        artist_ids = []
+        for artist in raw_artists:
+            artist_id = artist["uri"].split(":")[-1]
+            artist_ids.append(artist_id)
+            if (artist_id not in playlist_infos["artists"]):
+                playlist_infos["artists"][artist_id] = {
+                    "id": artist_id,
+                    "name": artist["profile"]["name"],
+                }
         playlist_infos["items"].append(
             {
                 "added_at": item["addedAt"]["isoString"],
@@ -96,13 +110,7 @@ def fetch_raw_playlist():
                 "duration_ms": item["itemV2"]["data"]["trackDuration"][
                     "totalMilliseconds"
                 ],
-                "artists": [
-                    {
-                        "name": artist["profile"]["name"],
-                        "id": artist["uri"].split(":")[-1],
-                    }
-                    for artist in item["itemV2"]["data"]["artists"]["items"]
-                ],
+                "artists": artist_ids,
                 "image": max(
                     item["itemV2"]["data"]["albumOfTrack"]["coverArt"]["sources"],
                     key=lambda x: x["width"],
@@ -117,62 +125,36 @@ def fetch_raw_playlist():
     return playlist_infos
 
 
-def enrich_with_release_dates(playlist_infos, headers, tracks_col, overwrite):
+def enrich_with_release_dates(playlist_infos, headers, overwrite):
     """Enriches track items with correct release dates via ISRC lookup."""
     playlist_infos["items"] = enrich_tracks_with_correct_release_dates(
         playlist_infos["items"],
         headers,
-        tracks_collection=tracks_col,
         overwrite=overwrite,
     )
     return playlist_infos
 
 
 def enrich_with_artist_infos(playlist_infos, headers):
-    """Fetches artist metadata (genres, followers, popularity, images) and merges it into each track."""
-    artist_ids = list(
-        {
-            artist["id"]
-            for track in playlist_infos["items"]
-            for artist in track["artists"]
-        }
-    )
-    artists_infos = fetch_artists_batch(artist_ids, headers)
-
-    for i, track in enumerate(playlist_infos["items"]):
-        for j, artist in enumerate(track["artists"]):
-            playlist_infos["items"][i]["artists"][j] = artists_infos[artist["id"]]
-
+    """Fetches full artist metadata (genres, followers, popularity, images) into the top-level artists dict."""
+    artist_ids = list(playlist_infos["artists"].keys())
+    playlist_infos["artists"] = fetch_artists_batch(artist_ids, headers)
     return playlist_infos
 
 
-def persist_playlist(playlist_infos, dataPath, WRITE_TO_DATABASE):
-    """Persists playlist data to MongoDB or a local JSON file."""
-    print(
-        "Playlist infos fetched and enriched successfully! Writing to database..."
-        if WRITE_TO_DATABASE
-        else "Playlist infos fetched and enriched successfully! Saving to file..."
-    )
-    if WRITE_TO_DATABASE:
-        add_to_database(playlist_infos)
-        print("Song infos inserted in database.")
-    else:
-        with open(dataPath, "w", encoding="utf-8") as f:
-            json.dump(playlist_infos, f, indent=4, ensure_ascii=False)
-        print(f"Song infos saved in {dataPath}")
+def persist_playlist(playlist_infos):
+    print("Playlist infos fetched and enriched successfully! Writing to database...")
+    add_to_database(playlist_infos)
+    print("Song infos inserted in database.")
 
 
-def fetch_playlist_infos(dataPath, WRITE_TO_DATABASE, dateKey, overwrite=False):
-    if WRITE_TO_DATABASE:
-        if check_playlist_header_from_mongo(dateKey):
-            print(f"Playlist infos already fetched in database")
-            return
-    else:
-        if os.path.exists(dataPath):
-            print(f"Playlist infos already fetched in {dataPath}")
-            return
+def fetch_playlist_infos(dateKey, overwrite=False):
+    if check_playlist_header_from_mongo(dateKey):
+        print(f"Playlist infos already fetched in database")
+        return
 
     playlist_infos = fetch_raw_playlist()
+    # playlist_infos["items"] = playlist_infos["items"][:10] # DEBUG: Limit to first 10 items for testing purposes
 
     access_token = get_access_token()
     headers = {"Authorization": f"Bearer {access_token}"}
@@ -180,10 +162,13 @@ def fetch_playlist_infos(dataPath, WRITE_TO_DATABASE, dateKey, overwrite=False):
     playlist_infos = enrich_with_release_dates(
         playlist_infos,
         headers,
-        tracks_col=tracks_collection if WRITE_TO_DATABASE else None,
         overwrite=overwrite,
     )
 
     playlist_infos = enrich_with_artist_infos(playlist_infos, headers)
 
-    persist_playlist(playlist_infos, dataPath, WRITE_TO_DATABASE)
+    # MusicBrainz lookups run in /enrich/: only the MB dates already stored are used here
+    playlist_infos["items"] = correct_uncertain_release_dates(playlist_infos["items"])
+    playlist_infos["items"] = apply_mb_date_rule(playlist_infos["items"])
+
+    persist_playlist(playlist_infos)

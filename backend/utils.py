@@ -1,5 +1,11 @@
+from typing import Optional
+import unicodedata
+import datetime
 import os
 import re
+
+PRECISION_RANK = {"year": 0, "month": 1, "day": 2}
+
 
 
 
@@ -8,12 +14,119 @@ def create_folder(folder):
         os.makedirs(folder)
 
 
-def normalize_date_for_comparison(date: str, precision: str) -> str:
+def normalize_name(name: str) -> str:
+    without_accents = "".join(
+        c for c in unicodedata.normalize("NFKD", name or "")
+        if not(unicodedata.combining(c))
+    )
+    return " ".join(re.sub(r"[^\w]+", " ", without_accents.lower()).split())
+
+
+def normalize_title(title: str) -> str:
+    """normalize_name without the version details: "(...)", "[...]" and a " - ..." suffix ("Cupid - Twin Version" -> "cupid")."""
+    base_title = re.sub(r"\([^)]*\)|\[[^\]]*\]", " ", title or "")
+    base_title = re.split(r"\s[-–—]\s", base_title)[0]
+    # a title made only of details ("(Intro)") keeps them
+    return normalize_name(base_title) or normalize_name(title)
+
+
+def normalize_date_for_comparison(date: str) -> str:
+    precision = infer_precision_from_date_string(date)
     if (precision == "month"):
         return date + "-01"
     if (precision == "year"):
         return date + "-01-01"
     return date
+
+
+def infer_precision_from_date_string(date_str: Optional[str]) -> Optional[str]:
+    if (not date_str or not isinstance(date_str, str)):
+        return None
+    if re.fullmatch(r"\d{4}-\d{2}-\d{2}", date_str):
+        return "day"
+    if re.fullmatch(r"\d{4}-\d{2}", date_str):
+        return "month"
+    if re.fullmatch(r"\d{4}", date_str):
+        return "year"
+    return None
+
+
+def is_valid_mb_date(date: str) -> bool:
+    # a "0000" year is a placeholder, not a date
+    return bool(infer_precision_from_date_string(date)) and (date[:4] != "0000")
+
+
+def is_uncertain_date(date: str) -> bool:
+    # Spotify sometimes returns wrong YYYY-01-01 with "day" precision.
+    return bool(re.fullmatch(r"\d{4}-01-01", date or ""))
+
+
+def is_new_date_preferred(oldDate: str, newDate: str) -> bool:
+    oldPrecision = infer_precision_from_date_string(oldDate)
+    newPrecision = infer_precision_from_date_string(newDate)
+    if not(newPrecision):
+        return False
+    if not(oldPrecision):
+        return True
+
+    # Same year + differing uncertainty -> prefer the certain one.
+    oldUncertain = is_uncertain_date(oldDate)
+    if (oldDate[:4] == newDate[:4]) and (oldUncertain != is_uncertain_date(newDate)):
+        return oldUncertain  # if oldUncertain=True, then prefer new
+
+    oldRank = PRECISION_RANK[oldPrecision]
+    newRank = PRECISION_RANK[newPrecision]
+
+    old_normalized = normalize_date_for_comparison(oldDate)
+    new_normalized = normalize_date_for_comparison(newDate)
+
+    coarserPrecision = oldPrecision if (oldRank <= newRank) else newPrecision
+
+    if (coarserPrecision == "year"):
+        old_cmp, new_cmp = old_normalized[:4], new_normalized[:4]
+    elif (coarserPrecision == "month"):
+        old_cmp, new_cmp = old_normalized[:7], new_normalized[:7]
+    else:
+        old_cmp, new_cmp = old_normalized, new_normalized
+
+    if (new_cmp < old_cmp):
+        return True  # genuinely earlier
+    if (new_cmp == old_cmp):
+        return newRank > oldRank  # same period, prefer more precise
+    return False
+
+
+def correct_uncertain_date(date: Optional[str], mb_date: Optional[str] = None) -> Optional[str]:
+    if not(is_uncertain_date(date)):
+        return date
+
+    # if the MB date is uncertain or earlier than the Spotify date, downgrade to year precision.
+    if infer_precision_from_date_string(mb_date):
+        if is_uncertain_date(mb_date):
+            return min(date[:4], mb_date[:4])
+        if (mb_date[:4] <= date[:4]):
+            return mb_date
+    return date[:4]
+
+
+def is_mb_date_preferred(stored_date: Optional[str], mb_date: Optional[str]) -> bool:
+    mb_precision = infer_precision_from_date_string(mb_date)
+    stored_precision = infer_precision_from_date_string(stored_date)
+    if not(mb_precision) or not(stored_precision):
+        return False
+    if is_uncertain_date(mb_date):
+        return False
+
+    mb_rank = PRECISION_RANK[mb_precision]
+    stored_rank = PRECISION_RANK[stored_precision]
+    if (mb_rank < stored_rank):
+        return False
+    if (mb_rank > stored_rank):
+        return mb_date[:len(stored_date)] <= stored_date
+    if (mb_precision == "day"):
+        gap = datetime.date.fromisoformat(stored_date) - datetime.date.fromisoformat(mb_date)
+        return gap.days > 7
+    return mb_date < stored_date
 
 
 def validate_date_key(dateKey):

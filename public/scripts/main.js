@@ -16,7 +16,7 @@ const whats_new_toggle = document.getElementById("whats-new-toggle");
 
 
 const IS_MOBILE = window.innerWidth <= 800;
-
+const WHATS_NEW_COLLAPSED_KEY = "billions_charts_whats_new_collapsed";
 
 
 
@@ -202,19 +202,37 @@ async function update_artists_most_time(report) {
 
 
 function init_whats_new() {
-    if (!whats_new_section || !whats_new_toggle) { return; }
+    const whats_new_body = whats_new_section.querySelector(".whats-new-body");
 
-    if (localStorage.getItem("billions_charts_whats_new_collapsed") === "1") {
+    const apply_whats_new_height = () => {
+        whats_new_body.style.maxHeight = whats_new_section.classList.contains("collapsed")
+            ? "0"
+            : `${whats_new_body.scrollHeight}px`;
+    };
+
+    const isWhatsNewCollapsed = localStorage.getItem(WHATS_NEW_COLLAPSED_KEY) == "true";
+    if (isWhatsNewCollapsed) {
         whats_new_section.classList.add("collapsed");
     }
+    else {
+        const releaseDateStr = whats_new_section.dataset.releaseDate;
+        const releaseDate = releaseDateStr ? new Date(releaseDateStr) : null;
+        const daysSinceRelease = releaseDate ? (Date.now() - releaseDate.getTime()) / 86400000 : 0;
+        if (daysSinceRelease > 30) {
+            whats_new_section.classList.add("collapsed");
+        }
+    }
+    apply_whats_new_height();
 
     whats_new_toggle.addEventListener("click", () => {
         const isCollapsed = whats_new_section.classList.toggle("collapsed");
-        if (isCollapsed) {
-            localStorage.setItem("billions_charts_whats_new_collapsed", "1");
-        } 
-        else {
-            localStorage.removeItem("billions_charts_whats_new_collapsed");
+        localStorage.setItem(WHATS_NEW_COLLAPSED_KEY, isCollapsed);
+        apply_whats_new_height();
+    });
+
+    window.addEventListener("resize", () => {
+        if (!whats_new_section.classList.contains("collapsed")) {
+            whats_new_body.style.maxHeight = `${whats_new_body.scrollHeight}px`;
         }
     });
 }
@@ -249,12 +267,14 @@ async function main() {
         // Charts sections
         create_histogram_release_month(report),
         create_histogram_release_year(report),
+        create_histogram_release_weekday(report),
         create_histogram_billion_month(report),
         create_histogram_billion_year(report),
         create_histogram_streams_count(report),
         create_histogram_track_count(report),
         create_histogram_time_count(report),
         create_histogram_featuring(report),
+        create_histogram_genres(report),
     ]);
     
     await Promise.all([
