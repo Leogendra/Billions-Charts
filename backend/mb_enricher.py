@@ -13,7 +13,7 @@ MB_HEADERS = {
     "User-Agent": "BillionsCharts/1.3.0 ( contact@billions-charts.com )",
     "Accept": "application/json",
 }
-RATE_LIMIT_DELAY = 1.0
+RATE_LIMIT_DELAY = 3.0
 MB_CHECKPOINT_SIZE = 50
 
 
