@@ -10,7 +10,7 @@ import time
 
 MB_BASE = "https://musicbrainz.org/ws/2"
 MB_HEADERS = {
-    "User-Agent": "BillionsCharts/1.3.0 ( contact@billions-charts.com )",
+    "User-Agent": "BillionsCharts/1.4.0 ( contact@billions-charts.com )",
     "Accept": "application/json",
 }
 RATE_LIMIT_DELAY = 3.0

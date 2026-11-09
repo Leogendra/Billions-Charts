@@ -7,6 +7,7 @@ import datetime
 DATE_FORMATS_BY_PRECISION = {"year": "%Y", "month": "%Y-%m", "day": "%Y-%m-%d"}
 
 dates_to_update = {
+    # "5TgEJ62DOzBpGxZ7WRsrqb": "2014-03-09",  # Work Song
     # "7iN1s7xHE4ifF5povM6A48": "1970-03-06",  # Let It Be - Remastered 2009
     # "2CtemffYhT0DJWcT1XW047": "1991-08-12",  # Nothing Else Matters (Remastered)
     # "57iDDD9N9tTWe75x6qhStw": "1997-06-16",  # Bitter Sweet Symphony - Remastered 2016

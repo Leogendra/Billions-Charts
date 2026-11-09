@@ -1,11 +1,13 @@
 from backend.database import get_tracks_collection, get_playlists_collection, MONGO_DB_NAME, DRY_RUN
 from backend.utils import create_folder
+import argparse
 import json
 import os
 
 
 MISSING_TRACKS_PATH = "data/analysis/missing_tracks.json"
 DUPLICATED_ISRC_PATH = "data/analysis/duplicated_isrc.json"
+REFERENCING_HEADERS_PATH = "data/analysis/headers_referencing_duplicates.json"
 
 
 def get_all_tracks() -> list[dict]:
@@ -64,6 +66,20 @@ def save_tracks(tracks: list[dict], path: str, label: str) -> None:
     print(f"{len(tracks)} track(s) {label}, saved to {path}")
 
 
+def save_referencing_headers(tracks: list[dict], path: str) -> int:
+    """Headers still referencing the given tracks, keyed by date, with the tracks each one references."""
+    tracks_by_id = {track["id"]: track for track in tracks}
+    headers = get_playlists_collection().find({"items.id": {"$in": list(tracks_by_id)}}, {"_id": 0, "date": 1, "items.id": 1}).sort("date", -1)
+    referencing_headers = {}
+    for header in headers:
+        referenced_tracks = [tracks_by_id[item["id"]] for item in header["items"] if item["id"] in tracks_by_id]
+        referencing_headers[header["date"]] = {"count": len(referenced_tracks), "tracks": sorted(referenced_tracks, key=sort_key)}
+    create_folder(os.path.dirname(path))
+    with open(path, "w", encoding="utf-8") as f:
+        json.dump(referencing_headers, f, ensure_ascii=False, indent=4)
+    return len(referencing_headers)
+
+
 def format_track(track: dict) -> str:
     artists = ", ".join(track.get("artists") or [])
     return f"{track['id']}  {track.get('name')} - {artists}  (isrc: {track.get('isrc')}, added_at: {track.get('added_at')})"
@@ -77,16 +93,19 @@ def delete_tracks(track_ids: list[str]) -> None:
         print(f"{result.deleted_count} track(s) deleted from playlist_tracks")
 
 
-def purge_duplicate_tracks(tracks_to_delete: list[dict]) -> None:
-    print(f"\n{len(tracks_to_delete)} track(s) absent from the latest header and sharing their ISRC:")
+def purge_tracks(tracks_to_delete: list[dict], label: str) -> None:
+    if not tracks_to_delete:
+        print(f"0 track {label}.")
+        return
+    print(f"\n{len(tracks_to_delete)} track(s) {label}:")
     for track in sorted(tracks_to_delete, key=sort_key):
         print(f"  {format_track(track)}")
     if not(tracks_to_delete):
         return
 
     track_ids = [track["id"] for track in tracks_to_delete]
-    headers_count = get_playlists_collection().count_documents({"items.id": {"$in": track_ids}})
-    print(f"\nWarning: {headers_count} older playlist header(s) still reference these tracks.")
+    header_count = save_referencing_headers(tracks_to_delete, REFERENCING_HEADERS_PATH)
+    print(f"\nWarning: {header_count} older playlist header(s) still reference these tracks, saved to {REFERENCING_HEADERS_PATH}")
     print(f"Database: {MONGO_DB_NAME}{' (DRY_RUN: nothing will be deleted)' if DRY_RUN else ''}")
     answer = input(f"Type 'delete' to delete these {len(track_ids)} track(s) from playlist_tracks: ")
     if (answer.strip() == "delete"):
@@ -95,7 +114,7 @@ def purge_duplicate_tracks(tracks_to_delete: list[dict]) -> None:
         print("Nothing deleted.")
 
 
-def find_duplicate_tracks() -> None:
+def find_duplicate_tracks(force: bool) -> None:
     tracks = get_all_tracks()
     header = get_latest_playlist_header()
     playlist_track_ids = {item["id"] for item in header["items"]}
@@ -104,13 +123,18 @@ def find_duplicate_tracks() -> None:
 
     missing_tracks = find_tracks_missing_from_playlist(tracks, playlist_track_ids)
     duplicated_isrc_tracks = find_tracks_with_duplicated_isrc(tracks)
-    save_tracks(missing_tracks, MISSING_TRACKS_PATH, "absent from the latest header")
+    save_tracks(missing_tracks, MISSING_TRACKS_PATH, "absent from the latest header (use --force to purge them all)")
     save_tracks(duplicated_isrc_tracks, DUPLICATED_ISRC_PATH, "with a duplicated ISRC")
 
-    purge_duplicate_tracks(find_tracks_to_delete(missing_tracks, duplicated_isrc_tracks))
+    if (force):
+        purge_tracks(missing_tracks, "absent from the latest header")
+    else:
+        purge_tracks(find_tracks_to_delete(missing_tracks, duplicated_isrc_tracks), "absent from the latest header and sharing their ISRC")
 
 
 
 
 if __name__ == "__main__":
-    find_duplicate_tracks()
+    parser = argparse.ArgumentParser(description="Find and purge tracks absent from the latest playlist header.")
+    parser.add_argument("--force", action="store_true", help="purge every track absent from the latest header, not only those sharing their ISRC")
+    find_duplicate_tracks(parser.parse_args().force)
