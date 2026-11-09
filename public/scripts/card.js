@@ -274,7 +274,7 @@ function create_artist_popup_card(artist) {
     if (artist.total_playcount != null) { stats.push({ label: "Total streams", value: format_playcount(artist.total_playcount) }); }
     if (artist.followers != null) { stats.push({ label: "Followers", value: format_playcount(artist.followers) }); }
     if (artist.popularity != null) { stats.push({ label: "Popularity", value: `${artist.popularity} / 100` }); }
-    if (artist.total_duration_ms != null) { stats.push({ label: "Total duration", value: durationStr }); }
+    if (artist.total_duration_ms != null) { stats.push({ label: "Billions runtime", value: durationStr }); }
 
     const statsHtml = stats.length > 0
         ? stats.map(s => `
